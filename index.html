@@ -2,7 +2,9 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
+    <meta name="color-scheme" content="light dark">
     <title>EPP 2026 - Aplikacja Pielgrzyma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -49,7 +51,7 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Bezpieczny wrapper dla localStorage, zapobiegający wygaszeniu ekranu w podglądzie (iframe iframe Security Error)
+        // Bezpieczny wrapper dla localStorage, zapobiegający wygaszeniu ekranu w podglądzie (iframe Security Error)
         const safeStorage = {
             fallbackStore: {},
             getItem(key) {
@@ -206,13 +208,13 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main id="main-container" class="pb-28 pt-4 px-4 max-w-xl mx-auto">
+    <!-- Main Content Container with safe bottom padding for browsers bars -->
+    <main id="main-container" class="pb-36 pt-4 px-4 max-w-xl mx-auto">
         <div id="view-content" class="fade-in"></div>
     </main>
 
-    <!-- Bottom Navigation Bar -->
-    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pb-6 pt-2 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200">
+    <!-- Bottom Navigation Bar - hidden on dashboard by default -->
+    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pb-6 pt-2 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200 z-40">
         <button onclick="renderView('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
             <span class="text-2xl">🏠</span>
             <span>Start</span>
@@ -430,7 +432,7 @@ ale od wszelakich złych przygód racz nas zawsze wybawiać,
 Panno chwalebna i błogosławiona.
 
 O Pani nasza, Orędowniczko nasza,
-Pośredniczko nasza, Pocieszierko nasza.
+Pośredniczko nasza, Pocieszycielko nasza.
 Z Synem swoim nas pojednaj,
 Synowi swojemu nas polecaj,
 swojemu Synowi nas oddawaj.`
@@ -588,6 +590,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderRoute();
         }
 
+        // Checks if launched in standalone app view
         function isRunningStandalone() {
             return (window.matchMedia('(display-mode: standalone)').matches) || 
                    (window.navigator.standalone) || 
@@ -624,9 +627,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         }
 
         function renderView(view, detailId = null) {
-            const nav = document.getElementById('bottom-nav');
             searchQuery = ''; 
-            
+            const nav = document.getElementById('bottom-nav');
+
+            // Reverted settings: bottom-nav is hidden ONLY on the main dashboard view, and visible everywhere else
             if (view === 'dashboard' && detailId === null) {
                 nav.classList.add('hidden');
             } else {
@@ -683,7 +687,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     <h2 class="text-3xl font-black text-primary mb-1 text-center">Witaj Pielgrzymie!</h2>
                     <p class="opacity-50 text-xs font-bold uppercase tracking-widest mb-8 text-center">${getDailyGreeting()}</p>
                     
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 pb-12">
                         <div onclick="renderView('songs')" class="menu-card bg-light-card dark:bg-dark-card border border-primary/10 rounded-[2.5rem] p-6 flex flex-col items-center justify-center shadow-lg">
                             <span class="text-4xl mb-3">🎶</span>
                             <span class="font-bold text-xs uppercase tracking-wider">Śpiewnik</span>
@@ -702,7 +706,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         </div>
                     </div>
 
-                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4">
+                    <div class="mt-8 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-6">
                         Wersja beta 1.1.0 <br> © 2026 PePe.Studio
                     </div>
                 </div>
