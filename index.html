@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
     <meta name="color-scheme" content="light dark">
+    
+    <!-- Meta tagi dedykowane dla Apple iOS (wymagane do poprawnego działania standalone offline) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EPP 2026">
+    
+    <!-- Uniwersalna wektorowa ikona startowa Apple (generowana dynamicznie offline) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='100%' height='100%' fill='%234a6741'/><text x='50%' y='55%' font-family='sans-serif' font-size='90' fill='%23b99b6b' text-anchor='middle' dominant-baseline='middle'>🙏</text></svg>">
+
     <title>EPP 2026 - Aplikacja Pielgrzyma</title>
     
     <!-- Bezpieczne ładowanie Tailwinda -->
@@ -93,7 +102,7 @@
         .bg-gray-200 { background-color: var(--gray-light) !important; }
         html.dark .dark\:bg-zinc-800 { background-color: var(--gray-dark) !important; }
 
-        /* Główne reguły układu (bez !important, aby .hidden zawsze wygrywał) */
+        /* Główne reguły układu */
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
@@ -175,22 +184,46 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Wrapper lokalnej pamięci (fallback na wypadek blokad iframe)
+        // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips)
         const safeStorage = {
             fallbackStore: {},
             getItem(key) {
+                // 1. Spróbuj pobrać z localStorage
                 try {
-                    return localStorage.getItem(key);
-                } catch (e) {
-                    return this.fallbackStore[key] || null;
-                }
+                    const val = localStorage.getItem(key);
+                    if (val !== null) return val;
+                } catch (e) {}
+                
+                // 2. Fallback na pliki Cookie (kluczowe dla trwałego zapisu w iOS Safari)
+                try {
+                    const nameEQ = key + "=";
+                    const ca = document.cookie.split(';');
+                    for (let i = 0; i < ca.length; i++) {
+                        let c = ca[i];
+                        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+                    }
+                } catch (e) {}
+
+                // 3. Fallback na pamięć podręczną RAM sesji
+                return this.fallbackStore[key] || null;
             },
             setItem(key, value) {
+                // 1. Zapisz w localStorage
                 try {
                     localStorage.setItem(key, value);
-                } catch (e) {
-                    this.fallbackStore[key] = String(value);
-                }
+                } catch (e) {}
+
+                // 2. Zapisz w Cookies z rocznym okresem ważności (gwarantuje pamięć w iOS standalone)
+                try {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+                    const expires = "; expires=" + date.toUTCString();
+                    document.cookie = key + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Strict";
+                } catch (e) {}
+
+                // 3. Zapisz w pamięci RAM
+                this.fallbackStore[key] = String(value);
             }
         };
 
@@ -1054,7 +1087,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                             
                             <p>W pielgrzymce działa poczta pielgrzymkowa, tam nabywamy kartki pocztowe, znaczki, jak również możemy tam zostawić korespondencję do wysłania.</p>
                             
-                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariacie pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
+                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariatek pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
                             
                             <p>Pątnicy idą w grupach, do których się zapisali.</p>
                             
@@ -1220,10 +1253,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
             const pref = group.prefixDays[prefixIdx];
             const displayDayNum = prefixIdx + 1;
-            const img1 = `img/${groupKey}_dojscie${displayDayNum}_1.jpg`;
-            const img2 = `img/${groupKey}_dojscie${displayDayNum}_2.jpg`;
             
-            // 100% Offline-safe inline vector graphics fallback (brak zapytań HTTP do placehold.co)
+            // Domena dedykowana na sztywno pod Twoje repozytorium GitHub Pages
+            const basePath = '/PWAEPP/';
+            const img1 = `${basePath}img/${groupKey}_dojscie${displayDayNum}_1.jpg`;
+            const img2 = `${basePath}img/${groupKey}_dojscie${displayDayNum}_2.jpg`;
+            
             const fallback = getOfflineFallbackImage(`Dzień ${displayDayNum} (${group.shortName})`);
 
             document.getElementById('view-content').innerHTML = `
@@ -1260,10 +1295,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 group.name = "Trasa Główna";
                 group.shortName = "Główna";
             }
-            const img1 = `img/dzien${day}_1.jpg`;
-            const img2 = `img/dzien${day}_2.jpg`;
             
-            // 100% Offline-safe inline vector graphics fallback (brak zapytań HTTP do placehold.co)
+            // Domena dedykowana na sztywno pod Twoje repozytorium GitHub Pages
+            const basePath = '/PWAEPP/';
+            const img1 = `${basePath}img/dzien${day}_1.jpg`;
+            const img2 = `${basePath}img/dzien${day}_2.jpg`;
+            
             const fallback = getOfflineFallbackImage(`Dzień ${displayDayNum} (${date})`);
 
             document.getElementById('view-content').innerHTML = `
@@ -1437,126 +1474,29 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         });
 
         // -------------------------------------------------------------
-        // DYNAMICZNA REJESTRACJA SERVICE WORKERA OFFLINE (PWA ENGINE)
-        // Bezpieczna ochrona przed ograniczeniami protokołów i iframe
+        // DEDYKOWANA REJESTRACJA SERVICE WORKERA (iOS SAFARI)
+        // Ścieżki na sztywno spięte pod Twoją domenę /PWAEPP/
         // -------------------------------------------------------------
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Bezpiecznik: Rejestruj SW tylko na rzeczywistym serwerze HTTPS/HTTP i poza zablokowanym iframe podglądu Canvas
-                const isSecureContext = window.isSecureContext || window.location.protocol === 'https:';
                 const isNormalWebProtocol = ['http:', 'https:'].includes(window.location.protocol);
                 const isInIframe = window.self !== window.top;
 
                 if (!isNormalWebProtocol || isInIframe) {
-                    console.log('Środowisko podglądu lub nieobsługiwany protokół. Service Worker został bezpiecznie pominięty na rzecz mechanizmu offline safeStorage.');
+                    console.log('Środowisko podglądu Canvas lub zablokowany iframe. Service Worker został pominięty na rzecz stabilnego fallbacku bezpiecznej pamięci.');
                     return;
                 }
 
-                // Generowanie spisu wszystkich obrazów do zapisania w Cache
-                const imageAssets = [];
-                for (let d = 1; d <= 15; d++) {
-                    imageAssets.push(`'img/dzien${d}_1.jpg'`);
-                    imageAssets.push(`'img/dzien${d}_2.jpg'`);
-                }
+                // Ścieżka bazowa podpięta bezpośrednio pod Twoje repozytorium GitHub
+                const basePath = '/PWAEPP/';
                 
-                const prefixGroups = {
-                    augustow: 2,
-                    galindia: 1,
-                    jacwiez: 5,
-                    sambia: 2,
-                    suwalki: 2
-                };
-                for (const [group, days] of Object.entries(prefixGroups)) {
-                    for (let d = 1; d <= days; d++) {
-                        imageAssets.push(`'img/${group}_dojscie${d}_1.jpg'`);
-                        imageAssets.push(`'img/${group}_dojscie${d}_2.jpg'`);
-                    }
-                }
-
-                try {
-                    // Kod Service Workera jako string z podmienioną listą grafik
-                    const swCode = `
-                        const CACHE_NAME = 'epp-pwa-cache-v4';
-                        const ASSETS_TO_CACHE = [
-                            './',
-                            'index.html',
-                            'https://cdn.tailwindcss.com',
-                            'https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700;900&amp;display=swap',
-                            ${imageAssets.join(',\n')}
-                        ];
-
-                        self.addEventListener('install', (event) => {
-                            event.waitUntil(
-                                caches.open(CACHE_NAME).then((cache) => {
-                                    return cache.addAll(ASSETS_TO_CACHE);
-                                }).then(() => self.skipWaiting())
-                            );
-                        });
-
-                        self.addEventListener('activate', (event) => {
-                            event.waitUntil(
-                                caches.keys().then((cacheNames) => {
-                                    return Promise.all(
-                                        cacheNames.map((cache) => {
-                                            if (cache !== CACHE_NAME) {
-                                                return caches.delete(cache);
-                                            }
-                                        })
-                                    );
-                                }).then(() => self.clients.claim())
-                            );
-                        });
-
-                        self.addEventListener('fetch', (event) => {
-                            if (event.request.method !== 'GET') return;
-
-                            event.respondWith(
-                                caches.match(event.request).then((cachedResponse) => {
-                                    if (cachedResponse) {
-                                        fetch(event.request).then((networkResponse) => {
-                                            if (networkResponse.status === 200) {
-                                                caches.open(CACHE_NAME).then((cache) => {
-                                                    cache.put(event.request, networkResponse);
-                                                });
-                                            }
-                                        }).catch(() => {});
-
-                                        return cachedResponse;
-                                    }
-
-                                    return fetch(event.request).then((networkResponse) => {
-                                        if (!networkResponse || networkResponse.status !== 200) {
-                                            return networkResponse;
-                                        }
-                                        const responseToCache = networkResponse.clone();
-                                        caches.open(CACHE_NAME).then((cache) => {
-                                            cache.put(event.request, responseToCache);
-                                        });
-                                        return networkResponse;
-                                    }).catch(() => {
-                                        if (event.request.mode === 'navigate') {
-                                            return caches.match('index.html');
-                                        }
-                                    });
-                                })
-                            );
-                        });
-                    `;
-
-                    // Bezpieczne generowanie Bloba
-                    const blob = new Blob([swCode.replace(/&amp;/g, '&')], { type: 'application/javascript' });
-                    const swUrl = URL.createObjectURL(blob);
-
-                    navigator.serviceWorker.register(swUrl, { scope: './' })
-                        .then((registration) => {
-                            console.log('PWA Service Worker zarejestrowany! Mapy i harmonogramy są gotowe offline.', registration.scope);
-                        })
-                        .catch((error) => {
-                            console.warn('Rejestracja Service Workera została odrzucona przez politykę przeglądarki. Aplikacja korzysta ze stabilnego fallbacku offline.', error);
-                        });
-                } catch (err) {
-                    console.warn('Rejestracja Service Workera nie powiodła się. Fallback offline jest aktywny.', err);
-                }
+                navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
+                    .then((registration) => {
+                        console.log('Apple Service Worker zainstalowany z dedykowanego zakresu GitHub Pages:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.warn('Ograniczenia systemowe Safari zablokowały Service Workera. Fallback pamięci ciasteczkowej czuwa nad działaniem aplikacji offline.', error);
+                    });
             });
         }
 
