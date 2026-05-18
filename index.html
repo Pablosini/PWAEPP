@@ -175,7 +175,7 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Bezpieczny wrapper dla localStorage, zapobiegający wygaszeniu ekranu w podglądzie (iframe Security Error)
+        // Wrapper lokalnej pamięci (fallback na wypadek blokad iframe)
         const safeStorage = {
             fallbackStore: {},
             getItem(key) {
@@ -637,7 +637,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         let activeBrowsingGroup = safeStorage.getItem('epp_active_browsing_group') || 'main';
         let deferredPrompt = null;
 
-        // Offline-compatible data SVG image fallback generator (gwarantuje działanie offline bez pętli zapytań)
+        // Generator bezpiecznych, wektorowych zamienników offline
         function getOfflineFallbackImage(text) {
             return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23b99b6b"/><text x="50%" y="45%" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle">${encodeURIComponent(text)}</text><text x="50%" y="58%" font-family="sans-serif" font-size="16" fill="%23ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">Brak połączenia sieciowego (Offline)</text></svg>`;
         }
@@ -658,7 +658,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return dailyGreetings[day % dailyGreetings.length];
         }
 
-        // Nawigacja onboardingowa
         function goToOnboardingStep(step) {
             if (step === 2) {
                 document.getElementById('welcome-step-1').classList.add('hidden');
@@ -883,7 +882,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             document.getElementById('bottom-nav').classList.add('nav-hidden');
         }
 
-        // Pokazywanie menu
         function showNav() {
             setTimeout(() => {
                 document.getElementById('bottom-nav').classList.remove('nav-hidden');
@@ -1437,6 +1435,130 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             showToast("Skrót pomyślnie dodany do ekranu głównego!", 'success');
             renderView('dashboard');
         });
+
+        // -------------------------------------------------------------
+        // DYNAMICZNA REJESTRACJA SERVICE WORKERA OFFLINE (PWA ENGINE)
+        // Bezpieczna ochrona przed ograniczeniami protokołów i iframe
+        // -------------------------------------------------------------
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Bezpiecznik: Rejestruj SW tylko na rzeczywistym serwerze HTTPS/HTTP i poza zablokowanym iframe podglądu Canvas
+                const isSecureContext = window.isSecureContext || window.location.protocol === 'https:';
+                const isNormalWebProtocol = ['http:', 'https:'].includes(window.location.protocol);
+                const isInIframe = window.self !== window.top;
+
+                if (!isNormalWebProtocol || isInIframe) {
+                    console.log('Środowisko podglądu lub nieobsługiwany protokół. Service Worker został bezpiecznie pominięty na rzecz mechanizmu offline safeStorage.');
+                    return;
+                }
+
+                // Generowanie spisu wszystkich obrazów do zapisania w Cache
+                const imageAssets = [];
+                for (let d = 1; d <= 15; d++) {
+                    imageAssets.push(`'img/dzien${d}_1.jpg'`);
+                    imageAssets.push(`'img/dzien${d}_2.jpg'`);
+                }
+                
+                const prefixGroups = {
+                    augustow: 2,
+                    galindia: 1,
+                    jacwiez: 5,
+                    sambia: 2,
+                    suwalki: 2
+                };
+                for (const [group, days] of Object.entries(prefixGroups)) {
+                    for (let d = 1; d <= days; d++) {
+                        imageAssets.push(`'img/${group}_dojscie${d}_1.jpg'`);
+                        imageAssets.push(`'img/${group}_dojscie${d}_2.jpg'`);
+                    }
+                }
+
+                try {
+                    // Kod Service Workera jako string z podmienioną listą grafik
+                    const swCode = `
+                        const CACHE_NAME = 'epp-pwa-cache-v4';
+                        const ASSETS_TO_CACHE = [
+                            './',
+                            'index.html',
+                            'https://cdn.tailwindcss.com',
+                            'https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700;900&amp;display=swap',
+                            ${imageAssets.join(',\n')}
+                        ];
+
+                        self.addEventListener('install', (event) => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME).then((cache) => {
+                                    return cache.addAll(ASSETS_TO_CACHE);
+                                }).then(() => self.skipWaiting())
+                            );
+                        });
+
+                        self.addEventListener('activate', (event) => {
+                            event.waitUntil(
+                                caches.keys().then((cacheNames) => {
+                                    return Promise.all(
+                                        cacheNames.map((cache) => {
+                                            if (cache !== CACHE_NAME) {
+                                                return caches.delete(cache);
+                                            }
+                                        })
+                                    );
+                                }).then(() => self.clients.claim())
+                            );
+                        });
+
+                        self.addEventListener('fetch', (event) => {
+                            if (event.request.method !== 'GET') return;
+
+                            event.respondWith(
+                                caches.match(event.request).then((cachedResponse) => {
+                                    if (cachedResponse) {
+                                        fetch(event.request).then((networkResponse) => {
+                                            if (networkResponse.status === 200) {
+                                                caches.open(CACHE_NAME).then((cache) => {
+                                                    cache.put(event.request, networkResponse);
+                                                });
+                                            }
+                                        }).catch(() => {});
+
+                                        return cachedResponse;
+                                    }
+
+                                    return fetch(event.request).then((networkResponse) => {
+                                        if (!networkResponse || networkResponse.status !== 200) {
+                                            return networkResponse;
+                                        }
+                                        const responseToCache = networkResponse.clone();
+                                        caches.open(CACHE_NAME).then((cache) => {
+                                            cache.put(event.request, responseToCache);
+                                        });
+                                        return networkResponse;
+                                    }).catch(() => {
+                                        if (event.request.mode === 'navigate') {
+                                            return caches.match('index.html');
+                                        }
+                                    });
+                                })
+                            );
+                        });
+                    `;
+
+                    // Bezpieczne generowanie Bloba
+                    const blob = new Blob([swCode.replace(/&amp;/g, '&')], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+
+                    navigator.serviceWorker.register(swUrl, { scope: './' })
+                        .then((registration) => {
+                            console.log('PWA Service Worker zarejestrowany! Mapy i harmonogramy są gotowe offline.', registration.scope);
+                        })
+                        .catch((error) => {
+                            console.warn('Rejestracja Service Workera została odrzucona przez politykę przeglądarki. Aplikacja korzysta ze stabilnego fallbacku offline.', error);
+                        });
+                } catch (err) {
+                    console.warn('Rejestracja Service Workera nie powiodła się. Fallback offline jest aktywny.', err);
+                }
+            });
+        }
 
         window.onload = () => {
             const savedTheme = safeStorage.getItem('theme');
