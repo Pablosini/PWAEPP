@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>EPP 2026 - Aplikacja Pielgrzyma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#b99b6b',
+                        accent: '#4a6741',
+                        light: { bg: '#fcfaf7', card: '#ffffff', text: '#2d2d2d' },
+                        dark: { bg: '#121212', card: '#1e1e1e', text: '#e0e0e0' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        .switch { position: relative; display: inline-block; width: 54px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        input:checked + .slider { background-color: #b99b6b; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        
+        .pelny-tekst { white-space: pre-line; line-height: 1.8; }
+        .tab-active { color: #b99b6b; border-top: 3px solid #b99b6b; background: rgba(185, 155, 107, 0.05); }
+        .fade-in { animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .menu-card { transition: all 0.2s ease; aspect-ratio: 1 / 1; cursor: pointer; }
+        .menu-card:active { transform: scale(0.95); }
+        
+        .nav-hidden { transform: translateY(100%); transition: transform 0.2s ease-in-out; }
+
+        /* Custom style to hide scrollbars beautifully on mobile */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
+
+    <script>
+        // Bezpieczny wrapper dla localStorage, zapobiegający wygaszeniu ekranu w podglądzie (iframe iframe Security Error)
+        const safeStorage = {
+            fallbackStore: {},
+            getItem(key) {
+                try {
+                    return localStorage.getItem(key);
+                } catch (e) {
+                    return this.fallbackStore[key] || null;
+                }
+            },
+            setItem(key, value) {
+                try {
+                    localStorage.setItem(key, value);
+                } catch (e) {
+                    this.fallbackStore[key] = String(value);
+                }
+            }
+        };
+
+        // Natychmiastowe ustawienie motywu bez migania strony
+        (function() {
+            const savedTheme = safeStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
+    <!-- Welcome Modal (Multi-step) -->
+    <div id="welcome-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-light-card dark:bg-dark-card p-6 rounded-3xl max-w-sm w-full text-center shadow-2xl border border-primary/20 fade-in">
+            <!-- Krok 1: Powitanie -->
+            <div id="welcome-step-1" class="space-y-4">
+                <div class="text-5xl mb-4">🙏</div>
+                <h2 class="text-xl font-bold mb-4 text-primary leading-tight">Witaj Pielgrzymie w aplikacji pielgrzymkowej (beta)!</h2>
+                <div class="space-y-3 text-sm opacity-90 text-left mb-6 leading-relaxed">
+                    <p>Dziękujemy, że bierzesz udział w testach.</p>
+                    <p>Cała aplikacja — zarówno jej działanie, jak i wygląd — jest wciąż w fazie testowej.</p>
+                    <p>Sprawdzamy, czy może ona w przyszłości zastąpić tradycyjną książeczkę pielgrzyma i być realnym wsparciem w czasie pielgrzymki.</p>
+                    <p class="font-semibold text-accent dark:text-emerald-400">Na zakończenie pielgrzymki poprosimy Cię o krótką ankietę (ok. 5 minut). Twoja opinia pomoże nam ją ulepszyć. Dziękujemy!</p>
+                </div>
+                <button onclick="goToOnboardingStep(2)" class="w-full bg-primary hover:bg-opacity-90 text-white font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 text-xs uppercase tracking-wider">
+                    Dalej ❯
+                </button>
+            </div>
+
+            <!-- Krok 2: Wybór Grupy -->
+            <div id="welcome-step-2" class="hidden space-y-4">
+                <div class="text-4xl mb-2">🗺️</div>
+                <h2 class="text-xl font-bold text-primary leading-tight">Z którą grupą wędrujesz?</h2>
+                <p class="text-xs opacity-80 leading-relaxed text-left mb-4">Wybierz swoją grupę, abyśmy mogli dopasować ustawienia pod Twoją grupę. Wybór możesz zmienić w dowolnym momencie w Opcjach.</p>
+                
+                <div class="space-y-2 max-h-[42vh] overflow-y-auto no-scrollbar pr-1 text-left">
+                    <button onclick="selectGroupOnInit('all')" class="w-full bg-gray-200 dark:bg-zinc-800 hover:opacity-90 rounded-xl py-3.5 px-4 text-xs font-black flex justify-between items-center transition-all active:scale-[0.98] border border-transparent">
+                        <span>Ogólny widok</span>
+                    </button>
+                    <button onclick="selectGroupOnInit('augustow')" class="w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 rounded-xl py-3.5 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                        <span>Grupa Augustów</span>
+                    </button>
+                    <button onclick="selectGroupOnInit('galindia')" class="w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 rounded-xl py-3.5 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                        <span>Grupa Galindia Pisz</span>
+                    </button>
+                    <button onclick="selectGroupOnInit('jacwiez')" class="w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 rounded-xl py-3.5 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                        <span>Grupa Jaćwież Giżycko</span>
+                    </button>
+                    <button onclick="selectGroupOnInit('main')" class="w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 rounded-xl py-3.5 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                        <span>Grupa Jaćwingowie Ełk</span>
+                    </button>
+                    <button onclick="selectGroupOnInit('sambia')" class="w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 rounded-xl py-3.5 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                        <span>Grupa Sambia Gołdap-Olecko</span>
+                    </button>
+                    <button onclick="selectGroupOnInit('suwalki')" class="w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 rounded-xl py-3.5 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                        <span>Grupa Suwałki</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Change Modal -->
+    <div id="group-change-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2.5rem] max-w-sm w-full shadow-2xl border border-primary/20 fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-black text-primary uppercase tracking-tight">Wybierz Grupę</h3>
+                <button onclick="closeGroupChangeModal()" class="text-2xl p-1 opacity-50 hover:opacity-100 transition-all leading-none">&times;</button>
+            </div>
+            <p class="text-xs opacity-75 mb-4 leading-relaxed">Wybierz swoją grupę pielgrzymkową lub włącz tryb wszystkich tras.</p>
+            
+            <div class="space-y-2 max-h-[50vh] overflow-y-auto no-scrollbar pr-1">
+                <button onclick="saveGroupChange('all')" id="change-btn-all" class="w-full border rounded-xl py-3 px-4 text-xs font-black flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Ogólny widok</span>
+                </button>
+                <button onclick="saveGroupChange('augustow')" id="change-btn-augustow" class="w-full border rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Grupa Augustów</span>
+                </button>
+                <button onclick="saveGroupChange('galindia')" id="change-btn-galindia" class="w-full border rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Grupa Galindia Pisz</span>
+                </button>
+                <button onclick="saveGroupChange('jacwiez')" id="change-btn-jacwiez" class="w-full border rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Grupa Jaćwież Giżycko</span>
+                </button>
+                <button onclick="saveGroupChange('main')" id="change-btn-main" class="w-full border rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Grupa Jaćwingowie Ełk</span>
+                </button>
+                <button onclick="saveGroupChange('sambia')" id="change-btn-sambia" class="w-full border rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Grupa Sambia Gołdap-Olecko</span>
+                </button>
+                <button onclick="saveGroupChange('suwalki')" id="change-btn-suwalki" class="w-full border rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]">
+                    <span>Grupa Suwałki</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Screen Shortcut Modal -->
+    <div id="install-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+        <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2.5rem] max-w-sm w-full shadow-2xl border border-primary/20 fade-in">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-black text-primary uppercase tracking-tight">Dodaj na Pulpit</h3>
+                <button onclick="closeInstallModal()" class="text-2xl p-1 opacity-50 hover:opacity-100 transition-all leading-none">&times;</button>
+            </div>
+            
+            <div id="install-modal-content" class="space-y-4 text-sm leading-relaxed"></div>
+            
+            <div class="mt-6 flex gap-3">
+                <button onclick="closeInstallModal()" class="flex-1 bg-gray-200 dark:bg-zinc-800 text-light-text dark:text-dark-text font-bold py-3.5 rounded-2xl active:scale-95 transition-all text-xs uppercase tracking-wider">
+                    Anuluj
+                </button>
+                <button id="modal-install-btn" onclick="triggerNativeInstall()" class="hidden flex-1 bg-primary text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider">
+                    Dodaj skrót
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-20 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 py-4 flex justify-between items-center border-b border-primary/10 shadow-sm">
+        <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
+            <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
+            <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Wersja Beta Aplikacji</p>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                <span class="slider">
+                    <span class="absolute left-1.5 top-1.5 text-[10px]">☀️</span>
+                    <span class="absolute right-1.5 top-1.5 text-[10px]">🌙</span>
+                </span>
+            </label>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="main-container" class="pb-28 pt-4 px-4 max-w-xl mx-auto">
+        <div id="view-content" class="fade-in"></div>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pb-6 pt-2 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200">
+        <button onclick="renderView('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
+            <span class="text-2xl">🏠</span>
+            <span>Start</span>
+        </button>
+        <button onclick="renderView('songs')" id="nav-songs" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
+            <span class="text-2xl">🎶</span>
+            <span>Śpiewnik</span>
+        </button>
+        <button onclick="renderView('prayers')" id="nav-prayers" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
+            <span class="text-2xl">🙏</span>
+            <span>Modlitewnik</span>
+        </button>
+        <button onclick="renderView('route')" id="nav-route" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
+            <span class="text-2xl">🗺️</span>
+            <span>Trasa</span>
+        </button>
+        <button onclick="renderView('more')" id="nav-more" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
+            <span class="text-2xl">⚙️</span>
+            <span>Opcje</span>
+        </button>
+    </nav>
+
+    <!-- App Scripts and Datasets -->
+    <script>
+        // 1. Bible Quotes
+        const bibleQuotes = [
+            "Pan jest pasterzem moim, nie brak mi niczego. Pozwala mi leżeć na zielonych pastwiskach. (Ps 23, 1-2)",
+            "Ja jestem drogą i prawdą, i życiem. Nikt nie przychodzi do Ojca inaczej jak tylko przeze Mnie. (J 14, 6)",
+            "Wszystko mogę w Tym, który mnie umacnia. (Flp 4, 13)",
+            "Nie bój się, bo Ja jestem z tobą; nie lękaj się, bo Ja jestem Twoim Bogiem! (Iz 41, 10)",
+            "Słowo Twoje jest pochodnią dla moich stóp i światłem na mojej ścieżce. (Ps 119, 105)",
+            "Proście, a będzie wam dane; szukajcie, a znajdziecie; kołaczcie, a otworzą wam. (Mt 7, 7)",
+            "Gdzie są dwaj albo trzej zebrani w imię moje, tam jestem pośród nich. (Mt 18, 20)",
+            "Bóg zaś okazuje nam swoją miłość właśnie przez to, że Chrystus umarł za nas, gdyśmy byli jeszcze grzesznikami. (Rz 5, 8)",
+            "Wypłyń na głębię i zarzućcie sieci na połów! (Łk 5, 4)",
+            "Tak bowiem Bóg umiłował świat, że Syna swego Jednorodzonego dał... (J 3, 16)",
+            "Serce czyste stwórz we mnie, o Boże, i ducha prawego odnów w moich piersiach! (Ps 51, 12)",
+            "Przede wszystkim zachowujcie gorliwą miłość jedni ku drugim, bo miłość zakrywa mnóstwo grzechów. (1 P 4, 8)",
+            "Bądźcie mężni i mężnego serca, wszyscy, którzy pokładacie nadzieję w Panu! (Ps 31, 25)",
+            "Duch Pana Boga nade mną, bo Pan mnie namaścił. Posłał mnie, by głosić dobrą nowinę ubogim. (Iz 61, 1)",
+            "Moje dzieci, nie miłujmy słowem i językiem, ale czynem i prawdą! (1 J 3, 18)",
+            "Prawda was wyzwoli. (J 8, 32)",
+            "Dziękujcie Panu, bo jest dobry, bo łaska Jego trwa na wieki. (Ps 118, 1)",
+            "Pokój zostawiam wam, pokój mój daję wam. Nie tak jak daje świat, Ja wam daję. (J 14, 27)",
+            "Oto stoję u drzwi i kołaczę: jeśli kto usłyszy mój głos i drzwi otworzy, wejdę do niego... (Ap 3, 20)",
+            "Wy jesteście solą dla ziemi. Lecz jeśli sól utraci swój smak, czymże ją posolić? (Mt 5, 13)",
+            "Ty zaś, gdy chcesz się modlić, wejdź do swej izdebki, zamknij drzwi i módl się do Ojca twego... (Mt 6, 6)",
+            "Łaską bowiem jesteście zbawieni przez wiarę. A to pochodzi nie od was, lecz jest darem Boga. (Ef 2, 8)",
+            "Jeżeli Bóg z nami, któż przeciwko nam? (Rz 8, 31)",
+            "Czuwajcie więc, bo nie wiecie, w którym dniu Pan wasz nadejdzie. (Mt 24, 42)"
+        ];
+
+        // 2. Daily Greetings
+        const dailyGreetings = [
+            "Idź z Bogiem, pątniku!",
+            "Maryja osłania Cię swoim płaszczem.",
+            "Niech trud drogi zbliża Cię do Chrystusa.",
+            "Wspierajmy się wzajemnie uśmiechem i dobrym słowem.",
+            "Błogosławionego i owocnego dnia w drodze!",
+            "Pielgrzymuj z sercem pełnym nadziei i pokoju.",
+            "Twój wysiłek ma wielką wartość w oczach Boga.",
+            "Ufaj Panu na każdym kilometrze tej trasy.",
+            "Z uśmiechem łatwiej znosić pęcherze i upał!",
+            "Każdy krok to modlitwa.",
+            "Anioł Stróż niech toruje Twoje ścieżki.",
+            "Pokój i Dobro na dzisiejszy etap!",
+            "Ofiaruj swój dzisiejszy trud w intencji bliskich.",
+            "Nie jesteś sam - idziemy we wspaniałej wspólnocie.",
+            "Otwórz serce na Słowo Boże i piękno otaczającej przyrody."
+        ];
+
+        // 3. Songs & Prayers data
+        const appData = {
+            songs: [
+                {
+                    id: 1,
+                    tytul: "Barka",
+                    tekst: `1. Pan kiedyś stanął nad brzegiem,
+Szukał ludzi gotowych pójść za Nim,
+By łowić serca słów Bożych prawdą.
+
+Ref.: O Panie, to Ty na mnie spojrzałeś,
+Twoje usta dziś wyrzekły me imię.
+Swoją barkę pozostawiam na brzegu,
+Razem z Tobą nowy zacznę połów.
+
+2. Jestem ubogim człowiekiem,
+Moim skarbem są ręce gotowe
+Do pracy z Tobą i czyste serce.
+
+Ref.: O Panie...`
+                },
+                {
+                    id: 2,
+                    tytul: "Czarna Madonna",
+                    tekst: `1. Jest zakątek na tej ziemi,
+Gdzie powracać każdy chce,
+Gdzie króluje Jej Oblicze,
+Na Nim cięte rysy dwie.
+Wzrok ma smutny, zatroskany,
+Jakby chciała prosić nas,
+By Jej Syna wejść na drogę,
+W trudny czas, w obecny czas.
+
+Ref.: Matko, która nas znasz,
+Dzieci Twe pod opiekę swą weź.
+Chroń nas, chroń nas,
+I do Syna swego nas nieś!
+
+2. Dziś, gdy wokół wielki zamęt,
+Gdzie iść mamy, nie wie nikt,
+Do kogo uciekać mamy,
+Kto pomoże w trudne dni?
+Tylko Ty nas możesz uratować,
+Tylko Ty wskażesz drogę nam.
+O Matko Boska Częstochowska,
+Bądź zawsze blisko nas.
+
+Ref.: Matko...`
+                },
+                {
+                    id: 3,
+                    tytul: "Abba Ojcze",
+                    tekst: `1. Ty wyzwoliłeś nas, Panie,
+Z kajdan i samych siebie.
+Chrystus stał się naszym bratkiem,
+Byśmy żyli dla Ciebie.
+
+Ref.: Abba Ojcze! Abba Ojcze!
+Abba Ojcze! Abba Ojcze!
+
+2. Kościół to żywy organizm,
+Zjednoczony w miłości.
+Idziemy razem ku Tobie,
+Do niebieskiej ojczyzny.
+
+Ref.: Abba Ojcze...`
+                },
+                {
+                    id: 4,
+                    tytul: "Pan jest pasterzem moim",
+                    tekst: `Pan jest pasterzem moim,
+niczego mi nie braknie,
+na zielonych niwach pasie mnie.
+Nad ciche wody prowadzi mnie,
+duszę moją pokrzepia,
+wiedzie mnie ścieżkami sprawiedliwości
+ze względu na swoje imię.
+
+Choćbym przechodził przez ciemną dolinę,
+zła się nie ulęknę, bo Ty jesteś ze mną.
+Twój kij i Twoja laska dodają mi otuchy.`
+                },
+                {
+                    id: 5,
+                    tytul: "Oto są baranki młode",
+                    tekst: `Ref.: Oto są baranki młode,
+oto ci, co zawołali Alleluja!
+Dopiero przyszli do źródła,
+Światłością się napełnili,
+Alleluja, Alleluja!
+
+1. Na Baranka godach białych,
+W szatach czystych i wspaniałych,
+Po czerwonego morza dnie,
+Śpiewajmy Chrystusowi pieśń!
+
+Ref.: Oto są baranki...`
+                }
+            ],
+            prayers: [
+                {
+                    id: 1,
+                    tytul: "Modlitwa Pielgrzyma",
+                    tekst: `Panie Jezu,
+Wyruszyłem na pątniczy szlak z wiarą i nadzieją w sercu.
+Spraw, aby ten trud drogi: upał, deszcz, ból fizyczny i zmęczenie,
+stały się dla mnie czasem oczyszczenia i zbliżenia do Ciebie.
+
+Pomóż mi w drugim człowieku dostrzegać Twoją obecność,
+uczyć się cierpliwości, pokory i dzielenia się chlebem oraz uśmiechem.
+Niech wstawiennictwo Matki Bożej Jasnogórskiej,
+do której zmierzam, chroni mnie przed zniechęceniem i niebezpieczeństwami na drodze.
+
+Przemieniaj moje serce, bym po powrocie z pielgrzymki
+był lepszym świadkiem Twojej Ewangelii w codziennym życiu. Amen.`
+                },
+                {
+                    id: 2,
+                    tytul: "Anioł Pański",
+                    tekst: `Anioł Pański zwiastował Pannie Maryi.
+I poczęła z Ducha Świętego.
+Zdrowaś Maryjo...
+
+Oto Ja służebnica Pańska.
+Niech mi się stanie według słowa twego.
+Zdrowaś Maryjo...
+
+A Słowo ciałem się stało.
+I mieszkało między nami.
+Zdrowaś Maryjo...
+
+Módl się za nami, święta Boża Rodzicielko.
+Abyśmy się stali godnymi obietnic Chrystusowych.
+
+Módlmy się: Łaskę Twoją, prosimy Cię, Panie, wlej w serca nasze, abyśmy, którzy za zwiastowaniem anielskim Wcielenie Chrystusa, Syna Twego, poznali, przez mękę Jego i krzyż do chwały zmartwychwstania zostali doprowadzeni. Przez Chrystusa, Pana naszego. Amen.`
+                },
+                {
+                    id: 3,
+                    tytul: "Pod Twoją Obronę",
+                    tekst: `Pod Twoją obronę uciekamy się,
+święta Boża Rodzicielko,
+naszymi prośbami racz nie gardzić w potrzebach naszych,
+ale od wszelakich złych przygód racz nas zawsze wybawiać,
+Panno chwalebna i błogosławiona.
+
+O Pani nasza, Orędowniczko nasza,
+Pośredniczko nasza, Pocieszierko nasza.
+Z Synem swoim nas pojednaj,
+Synowi swojemu nas polecaj,
+swojemu Synowi nas oddawaj.`
+                },
+                {
+                    id: 4,
+                    tytul: "Różaniec - Tajemnice Radosne",
+                    tekst: `1. Zwiastowanie Najświętszej Maryi Pannie
+2. Nawiedzenie św. Elżbiety
+3. Narodzenie Pana Jezusa w Betlejem
+4. Ofiarowanie Pana Jezusa w Świątyni
+5. Odnalezienie Pana Jezusa w Świątyni
+
+Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji nad kolejnymi krokami Jezusa i Maryi oraz ofiarowania intencji niesionych w sercu.`
+                }
+            ]
+        };
+
+        // 4. Routes and groups detailed data
+        const routeGroups = {
+            main: {
+                name: "Grupa Jaćwingowie Ełk",
+                shortName: "Ełk",
+                startDayOffset: 0,
+                prefixDays: []
+            },
+            augustow: {
+                name: "Grupa Augustów",
+                shortName: "Augustów",
+                startDayOffset: 0,
+                prefixDays: [
+                    { date: "26.07", info: "Augustów – Bargłów Kościelny (18 km)" },
+                    { date: "27.07", info: "Bargłów Kościelny – Ełk (24 km)" }
+                ]
+            },
+            galindia: {
+                name: "Grupa Galindia Pisz",
+                shortName: "Pisz",
+                startDayOffset: 0,
+                prefixDays: [
+                    { date: "27.07", info: "Pisz – Biała Piska (dojście do głównej kolumny - 18 km)" }
+                ]
+            },
+            jacwiez: {
+                name: "Grupa Jaćwież Giżycko",
+                shortName: "Giżycko",
+                startDayOffset: 4,
+                prefixDays: [
+                    { date: "27.07", info: "Giżycko – Miłki (18 km)" },
+                    { date: "28.07", info: "Miłki – Piecki (26 km)" },
+                    { date: "29.07", info: "Piecki – Rozogi (28 km)" },
+                    { date: "30.07", info: "Rozogi – Dylewo (25 km)" },
+                    { date: "31.07", info: "Dylewo – Sypniewo (dojście do głównej kolumny - 24 km)" }
+                ]
+            },
+            sambia: {
+                name: "Grupa Sambia Gołdap-Olecko",
+                shortName: "Sambia",
+                startDayOffset: 0,
+                prefixDays: [
+                    { date: "26.07", info: "Olecko – Gąski (16 km)" },
+                    { date: "27.07", info: "Gąski – Ełk (17 km)" }
+                ]
+            },
+            suwalki: {
+                name: "Grupa Suwałki",
+                shortName: "Suwałki",
+                startDayOffset: 0,
+                prefixDays: [
+                    { date: "26.07", info: "Suwałki – Bargłów Kościelny (32 km)" },
+                    { date: "27.07", info: "Bargłów Kościelny – Ełk (24 km)" }
+                ]
+            }
+        };
+
+        let searchQuery = '';
+        let currentGroup = safeStorage.getItem('epp_selected_group') || 'all';
+        let activeBrowsingGroup = safeStorage.getItem('epp_active_browsing_group') || 'main';
+        let deferredPrompt = null;
+
+        function toggleTheme() {
+            const isDark = document.getElementById('theme-toggle').checked;
+            document.documentElement.classList.toggle('dark', isDark);
+            safeStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        function getBibleQuote() {
+            const hour = new Date().getHours();
+            return bibleQuotes[hour % bibleQuotes.length];
+        }
+
+        function getDailyGreeting() {
+            const day = new Date().getDate();
+            return dailyGreetings[day % dailyGreetings.length];
+        }
+
+        function goToOnboardingStep(step) {
+            if (step === 2) {
+                document.getElementById('welcome-step-1').classList.add('hidden');
+                document.getElementById('welcome-step-2').classList.remove('hidden');
+            }
+        }
+
+        function selectGroupOnInit(groupKey) {
+            currentGroup = groupKey;
+            safeStorage.setItem('epp_selected_group', groupKey);
+            safeStorage.setItem('epp_beta_visited', 'true');
+            document.getElementById('welcome-modal').classList.add('hidden');
+            
+            const groupName = groupKey === 'all' ? 'Ogólny widok' : (routeGroups[groupKey]?.shortName || 'Jaćwingowie Ełk');
+            showToast(`Wybrano grupę: ${groupName}! Możesz ją zmienić w Opcjach.`, 'success');
+            
+            renderView('dashboard');
+        }
+
+        function openGroupChangeModal() {
+            const modal = document.getElementById('group-change-modal');
+            modal.classList.remove('hidden');
+            
+            const keys = ['all', 'augustow', 'galindia', 'jacwiez', 'main', 'sambia', 'suwalki'];
+            keys.forEach(key => {
+                const btn = document.getElementById(`change-btn-${key}`);
+                if (btn) {
+                    if (currentGroup === key) {
+                        btn.className = "w-full bg-primary text-white border-primary rounded-xl py-3 px-4 text-xs font-black flex justify-between items-center transition-all active:scale-[0.98]";
+                    } else {
+                        btn.className = "w-full bg-primary/5 hover:bg-primary/10 border border-primary/15 dark:border-primary/5 rounded-xl py-3 px-4 text-xs font-bold flex justify-between items-center transition-all active:scale-[0.98]";
+                    }
+                }
+            });
+        }
+
+        function closeGroupChangeModal() {
+            document.getElementById('group-change-modal').classList.add('hidden');
+        }
+
+        function saveGroupChange(groupKey) {
+            currentGroup = groupKey;
+            safeStorage.setItem('epp_selected_group', groupKey);
+            closeGroupChangeModal();
+            
+            const groupName = groupKey === 'all' ? 'Ogólny widok' : (routeGroups[groupKey]?.shortName || 'Jaćwingowie Ełk');
+            showToast(`Zmieniono grupę na: ${groupName}!`, 'success');
+            
+            const activeTab = document.querySelector('.tab-active');
+            if (activeTab) {
+                if (activeTab.id === 'nav-more') renderMore();
+                if (activeTab.id === 'nav-route') renderRoute();
+            }
+        }
+
+        function setActiveBrowsingGroup(groupKey) {
+            activeBrowsingGroup = groupKey;
+            safeStorage.setItem('epp_active_browsing_group', groupKey);
+            renderRoute();
+        }
+
+        function isRunningStandalone() {
+            return (window.matchMedia('(display-mode: standalone)').matches) || 
+                   (window.navigator.standalone) || 
+                   document.referrer.includes('android-app://');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = `fade-in p-4 rounded-2xl shadow-xl text-white text-xs font-bold flex items-center justify-between gap-3 pointer-events-auto border transition-all duration-300 ${
+                type === 'success' 
+                ? 'bg-accent border-accent/20' 
+                : 'bg-primary border-primary/20'
+            }`;
+            
+            const icon = type === 'success' ? '✅' : 'ℹ️';
+            
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span>${icon}</span>
+                    <span>${message}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-white/60 hover:text-white text-base font-normal leading-none">&times;</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function renderView(view, detailId = null) {
+            const nav = document.getElementById('bottom-nav');
+            searchQuery = ''; 
+            
+            if (view === 'dashboard' && detailId === null) {
+                nav.classList.add('hidden');
+            } else {
+                nav.classList.remove('hidden');
+            }
+
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('tab-active'));
+            const activeBtn = document.getElementById(`nav-${view}`);
+            if (activeBtn) activeBtn.classList.add('tab-active');
+
+            if (detailId !== null) {
+                renderDetail(view, detailId);
+            } else {
+                switch(view) {
+                    case 'dashboard': renderDashboard(); break;
+                    case 'songs': renderList('Śpiewnik', 'songs'); break;
+                    case 'prayers': renderList('Modlitewnik', 'prayers'); break;
+                    case 'route': renderRoute(); break;
+                    case 'more': renderMore(); break;
+                    case 'regulamin': renderRegulamin(); break;
+                }
+            }
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function renderDashboard() {
+            const installBannerHtml = isRunningStandalone() ? '' : `
+                <div id="dashboard-install-banner" class="mb-6 bg-accent/15 rounded-3xl p-5 border border-accent/20 flex items-center justify-between gap-4 fade-in">
+                    <div class="flex-1">
+                        <p class="text-xs font-black uppercase tracking-wider text-accent mb-1 flex items-center gap-1.5">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                            </span>
+                            Szybki Dostęp
+                        </p>
+                        <p class="text-xs opacity-90 font-semibold leading-snug">Dodaj aplikację na pulpit telefonu, aby ułatwić sobie włączanie na trasie!</p>
+                    </div>
+                    <button onclick="openInstallModal()" class="shrink-0 bg-accent hover:bg-opacity-90 text-white text-[11px] font-bold py-2.5 px-4 rounded-xl shadow-md active:scale-95 transition-all uppercase tracking-wider">
+                        Dodaj
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('view-content').innerHTML = `
+                <div class="py-2 fade-in">
+                    <div class="mb-6 bg-primary/5 rounded-3xl p-6 border border-primary/10 shadow-sm">
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-3 text-center">Myśl na tę godzinę</p>
+                        <p class="text-center italic opacity-90 text-sm leading-relaxed">"${getBibleQuote()}"</p>
+                    </div>
+
+                    ${installBannerHtml}
+
+                    <h2 class="text-3xl font-black text-primary mb-1 text-center">Witaj Pielgrzymie!</h2>
+                    <p class="opacity-50 text-xs font-bold uppercase tracking-widest mb-8 text-center">${getDailyGreeting()}</p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div onclick="renderView('songs')" class="menu-card bg-light-card dark:bg-dark-card border border-primary/10 rounded-[2.5rem] p-6 flex flex-col items-center justify-center shadow-lg">
+                            <span class="text-4xl mb-3">🎶</span>
+                            <span class="font-bold text-xs uppercase tracking-wider">Śpiewnik</span>
+                        </div>
+                        <div onclick="renderView('prayers')" class="menu-card bg-light-card dark:bg-dark-card border border-primary/10 rounded-[2.5rem] p-6 flex flex-col items-center justify-center shadow-lg">
+                            <span class="text-4xl mb-3">🙏</span>
+                            <span class="font-bold text-xs uppercase tracking-wider">Modlitewnik</span>
+                        </div>
+                        <div onclick="renderView('route')" class="menu-card bg-light-card dark:bg-dark-card border border-primary/10 rounded-[2.5rem] p-6 flex flex-col items-center justify-center shadow-lg">
+                            <span class="text-4xl mb-3">🗺️</span>
+                            <span class="font-bold text-xs uppercase tracking-wider">Trasa</span>
+                        </div>
+                        <div onclick="renderView('more')" class="menu-card bg-light-card dark:bg-dark-card border border-primary/10 rounded-[2.5rem] p-6 flex flex-col items-center justify-center shadow-lg">
+                            <span class="text-4xl mb-3">⚙️</span>
+                            <span class="font-bold text-xs uppercase tracking-wider">Opcje</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4">
+                        Wersja beta 1.1.0 <br> © 2026 PePe.Studio
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderList(title, type) {
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('dashboard')" class="mb-4 text-primary font-bold text-xs uppercase">❮ Powrót do menu</button>
+                    <h2 class="text-2xl font-bold mb-6 text-primary uppercase">${title}</h2>
+                    
+                    <div class="mb-6 relative">
+                        <input type="text" 
+                               id="search-input"
+                               placeholder="Szukaj..." 
+                               oninput="handleSearch(this.value, '${type}')"
+                               onfocus="hideNav()"
+                               onblur="showNav()"
+                               class="w-full bg-light-card dark:bg-dark-card border border-primary/20 rounded-2xl py-4 px-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all">
+                        <span class="absolute right-5 top-4 opacity-30">🔍</span>
+                    </div>
+
+                    <div id="list-results-container" class="space-y-3"></div>
+                </div>
+            `;
+            updateListResults(type);
+        }
+
+        function hideNav() {
+            document.getElementById('bottom-nav').classList.add('nav-hidden');
+        }
+
+        function showNav() {
+            setTimeout(() => {
+                document.getElementById('bottom-nav').classList.remove('nav-hidden');
+            }, 100);
+        }
+
+        function handleSearch(val, type) {
+            searchQuery = val;
+            updateListResults(type);
+        }
+
+        function updateListResults(type) {
+            const container = document.getElementById('list-results-container');
+            if(!container) return;
+
+            const data = appData[type];
+            const filtered = data.filter(item => 
+                item.tytul.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+
+            container.innerHTML = filtered.length > 0 ? filtered.map(item => `
+                <div onclick="renderView('${type}', ${item.id})" class="bg-light-card dark:bg-dark-card p-5 rounded-2xl border border-primary/5 shadow-sm active:scale-[0.98] transition-all flex justify-between items-center cursor-pointer">
+                    <span class="font-semibold">${item.tytul}</span>
+                    <span class="text-primary opacity-50">❯</span>
+                </div>
+            `).join('') : '<p class="text-center opacity-50 py-10">Nie znaleziono...</p>';
+        }
+
+        function renderDetail(type, id) {
+            const item = appData[type].find(i => i.id === id);
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('${type}')" class="mb-6 text-primary font-bold flex items-center gap-2 py-2 px-4 bg-primary/10 rounded-full w-fit text-sm">
+                        <span>❮</span> Powrót do listy
+                    </button>
+                    <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2.5rem] shadow-xl border border-primary/10">
+                        <h2 class="text-2xl font-black mb-6 text-primary border-b border-primary/10 pb-4 leading-tight">${item.tytul}</h2>
+                        <div class="pelny-tekst text-lg">${item.tekst}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function isSurveyUnlocked() {
+            const today = new Date();
+            const unlockDate = new Date(today.getFullYear(), 7, 9); // August 9th
+            return today >= unlockDate;
+        }
+
+        function showLockedSurveyMessage(button) {
+            const oldText = button.innerText;
+            button.innerText = 'Będzie dostępna od 9 sierpnia!';
+            button.classList.add('bg-red-500/20', 'text-red-500');
+            setTimeout(() => {
+                button.innerText = oldText;
+                button.classList.remove('bg-red-500/20', 'text-red-500');
+            }, 3000);
+        }
+
+        function renderMore() {
+            const unlocked = isSurveyUnlocked();
+            const isInstalled = isRunningStandalone();
+            
+            const groupName = currentGroup === 'all' 
+                ? 'Ogólny widok' 
+                : (routeGroups[currentGroup]?.name || 'Grupa Jaćwingowie Ełk');
+            
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('dashboard')" class="mb-4 text-primary font-bold text-xs uppercase">❮ Powrót</button>
+                    <h2 class="text-2xl font-bold mb-6 text-primary uppercase">Opcje i Pomoc</h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Sekcja wyboru grupy -->
+                        <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2rem] border border-primary/5 shadow-sm">
+                            <h3 class="font-bold mb-2 flex items-center justify-between">
+                                <span class="text-base">Twoja Grupa</span>
+                                <span class="text-xl">⛪</span>
+                            </h3>
+                            <p class="text-xs opacity-70 mb-3 leading-relaxed">Wybrana grupa decyduje o tym, jaka trasa i dni dojściowe wyświetlają się w zakładce Trasa.</p>
+                            <div class="bg-primary/5 border border-primary/10 dark:border-primary/5 rounded-xl p-3 mb-4 text-xs">
+                                Aktualnie: <span class="font-black text-primary">${groupName}</span>
+                            </div>
+                            <button onclick="openGroupChangeModal()" 
+                                    class="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                                <span>🔄 Zmień wybraną grupę</span>
+                            </button>
+                        </div>
+
+                        <!-- Panel dodawania do ekranu głównego -->
+                        <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2rem] border border-primary/5 shadow-sm">
+                            <h3 class="font-bold mb-2 flex items-center justify-between">
+                                <span class="text-base">Skrót na ekranie głównym</span>
+                                <span class="text-xl">${isInstalled ? '✅' : '📱'}</span>
+                            </h3>
+                            <p class="text-xs opacity-60 mb-4 leading-relaxed">
+                                ${isInstalled 
+                                    ? 'Aplikacja została pomyślnie otwarta z poziomu pulpitu Twojego telefonu jako wygodny, niezależny skrót.' 
+                                    : 'Dodaj ikonę aplikacji bezpośrednio na ekran główny telefonu. Dzięki temu zyskasz łatwiejszy, pełnoekranowy dostęp na trasie.'}
+                            </p>
+                            <button onclick="openInstallModal()" 
+                                    class="w-full ${isInstalled ? 'bg-accent/20 text-accent dark:text-emerald-400' : 'bg-primary text-white'} py-4 rounded-2xl font-bold shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                                <span>${isInstalled ? '✔️ Sprawdź status' : '📲 Dodaj skrót do pulpitu'}</span>
+                            </button>
+                        </div>
+
+                        <div onclick="renderView('regulamin')" class="bg-light-card dark:bg-dark-card p-6 rounded-[2rem] border border-primary/5 shadow-sm cursor-pointer active:scale-95 transition-all flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold">Regulamin Pielgrzymki</h3>
+                                <p class="text-xs opacity-50">Zasady obowiązujące na trasie</p>
+                            </div>
+                            <span class="text-2xl">📜</span>
+                        </div>
+
+                        <!-- Sekcja ankiety -->
+                        <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2rem] border border-primary/5 shadow-sm">
+                            <h3 class="font-bold mb-4 flex items-center justify-between">
+                                <span class="text-base">Ankieta dotycząca użyteczności aplikacji</span>
+                                <span class="text-xl">${unlocked ? '🔓' : '🔒'}</span>
+                            </h3>
+                            <button onclick="${unlocked ? "window.open('https://tally.so/r/Bzj8A4', '_blank')" : "showLockedSurveyMessage(this)"}" 
+                                    class="w-full ${unlocked ? 'bg-accent' : 'bg-gray-300 dark:bg-zinc-700 opacity-60 cursor-not-allowed'} text-white py-4 rounded-2xl font-bold shadow-lg transition-all text-xs uppercase tracking-wider">
+                                ${unlocked ? 'Wypełnij Ankietę' : 'Ankieta dostępna od 09.08'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4">
+                        Wersja beta 1.1.0 <br> © 2026 PePe.Studio
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRegulamin() {
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('more')" class="mb-6 text-primary font-bold flex items-center gap-2 py-2 px-4 bg-primary/10 rounded-full w-fit text-sm">
+                        <span>❮</span> Powrót do opcji
+                    </button>
+                    <div class="bg-light-card dark:bg-dark-card p-6 rounded-[2.5rem] shadow-xl border border-primary/10">
+                        <h2 class="text-2xl font-black mb-6 text-primary border-b border-primary/10 pb-4 leading-tight">Regulamin Pielgrzymki</h2>
+                        <div class="pelny-tekst text-sm space-y-4">
+                            <div class="italic border-l-4 border-primary pl-4 py-2 bg-primary/5 rounded-r-lg mb-6">
+                                „Pielgrzymka jest czytelnym znakiem wędrującego Kościoła, czyli wspólnoty, która w drodze uświęca się przez prawdę i miłość. Jest aktem religijno-pokutnym, zatem musi ją cechować duch ofiary i modlitwy oraz porządek zewnętrzny”.
+                            </div>
+                            
+                            <p><strong>W Ełckiej Pielgrzymce Pieszej na Jasną Górę może uczestniczyć każdy, kto:</strong></p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>akceptuje jej religijny i rekolekcyjny charakter (Msza św., nabożeństwa, konferencje, wspólne modlitwy, śpiewy);</li>
+                                <li>pragnie pogłębić swoją chrześcijańską formację lub szczerym sercem poszukuje Boga;</li>
+                                <li>nie będzie palił tytoniu i pił alkoholu ani używał narkotyków;</li>
+                                <li>podporządkuje się poleceniom księży przewodników i służby porządkowej;</li>
+                                <li>nie będzie uczestnikiem ani przyczyną konfliktów.</li>
+                            </ul>
+
+                            <p>Każdy zapisany pielgrzym otrzymuje znaczek i kartę uczestnictwa, które nosi ze sobą.</p>
+                            
+                            <p><strong>Noclegi:</strong> przede wszystkim u gospodarzy lub w szkołach i remizach strażackich, w razie potrzeby w namiotach. Noclegi są zawsze oddzielne dla sióstr i braci. Zachowanie ciszy nocnej po 22.30 jest podstawowym obowiązkiem wynikającym z zachowania miłości bliźniego.</p>
+                            
+                            <p><strong>Wyżywienie:</strong> Kierownictwo pielgrzymki organizuje zakup chleba, który można otrzymać w miejscach noclegu. Kuchnia pielgrzymkowa przygotowuje kawę i herbatę. Zabieramy ze sobą odpowiednią ilość suchego prowiantu. Na pielgrzymce nie wolno spożywać lodów, ma to uzasadnienie w wyrzeczeniu się przyjemności i ochronie przed ewentualnym zatruciem.</p>
+                            
+                            <p><strong>Wyposażenie indywidualne:</strong> Wygodne i rozchodzone buty, koniecznie większe o jeden numer, peleryna od deszczu, grube skarpety (kilka par na zmianę), kilka zmian bielizny, czapeczka od słońca, łyżka, nóż, kubek, bidon na napoje, chlebak. Obowiązuje strój skromny i wygodny.</p>
+                            
+                            <p>Zabieramy ze sobą potrzebne leki i środki opatrunkowe. Sanitariat pielgrzymkowy udziela tylko doraźnej pomocy na trasie i w punktach opatrunkowych.</p>
+                            
+                            <p>Zabieramy ze sobą różaniec, śpiewnik, coś do pisania.</p>
+                            
+                            <p>Zapas żywności, zapasową garderobę, namiot, śpiwór lub koc - najlepiej spakowane w plecaku - zdajemy na samochód bagażowy swojej grupy (odbieramy wieczorem i oddajemy rano przed wyjściem pielgrzymki).</p>
+                            
+                            <p>W pielgrzymce działa poczta pielgrzymkowa, tam nabywamy kartki pocztowe, znaczki, jak również możemy tam zostawić korespondencję do wysłania.</p>
+                            
+                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariacie pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
+                            
+                            <p>Pątnicy idą w grupach, do których się zapisali.</p>
+                            
+                            <p>W miejscach postoju pielgrzymi zachowują czystość, śmieci składają do przygotowanych koszy.</p>
+                            
+                            <p><strong>Wszyscy uczestnicy dbają o:</strong></p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>tworzenie atmosfery życzliwości, wzajemnej troski i pogody ducha;</li>
+                                <li>czynne uczestnictwo w liturgii;</li>
+                                <li>wymianę duchową wartości wewnątrz grupy i wobec ludzi spotkanych na trasie;</li>
+                                <li>zachowanie przepisów o ruchu drogowym, porządku, bezpieczeństwa i dyscypliny;</li>
+                                <li>rozwijanie tradycji pielgrzymkowych w swoim środowisku.</li>
+                            </ul>
+
+                            <p><strong>Kary i dyscyplina:</strong></p>
+                            <p>Za nieprzestrzeganie regulaminu, a także za postawę niezgodną z istotnymi celami i duchem pielgrzymki przewiduje się:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>upomnienie z wpisem do legitymacji pielgrzyma</li>
+                                <li>natychmiastowe usunięcie z pielgrzymki, z podaniem nazwiska pielgrzyma do wiadomości pątników oraz Księdza Proboszcza.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getMainDayDate(i) {
+            let dayNum = 27 + i;
+            let month = "07";
+            if (dayNum > 31) {
+                dayNum = dayNum - 31;
+                month = "08";
+            }
+            return (dayNum < 10 ? '0' + dayNum : dayNum) + "." + month;
+        }
+
+        function renderRoute() {
+            const showTabs = (currentGroup === 'all');
+            const activeKey = showTabs ? activeBrowsingGroup : currentGroup;
+            let group = Object.assign({}, routeGroups[activeKey] || routeGroups.main);
+            
+            if (showTabs && activeKey === 'main') {
+                group.name = "Trasa Główna";
+                group.shortName = "Główna";
+            }
+            
+            let selectHtml = '';
+            
+            if (showTabs) {
+                selectHtml = `
+                    <div class="mb-6 bg-light-card dark:bg-dark-card p-4 rounded-3xl border border-primary/15 shadow-sm">
+                        <p class="text-[10px] font-black uppercase tracking-[0.15em] text-primary mb-3 text-center">Wybierz swoją grupę:</p>
+                        <div id="group-scroll-container" class="flex overflow-x-auto gap-2 pb-2 no-scrollbar -mx-2 px-2 snap-x scroll-smooth">
+                `;
+                
+                const orderedKeys = ['main', 'augustow', 'galindia', 'jacwiez', 'sambia', 'suwalki'];
+                
+                for (const key of orderedKeys) {
+                    const val = routeGroups[key];
+                    if (!val) continue;
+                    const isActive = activeKey === key;
+                    const displayName = (key === 'main') ? "Główna" : val.shortName;
+                    selectHtml += `
+                        <button id="group-btn-${key}" onclick="setActiveBrowsingGroup('${key}')" 
+                                class="snap-center shrink-0 py-2.5 px-5 rounded-full font-bold text-xs uppercase tracking-wider transition-all border whitespace-nowrap ${
+                                    isActive 
+                                    ? 'bg-primary text-white border-primary shadow-md' 
+                                    : 'bg-primary/5 dark:bg-primary/10 text-light-text dark:text-dark-text border-transparent active:scale-95'
+                                }">
+                            ${displayName}
+                        </button>
+                    `;
+                }
+                selectHtml += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            let daysHtml = '';
+            let absoluteDayIndex = 1;
+
+            if (group.prefixDays && group.prefixDays.length > 0) {
+                daysHtml += `<p class="text-xs font-black uppercase tracking-widest text-primary mb-3 mt-4 text-center">Trasa dojściowa</p>`;
+                group.prefixDays.forEach((pref, idx) => {
+                    daysHtml += `
+                        <div onclick="renderPrefixDayDetail('${activeKey}', ${idx})" class="bg-light-card dark:bg-dark-card p-5 rounded-2xl border border-primary/10 shadow-sm flex justify-between items-center active:scale-95 transition-all cursor-pointer mb-3">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-lg text-primary">Dzień ${absoluteDayIndex}</span>
+                                <span class="text-xs opacity-60 font-semibold">${pref.date}</span>
+                            </div>
+                            <span class="text-primary opacity-50">❯</span>
+                        </div>
+                    `;
+                    absoluteDayIndex++;
+                });
+            }
+
+            if (group.prefixDays && group.prefixDays.length > 0) {
+                daysHtml += `<p class="text-xs font-black uppercase tracking-widest text-primary mb-3 mt-6 text-center">Trasa wspólna</p>`;
+            }
+
+            const startOffset = group.startDayOffset || 0;
+            for (let i = 1 + startOffset; i <= 15; i++) {
+                const formattedDate = getMainDayDate(i);
+
+                daysHtml += `
+                    <div onclick="renderDayDetail(${i}, '${formattedDate}', ${absoluteDayIndex})" class="bg-light-card dark:bg-dark-card p-5 rounded-2xl border border-primary/10 shadow-sm flex justify-between items-center active:scale-95 transition-all cursor-pointer mb-3">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-lg text-primary">Dzień ${absoluteDayIndex}</span>
+                            <span class="text-xs opacity-60 font-semibold">${formattedDate}</span>
+                        </div>
+                        <span class="text-primary opacity-50">❯</span>
+                    </div>
+                `;
+                absoluteDayIndex++;
+            }
+
+            let footerTip = '';
+            if (!showTabs) {
+                footerTip = `
+                    <div class="mt-8 text-center p-4 bg-primary/5 border border-primary/10 rounded-2xl">
+                        <p class="text-xs font-semibold opacity-85">Widzisz dedykowany plan grupy: <span class="text-primary font-black">${group.name}</span>.</p>
+                        <button onclick="renderView('more')" class="mt-2.5 text-xs font-black text-primary hover:underline uppercase tracking-wider">Zmień wybraną grupę w Opcjach ⚙️</button>
+                    </div>
+                `;
+            }
+
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('dashboard')" class="mb-4 text-primary font-bold text-xs uppercase">❮ Powrót</button>
+                    <h2 class="text-2xl font-bold mb-6 text-primary uppercase">Harmonogram Trasy</h2>
+                    ${selectHtml}
+                    <div class="mt-4">${daysHtml}</div>
+                    ${footerTip}
+                </div>
+            `;
+
+            if (showTabs) {
+                setTimeout(() => {
+                    const container = document.getElementById('group-scroll-container');
+                    const activeBtn = document.getElementById(`group-btn-${activeKey}`);
+                    if (container && activeBtn) {
+                        const containerHalfWidth = container.clientWidth / 2;
+                        const btnHalfWidth = activeBtn.clientWidth / 2;
+                        const btnLeft = activeBtn.offsetLeft;
+                        
+                        container.scrollTo({
+                            left: btnLeft - containerHalfWidth + btnHalfWidth,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 80);
+            }
+        }
+
+        function renderPrefixDayDetail(groupKey, prefixIdx) {
+            const showTabs = (currentGroup === 'all');
+            let group = Object.assign({}, routeGroups[groupKey]);
+            if (showTabs && groupKey === 'main') {
+                group.name = "Trasa Główna";
+                group.shortName = "Główna";
+            }
+            const pref = group.prefixDays[prefixIdx];
+            const displayDayNum = prefixIdx + 1;
+            const img1 = `img/${groupKey}_dojscie${displayDayNum}_1.jpg`;
+            const img2 = `img/${groupKey}_dojscie${displayDayNum}_2.jpg`;
+            const fallback = `https://placehold.co/600x400/b99b6b/ffffff?text=${group.shortName}+Dzień+${displayDayNum}`;
+
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('route')" class="mb-6 text-primary font-bold flex items-center gap-2 py-2 px-4 bg-primary/10 rounded-full w-fit text-sm">
+                        <span>❮</span> Powrót do trasy
+                    </button>
+                    <div class="flex flex-col gap-2 mb-4">
+                        <div class="flex items-center justify-between gap-4">
+                            <h2 class="text-2xl font-black text-primary uppercase leading-tight">Dzień ${displayDayNum}</h2>
+                            <span class="bg-primary/20 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">${group.name}</span>
+                        </div>
+                    </div>
+                    <p class="text-xs font-bold opacity-60 mb-6 uppercase tracking-widest">${pref.date} — Trasa Dojściowa</p>
+                    <div class="space-y-6">
+                        <div class="bg-light-card dark:bg-dark-card p-2 rounded-3xl shadow-lg border border-primary/10 overflow-hidden">
+                            <p class="p-3 text-[10px] font-bold uppercase opacity-50 text-center">Harmonogram postojów</p>
+                            <img src="${img1}" onerror="this.src='${fallback}'" class="w-full h-auto rounded-2xl" alt="Harmonogram postojów">
+                        </div>
+                        <div class="bg-light-card dark:bg-dark-card p-2 rounded-3xl shadow-lg border border-primary/10 overflow-hidden">
+                            <p class="p-3 text-[10px] font-bold uppercase opacity-50 text-center">Mapa trasy</p>
+                            <img src="${img2}" onerror="this.src='${fallback}'" class="w-full h-auto rounded-2xl" alt="Mapa trasy">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDayDetail(day, date, displayDayNum) {
+            const activeKey = currentGroup === 'all' ? activeBrowsingGroup : currentGroup;
+            const showTabs = (currentGroup === 'all');
+            let group = Object.assign({}, routeGroups[activeKey] || routeGroups.main);
+            if (showTabs && activeKey === 'main') {
+                group.name = "Trasa Główna";
+                group.shortName = "Główna";
+            }
+            const img1 = `img/dzien${day}_1.jpg`;
+            const img2 = `img/dzien${day}_2.jpg`;
+            const fallback = `https://placehold.co/600x400/b99b6b/ffffff?text=Dzień+${displayDayNum}+(${date})`;
+
+            document.getElementById('view-content').innerHTML = `
+                <div class="fade-in">
+                    <button onclick="renderView('route')" class="mb-6 text-primary font-bold flex items-center gap-2 py-2 px-4 bg-primary/10 rounded-full w-fit text-sm">
+                        <span>❮</span> Powrót do trasy
+                    </button>
+                    <div class="flex flex-col gap-2 mb-4">
+                        <div class="flex items-center justify-between gap-4">
+                            <h2 class="text-2xl font-black text-primary uppercase leading-tight">Dzień ${displayDayNum}</h2>
+                            <span class="bg-accent/20 text-accent dark:text-emerald-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">${group.name}</span>
+                        </div>
+                    </div>
+                    <p class="text-xs font-bold opacity-60 mb-6 uppercase tracking-widest">${date} — Trasa Wspólna</p>
+                    <div class="space-y-6">
+                        <div class="bg-light-card dark:bg-dark-card p-2 rounded-3xl shadow-lg border border-primary/10 overflow-hidden">
+                            <p class="p-3 text-[10px] font-bold uppercase opacity-50 text-center">Harmonogram postojów</p>
+                            <img src="${img1}" onerror="this.src='${fallback}'" class="w-full h-auto rounded-2xl" alt="Harmonogram postojów">
+                        </div>
+                        <div class="bg-light-card dark:bg-dark-card p-2 rounded-3xl shadow-lg border border-primary/10 overflow-hidden">
+                            <p class="p-3 text-[10px] font-bold uppercase opacity-50 text-center">Mapa trasy</p>
+                            <img src="${img2}" onerror="this.src='${fallback}'" class="w-full h-auto rounded-2xl" alt="Mapa trasy">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeModal() {
+            document.getElementById('welcome-modal').classList.add('hidden');
+            safeStorage.setItem('epp_beta_visited', 'true');
+        }
+
+        function openInstallModal() {
+            const modal = document.getElementById('install-modal');
+            const content = document.getElementById('install-modal-content');
+            const installBtn = document.getElementById('modal-install-btn');
+            
+            modal.classList.remove('hidden');
+            
+            const isInstalled = isRunningStandalone();
+            const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isAndroid = /Android/.test(navigator.userAgent);
+            
+            if (isInstalled) {
+                content.innerHTML = `
+                    <div class="text-center py-4 fade-in">
+                        <span class="text-5xl mb-4 block">🎉</span>
+                        <p class="font-bold text-accent dark:text-emerald-400 text-lg mb-1">Skrót aktywny!</p>
+                        <p class="text-xs opacity-70">Aplikacja została poprawnie otwarta bezpośrednio z pulpitu Twojego telefonu. Pracuje niezależnie i zapisuje wszystkie dane lokalnie.</p>
+                    </div>
+                `;
+                installBtn.classList.add('hidden');
+                return;
+            }
+            
+            if (deferredPrompt) {
+                content.innerHTML = `
+                    <div class="space-y-3 fade-in">
+                        <p class="font-bold text-primary">Zainstaluj jako skrót na pulpicie</p>
+                        <p class="text-xs opacity-80 leading-relaxed">Kliknij przycisk poniżej, aby automatycznie dodać ikonę EPP 2026 na ekran główny swojego telefonu. Zyskasz do niej natychmiastowy dostęp o każdej porze.</p>
+                        <div class="p-3 bg-primary/5 border border-primary/10 rounded-xl flex items-center gap-3">
+                            <span class="text-2xl">⚡</span>
+                            <span class="text-xs font-semibold">Szybkie dodawanie jednym kliknięciem bez pobierania ze sklepów z aplikacjami.</span>
+                        </div>
+                    </div>
+                `;
+                installBtn.classList.remove('hidden');
+                installBtn.innerText = 'Dodaj automatycznie';
+            } else if (isiOS) {
+                content.innerHTML = `
+                    <div class="space-y-4 fade-in">
+                        <p class="font-bold text-primary">Instrukcja dla Apple iOS (iPhone/iPad):</p>
+                        <p class="text-xs opacity-80 leading-relaxed">Dodaj skrót do pulpitu ręcznie za pomocą systemowej opcji w Safari:</p>
+                        <div class="space-y-3">
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                                <p class="text-xs">Kliknij przycisk <strong>Udostępnij</strong> <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">📤</span> na dole ekranu w Safari.</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+                                <p class="text-xs">Przesuń listę opcji w dół i wybierz <strong>„Dodaj do ekranu początkowego”</strong> <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">➕</span>.</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+                                <p class="text-xs">Kliknij przycisk <strong>Dodaj</strong> w prawym górnym rogu ekranu.</p>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-accent/5 border border-accent/10 rounded-xl text-[11px] text-accent dark:text-emerald-400 font-semibold flex items-center gap-2 leading-relaxed">
+                            <span>💡</span> Upewnij się, że otwierasz tę stronę bezpośrednio w domyślnej przeglądarce Safari.
+                        </div>
+                    </div>
+                `;
+                installBtn.classList.add('hidden');
+            } else if (isAndroid) {
+                content.innerHTML = `
+                    <div class="space-y-4 fade-in">
+                        <p class="font-bold text-primary">Instrukcja dla systemu Android (Chrome):</p>
+                        <div class="space-y-3">
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                                <p class="text-xs">Kliknij ikonę menu <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">⋮</span> (trzy kropki) w prawym górnym rogu przeglądarki Chrome.</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+                                <p class="text-xs">Wybierz z listy opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+                                <p class="text-xs">Potwierdź wybór przyciskiem <strong>„Dodaj”</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                installBtn.classList.add('hidden');
+            } else {
+                content.innerHTML = `
+                    <div class="space-y-4 fade-in">
+                        <p class="font-bold text-primary">Dodaj skrót do ekranu głównego:</p>
+                        <div class="space-y-3">
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                                <p class="text-xs">Otwórz menu ustawień swojej przeglądarki (zazwyczaj ikona z trzema kropkami lub kołem zębatym).</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+                                <p class="text-xs">Kliknij opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                installBtn.classList.add('hidden');
+            }
+        }
+
+        function closeInstallModal() {
+            document.getElementById('install-modal').classList.add('hidden');
+        }
+
+        async function triggerNativeInstall() {
+            if (!deferredPrompt) return;
+            
+            closeInstallModal();
+            const result = await deferredPrompt.prompt();
+            console.log(`Wybrany status instalacji: ${result.outcome}`);
+            deferredPrompt = null;
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const activeNav = document.querySelector('.tab-active');
+            if (activeNav && activeNav.id === 'nav-dashboard') {
+                renderDashboard();
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            showToast("Skrót pomyślnie dodany do ekranu głównego!", 'success');
+            renderView('dashboard');
+        });
+
+        window.onload = () => {
+            const savedTheme = safeStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                const toggle = document.getElementById('theme-toggle');
+                if (toggle) toggle.checked = true;
+            }
+
+            if (!safeStorage.getItem('epp_beta_visited')) {
+                const step1 = document.getElementById('welcome-step-1');
+                const step2 = document.getElementById('welcome-step-2');
+                if (step1) step1.classList.remove('hidden');
+                if (step2) step2.classList.add('hidden');
+                document.getElementById('welcome-modal').classList.remove('hidden');
+            }
+
+            renderView('dashboard');
+        };
+    </script>
+</body>
+</html>
