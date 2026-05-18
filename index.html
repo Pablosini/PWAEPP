@@ -6,13 +6,19 @@
     <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
     <meta name="color-scheme" content="light dark">
     
+    <!-- Dynamiczny theme-color dla paska statusu na Androidzie (zarządzany też przez JS) -->
+    <meta name="theme-color" id="android-theme-color" content="#fcfaf7">
+    
+    <!-- Link do manifestu PWA (wymagany dla Androida do uruchamiania w trybie pełnoekranowym bez paska adresowego) -->
+    <link rel="manifest" href="/PWAEPP/manifest.json">
+    
     <!-- Meta tagi dedykowane dla Apple iOS (wymagane do poprawnego działania standalone offline) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="EPP 2026">
     
-    <!-- Uniwersalna wektorowa ikona startowa Apple (generowana dynamicznie offline) -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='100%' height='100%' fill='%234a6741'/><text x='50%' y='55%' font-family='sans-serif' font-size='90' fill='%23b99b6b' text-anchor='middle' dominant-baseline='middle'>🙏</text></svg>">
+    <!-- Uniwersalna ikona Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="https://img.icons8.com/emoji/192/000000/folded-hands-medium-light-skin-tone.png">
 
     <title>EPP 2026 - Aplikacja Pielgrzyma</title>
     
@@ -102,7 +108,7 @@
         .bg-gray-200 { background-color: var(--gray-light) !important; }
         html.dark .dark\:bg-zinc-800 { background-color: var(--gray-dark) !important; }
 
-        /* Główne reguły układu (bez !important, aby .hidden zawsze wygrywał) */
+        /* Główne reguły układu */
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
@@ -144,9 +150,9 @@
         .border-b { border-bottom-width: 1px !important; border-bottom-style: solid !important; }
         .border-t { border-top-width: 1px !important; border-top-style: solid !important; }
 
-        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island */
+        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android status bar zlewający się */
         .safe-top {
-            padding-top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+            padding-top: calc(env(safe-area-inset-top, 0px) + 16px) !important;
         }
 
         /* Typography sizing */
@@ -189,7 +195,7 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips)
+        // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips / Android Webapps)
         const safeStorage = {
             fallbackStore: {},
             getItem(key) {
@@ -199,7 +205,7 @@
                     if (val !== null) return val;
                 } catch (e) {}
                 
-                // 2. Fallback na pliki Cookie (kluczowe dla trwałego zapisu w iOS Safari)
+                // 2. Fallback na pliki Cookie
                 try {
                     const nameEQ = key + "=";
                     const ca = document.cookie.split(';');
@@ -219,7 +225,7 @@
                     localStorage.setItem(key, value);
                 } catch (e) {}
 
-                // 2. Zapisz w Cookies z rocznym okresem ważności (gwarantuje pamięć w iOS standalone)
+                // 2. Zapisz w Cookies z rocznym okresem ważności
                 try {
                     const date = new Date();
                     date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
@@ -353,8 +359,8 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
 
-    <!-- Header Section (Zastosowano bezpieczną strefę safe-top dla obsługi Notch / Dynamic Island) -->
-    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center border-b border-primary/10 shadow-sm">
+    <!-- Header Section (Zastosowano bezpieczną strefę safe-top oraz dynamiczne dopasowanie do Dynamic Island i pasków powiadomień) -->
+    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center border-b border-primary/10 shadow-sm transition-all duration-300">
         <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
             <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
             <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Wersja Beta Aplikacji</p>
@@ -680,10 +686,19 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23b99b6b"/><text x="50%" y="45%" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle">${encodeURIComponent(text)}</text><text x="50%" y="58%" font-family="sans-serif" font-size="16" fill="%23ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">Brak połączenia sieciowego (Offline)</text></svg>`;
         }
 
+        // Funkcja do dynamicznej zmiany koloru paska statusu Android na poziomie systemowym
+        function updateAndroidStatusBarColor(isDarkMode) {
+            const metaTheme = document.getElementById('android-theme-color');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', isDarkMode ? '#121212' : '#fcfaf7');
+            }
+        }
+
         function toggleTheme() {
             const isDark = document.getElementById('theme-toggle').checked;
             document.documentElement.classList.toggle('dark', isDark);
             safeStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateAndroidStatusBarColor(isDark);
         }
 
         function getBibleQuote() {
@@ -1479,7 +1494,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         });
 
         // -------------------------------------------------------------
-        // REJESTRACJA SERVICE WORKERA (iOS SAFARI)
+        // REJESTRACJA SERVICE WORKERA (iOS SAFARI & ANDROID BROWSERS)
         // Ścieżki na sztywno spięte pod Twoją domenę /PWAEPP/
         // -------------------------------------------------------------
         if ('serviceWorker' in navigator) {
@@ -1497,10 +1512,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 
                 navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
                     .then((registration) => {
-                        console.log('Apple Service Worker zainstalowany z dedykowanego zakresu GitHub Pages:', registration.scope);
+                        console.log('Service Worker zainstalowany z dedykowanego zakresu GitHub Pages:', registration.scope);
                     })
                     .catch((error) => {
-                        console.warn('Ograniczenia systemowe Safari zablokowały Service Workera. Fallback pamięci ciasteczkowej czuwa nad działaniem aplikacji offline.', error);
+                        console.warn('Ograniczenia przeglądarki zablokowały Service Workera. Fallback pamięci ciasteczkowej czuwa nad działaniem aplikacji offline.', error);
                     });
             });
         }
@@ -1511,6 +1526,9 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 const toggle = document.getElementById('theme-toggle');
                 if (toggle) toggle.checked = true;
             }
+
+            // Inicjalizacja prawidłowego koloru paska statusu Android na starcie
+            updateAndroidStatusBarColor(savedTheme === 'dark');
 
             if (!safeStorage.getItem('epp_beta_visited')) {
                 const step1 = document.getElementById('welcome-step-1');
