@@ -102,7 +102,7 @@
         .bg-gray-200 { background-color: var(--gray-light) !important; }
         html.dark .dark\:bg-zinc-800 { background-color: var(--gray-dark) !important; }
 
-        /* Główne reguły układu */
+        /* Główne reguły układu (bez !important, aby .hidden zawsze wygrywał) */
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
@@ -143,6 +143,11 @@
         .border { border-width: 1px !important; border-style: solid !important; border-color: var(--border-color); }
         .border-b { border-bottom-width: 1px !important; border-bottom-style: solid !important; }
         .border-t { border-top-width: 1px !important; border-top-style: solid !important; }
+
+        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island */
+        .safe-top {
+            padding-top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+        }
 
         /* Typography sizing */
         .font-bold { font-weight: 700 !important; }
@@ -346,10 +351,10 @@
     </div>
 
     <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-20 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
+    <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
 
-    <!-- Header Section -->
-    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 py-4 flex justify-between items-center border-b border-primary/10 shadow-sm">
+    <!-- Header Section (Zastosowano bezpieczną strefę safe-top dla obsługi Notch / Dynamic Island) -->
+    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center border-b border-primary/10 shadow-sm">
         <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
             <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
             <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Wersja Beta Aplikacji</p>
@@ -1474,7 +1479,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         });
 
         // -------------------------------------------------------------
-        // DEDYKOWANA REJESTRACJA SERVICE WORKERA (iOS SAFARI)
+        // REJESTRACJA SERVICE WORKERA (iOS SAFARI)
         // Ścieżki na sztywno spięte pod Twoją domenę /PWAEPP/
         // -------------------------------------------------------------
         if ('serviceWorker' in navigator) {
