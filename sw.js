@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v6';
+const CACHE_NAME = 'epp-pwa-cache-v7';
 
 // Ścieżka bazowa na stałe powiązana z Twoim adresem repozytorium na GitHub Pages
 const scopePath = '/PWAEPP/';
