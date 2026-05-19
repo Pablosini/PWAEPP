@@ -18,7 +18,7 @@
     <meta name="apple-mobile-web-app-title" content="EPP 2026">
     
     <!-- Dedykowana ikona Apple Touch Icon - odwołuje się do Twojego pliku logo.png w repozytorium -->
-    <link rel="apple-touch-icon" href="/PWAEPP/logo.png">
+    <link class="apple-touch-icon" rel="apple-touch-icon" href="/PWAEPP/logo.png">
 
     <title>EPP 2026 - Aplikacja Pielgrzyma</title>
     
@@ -450,7 +450,7 @@
             "Anioł Stróż niech toruje Twoje ścieżki.",
             "Pokój i Dobro na dzisiejszy etap!",
             "Ofiaruj swój dzisiejszy trud w intencji bliskich.",
-            "Nie jesteś sam - idziemy we wspaniałej wspólnocie.",
+            "Nie jestes sam - idziemy we wspaniałej wspólnocie.",
             "Otwórz serce na Słowo Boże i piękno otaczającej przyrody."
         ];
 
@@ -931,10 +931,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             updateListResults(type);
         }
 
-        function hideNav() {
-            document.getElementById('bottom-nav').classList.add('nav-hidden');
-        }
-
+        // Pokazywanie menu
         function showNav() {
             setTimeout(() => {
                 document.getElementById('bottom-nav').classList.remove('nav-hidden');
@@ -1093,7 +1090,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
                             <p>Każdy zapisany pielgrzym otrzymuje znaczek i kartę uczestnictwa, które nosi ze sobą.</p>
                             
-                            <p><strong>Noclegi:</strong> przede wszystkim u gospodarzy lub w szkołach i remizach strażackich, w razie potrzeby w namiotach. Noclegi są zawsze oddzielne dla sióstr i braci. Zachowanie ciszy nocnej po 22.30 jest podstawowym obowiązkiem wynikowym z zachowania miłości bliźniego.</p>
+                            <p><strong>Noclegi:</strong> przede wszystkim u gospodarzy lub w szkołach i remizach strażackich, w razie potrzeby w namiotach. Noclegi są zawsze oddzielne dla sióstr i braci. Zachowanie ciszy nocnej po 22.30 jest podstawowym obowiązkiem wynikającym z zachowania miłości bliźniego.</p>
                             
                             <p><strong>Wyżywienie:</strong> Kierownictwo pielgrzymki organizuje zakup chleba, który można otrzymać w miejscach noclegu. Kuchnia pielgrzymkowa przygotowuje kawę i herbatę. Zabieramy ze sobą odpowiednią ilość suchego prowiantu. Na pielgrzymce nie wolno spożywać lodów, ma to uzasadnienie w wyrzeczeniu się przyjemności i ochronie przed ewentualnym zatruciem.</p>
                             
@@ -1395,24 +1392,34 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             } else if (isiOS) {
                 content.innerHTML = `
                     <div class="space-y-4 fade-in">
-                        <p class="font-bold text-primary">Instrukcja dla Apple iOS (iPhone/iPad):</p>
-                        <p class="text-xs opacity-80 leading-relaxed">Dodaj skrót do pulpitu ręcznie za pomocą systemowej opcji w Safari:</p>
-                        <div class="space-y-3">
-                            <div class="flex gap-3 items-start">
+                        <p class="font-bold text-primary text-sm uppercase tracking-wider text-left">Instrukcja dla Apple iOS (Safari):</p>
+                        <p class="text-xs opacity-80 leading-relaxed text-left">Aby zainstalować aplikację na ekranie głównym iPhone'a lub iPada:</p>
+                        <div class="space-y-3.5 text-left">
+                            <div class="flex gap-3.5 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <p class="text-xs">Kliknij przycisk <strong>Udostępnij</strong> <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">📤</span> na dole ekranu w Safari.</p>
+                                <div class="text-xs">
+                                    <p class="font-bold">Otwórz menu udostępniania</p>
+                                    <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="inline-flex items-center gap-1 bg-primary/10 text-primary px-1.5 py-0.5 rounded font-semibold">Udostępnij <svg class="w-3.5 h-3.5 inline ml-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></strong> na dolnym pasku narzędzi Safari.</p>
+                                    <p class="text-[10px] opacity-50 mt-1"><em>Wskazówka: W nowym iOS (iOS 15+) pasek ten domyślnie znajduje się na samym dole ekranu (lub na górze na iPadach).</em></p>
+                                </div>
                             </div>
-                            <div class="flex gap-3 items-start">
+                            <div class="flex gap-3.5 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs">Przesuń listę opcji w dół i wybierz <strong>„Dodaj do ekranu początkowego”</strong> <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">➕</span>.</p>
+                                <div class="text-xs">
+                                    <p class="font-bold">Wybierz opcję zapisu</p>
+                                    <p class="opacity-75 mt-0.5">Przewiń listę opcji w dół i stuknij <strong class="inline-flex items-center gap-1 bg-primary/10 text-primary px-1.5 py-0.5 rounded font-semibold font-bold">Dodaj do ekranu początkowego <svg class="w-3.5 h-3.5 inline ml-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></strong>.</p>
+                                </div>
                             </div>
-                            <div class="flex gap-3 items-start">
+                            <div class="flex gap-3.5 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
-                                <p class="text-xs">Kliknij przycisk <strong>Dodaj</strong> w prawym górnym rogu ekranu.</p>
+                                <div class="text-xs">
+                                    <p class="font-bold">Potwierdź dodanie</p>
+                                    <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="text-primary font-bold">Dodaj</strong> w prawym górnym rogu ekranu, aby sfinalizować instalację.</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="p-3 bg-accent/5 border border-accent/10 rounded-xl text-[11px] text-accent dark:text-emerald-400 font-semibold flex items-center gap-2 leading-relaxed">
-                            <span>💡</span> Upewnij się, że otwierasz tę stronę bezpośrednio w domyślnej przeglądarce Safari.
+                        <div class="p-3 bg-accent/5 border border-accent/10 rounded-xl text-[11px] text-accent dark:text-emerald-400 font-semibold flex items-center gap-2 leading-relaxed text-left">
+                            <span>💡</span> Pamiętaj, aby otworzyć tę stronę bezpośrednio w domyślnej przeglądarce <strong>Safari</strong>. Inne przeglądarki (np. Chrome na iOS) nie obsługują instalacji aplikacji offline na ekranie głównym.
                         </div>
                     </div>
                 `;
@@ -1424,15 +1431,15 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         <div class="space-y-3">
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <p class="text-xs">Kliknij ikonę menu <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">⋮</span> (trzy kropki) w prawym górnym rogu przeglądarki Chrome.</p>
+                                <p class="text-xs text-left">Kliknij ikonę menu <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">⋮</span> (trzy kropki) w prawym górnym rogu przeglądarki Chrome.</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs">Wybierz z listy opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
+                                <p class="text-xs text-left">Wybierz z listy opcję <strong>„Dodaj do ekranu głównego”</strong> lub <strong>„Zainstaluj aplikację”</strong>.</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
-                                <p class="text-xs">Potwierdź wybór przyciskiem <strong>„Dodaj”</strong>.</p>
+                                <p class="text-xs text-left">Potwierdź wybór przyciskiem <strong>„Dodaj”</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -1445,11 +1452,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         <div class="space-y-3">
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <p class="text-xs">Otwórz menu ustawień swojej przeglądarki (zazwyczaj ikona z trzema kropkami lub kołem zębatym).</p>
+                                <p class="text-xs text-left">Otwórz menu ustawień swojej przeglądarki (zazwyczaj ikona z trzema kropkami lub kołem zębatym).</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs">Kliknij opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
+                                <p class="text-xs text-left">Kliknij opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
                             </div>
                         </div>
                     </div>
