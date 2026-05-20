@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
-    <meta name=z"color-scheme" content="light dark">
+    <meta name="color-scheme" content="light dark">
     
     <!-- Dynamiczny theme-color dla paska statusu na Androidzie (zarządzany też przez JS) -->
     <meta name="theme-color" id="android-theme-color" content="#fcfaf7">
@@ -73,12 +73,14 @@
             --border-color: rgba(185, 155, 107, 0.25);
         }
 
-        body { 
+        html, body { 
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden; 
             background-color: var(--bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
+            /* Wymuszenie pokrycia 100% tła zapobiega pojawianiu się dziwnych pasków nawigacyjnych na Androidzie */
+            height: 100%;
             /* Blokada przesuwania całej strony "overscroll" na smartfonach */
             overscroll-behavior-y: none;
         }
@@ -154,12 +156,13 @@
 
         /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android zlewający się idealnie */
         .safe-top {
-            padding-top: calc(env(safe-area-inset-top, 0px) + 16px) !important;
+            /* max() wymusza minimum 36px na Androidzie (gwarantuje, że przyciski nie wejdą na godzinę/baterię), a na nowszych iOS poprawnie wdroży env() */
+            padding-top: max(env(safe-area-inset-top, 0px) + 12px, 36px) !important;
         }
 
         /* Safe Area Padding DOLNY dla wygody gestów i przycisków na Androidzie i iOS */
         .safe-bottom-nav {
-            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
+            padding-bottom: max(env(safe-area-inset-bottom, 0px) + 14px, 24px) !important;
         }
 
         /* Typography sizing */
@@ -202,7 +205,7 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Globalny stan wersji aplikacji - dynamicznie mapowany z pliku sw.js lub domyślny fallback
+        // Globalny stan wersji aplikacji - domyślnie 1.0.0 bez dopisków
         let appActiveVersion = 'Wersja 1.0.0';
 
         // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips / Android Webapps)
@@ -369,8 +372,8 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
 
-    <!-- Header Section (Zastosowano bezpieczną strefę safe-top oraz dynamiczne dopasowanie do Dynamic Island i pasków powiadomień bez separatora) -->
-    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center transition-all duration-300">
+    <!-- Header Section (Zastosowano bg-light-bg/bg-dark-bg aby nie było widać odcęcia od reszty aplikacji!) -->
+    <header class="sticky top-0 z-50 bg-light-bg/95 dark:bg-dark-bg/95 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center transition-all duration-300">
         <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
             <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
             <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Wersja Beta Aplikacji</p>
@@ -1516,7 +1519,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderView('dashboard');
         });
 
-        // Dynamiczne wyciąganie aktywnej wersji z pamięci podręcznej Service Workera
+        // Dynamiczne wyciąganie aktywnej wersji z pamięci podręcznej Service Workera bez zbędnych dopisków
         function triggerDynamicVersionDisplay() {
             setTimeout(() => {
                 if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -1524,7 +1527,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         const activeCacheKey = keys.find(k => k.startsWith('epp-pwa-cache'));
                         if (activeCacheKey) {
                             const versionNum = activeCacheKey.replace('epp-pwa-cache-v', '');
-                            appActiveVersion = `Wersja v${versionNum} (PWA Offline)`;
+                            // Usunięto tekst "(PWA Offline)", zostaje samo "Wersja X.X.X"
+                            appActiveVersion = `Wersja ${versionNum}`;
                         }
                         updateVersionTextDom();
                     });
