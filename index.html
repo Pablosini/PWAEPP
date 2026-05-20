@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
+    <!-- Zapobiega wymuszenemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
     <meta name="color-scheme" content="light dark">
     
     <!-- Dynamiczny theme-color dla paska statusu na Androidzie (zarządzany też przez JS) -->
@@ -17,8 +17,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="EPP 2026">
     
-    <!-- Dedykowana ikona Apple Touch Icon - odwołuje się do Twojego pliku logo.png w repozytorium -->
-    <link class="apple-touch-icon" rel="apple-touch-icon" href="/PWAEPP/logo.png">
+    <!-- Uniwersalna wektorowa ikona startowa Apple (generowana dynamicznie offline) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='100%' height='100%' fill='%234a6741'/><text x='50%' y='55%' font-family='sans-serif' font-size='90' fill='%23b99b6b' text-anchor='middle' dominant-baseline='middle'>🙏</text></svg>">
 
     <title>EPP 2026 - Aplikacja Pielgrzyma</title>
     
@@ -79,8 +79,6 @@
             background-color: var(--bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
-            /* Blokada przesuwania całej strony "overscroll" na smartfonach */
-            overscroll-behavior-y: none;
         }
 
         /* Klasy kompatybilności wstecznej (gdy Tailwind nie jest załadowany) */
@@ -152,14 +150,9 @@
         .border-b { border-bottom-width: 1px !important; border-bottom-style: solid !important; }
         .border-t { border-top-width: 1px !important; border-top-style: solid !important; }
 
-        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android zlewający się idealnie */
+        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android status bar zlewający się */
         .safe-top {
             padding-top: calc(env(safe-area-inset-top, 0px) + 16px) !important;
-        }
-
-        /* Safe Area Padding DOLNY dla wygody gestów i przycisków na Androidzie i iOS */
-        .safe-bottom-nav {
-            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
         }
 
         /* Typography sizing */
@@ -202,9 +195,6 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Globalny stan wersji aplikacji - dynamicznie mapowany z pliku sw.js lub domyślny fallback
-        let appActiveVersion = 'Wersja 1.0.0';
-
         // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips / Android Webapps)
         const safeStorage = {
             fallbackStore: {},
@@ -369,8 +359,8 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
 
-    <!-- Header Section (Zastosowano bezpieczną strefę safe-top oraz dynamiczne dopasowanie do Dynamic Island i pasków powiadomień bez separatora) -->
-    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center transition-all duration-300">
+    <!-- Header Section (Zastosowano bezpieczną strefę safe-top oraz dynamiczne dopasowanie do Dynamic Island i pasków powiadomień) -->
+    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center border-b border-primary/10 shadow-sm transition-all duration-300">
         <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
             <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
             <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Wersja Beta Aplikacji</p>
@@ -391,8 +381,8 @@
         <div id="view-content" class="fade-in"></div>
     </main>
 
-    <!-- Bottom Navigation Bar - ukryte na dashboardzie, z bezpieczną strefą pod gesty smartfona -->
-    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pt-2 safe-bottom-nav shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200 z-40">
+    <!-- Bottom Navigation Bar - hidden on dashboard by default -->
+    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pb-6 pt-2 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200 z-40">
         <button onclick="renderView('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
             <span class="text-2xl">🏠</span>
             <span>Start</span>
@@ -696,7 +686,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23b99b6b"/><text x="50%" y="45%" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle">${encodeURIComponent(text)}</text><text x="50%" y="58%" font-family="sans-serif" font-size="16" fill="%23ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">Brak połączenia sieciowego (Offline)</text></svg>`;
         }
 
-        // Funkcja do dynamicznej zmiany koloru paska statusu Android na poziomie systemowym
+        // Funkcja do dynamicznej zmiany koloru paska powiadomień w systemie Android
         function updateAndroidStatusBarColor(isDarkMode) {
             const metaTheme = document.getElementById('android-theme-color');
             if (metaTheme) {
@@ -708,6 +698,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             const isDark = document.getElementById('theme-toggle').checked;
             document.documentElement.classList.toggle('dark', isDark);
             safeStorage.setItem('theme', isDark ? 'dark' : 'light');
+            // Wywołanie aktualizacji paska systemowego Androida
             updateAndroidStatusBarColor(isDark);
         }
 
@@ -782,7 +773,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderRoute();
         }
 
-        // Sprawdza czy aplikacja działa w trybie pełnoekranowym
         function isRunningStandalone() {
             return (window.matchMedia('(display-mode: standalone)').matches) || 
                    (window.navigator.standalone) || 
@@ -912,12 +902,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         </div>
                     </div>
 
-                    <div class="mt-8 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-6 app-version-target">
-                        Wczytywanie wersji...
+                    <div class="mt-8 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-6">
+                        Wersja beta 1.1.0 <br> © 2026 PePe.Studio
                     </div>
                 </div>
             `;
-            triggerDynamicVersionDisplay();
         }
 
         function renderList(title, type) {
@@ -992,7 +981,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         function isSurveyUnlocked() {
             const today = new Date();
-            const unlockDate = new Date(today.getFullYear(), 7, 9); // 9 Sierpnia
+            const unlockDate = new Date(today.getFullYear(), 7, 9); // August 9th
             return today >= unlockDate;
         }
 
@@ -1074,12 +1063,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         </div>
                     </div>
 
-                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4 app-version-target">
-                        Wczytywanie wersji...
+                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4">
+                        Wersja beta 1.1.0 <br> © 2026 PePe.Studio
                     </div>
                 </div>
             `;
-            triggerDynamicVersionDisplay();
         }
 
         function renderRegulamin() {
@@ -1120,7 +1108,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                             
                             <p>W pielgrzymce działa poczta pielgrzymkowa, tam nabywamy kartki pocztowe, znaczki, jak również możemy tam zostawić korespondencję do wysłania.</p>
                             
-                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariacie pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
+                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariatek pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
                             
                             <p>Pątnicy idą w grupach, do których się zapisali.</p>
                             
@@ -1408,34 +1396,24 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             } else if (isiOS) {
                 content.innerHTML = `
                     <div class="space-y-4 fade-in">
-                        <p class="font-bold text-primary text-sm uppercase tracking-wider text-left">Instrukcja dla Apple iOS (Safari):</p>
-                        <p class="text-xs opacity-80 leading-relaxed text-left">Aby zainstalować aplikację na ekranie głównym iPhone'a lub iPada:</p>
-                        <div class="space-y-3.5 text-left">
-                            <div class="flex gap-3.5 items-start">
+                        <p class="font-bold text-primary">Instrukcja dla Apple iOS (iPhone/iPad):</p>
+                        <p class="text-xs opacity-80 leading-relaxed">Dodaj skrót do pulpitu ręcznie za pomocą systemowej opcji w Safari:</p>
+                        <div class="space-y-3">
+                            <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <div class="text-xs">
-                                    <p class="font-bold">Otwórz menu udostępniania</p>
-                                    <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="inline-flex items-center gap-1 bg-primary/10 text-primary px-1.5 py-0.5 rounded font-semibold">Udostępnij <svg class="w-3.5 h-3.5 inline ml-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></strong> na dolnym pasku narzędzi Safari.</p>
-                                    <p class="text-[10px] opacity-50 mt-1"><em>Wskazówka: W nowym iOS (iOS 15+) pasek ten domyślnie znajduje się na samym dole ekranu (lub na górze na iPadach).</em></p>
-                                </div>
+                                <p class="text-xs">Kliknij przycisk <strong>Udostępnij</strong> <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">📤</span> na dole ekranu w Safari.</p>
                             </div>
-                            <div class="flex gap-3.5 items-start">
+                            <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <div class="text-xs">
-                                    <p class="font-bold">Wybierz opcję zapisu</p>
-                                    <p class="opacity-75 mt-0.5">Przewiń listę opcji w dół i stuknij <strong class="inline-flex items-center gap-1 bg-primary/10 text-primary px-1.5 py-0.5 rounded font-semibold font-bold">Dodaj do ekranu początkowego <svg class="w-3.5 h-3.5 inline ml-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></strong>.</p>
-                                </div>
+                                <p class="text-xs">Przesuń listę opcji w dół i wybierz <strong>„Dodaj do ekranu początkowego”</strong> <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">➕</span>.</p>
                             </div>
-                            <div class="flex gap-3.5 items-start">
+                            <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
-                                <div class="text-xs">
-                                    <p class="font-bold">Potwierdź dodanie</p>
-                                    <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="text-primary font-bold">Dodaj</strong> w prawym górnym rogu ekranu, aby sfinalizować instalację.</p>
-                                </div>
+                                <p class="text-xs">Kliknij przycisk <strong>Dodaj</strong> w prawym górnym rogu ekranu.</p>
                             </div>
                         </div>
-                        <div class="p-3 bg-accent/5 border border-accent/10 rounded-xl text-[11px] text-accent dark:text-emerald-400 font-semibold flex items-center gap-2 leading-relaxed text-left">
-                            <span>💡</span> Pamiętaj, aby otworzyć tę stronę bezpośrednio w domyślnej przeglądarce <strong>Safari</strong>. Inne przeglądarki (np. Chrome na iOS) nie obsługują instalacji aplikacji offline na ekranie głównym.
+                        <div class="p-3 bg-accent/5 border border-accent/10 rounded-xl text-[11px] text-accent dark:text-emerald-400 font-semibold flex items-center gap-2 leading-relaxed">
+                            <span>💡</span> Upewnij się, że otwierasz tę stronę bezpośrednio w domyślnej przeglądarce Safari.
                         </div>
                     </div>
                 `;
@@ -1447,15 +1425,15 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         <div class="space-y-3">
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <p class="text-xs text-left">Kliknij ikonę menu <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">⋮</span> (trzy kropki) w prawym górnym rogu przeglądarki Chrome.</p>
+                                <p class="text-xs">Kliknij ikonę menu <span class="inline-block bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-semibold">⋮</span> (trzy kropki) w prawym górnym rogu przeglądarki Chrome.</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs text-left">Wybierz z listy opcję <strong>„Dodaj do ekranu głównego”</strong> lub <strong>„Zainstaluj aplikację”</strong>.</p>
+                                <p class="text-xs">Wybierz z listy opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
-                                <p class="text-xs text-left">Potwierdź wybór przyciskiem <strong>„Dodaj”</strong>.</p>
+                                <p class="text-xs">Potwierdź wybór przyciskiem <strong>„Dodaj”</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -1468,11 +1446,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         <div class="space-y-3">
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <p class="text-xs text-left">Otwórz menu ustawień swojej przeglądarki (zazwyczaj ikona z trzema kropkami lub kołem zębatym).</p>
+                                <p class="text-xs">Otwórz menu ustawień swojej przeglądarki (zazwyczaj ikona z trzema kropkami lub kołem zębatym).</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs text-left">Kliknij opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
+                                <p class="text-xs">Kliknij opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -1516,30 +1494,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderView('dashboard');
         });
 
-        // Dynamiczne wyciąganie aktywnej wersji z pamięci podręcznej Service Workera
-        function triggerDynamicVersionDisplay() {
-            setTimeout(() => {
-                if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                    caches.keys().then((keys) => {
-                        const activeCacheKey = keys.find(k => k.startsWith('epp-pwa-cache'));
-                        if (activeCacheKey) {
-                            const versionNum = activeCacheKey.replace('epp-pwa-cache-v', '');
-                            appActiveVersion = `Wersja v${versionNum} (PWA Offline)`;
-                        }
-                        updateVersionTextDom();
-                    });
-                } else {
-                    updateVersionTextDom();
-                }
-            }, 500);
-        }
-
-        function updateVersionTextDom() {
-            document.querySelectorAll('.app-version-target').forEach(el => {
-                el.innerHTML = `${appActiveVersion} <br> © 2026 PePe.Studio`;
-            });
-        }
-
         // -------------------------------------------------------------
         // REJESTRACJA SERVICE WORKERA (iOS SAFARI & ANDROID BROWSERS)
         // Ścieżki na sztywno spięte pod Twoją domenę /PWAEPP/
@@ -1554,6 +1508,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     return;
                 }
 
+                // Ścieżka bazowa podpięta bezpośrednio pod Twoje repozytorium GitHub
                 const basePath = '/PWAEPP/';
                 
                 navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
