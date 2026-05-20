@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
-    <meta name="color-scheme" content="light dark">
+    <meta name=z"color-scheme" content="light dark">
     
     <!-- Dynamiczny theme-color dla paska statusu na Androidzie (zarządzany też przez JS) -->
     <meta name="theme-color" id="android-theme-color" content="#fcfaf7">
@@ -79,6 +79,8 @@
             background-color: var(--bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
+            /* Blokada przesuwania całej strony "overscroll" na smartfonach */
+            overscroll-behavior-y: none;
         }
 
         /* Klasy kompatybilności wstecznej (gdy Tailwind nie jest załadowany) */
@@ -150,9 +152,14 @@
         .border-b { border-bottom-width: 1px !important; border-bottom-style: solid !important; }
         .border-t { border-top-width: 1px !important; border-top-style: solid !important; }
 
-        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android status bar zlewający się */
+        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android zlewający się idealnie */
         .safe-top {
             padding-top: calc(env(safe-area-inset-top, 0px) + 16px) !important;
+        }
+
+        /* Safe Area Padding DOLNY dla wygody gestów i przycisków na Androidzie i iOS */
+        .safe-bottom-nav {
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
         }
 
         /* Typography sizing */
@@ -195,6 +202,9 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
+        // Globalny stan wersji aplikacji - dynamicznie mapowany z pliku sw.js lub domyślny fallback
+        let appActiveVersion = 'Wersja 1.0.0';
+
         // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips / Android Webapps)
         const safeStorage = {
             fallbackStore: {},
@@ -359,8 +369,8 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
 
-    <!-- Header Section (Zastosowano bezpieczną strefę safe-top oraz dynamiczne dopasowanie do Dynamic Island i pasków powiadomień) -->
-    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center border-b border-primary/10 shadow-sm transition-all duration-300">
+    <!-- Header Section (Zastosowano bezpieczną strefę safe-top oraz dynamiczne dopasowanie do Dynamic Island i pasków powiadomień bez separatora) -->
+    <header class="sticky top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center transition-all duration-300">
         <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
             <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
             <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Wersja Beta Aplikacji</p>
@@ -381,8 +391,8 @@
         <div id="view-content" class="fade-in"></div>
     </main>
 
-    <!-- Bottom Navigation Bar - hidden on dashboard by default -->
-    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pb-6 pt-2 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200 z-40">
+    <!-- Bottom Navigation Bar - ukryte na dashboardzie, z bezpieczną strefą pod gesty smartfona -->
+    <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pt-2 safe-bottom-nav shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200 z-40">
         <button onclick="renderView('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
             <span class="text-2xl">🏠</span>
             <span>Start</span>
@@ -450,7 +460,7 @@
             "Anioł Stróż niech toruje Twoje ścieżki.",
             "Pokój i Dobro na dzisiejszy etap!",
             "Ofiaruj swój dzisiejszy trud w intencji bliskich.",
-            "Nie jestes sam - idziemy we wspaniałej wspólnocie.",
+            "Nie jesteś sam - idziemy we wspaniałej wspólnocie.",
             "Otwórz serce na Słowo Boże i piękno otaczającej przyrody."
         ];
 
@@ -772,6 +782,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderRoute();
         }
 
+        // Sprawdza czy aplikacja działa w trybie pełnoekranowym
         function isRunningStandalone() {
             return (window.matchMedia('(display-mode: standalone)').matches) || 
                    (window.navigator.standalone) || 
@@ -901,11 +912,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         </div>
                     </div>
 
-                    <div class="mt-8 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-6">
-                        Wersja beta 1.0.0 <br> © 2026 PEPE.STUDIO
+                    <div class="mt-8 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-6 app-version-target">
+                        Wczytywanie wersji...
                     </div>
                 </div>
             `;
+            triggerDynamicVersionDisplay();
         }
 
         function renderList(title, type) {
@@ -931,7 +943,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             updateListResults(type);
         }
 
-        // Pokazywanie menu
+        function hideNav() {
+            document.getElementById('bottom-nav').classList.add('nav-hidden');
+        }
+
         function showNav() {
             setTimeout(() => {
                 document.getElementById('bottom-nav').classList.remove('nav-hidden');
@@ -977,7 +992,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         function isSurveyUnlocked() {
             const today = new Date();
-            const unlockDate = new Date(today.getFullYear(), 7, 9); // August 9th
+            const unlockDate = new Date(today.getFullYear(), 7, 9); // 9 Sierpnia
             return today >= unlockDate;
         }
 
@@ -1059,11 +1074,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         </div>
                     </div>
 
-                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4">
-                        Wersja beta 1.0.0 <br> © 2026 PEPE.STUDIO
+                    <div class="mt-12 text-center opacity-30 text-[10px] font-bold uppercase tracking-widest pb-4 app-version-target">
+                        Wczytywanie wersji...
                     </div>
                 </div>
             `;
+            triggerDynamicVersionDisplay();
         }
 
         function renderRegulamin() {
@@ -1104,7 +1120,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                             
                             <p>W pielgrzymce działa poczta pielgrzymkowa, tam nabywamy kartki pocztowe, znaczki, jak również możemy tam zostawić korespondencję do wysłania.</p>
                             
-                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariatek pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
+                            <p>Osoby, które włączają się do pielgrzymki na trasie - zapisują się w sekretariacie pielgrzymki i otrzymują znaczek oraz kartkę uczestnictwa.</p>
                             
                             <p>Pątnicy idą w grupach, do których się zapisali.</p>
                             
@@ -1500,6 +1516,30 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderView('dashboard');
         });
 
+        // Dynamiczne wyciąganie aktywnej wersji z pamięci podręcznej Service Workera
+        function triggerDynamicVersionDisplay() {
+            setTimeout(() => {
+                if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                    caches.keys().then((keys) => {
+                        const activeCacheKey = keys.find(k => k.startsWith('epp-pwa-cache'));
+                        if (activeCacheKey) {
+                            const versionNum = activeCacheKey.replace('epp-pwa-cache-v', '');
+                            appActiveVersion = `Wersja v${versionNum} (PWA Offline)`;
+                        }
+                        updateVersionTextDom();
+                    });
+                } else {
+                    updateVersionTextDom();
+                }
+            }, 500);
+        }
+
+        function updateVersionTextDom() {
+            document.querySelectorAll('.app-version-target').forEach(el => {
+                el.innerHTML = `${appActiveVersion} <br> © 2026 PePe.Studio`;
+            });
+        }
+
         // -------------------------------------------------------------
         // REJESTRACJA SERVICE WORKERA (iOS SAFARI & ANDROID BROWSERS)
         // Ścieżki na sztywno spięte pod Twoją domenę /PWAEPP/
@@ -1514,7 +1554,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     return;
                 }
 
-                // Ścieżka bazowa podpięta bezpośrednio pod Twoje repozytorium GitHub
                 const basePath = '/PWAEPP/';
                 
                 navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
