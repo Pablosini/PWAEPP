@@ -6,15 +6,16 @@
     <!-- Zapobiega wymuszonemu odwracaniu kolorów przez przeglądarki mobilne (np. Samsung Internet) -->
     <meta name="color-scheme" content="light dark">
     
-    <!-- Dynamiczny theme-color dla paska statusu na Androidzie (zarządzany też przez JS) -->
+    <!-- Dynamiczny theme-color dla paska statusu na Androidzie oraz iOS (zarządzany też dynamicznie przez JS) -->
     <meta name="theme-color" id="android-theme-color" content="#fcfaf7">
     
     <!-- Link do manifestu PWA (wymagany dla Androida do uruchamiania w trybie pełnoekranowym bez paska adresowego) -->
-    <link rel="manifest" href="/PWAEPP/manifest.json">
+    <link class="manifest-link" rel="manifest" href="/PWAEPP/manifest.json">
     
-    <!-- Meta tagi dedykowane dla Apple iOS (wymagane do poprawnego działania standalone offline) -->
+    <!-- Meta tagi dedykowane dla Apple iOS (konfiguracja paska statusu) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Ustawienie "default" pozwala systemowi iOS na automatyczną zmianę koloru czcionki paska (czarna na jasnym tle, biała na ciemnym) -->
+    <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="default">
     <meta name="apple-mobile-web-app-title" content="EPP 2026">
     
     <!-- Dedykowana ikona Apple Touch Icon - odwołuje się do Twojego pliku logo.png w repozytorium -->
@@ -79,9 +80,8 @@
             background-color: var(--bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
-            /* Wymuszenie pokrycia 100% tła zapobiega pojawianiu się dziwnych pasków nawigacyjnych na Androidzie */
+            /* Wymuszenie pokrycia 100% wysokości niweluje problem dziwnych pasków przy gestach Androida */
             height: 100%;
-            /* Blokada przesuwania całej strony "overscroll" na smartfonach */
             overscroll-behavior-y: none;
         }
 
@@ -154,15 +154,14 @@
         .border-b { border-bottom-width: 1px !important; border-bottom-style: solid !important; }
         .border-t { border-top-width: 1px !important; border-top-style: solid !important; }
 
-        /* Safe Area Padding GÓRNY dla iOS Notch / Dynamic Island / Android zlewający się idealnie */
+        /* Safe Area Padding GÓRNY - max() chroni na Androidzie godzinę przed nachodzeniem logo */
         .safe-top {
-            /* max() wymusza minimum 36px na Androidzie (gwarantuje, że przyciski nie wejdą na godzinę/baterię), a na nowszych iOS poprawnie wdroży env() */
-            padding-top: max(env(safe-area-inset-top, 0px) + 12px, 36px) !important;
+            padding-top: max(calc(env(safe-area-inset-top, 0px) + 16px), 36px) !important;
         }
 
-        /* Safe Area Padding DOLNY dla wygody gestów i przycisków na Androidzie i iOS */
+        /* Safe Area Padding DOLNY - max() daje bezpieczny zapas dla paska gestów Androida */
         .safe-bottom-nav {
-            padding-bottom: max(env(safe-area-inset-bottom, 0px) + 14px, 24px) !important;
+            padding-bottom: max(calc(env(safe-area-inset-bottom, 0px) + 14px), 24px) !important;
         }
 
         /* Typography sizing */
@@ -205,7 +204,7 @@
 <body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text min-h-screen transition-colors duration-300">
 
     <script>
-        // Globalny stan wersji aplikacji - domyślnie 1.0.0 bez dopisków
+        // Globalny stan wersji aplikacji - domyślnie 1.0.0
         let appActiveVersion = 'Wersja 1.0.0';
 
         // Wrapper lokalnej pamięci (fallback na ciasteczka dla iOS Safari / Web Clips / Android Webapps)
@@ -372,7 +371,7 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] pointer-events-none flex flex-col gap-2 max-w-sm w-full px-4"></div>
 
-    <!-- Header Section (Zastosowano bg-light-bg/bg-dark-bg aby nie było widać odcęcia od reszty aplikacji!) -->
+    <!-- Header Section (Brak separatora, zlewające się tło z bg-light-bg/bg-dark-bg) -->
     <header class="sticky top-0 z-50 bg-light-bg/95 dark:bg-dark-bg/95 backdrop-blur-md px-4 pb-4 safe-top flex justify-between items-center transition-all duration-300">
         <div class="overflow-hidden cursor-pointer" onclick="renderView('dashboard')">
             <h1 class="text-xl font-black text-primary tracking-tighter truncate uppercase">EPP 2026</h1>
@@ -394,7 +393,7 @@
         <div id="view-content" class="fade-in"></div>
     </main>
 
-    <!-- Bottom Navigation Bar - ukryte na dashboardzie, z bezpieczną strefą pod gesty smartfona -->
+    <!-- Bottom Navigation Bar - bezpieczna strefa pod gesty smartfona -->
     <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-light-card/95 dark:bg-dark-card/95 border-t border-primary/10 flex justify-around items-center pt-2 safe-bottom-nav shadow-[0_-4px_12px_rgba(0,0,0,0.05)] backdrop-blur-md transition-transform duration-200 z-40">
         <button onclick="renderView('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all flex-1">
             <span class="text-2xl">🏠</span>
@@ -613,7 +612,7 @@ ale od wszelakich złych przygód racz nas zawsze wybawiać,
 Panno chwalebna i błogosławiona.
 
 O Pani nasza, Orędowniczko nasza,
-Pośredniczko nasza, Pocieszycielko nasza.
+Pośredniczko nasza, Pocieszielka nasza.
 Z Synem swoim nas pojednaj,
 Synowi supremo nas polecaj,
 swojemu Synowi nas oddawaj.`
@@ -694,16 +693,24 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         let activeBrowsingGroup = safeStorage.getItem('epp_active_browsing_group') || 'main';
         let deferredPrompt = null;
 
-        // Generator bezpiecznych, wektorowych zamienników offline
         function getOfflineFallbackImage(text) {
             return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23b99b6b"/><text x="50%" y="45%" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle">${encodeURIComponent(text)}</text><text x="50%" y="58%" font-family="sans-serif" font-size="16" fill="%23ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">Brak połączenia sieciowego (Offline)</text></svg>`;
         }
 
-        // Funkcja do dynamicznej zmiany koloru paska statusu Android na poziomie systemowym
-        function updateAndroidStatusBarColor(isDarkMode) {
+        // Funkcja do dynamicznej zmiany koloru paska statusu na Androidzie i stylu systemowego iOS
+        function updateStatusBarTheme(isDarkMode) {
+            // Android theme-color
             const metaTheme = document.getElementById('android-theme-color');
             if (metaTheme) {
                 metaTheme.setAttribute('content', isDarkMode ? '#121212' : '#fcfaf7');
+            }
+
+            // iOS status-bar-style
+            // 'default' w iOS wymusza ciemne napisy (idealne dla jasnego tła). 
+            // Na ciemnym motywie zmieniamy na 'black-translucent' lub 'black' w celu uzyskania jasnych napisów systemowych.
+            const iosStyle = document.getElementById('ios-status-style');
+            if (iosStyle) {
+                iosStyle.setAttribute('content', isDarkMode ? 'black-translucent' : 'default');
             }
         }
 
@@ -711,7 +718,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             const isDark = document.getElementById('theme-toggle').checked;
             document.documentElement.classList.toggle('dark', isDark);
             safeStorage.setItem('theme', isDark ? 'dark' : 'light');
-            updateAndroidStatusBarColor(isDark);
+            updateStatusBarTheme(isDark);
         }
 
         function getBibleQuote() {
@@ -785,7 +792,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderRoute();
         }
 
-        // Sprawdza czy aplikacja działa w trybie pełnoekranowym
         function isRunningStandalone() {
             return (window.matchMedia('(display-mode: standalone)').matches) || 
                    (window.navigator.standalone) || 
@@ -944,16 +950,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 </div>
             `;
             updateListResults(type);
-        }
-
-        function hideNav() {
-            document.getElementById('bottom-nav').classList.add('nav-hidden');
-        }
-
-        function showNav() {
-            setTimeout(() => {
-                document.getElementById('bottom-nav').classList.remove('nav-hidden');
-            }, 100);
         }
 
         function handleSearch(val, type) {
@@ -1290,7 +1286,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             const pref = group.prefixDays[prefixIdx];
             const displayDayNum = prefixIdx + 1;
             
-            // Domena dedykowana na sztywno pod Twoje repozytorium GitHub Pages
             const basePath = '/PWAEPP/';
             const img1 = `${basePath}img/${groupKey}_dojscie${displayDayNum}_1.jpg`;
             const img2 = `${basePath}img/${groupKey}_dojscie${displayDayNum}_2.jpg`;
@@ -1332,7 +1327,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 group.shortName = "Główna";
             }
             
-            // Domena dedykowana na sztywno pod Twoje repozytorium GitHub Pages
             const basePath = '/PWAEPP/';
             const img1 = `${basePath}img/dzien${day}_1.jpg`;
             const img2 = `${basePath}img/dzien${day}_2.jpg`;
@@ -1402,7 +1396,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         <p class="text-xs opacity-80 leading-relaxed">Kliknij przycisk poniżej, aby automatycznie dodać ikonę EPP 2026 na ekran główny swojego telefonu. Zyskasz do niej natychmiastowy dostęp o każdej porze.</p>
                         <div class="p-3 bg-primary/5 border border-primary/10 rounded-xl flex items-center gap-3">
                             <span class="text-2xl">⚡</span>
-                            <span class="text-xs font-semibold">Szybkie dodawanie jednym kliknięciem bez pobierania ze sklepów z aplikacjami.</span>
+                            <span class="text-xs font-semibold">Szybkie dodawanie jednym klikniem bez pobierania ze sklepów z aplikacjami.</span>
                         </div>
                     </div>
                 `;
@@ -1419,7 +1413,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                                 <div class="text-xs">
                                     <p class="font-bold">Otwórz menu udostępniania</p>
                                     <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="inline-flex items-center gap-1 bg-primary/10 text-primary px-1.5 py-0.5 rounded font-semibold">Udostępnij <svg class="w-3.5 h-3.5 inline ml-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></strong> na dolnym pasku narzędzi Safari.</p>
-                                    <p class="text-[10px] opacity-50 mt-1"><em>Wskazówka: W nowym iOS (iOS 15+) pasek ten domyślnie znajduje się na samym dole ekranu (lub na górze na iPadach).</em></p>
+                                    <p class="text-[10px] opacity-50 mt-1"><em>Wskazówka: W nowym iOS (iOS 15+) pasek ten domyślnie znajduje się na samym dole ekranu.</em></p>
                                 </div>
                             </div>
                             <div class="flex gap-3.5 items-start">
@@ -1433,12 +1427,9 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
                                 <div class="text-xs">
                                     <p class="font-bold">Potwierdź dodanie</p>
-                                    <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="text-primary font-bold">Dodaj</strong> w prawym górnym rogu ekranu, aby sfinalizować instalację.</p>
+                                    <p class="opacity-75 mt-0.5">Stuknij przycisk <strong class="text-primary font-bold">Dodaj</strong> w prawym górnym rogu ekranu.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="p-3 bg-accent/5 border border-accent/10 rounded-xl text-[11px] text-accent dark:text-emerald-400 font-semibold flex items-center gap-2 leading-relaxed text-left">
-                            <span>💡</span> Pamiętaj, aby otworzyć tę stronę bezpośrednio w domyślnej przeglądarce <strong>Safari</strong>. Inne przeglądarki (np. Chrome na iOS) nie obsługują instalacji aplikacji offline na ekranie głównym.
                         </div>
                     </div>
                 `;
@@ -1454,28 +1445,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs text-left">Wybierz z listy opcję <strong>„Dodaj do ekranu głównego”</strong> lub <strong>„Zainstaluj aplikację”</strong>.</p>
+                                <p class="text-xs text-left">Wybierz opcję <strong>„Dodaj do ekranu głównego”</strong> lub <strong>„Zainstaluj aplikację”</strong>.</p>
                             </div>
                             <div class="flex gap-3 items-start">
                                 <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
                                 <p class="text-xs text-left">Potwierdź wybór przyciskiem <strong>„Dodaj”</strong>.</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                installBtn.classList.add('hidden');
-            } else {
-                content.innerHTML = `
-                    <div class="space-y-4 fade-in">
-                        <p class="font-bold text-primary">Dodaj skrót do ekranu głównego:</p>
-                        <div class="space-y-3">
-                            <div class="flex gap-3 items-start">
-                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                                <p class="text-xs text-left">Otwórz menu ustawień swojej przeglądarki (zazwyczaj ikona z trzema kropkami lub kołem zębatym).</p>
-                            </div>
-                            <div class="flex gap-3 items-start">
-                                <span class="bg-primary/15 text-primary rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                <p class="text-xs text-left">Kliknij opcję <strong>„Dodaj do ekranu głównego”</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -1519,7 +1493,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderView('dashboard');
         });
 
-        // Dynamiczne wyciąganie aktywnej wersji z pamięci podręcznej Service Workera bez zbędnych dopisków
+        // Wersja bez dopisku "(PWA Offline)"
         function triggerDynamicVersionDisplay() {
             setTimeout(() => {
                 if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -1527,7 +1501,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         const activeCacheKey = keys.find(k => k.startsWith('epp-pwa-cache'));
                         if (activeCacheKey) {
                             const versionNum = activeCacheKey.replace('epp-pwa-cache-v', '');
-                            // Usunięto tekst "(PWA Offline)", zostaje samo "Wersja X.X.X"
                             appActiveVersion = `Wersja ${versionNum}`;
                         }
                         updateVersionTextDom();
@@ -1544,41 +1517,40 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             });
         }
 
-        // -------------------------------------------------------------
-        // REJESTRACJA SERVICE WORKERA (iOS SAFARI & ANDROID BROWSERS)
-        // Ścieżki na sztywno spięte pod Twoją domenę /PWAEPP/
-        // -------------------------------------------------------------
+        // Rejestracja Service Worker dla trybu PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const isNormalWebProtocol = ['http:', 'https:'].includes(window.location.protocol);
                 const isInIframe = window.self !== window.top;
 
-                if (!isNormalWebProtocol || isInIframe) {
-                    console.log('Środowisko podglądu Canvas lub zablokowany iframe. Service Worker został pominięty na rzecz stabilnego fallbacku bezpiecznej pamięci.');
-                    return;
-                }
+                if (!isNormalWebProtocol || isInIframe) return;
 
                 const basePath = '/PWAEPP/';
                 
                 navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
                     .then((registration) => {
-                        console.log('Service Worker zainstalowany z dedykowanego zakresu GitHub Pages:', registration.scope);
+                        console.log('Service Worker zainstalowany:', registration.scope);
                     })
                     .catch((error) => {
-                        console.warn('Ograniczenia przeglądarki zablokowały Service Workera. Fallback pamięci ciasteczkowej czuwa nad działaniem aplikacji offline.', error);
+                        console.warn('Błąd instalacji Service Workera:', error);
                     });
             });
         }
 
         window.onload = () => {
             const savedTheme = safeStorage.getItem('theme');
-            if (savedTheme === 'dark') {
+            const isDark = (savedTheme === 'dark');
+            
+            if (isDark) {
                 const toggle = document.getElementById('theme-toggle');
                 if (toggle) toggle.checked = true;
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
             }
 
-            // Inicjalizacja prawidłowego koloru paska statusu Android na starcie
-            updateAndroidStatusBarColor(savedTheme === 'dark');
+            // Ustawienie poprawnego trybu systemowych pasków (Android i iOS) na starcie!
+            updateStatusBarTheme(isDark);
 
             if (!safeStorage.getItem('epp_beta_visited')) {
                 const step1 = document.getElementById('welcome-step-1');
