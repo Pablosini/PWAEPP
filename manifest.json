@@ -1,24 +1,27 @@
 {
-  "short_name": "EPP 2026",
   "name": "EPP 2026 - Aplikacja Pielgrzyma",
+  "short_name": "EPP 2026",
+  "description": "Oficjalna aplikacja Ełckiej Pielgrzymki Pieszej 2026.",
   "id": "/PWAEPP/",
+  "start_url": "/PWAEPP/index.html",
+  "scope": "/PWAEPP/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#121212",
+  "theme_color": "#fcfaf7",
+  "categories": ["lifestyle", "travel"],
   "icons": [
     {
       "src": "/PWAEPP/logo.png",
       "type": "image/png",
       "sizes": "192x192",
-      "purpose": "any"
+      "purpose": "maskable any"
     },
     {
       "src": "/PWAEPP/logo.png",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any"
+      "purpose": "maskable any"
     }
-  ],
-  "start_url": "/PWAEPP/index.html",
-  "background_color": "#121212",
-  "theme_color": "#fcfaf7",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }
