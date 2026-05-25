@@ -612,7 +612,7 @@ ale od wszelakich złych przygód racz nas zawsze wybawiać,
 Panno chwalebna i błogosławiona.
 
 O Pani nasza, Orędowniczko nasza,
-Pośredniczko nasza, Pocieszielka nasza.
+Pośredniczko nasza, Pocieszycielko nasza.
 Z Synem swoim nas pojednaj,
 Synowi supremo nas polecaj,
 swojemu Synowi nas oddawaj.`
@@ -693,8 +693,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         let activeBrowsingGroup = safeStorage.getItem('epp_active_browsing_group') || 'main';
         let deferredPrompt = null;
 
+        // Generator bezpiecznych, wektorowych zamienników offline - poprawiony błąd ze znakiem # i kodowaniem URI
         function getOfflineFallbackImage(text) {
-            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23b99b6b"/><text x="50%" y="45%" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle">${encodeURIComponent(text)}</text><text x="50%" y="58%" font-family="sans-serif" font-size="16" fill="%23ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">Brak połączenia sieciowego (Offline)</text></svg>`;
+            // Kodujemy kod koloru #b99b6b na %23b99b6b oraz całe SVG za pomocą encodeURIComponent dla absolutnego bezpieczeństwa renderowania
+            const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="#b99b6b"/><text x="50%" y="45%" font-family="sans-serif" font-size="24" font-weight="bold" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">${text}</text><text x="50%" y="58%" font-family="sans-serif" font-size="16" fill="#ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">Brak połączenia sieciowego (Offline)</text></svg>`;
+            return `data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}`;
         }
 
         // Funkcja do dynamicznej zmiany koloru paska statusu na Androidzie i stylu systemowego iOS
@@ -721,6 +724,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             updateStatusBarTheme(isDark);
         }
 
+        // Funkcje do pobierania losowych cytatów oraz powitań
         function getBibleQuote() {
             const hour = new Date().getHours();
             return bibleQuotes[hour % bibleQuotes.length];
@@ -995,6 +999,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return today >= unlockDate;
         }
 
+        // Pokazuje zablokowaną ankietę przed 9 sierpnia
         function showLockedSurveyMessage(button) {
             const oldText = button.innerText;
             button.innerText = 'Będzie dostępna od 9 sierpnia!';
@@ -1098,7 +1103,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                             <ul class="list-disc pl-5 space-y-2">
                                 <li>akceptuje jej religijny i rekolekcyjny charakter (Msza św., nabożeństwa, konferencje, wspólne modlitwy, śpiewy);</li>
                                 <li>pragnie pogłębić swoją chrześcijańską formację lub szczerym sercem poszukuje Boga;</li>
-                                <li>nie będzie palił tytoniu i pił alkoholu ani używał narkotyków;</li>
+                                <li>nie będzie palił tytoniu i pił alkoholu ani używaj narkotyków;</li>
                                 <li>podporządkuje się poleceniom księży przewodników i służby porządkowej;</li>
                                 <li>nie będzie uczestnikiem ani przyczyną konfliktów.</li>
                             </ul>
@@ -1396,7 +1401,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                         <p class="text-xs opacity-80 leading-relaxed">Kliknij przycisk poniżej, aby automatycznie dodać ikonę EPP 2026 na ekran główny swojego telefonu. Zyskasz do niej natychmiastowy dostęp o każdej porze.</p>
                         <div class="p-3 bg-primary/5 border border-primary/10 rounded-xl flex items-center gap-3">
                             <span class="text-2xl">⚡</span>
-                            <span class="text-xs font-semibold">Szybkie dodawanie jednym klikniem bez pobierania ze sklepów z aplikacjami.</span>
+                            <span class="text-xs font-semibold">Szybkie dodawanie jednym kliknięciem bez pobierania ze sklepów z aplikacjami.</span>
                         </div>
                     </div>
                 `;
