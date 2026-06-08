@@ -48,7 +48,11 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700;900&display=swap');
         
-        /* NATIVE CSS FALLBACK FOR OFFLINE MODE */
+        /* -------------------------------------------------------------
+           NATIVE CSS FALLBACK FOR OFFLINE MODE (Zmienne awaryjne offline)
+           Gwarantuje idealny wygląd aplikacji i działanie trybu ciemnego 
+           nawet przy braku pobranego pliku Tailwind CSS!
+           ------------------------------------------------------------- */
         :root {
             --primary: #b99b6b;
             --accent: #4a6741;
@@ -69,12 +73,25 @@
             --border-color: rgba(185, 155, 107, 0.25);
         }
 
+        /* GLOBALE UKRYCIE PASKÓW PRZEWIJANIA (Dla wrażenia natywnej aplikacji) */
+        ::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        * {
+            -ms-overflow-style: none !important; /* IE / Edge */
+            scrollbar-width: none !important; /* Firefox */
+        }
+
         html, body { 
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden; 
             background-color: var(--bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
+            /* Wymuszenie pokrycia 100% wysokości niweluje problem dziwnych pasków przy gestach Androida */
             height: 100%;
             overscroll-behavior-y: none;
         }
