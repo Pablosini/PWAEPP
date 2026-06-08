@@ -57,6 +57,7 @@
             --primary: #b99b6b;
             --accent: #4a6741;
             --bg: #fcfaf7;
+            --system-bg: #fcfaf7;
             --card: #ffffff;
             --text: #2d2d2d;
             --muted: #6b7280;
@@ -67,6 +68,7 @@
         
         html.dark {
             --bg: #121212;
+            --system-bg: #121212;
             --card: #1e1e1e;
             --text: #e0e0e0;
             --muted: #9ca3af;
@@ -90,19 +92,54 @@
             overflow: hidden;
             width: 100%;
             max-width: 100%;
-            background-color: var(--bg) !important;
+            background-color: var(--system-bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
             /* Wymuszenie pokrycia 100% wysokości niweluje problem dziwnych pasków przy gestach Androida */
             height: 100%;
             min-height: 100%;
             overscroll-behavior: none;
+            color-scheme: light;
+        }
+
+        html.dark, html.dark body {
+            color-scheme: dark;
+        }
+
+        @supports (height: 100dvh) {
+            html, body {
+                height: 100dvh;
+                min-height: 100dvh;
+            }
         }
 
         body {
             min-height: 100% !important;
             display: flex;
             flex-direction: column;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            background-color: var(--system-bg);
+            transition: background-color 0.3s;
+        }
+
+        body::before {
+            top: -2px;
+            height: calc(env(safe-area-inset-top, 0px) + 4px);
+            z-index: 60;
+        }
+
+        body::after {
+            bottom: -2px;
+            height: calc(env(safe-area-inset-bottom, 0px) + 4px);
+            z-index: 30;
         }
 
         #main-container {
@@ -270,10 +307,22 @@
         // Natychmiastowe ustawienie motywu bez migania strony
         (function() {
             const savedTheme = safeStorage.getItem('theme');
+            const isDarkTheme = savedTheme === 'dark';
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');
+            }
+
+            const themeColor = isDarkTheme ? '#121212' : '#fcfaf7';
+            const metaTheme = document.getElementById('android-theme-color');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', themeColor);
+            }
+
+            const colorScheme = document.querySelector('meta[name="color-scheme"]');
+            if (colorScheme) {
+                colorScheme.setAttribute('content', isDarkTheme ? 'dark light' : 'light dark');
             }
         })();
 
@@ -941,9 +990,14 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         // Zmiana barw paska systemowego Android / iOS
         function updateStatusBarTheme(isDarkMode) {
+            const themeColor = isDarkMode ? '#121212' : '#fcfaf7';
             const metaTheme = document.getElementById('android-theme-color');
             if (metaTheme) {
-                metaTheme.setAttribute('content', isDarkMode ? '#121212' : '#fcfaf7');
+                metaTheme.setAttribute('content', themeColor);
+            }
+            const colorScheme = document.querySelector('meta[name="color-scheme"]');
+            if (colorScheme) {
+                colorScheme.setAttribute('content', isDarkMode ? 'dark light' : 'light dark');
             }
             const iosStyle = document.getElementById('ios-status-style');
             if (iosStyle) {
