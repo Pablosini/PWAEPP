@@ -7,6 +7,10 @@ const scopePath = '/PWAEPP/';
 const ASSETS_TO_CACHE = [
     scopePath,
     scopePath + 'index.html',
+    scopePath + 'manifest.json',
+    scopePath + 'icon-192.png',
+    scopePath + 'icon-512.png',
+    scopePath + 'logo.png',
     'https://cdn.tailwindcss.com',
     'https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700;900&display=swap'
 ];
