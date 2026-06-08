@@ -19,7 +19,7 @@
     <meta name="apple-mobile-web-app-title" content="EPP 2026">
     
     <!-- Dedykowana ikona Apple Touch Icon -->
-    <link class="apple-touch-icon" rel="apple-touch-icon" href="/PWAEPP/logo.png">
+    <link class="apple-touch-icon" rel="apple-touch-icon" href="/PWAEPP/icon-192.png">
 
     <title>EPP 2026 - Aplikacja Pielgrzyma</title>
     
@@ -94,7 +94,7 @@
             max-width: 100%;
             background-color: var(--system-bg) !important;
             color: var(--text) !important;
-            transition: background-color 0.3s, color 0.3s;
+            transition: color 0.3s;
             /* Wymuszenie pokrycia 100% wysokości niweluje problem dziwnych pasków przy gestach Androida */
             height: 100%;
             min-height: 100%;
@@ -117,29 +117,6 @@
             min-height: 100% !important;
             display: flex;
             flex-direction: column;
-        }
-
-        body::before,
-        body::after {
-            content: "";
-            position: fixed;
-            left: 0;
-            right: 0;
-            pointer-events: none;
-            background-color: var(--system-bg);
-            transition: background-color 0.3s;
-        }
-
-        body::before {
-            top: -2px;
-            height: calc(env(safe-area-inset-top, 0px) + 4px);
-            z-index: 60;
-        }
-
-        body::after {
-            bottom: -2px;
-            height: calc(env(safe-area-inset-bottom, 0px) + 4px);
-            z-index: 30;
         }
 
         #main-container {
