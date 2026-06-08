@@ -87,13 +87,39 @@
 
         html, body { 
             font-family: 'Inter', sans-serif; 
-            overflow-x: hidden; 
+            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
             background-color: var(--bg) !important;
             color: var(--text) !important;
             transition: background-color 0.3s, color 0.3s;
             /* Wymuszenie pokrycia 100% wysokości niweluje problem dziwnych pasków przy gestach Androida */
             height: 100%;
-            overscroll-behavior-y: none;
+            min-height: 100%;
+            overscroll-behavior: none;
+        }
+
+        body {
+            min-height: 100% !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-container {
+            flex: 1 1 auto;
+            min-height: 0;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+            scrollbar-width: none !important;
+        }
+
+        #main-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
         }
 
         .bg-light-bg, .dark\:bg-dark-bg { background-color: var(--bg) !important; }
@@ -1104,6 +1130,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             
             // Opóźnienie o 15ms zapewnia, że DOM zdąży się przeładować przed zmianą pozycji ekranu
             setTimeout(() => {
+                const mainContainer = document.getElementById('main-container');
+                if (mainContainer) {
+                    mainContainer.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+                }
                 window.scrollTo(0, 0);
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
