@@ -36,7 +36,6 @@
             --page-inline: 18px;
             --app-height: 100vh;
             --app-max-width: 520px;
-            --viewport-bottom-offset: max(0px, calc(100vh - var(--app-height)));
             color-scheme: light;
         }
 
@@ -994,7 +993,7 @@
         .bottom-nav {
             position: fixed;
             left: 50%;
-            bottom: var(--viewport-bottom-offset);
+            bottom: 0;
             width: min(100vw, var(--app-max-width));
             transform: translateX(-50%);
             padding: var(--nav-padding-top) 12px var(--nav-padding-bottom);
