@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.2';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.4';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
@@ -7,9 +7,8 @@ const scopePath = new URL(self.registration.scope).pathname;
 const ASSETS_TO_CACHE = [
     scopePath,
     scopePath + 'index.html',
-    scopePath + 'design-concept.html',
+    scopePath + '404.html',
     scopePath + 'manifest.json',
-    scopePath + 'manifest-concept.json',
     scopePath + 'icon-192.png',
     scopePath + 'icon-512.png',
     scopePath + 'logo.png',
@@ -93,7 +92,7 @@ self.addEventListener('fetch', (event) => {
             }).catch(() => {
                 if (event.request.mode === 'navigate') {
                     return caches.match(event.request)
-                        .then((matchedPage) => matchedPage || caches.match(scopePath + 'design-concept.html'))
+                        .then((matchedPage) => matchedPage || caches.match(scopePath))
                         .then((matchedPage) => matchedPage || caches.match(scopePath + 'index.html'));
                 }
             });
