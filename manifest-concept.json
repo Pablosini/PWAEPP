@@ -1,0 +1,28 @@
+{
+  "name": "EPP 2026 - Aplikacja Pielgrzyma",
+  "short_name": "EPP 2026",
+  "description": "Aplikacja pielgrzyma EPP 2026 z trasą, śpiewnikiem, modlitewnikiem i panelem kadry.",
+  "id": "./design-concept",
+  "start_url": "./design-concept.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  "orientation": "portrait",
+  "background_color": "#101211",
+  "theme_color": "#101211",
+  "categories": ["lifestyle", "travel"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
