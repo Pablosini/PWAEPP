@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="0; url=./">
+    <title>EPP 2026</title>
+    <script>
+        const repoPath = "/PWAEPP/";
+        const currentPath = window.location.pathname;
+        const basePath = currentPath.includes(repoPath)
+            ? currentPath.slice(0, currentPath.indexOf(repoPath) + repoPath.length)
+            : "/";
+        window.location.replace(basePath);
+    </script>
+</head>
+<body>
+    <p>Przekierowuję do aplikacji EPP 2026...</p>
+</body>
+</html>
