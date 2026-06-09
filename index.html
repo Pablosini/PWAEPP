@@ -9,7 +9,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="EPP 2026">
     <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="default">
-    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest-concept.json">
     <title>EPP 2026 - Koncepcja Aplikacji</title>
     <style>
         :root {
@@ -1779,6 +1780,7 @@
     <script>
         let appActiveVersion = "Wersja 1.0.1";
         let deferredPrompt = null;
+        let serviceWorkerReady = false;
         let openRouteDayId = null;
         let currentViewName = "home";
         const viewHistory = [];
@@ -2641,9 +2643,15 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             const installLabel = document.getElementById("install-status-label");
             const surveyLabel = document.getElementById("survey-status-label");
             if (installLabel) {
-                installLabel.textContent = isRunningStandalone()
-                    ? "Aplikacja działa już jak skrót z ekranu głównego."
-                    : "Dodaj aplikację jak normalną ikonę telefonu.";
+                if (isRunningStandalone()) {
+                    installLabel.textContent = "Aplikacja działa już jak skrót z ekranu głównego.";
+                } else if (deferredPrompt) {
+                    installLabel.textContent = "Możesz zainstalować automatycznie z poziomu aplikacji.";
+                } else if (serviceWorkerReady) {
+                    installLabel.textContent = "Tryb PWA jest gotowy. Otwórz w Chrome/Safari, aby dodać do ekranu głównego.";
+                } else {
+                    installLabel.textContent = "Przygotowuję tryb PWA na tym urządzeniu.";
+                }
             }
             if (surveyLabel) {
                 surveyLabel.textContent = isSurveyUnlocked()
@@ -2693,6 +2701,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 content.innerHTML = `
                     <p class="modal-copy">Skrót jest aktywny. Aplikacja została uruchomiona jak normalna aplikacja z ekranu głównego.</p>
                     <div class="notice">Dane grupy, motyw i dostęp kadry są zapisane lokalnie na tym urządzeniu.</div>
+                `;
+            } else if (!serviceWorkerReady) {
+                content.innerHTML = `
+                    <p class="modal-copy">Aplikacja przygotowuje tryb PWA na tym urządzeniu. Odśwież stronę za chwilę i otwórz ją w Chrome na Androidzie albo Safari na iPhonie.</p>
+                    <div class="notice">Automatyczny przycisk instalacji pojawi się tylko wtedy, gdy przeglądarka uzna aplikację za gotową do instalacji.</div>
                 `;
             } else if (deferredPrompt) {
                 content.innerHTML = `
@@ -2761,6 +2774,28 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     element.innerHTML = `${appActiveVersion}<br>© 2026 PePe.Studio`;
                 });
             }).catch(() => {});
+        }
+
+        function getPwaBasePath() {
+            const path = window.location.pathname;
+            return path.slice(0, path.lastIndexOf("/") + 1) || "/";
+        }
+
+        function registerPwaServiceWorker() {
+            if (!("serviceWorker" in navigator)) return;
+            if (!["http:", "https:"].includes(window.location.protocol)) return;
+
+            const basePath = getPwaBasePath();
+            navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
+                .then(() => navigator.serviceWorker.ready)
+                .then(() => {
+                    serviceWorkerReady = true;
+                    updateActionStatuses();
+                    triggerDynamicVersionDisplay();
+                })
+                .catch((error) => {
+                    console.warn("Service Worker nie został zarejestrowany:", error);
+                });
         }
 
         document.querySelectorAll("[data-open]").forEach(button => {
@@ -2873,6 +2908,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         renderRoute();
         updateKadraPanel();
         updateActionStatuses();
+        registerPwaServiceWorker();
         triggerDynamicVersionDisplay();
         showIntroIfNeeded();
     </script>
