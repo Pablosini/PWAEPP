@@ -166,6 +166,7 @@
         .icon-button {
             width: 46px;
             height: 46px;
+            padding: 0;
             border-radius: 50%;
             display: grid;
             place-items: center;
@@ -174,11 +175,15 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             color: var(--primary-strong);
             flex: 0 0 auto;
+            appearance: none;
+            -webkit-appearance: none;
+            line-height: 0;
         }
 
         .icon-button svg {
             width: 20px;
             height: 20px;
+            display: block;
             stroke-width: 2.2;
         }
 
@@ -276,37 +281,89 @@
             background: linear-gradient(90deg, var(--primary), var(--green));
         }
 
-        .daily-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .metric {
-            min-height: 84px;
-            padding: 13px 12px;
+        .countdown-band {
+            padding: 16px;
             border-radius: 8px;
             background: var(--surface);
             border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 14px;
         }
 
-        .metric b {
+        .countdown-top {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .countdown-title {
+            display: block;
+            margin-top: 5px;
+            font-size: 1.05rem;
+            line-height: 1.15;
+            font-weight: 950;
+            color: var(--text);
+        }
+
+        .countdown-badge {
+            flex: 0 0 auto;
+            min-height: 30px;
+            padding: 0 10px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: color-mix(in srgb, var(--primary) 14%, transparent);
+            color: var(--primary-strong);
+            font-size: 0.68rem;
+            line-height: 1;
+            font-weight: 950;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .countdown-values {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .countdown-value {
+            min-width: 0;
+            padding: 12px 8px 10px;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
+            text-align: center;
+        }
+
+        .countdown-value b {
             display: block;
             color: var(--primary-strong);
-            font-size: 1.22rem;
-            line-height: 1;
+            font-size: clamp(1.35rem, 8vw, 2.15rem);
+            line-height: 0.95;
             font-weight: 950;
         }
 
-        .metric span {
+        .countdown-value span {
             display: block;
             margin-top: 8px;
             color: var(--muted);
-            font-size: 0.72rem;
-            line-height: 1.25;
-            font-weight: 800;
-            text-transform: uppercase;
+            font-size: 0.68rem;
+            line-height: 1.1;
+            font-weight: 900;
             letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .countdown-note {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.35;
+            font-weight: 700;
         }
 
         .section {
@@ -1266,7 +1323,6 @@
                 --page-inline: 14px;
             }
 
-            .daily-grid,
             .action-grid {
                 grid-template-columns: 1fr;
             }
@@ -1334,8 +1390,8 @@
                     <span>Aplikacja pielgrzyma</span>
                 </div>
             </button>
-            <button class="icon-button" type="button" id="theme-toggle" aria-label="Zmień motyw">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <button class="icon-button" type="button" id="theme-toggle" aria-label="Włącz tryb ciemny" title="Włącz tryb ciemny">
+                <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                     <path d="M12 3v2.2M12 18.8V21M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M3 12h2.2M18.8 12H21M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"/>
                     <circle cx="12" cy="12" r="4"/>
                 </svg>
@@ -1352,19 +1408,29 @@
                         <div class="route-line" aria-hidden="true"><span></span></div>
                     </div>
 
-                    <div class="daily-grid">
-                        <div class="metric">
-                            <b>15</b>
-                            <span>dni drogi</span>
+                    <div class="countdown-band" id="pilgrimage-countdown" aria-live="polite">
+                        <div class="countdown-top">
+                            <div>
+                                <p class="section-kicker" id="countdown-kicker">Odliczanie</p>
+                                <strong class="countdown-title" id="countdown-title">Do wyjścia z Ełku</strong>
+                            </div>
+                            <span class="countdown-badge" id="countdown-badge">Start</span>
                         </div>
-                        <div class="metric">
-                            <b>6</b>
-                            <span>grup</span>
+                        <div class="countdown-values">
+                            <div class="countdown-value">
+                                <b id="countdown-days">--</b>
+                                <span>dni</span>
+                            </div>
+                            <div class="countdown-value">
+                                <b id="countdown-hours">--</b>
+                                <span>godz.</span>
+                            </div>
+                            <div class="countdown-value">
+                                <b id="countdown-minutes">--</b>
+                                <span>min</span>
+                            </div>
                         </div>
-                        <div class="metric">
-                            <b>1.0.1</b>
-                            <span>wersja</span>
-                        </div>
+                        <p class="countdown-note" id="countdown-note">Wyjście: 28 lipca 2026, 7:00</p>
                     </div>
                 </div>
 
@@ -1617,7 +1683,7 @@
                     </div>
                 </div>
                 <div class="kadra-panel">
-                    <p class="section-kicker">Kontakty</p>
+                    <p class="section-kicker">Telefony kierownicze</p>
                     <div class="contact-list" id="kadra-contact-list"></div>
                 </div>
                 <section class="section">
@@ -2028,7 +2094,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         const kadradata = {
             telefony: [
-               { nazwa: "Kierownik Pielgrzymki", numer: "+48 602 693 605", opis: "Ks. Karol Czaplicki" },
+                { nazwa: "Kierownik Pielgrzymki", numer: "+48 602 693 605", opis: "Ks. Karol Czaplicki" },
                 { nazwa: "VC Kierownik Pielgrzymki", numer: "+48 791 865 762", opis: "Ks. Tomasz Zajkowski" },
                 { nazwa: "Kwatermistrz Główny", numer: "+48 xxx xxx xxx", opis: "Ks. Przemysław Jermak " },
                 { nazwa: "Pilot", numer: "+48 517 852 004", opis: "kl. Tobiasz Samul" },
@@ -2175,8 +2241,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             15: [
                 { nazwa: "Rawa Mazowiecka (Wyjście)", wejscie: "---", wyjscie: "05:00", czas: "---", uwagi: "Ostatni etap przed Jasną Górą." },
                 { nazwa: "Postój I - Regnów", wejscie: "07:30", wyjscie: "08:00", czas: "30 min", uwagi: "Formowanie kolumny." },
-                { nazwa: "Częstochowa (Zbiórka)", wejscie: "11:00", wyjscie: "12:00", czas: "60 min", uwagi: "Przebranie w odświętne koszulki." },
-                { nazwa: "Wejście na Jasną Górę", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Powitanie i pokłon przed Obrazem." },
+                { nazwa: "Częstochowa (Zbiórka)", wejscie: "09:30", wyjscie: "10:30", czas: "60 min", uwagi: "Przebranie w odświętne koszulki." },
+                { nazwa: "Wejście na Jasną Górę", wejscie: "11:00", wyjscie: "---", czas: "---", uwagi: "Powitanie i pokłon przed Obrazem." },
                 { nazwa: "Msza święta dziękczynna", wejscie: "16:00", wyjscie: "---", czas: "---", uwagi: "Zakończenie EPP 2026." }
             ]
         };
@@ -2250,6 +2316,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         const themeMeta = document.getElementById("theme-color");
         const colorSchemeMeta = document.getElementById("color-scheme");
         const iosStatusMeta = document.getElementById("ios-status-style");
+        const themeToggle = document.getElementById("theme-toggle");
+        const themeToggleIcon = document.getElementById("theme-toggle-icon");
         const introModal = document.getElementById("intro-modal");
         const kadraModal = document.getElementById("kadra-modal");
         const groupModal = document.getElementById("group-modal");
@@ -2265,6 +2333,23 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         let brandTapCount = 0;
         let brandTapTimer = null;
         let toastTimer = null;
+
+        const themeIcons = {
+            sun: '<path d="M12 3v2.2M12 18.8V21M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M3 12h2.2M18.8 12H21M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"/><circle cx="12" cy="12" r="4"/>',
+            moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
+        };
+
+        const pilgrimageStart = new Date(2026, 6, 28, 7, 0, 0);
+        const pilgrimageFinish = new Date(2026, 7, 11, 11, 0, 0);
+        const countdownElements = {
+            kicker: document.getElementById("countdown-kicker"),
+            title: document.getElementById("countdown-title"),
+            badge: document.getElementById("countdown-badge"),
+            days: document.getElementById("countdown-days"),
+            hours: document.getElementById("countdown-hours"),
+            minutes: document.getElementById("countdown-minutes"),
+            note: document.getElementById("countdown-note")
+        };
 
         function syncViewportHeight() {
             const viewportHeight = window.visualViewport?.height || window.innerHeight;
@@ -2326,7 +2411,15 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             themeMeta.setAttribute("content", isDark ? "#101211" : "#fbf7ef");
             colorSchemeMeta.setAttribute("content", isDark ? "dark light" : "light dark");
             iosStatusMeta.setAttribute("content", isDark ? "black-translucent" : "default");
+            updateThemeToggle(isDark);
             safeStorage.setItem("epp-concept-theme", isDark ? "dark" : "light");
+        }
+
+        function updateThemeToggle(isDark) {
+            const label = isDark ? "Włącz tryb jasny" : "Włącz tryb ciemny";
+            themeToggleIcon.innerHTML = isDark ? themeIcons.sun : themeIcons.moon;
+            themeToggle.setAttribute("aria-label", label);
+            themeToggle.setAttribute("title", label);
         }
 
         function renderHomeContent() {
@@ -2341,6 +2434,55 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             document.getElementById("home-date-label").textContent = dateLabel;
             document.getElementById("home-greeting").textContent = greeting;
             document.getElementById("home-quote").textContent = `"${quote}"`;
+            updatePilgrimageCountdown(now);
+        }
+
+        function getCountdownParts(targetDate, now = new Date()) {
+            const totalMinutes = Math.max(0, Math.floor((targetDate.getTime() - now.getTime()) / 60000));
+            return {
+                days: Math.floor(totalMinutes / 1440),
+                hours: Math.floor((totalMinutes % 1440) / 60),
+                minutes: totalMinutes % 60
+            };
+        }
+
+        function updatePilgrimageCountdown(now = new Date()) {
+            let targetDate = pilgrimageStart;
+            let content = {
+                kicker: "Przygotowania",
+                title: "Do wyjścia z Ełku",
+                badge: "Start",
+                note: "Wyjście z Ełku: 28 lipca 2026, 7:00"
+            };
+
+            if (now >= pilgrimageStart && now < pilgrimageFinish) {
+                targetDate = pilgrimageFinish;
+                content = {
+                    kicker: "W drodze",
+                    title: "Do wejścia na Jasną Górę",
+                    badge: "Meta",
+                    note: "Wejście na Jasną Górę: 11 sierpnia 2026, 11:00"
+                };
+            }
+
+            if (now >= pilgrimageFinish) {
+                targetDate = now;
+                content = {
+                    kicker: "Zakończone",
+                    title: "Pielgrzymka dotarła na Jasną Górę",
+                    badge: "Amen",
+                    note: "Wejście na Jasną Górę było 11 sierpnia 2026 o 11:00"
+                };
+            }
+
+            const parts = getCountdownParts(targetDate, now);
+            countdownElements.kicker.textContent = content.kicker;
+            countdownElements.title.textContent = content.title;
+            countdownElements.badge.textContent = content.badge;
+            countdownElements.days.textContent = String(parts.days);
+            countdownElements.hours.textContent = String(parts.hours).padStart(2, "0");
+            countdownElements.minutes.textContent = String(parts.minutes).padStart(2, "0");
+            countdownElements.note.textContent = content.note;
         }
 
         function openView(viewName, options = {}) {
@@ -2917,7 +3059,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderContentDetail(button.dataset.contentType, Number(button.dataset.contentIndex));
         });
 
-        document.getElementById("theme-toggle").addEventListener("click", () => setTheme(!html.classList.contains("dark")));
+        themeToggle.addEventListener("click", () => setTheme(!html.classList.contains("dark")));
         document.getElementById("change-group").addEventListener("click", () => {
             renderSettingsGroups();
             groupModal.hidden = false;
@@ -2974,6 +3116,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         const savedTheme = safeStorage.getItem("epp-concept-theme");
         setTheme(savedTheme === "dark");
         renderHomeContent();
+        window.setInterval(updatePilgrimageCountdown, 60000);
         renderIntroGroups();
         renderList("songs-list", songs, "", "songs");
         renderList("prayers-list", prayers, "", "prayers");
