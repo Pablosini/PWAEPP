@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="default">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
-    <title>EPP na Jasną Górę - Beta Aplikacja Pielgrzyma</title>
+    <title>EPP 2026</title>
     <style>
         :root {
             --bg: #fbf7ef;
@@ -107,15 +107,10 @@
             display: grid;
             place-items: center;
             background: #fbf7ef;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 280ms ease, visibility 280ms ease;
         }
 
         .app-splash.is-hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+            display: none;
         }
 
         .app-splash img {
@@ -138,10 +133,8 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .app-splash,
             .app-splash img {
                 animation: none;
-                transition: none;
             }
         }
 
@@ -1914,7 +1907,7 @@
     </div>
 
     <script>
-        let appActiveVersion = "Wersja 1.0.11";
+        let appActiveVersion = "Wersja 1.0.12";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -2919,7 +2912,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         function hideAppSplash() {
             if (!appSplash) return;
             appSplash.classList.add("is-hidden");
-            window.setTimeout(() => appSplash.remove(), 320);
+            appSplash.remove();
         }
 
         function getInstallContext() {
@@ -3321,9 +3314,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         registerPwaServiceWorker();
         triggerDynamicVersionDisplay();
         showIntroIfNeeded();
-        window.requestAnimationFrame(() => {
-            window.setTimeout(hideAppSplash, 420);
-        });
+        hideAppSplash();
     </script>
 </body>
 </html>
