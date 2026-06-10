@@ -100,6 +100,51 @@
             overflow: hidden;
         }
 
+        .app-splash {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            background: #fbf7ef;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 280ms ease, visibility 280ms ease;
+        }
+
+        .app-splash.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .app-splash img {
+            width: min(54vw, 168px);
+            max-width: 168px;
+            height: auto;
+            display: block;
+            animation: splash-logo 950ms ease-in-out infinite alternate;
+        }
+
+        @keyframes splash-logo {
+            from {
+                transform: translateY(3px) scale(0.985);
+                opacity: 0.86;
+            }
+            to {
+                transform: translateY(-3px) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .app-splash,
+            .app-splash img {
+                animation: none;
+                transition: none;
+            }
+        }
+
         .topbar {
             flex: 0 0 auto;
             padding: max(16px, calc(var(--safe-top) + 10px)) var(--page-inline) 12px;
@@ -1398,6 +1443,10 @@
     </style>
 </head>
 <body>
+    <div class="app-splash" id="app-splash" aria-hidden="true">
+        <img src="icon-512.png" alt="">
+    </div>
+
     <div class="app">
         <header class="topbar">
             <button class="brand" id="brand-trigger" type="button" aria-label="EPP 2026">
@@ -1865,7 +1914,7 @@
     </div>
 
     <script>
-        let appActiveVersion = "Wersja 1.0.10";
+        let appActiveVersion = "Wersja 1.0.11";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -2343,6 +2392,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         const groupModal = document.getElementById("group-modal");
         const installModal = document.getElementById("install-modal");
         const installNative = document.getElementById("install-native");
+        const appSplash = document.getElementById("app-splash");
         const kadraPassword = document.getElementById("kadra-password");
         const kadraError = document.getElementById("kadra-error");
         const imageModal = document.getElementById("image-modal");
@@ -2866,6 +2916,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
         }
 
+        function hideAppSplash() {
+            if (!appSplash) return;
+            appSplash.classList.add("is-hidden");
+            window.setTimeout(() => appSplash.remove(), 320);
+        }
+
         function getInstallContext() {
             const userAgent = navigator.userAgent || "";
             const isIPadOS = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
@@ -3265,6 +3321,9 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         registerPwaServiceWorker();
         triggerDynamicVersionDisplay();
         showIntroIfNeeded();
+        window.requestAnimationFrame(() => {
+            window.setTimeout(hideAppSplash, 420);
+        });
     </script>
 </body>
 </html>
