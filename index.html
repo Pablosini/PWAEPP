@@ -536,6 +536,8 @@
             place-items: center;
             background: var(--surface-soft);
             color: var(--primary-strong);
+            line-height: 0;
+            overflow: hidden;
         }
 
         .card-icon svg,
@@ -543,6 +545,8 @@
         .small-action svg {
             width: 21px;
             height: 21px;
+            display: block;
+            flex: 0 0 auto;
             stroke-width: 2.15;
         }
 
@@ -556,7 +560,12 @@
             font-weight: 950;
         }
 
-        .action-card span {
+        .action-card > span:not(.card-icon) {
+            display: block;
+            min-width: 0;
+        }
+
+        .action-card > span:not(.card-icon) > span {
             display: block;
             margin-top: 8px;
             color: var(--muted);
@@ -962,7 +971,7 @@
             overflow-wrap: anywhere;
         }
 
-        .option-row span {
+        .option-row > div > span {
             display: block;
             margin-top: 3px;
             color: var(--muted);
@@ -1234,6 +1243,8 @@
             background: var(--surface);
             border: 1px solid var(--line);
             color: var(--primary-strong);
+            line-height: 0;
+            overflow: hidden;
         }
 
         .empty {
@@ -2079,7 +2090,7 @@
     </div>
 
     <script>
-        let appActiveVersion = "Wersja 1.0.13";
+        let appActiveVersion = "Wersja 1.0.14";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
