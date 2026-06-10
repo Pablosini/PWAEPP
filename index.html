@@ -979,6 +979,25 @@
             font-weight: 780;
         }
 
+        .install-browser-link {
+            min-height: 48px;
+            margin-top: 12px;
+            padding: 0 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: #fffdfa;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.78rem;
+            line-height: 1.2;
+            font-weight: 950;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
         .contact-list,
         .org-list,
         .install-steps {
@@ -1846,9 +1865,10 @@
     </div>
 
     <script>
-        let appActiveVersion = "Wersja 1.0.1";
+        let appActiveVersion = "Wersja 1.0.10";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
+        let serviceWorkerRefreshPending = false;
         let openRouteDayId = null;
         let currentViewName = "home";
         const viewHistory = [];
@@ -2846,6 +2866,44 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
         }
 
+        function getInstallContext() {
+            const userAgent = navigator.userAgent || "";
+            const isIPadOS = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) || isIPadOS;
+            const isAndroid = /Android/i.test(userAgent);
+            const isSamsung = /SamsungBrowser/i.test(userAgent);
+            const isEdge = /EdgA|EdgiOS/i.test(userAgent);
+            const isOpera = /OPR|OPiOS/i.test(userAgent);
+            const isFirefox = /Firefox|FxiOS/i.test(userAgent);
+            const isChromeIOS = /CriOS/i.test(userAgent);
+            const isChromeAndroid = isAndroid && /Chrome/i.test(userAgent) && !isSamsung && !isEdge && !isOpera && !isFirefox;
+            const isSafariIOS = isIOS && /Safari/i.test(userAgent) && !isChromeIOS && !isEdge && !isOpera && !isFirefox;
+
+            return {
+                isIOS,
+                isAndroid,
+                isSamsung,
+                isChromeAndroid,
+                isSafariIOS,
+                isChromeIOS,
+                isEdge,
+                isOpera,
+                isFirefox
+            };
+        }
+
+        function getChromeIntentUrl() {
+            const url = new URL(window.location.href);
+            url.hash = "";
+            const scheme = url.protocol.replace(":", "");
+            const target = url.href.replace(/^https?:\/\//, "");
+            return `intent://${target}#Intent;scheme=${scheme};package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url.href)};end`;
+        }
+
+        function renderOpenChromeLink() {
+            return `<a class="install-browser-link" href="${getChromeIntentUrl()}" rel="noopener">Otwórz w Chrome</a>`;
+        }
+
         function isSurveyUnlocked() {
             const today = new Date();
             return today >= new Date(today.getFullYear(), 7, 9);
@@ -2854,13 +2912,22 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         function updateActionStatuses() {
             const installLabel = document.getElementById("install-status-label");
             const surveyLabel = document.getElementById("survey-status-label");
+            const installContext = getInstallContext();
             if (installLabel) {
                 if (isRunningStandalone()) {
                     installLabel.textContent = "Aplikacja działa już jak skrót z ekranu głównego.";
+                } else if (installContext.isIOS && installContext.isSafariIOS) {
+                    installLabel.textContent = "Na iPhonie dodaj przez Safari: Udostępnij i Dodaj do ekranu początkowego.";
+                } else if (installContext.isIOS) {
+                    installLabel.textContent = "Na iPhonie najpewniej zainstalujesz przez Safari.";
+                } else if (installContext.isSamsung) {
+                    installLabel.textContent = "W Samsung Internet instalacja bywa ograniczona. Najpewniej działa Chrome.";
+                } else if (installContext.isAndroid && !installContext.isChromeAndroid) {
+                    installLabel.textContent = "Na Androidzie otwórz stronę w Chrome, aby uzyskać pełny tryb PWA.";
                 } else if (deferredPrompt) {
                     installLabel.textContent = "Możesz zainstalować automatycznie z poziomu aplikacji.";
                 } else if (serviceWorkerReady) {
-                    installLabel.textContent = "Tryb PWA jest gotowy. Otwórz w Chrome/Safari, aby dodać do ekranu głównego.";
+                    installLabel.textContent = "Tryb PWA jest gotowy. Dodaj aplikację z menu przeglądarki.";
                 } else {
                     installLabel.textContent = "Przygotowuję tryb PWA na tym urządzeniu.";
                 }
@@ -2905,8 +2972,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         function openInstallModal() {
             const content = document.getElementById("install-modal-content");
-            const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isAndroid = /Android/.test(navigator.userAgent);
+            const installContext = getInstallContext();
             installNative.hidden = true;
 
             if (isRunningStandalone()) {
@@ -2914,39 +2980,73 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     <p class="modal-copy">Skrót jest aktywny. Aplikacja została uruchomiona jak normalna aplikacja z ekranu głównego.</p>
                     <div class="notice">Dane grupy, motyw i dostęp kadry są zapisane lokalnie na tym urządzeniu.</div>
                 `;
-            } else if (!serviceWorkerReady) {
+            } else if (installContext.isIOS && installContext.isSafariIOS) {
                 content.innerHTML = `
-                    <p class="modal-copy">Aplikacja przygotowuje tryb PWA na tym urządzeniu. Odśwież stronę za chwilę i otwórz ją w Chrome na Androidzie albo Safari na iPhonie.</p>
-                    <div class="notice">Automatyczny przycisk instalacji pojawi się tylko wtedy, gdy przeglądarka uzna aplikację za gotową do instalacji.</div>
-                `;
-            } else if (deferredPrompt) {
-                content.innerHTML = `
-                    <p class="modal-copy">Telefon pozwala dodać EPP 2026 automatycznie. To najszybsza opcja i działa bez sklepu z aplikacjami.</p>
-                    <div class="notice">Po dodaniu używaj ikony z ekranu głównego, żeby aplikacja otwierała się pełnoekranowo.</div>
-                `;
-                installNative.hidden = false;
-            } else if (isiOS) {
-                content.innerHTML = `
-                    <p class="modal-copy">Na iPhonie dodaj aplikację przez Safari:</p>
+                    <p class="modal-copy">Wykryłem Safari na iPhonie. Dodaj aplikację tak:</p>
                     <div class="install-steps">
                         <div class="install-step"><b>1</b><span>Stuknij przycisk udostępniania w Safari.</span></div>
                         <div class="install-step"><b>2</b><span>Wybierz “Dodaj do ekranu początkowego”.</span></div>
                         <div class="install-step"><b>3</b><span>Potwierdź przyciskiem “Dodaj”.</span></div>
                     </div>
+                    <div class="notice">Na iPhonie pełny skrót aplikacji najpewniej działa po dodaniu z Safari.</div>
                 `;
-            } else if (isAndroid) {
+            } else if (installContext.isIOS) {
+                content.innerHTML = `
+                    <p class="modal-copy">Wykryłem iPhone'a, ale nie jesteś w Safari.</p>
+                    <div class="notice">Skopiuj adres tej strony, otwórz go w Safari i dopiero tam wybierz udostępnianie oraz “Dodaj do ekranu początkowego”.</div>
+                    <div class="install-steps">
+                        <div class="install-step"><b>1</b><span>Otwórz aplikację Safari.</span></div>
+                        <div class="install-step"><b>2</b><span>Wklej adres EPP 2026 w pasku adresu.</span></div>
+                        <div class="install-step"><b>3</b><span>Stuknij udostępnianie i wybierz “Dodaj do ekranu początkowego”.</span></div>
+                    </div>
+                `;
+            } else if (installContext.isSamsung) {
+                content.innerHTML = `
+                    <p class="modal-copy">Wykryłem Samsung Internet.</p>
+                    <div class="notice">Ta przeglądarka potrafi dodać skrót, ale na części telefonów działa on inaczej niż pełna instalacja PWA z Chrome. Jeśli po instalacji coś wygląda jak strona albo aplikacja gubi tryb pełnoekranowy, usuń skrót i zainstaluj przez Chrome.</div>
+                    ${renderOpenChromeLink()}
+                    <div class="install-steps">
+                        <div class="install-step"><b>1</b><span>Stuknij “Otwórz w Chrome”.</span></div>
+                        <div class="install-step"><b>2</b><span>W Chrome otwórz menu z trzema kropkami.</span></div>
+                        <div class="install-step"><b>3</b><span>Wybierz “Zainstaluj aplikację” albo “Dodaj do ekranu głównego”.</span></div>
+                    </div>
+                `;
+            } else if (installContext.isAndroid && !installContext.isChromeAndroid) {
+                content.innerHTML = `
+                    <p class="modal-copy">Na Androidzie najpewniejsza instalacja PWA jest przez aktualny Chrome.</p>
+                    <div class="notice">Twoja przeglądarka może dodać skrót, ale nie każda uruchamia PWA tak samo. Dla pełnego widoku aplikacji otwórz stronę w Chrome i zainstaluj ją stamtąd.</div>
+                    ${renderOpenChromeLink()}
+                    <div class="install-steps">
+                        <div class="install-step"><b>1</b><span>Stuknij “Otwórz w Chrome”.</span></div>
+                        <div class="install-step"><b>2</b><span>Wybierz “Zainstaluj aplikację” albo “Dodaj do ekranu głównego”.</span></div>
+                        <div class="install-step"><b>3</b><span>Potwierdź dodanie skrótu.</span></div>
+                    </div>
+                `;
+            } else if (deferredPrompt) {
+                content.innerHTML = `
+                    <p class="modal-copy">Telefon pozwala dodać EPP 2026 automatycznie. To najszybsza opcja i działa bez sklepu z aplikacjami.</p>
+                    <div class="notice">Po dodaniu używaj ikony z ekranu głównego, żeby aplikacja otwierała się pełnoekranowo. Przed instalacją warto mieć aktualny Chrome i Android System WebView.</div>
+                `;
+                installNative.hidden = false;
+            } else if (installContext.isAndroid) {
                 content.innerHTML = `
                     <p class="modal-copy">Na Androidzie dodaj aplikację przez Chrome:</p>
+                    <div class="notice">Jeśli nie widzisz przycisku automatycznej instalacji, odśwież stronę po chwili albo użyj menu Chrome.</div>
                     <div class="install-steps">
                         <div class="install-step"><b>1</b><span>Stuknij menu z trzema kropkami w Chrome.</span></div>
                         <div class="install-step"><b>2</b><span>Wybierz “Zainstaluj aplikację” albo “Dodaj do ekranu głównego”.</span></div>
                         <div class="install-step"><b>3</b><span>Potwierdź dodanie skrótu.</span></div>
                     </div>
                 `;
+            } else if (!serviceWorkerReady) {
+                content.innerHTML = `
+                    <p class="modal-copy">Aplikacja przygotowuje tryb PWA na tym urządzeniu. Odśwież stronę za chwilę i otwórz ją w przeglądarce obsługującej instalację aplikacji.</p>
+                    <div class="notice">Automatyczny przycisk instalacji pojawi się tylko wtedy, gdy przeglądarka uzna aplikację za gotową do instalacji.</div>
+                `;
             } else {
                 content.innerHTML = `
                     <p class="modal-copy">Jeśli przeglądarka obsługuje PWA, w menu przeglądarki wybierz dodanie strony do ekranu głównego.</p>
-                    <div class="notice">Najlepiej działa Chrome na Androidzie i Safari na iPhonie.</div>
+                    <div class="notice">Najstabilniej działa Chrome na Androidzie i Safari na iPhonie.</div>
                 `;
             }
 
@@ -2998,12 +3098,50 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             if (!["http:", "https:"].includes(window.location.protocol)) return;
 
             const basePath = getPwaBasePath();
-            navigator.serviceWorker.register(`${basePath}sw.js`, { scope: basePath })
-                .then(() => navigator.serviceWorker.ready)
-                .then(() => {
+            navigator.serviceWorker.addEventListener("controllerchange", () => {
+                if (!serviceWorkerRefreshPending) return;
+                serviceWorkerRefreshPending = false;
+                window.location.reload();
+            });
+
+            navigator.serviceWorker.register(`${basePath}sw.js`, {
+                scope: basePath,
+                updateViaCache: "none"
+            })
+                .then((registration) => {
+                    const activateUpdatedWorker = (worker) => {
+                        if (!worker || !navigator.serviceWorker.controller || serviceWorkerRefreshPending) return;
+                        serviceWorkerRefreshPending = true;
+                        worker.postMessage({ type: "SKIP_WAITING" });
+                        showToast("Pobrano nową wersję aplikacji. Odświeżam widok.");
+                    };
+
+                    const watchWorker = (worker) => {
+                        if (!worker) return;
+                        if (worker.state === "installed") {
+                            activateUpdatedWorker(worker);
+                            return;
+                        }
+                        worker.addEventListener("statechange", () => {
+                            if (worker.state === "installed" && navigator.serviceWorker.controller) {
+                                activateUpdatedWorker(worker);
+                            }
+                        });
+                    };
+
+                    registration.addEventListener("updatefound", () => {
+                        watchWorker(registration.installing);
+                    });
+                    watchWorker(registration.installing);
+                    watchWorker(registration.waiting);
+                    registration.update().catch(() => {});
+                    return navigator.serviceWorker.ready;
+                })
+                .then((registration) => {
                     serviceWorkerReady = true;
                     updateActionStatuses();
                     triggerDynamicVersionDisplay();
+                    registration.update().catch(() => {});
                 })
                 .catch((error) => {
                     console.warn("Service Worker nie został zarejestrowany:", error);
