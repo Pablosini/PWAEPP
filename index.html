@@ -7,11 +7,11 @@
     <meta name="color-scheme" id="color-scheme" content="light dark">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="EPP 2026">
+    <meta name="apple-mobile-web-app-title" content="EPP na Jasną Górę">
     <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="default">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
-    <title>EPP 2026</title>
+    <title>EPP na Jasną Górę</title>
     <style>
         :root {
             --bg: #fbf7ef;
@@ -314,12 +314,14 @@
             min-width: 0;
         }
 
-        .status-band {
+        .home-hero {
             padding: 18px;
             border-radius: 8px;
             background: linear-gradient(135deg, var(--surface), var(--surface-soft));
             border: 1px solid var(--line);
             box-shadow: var(--shadow);
+            display: grid;
+            gap: 16px;
         }
 
         .status-kicker,
@@ -333,20 +335,36 @@
             text-transform: uppercase;
         }
 
-        .status-title {
-            margin: 8px 0 0;
-            font-size: clamp(1.85rem, 10vw, 3rem);
-            line-height: 0.96;
-            letter-spacing: 0;
-            font-weight: 950;
+        .home-hero-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-width: 0;
         }
 
-        .status-copy {
-            margin: 12px 0 0;
+        .home-hero-meta span {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .home-hero-title {
+            margin: 0;
+            font-size: clamp(1.75rem, 9vw, 2.8rem);
+            line-height: 1;
+            letter-spacing: 0;
+            font-weight: 950;
+            overflow-wrap: anywhere;
+        }
+
+        .home-hero-copy {
+            margin: 0;
             color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            font-weight: 650;
+            font-size: 0.86rem;
+            line-height: 1.42;
+            font-weight: 720;
         }
 
         .route-line {
@@ -373,52 +391,6 @@
             height: 2px;
             border-radius: 999px;
             background: linear-gradient(90deg, var(--primary), var(--green));
-        }
-
-        .countdown-band {
-            padding: 16px;
-            border-radius: 8px;
-            background: var(--surface);
-            border: 1px solid var(--line);
-            box-shadow: var(--shadow);
-            display: grid;
-            gap: 14px;
-        }
-
-        .countdown-top {
-            display: flex;
-            align-items: start;
-            justify-content: space-between;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .countdown-title {
-            display: block;
-            margin-top: 5px;
-            min-width: 0;
-            font-size: 1.05rem;
-            line-height: 1.15;
-            font-weight: 950;
-            color: var(--text);
-            overflow-wrap: anywhere;
-        }
-
-        .countdown-badge {
-            flex: 0 0 auto;
-            min-height: 30px;
-            padding: 0 10px;
-            border-radius: 999px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: color-mix(in srgb, var(--primary) 14%, transparent);
-            color: var(--primary-strong);
-            font-size: 0.68rem;
-            line-height: 1;
-            font-weight: 950;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
         }
 
         .countdown-values {
@@ -457,10 +429,70 @@
 
         .countdown-note {
             margin: 0;
-            color: var(--muted);
-            font-size: 0.82rem;
+            color: var(--primary-strong);
+            font-size: 0.84rem;
             line-height: 1.35;
-            font-weight: 700;
+            font-weight: 850;
+        }
+
+        .pilgrimage-progress {
+            display: grid;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+            border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--line));
+        }
+
+        .pilgrimage-progress[hidden] {
+            display: none;
+        }
+
+        .pilgrimage-progress-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            color: var(--primary-strong);
+            font-size: 0.76rem;
+            line-height: 1.2;
+            font-weight: 950;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .pilgrimage-progress-top strong {
+            font-size: 1rem;
+            letter-spacing: 0;
+        }
+
+        .pilgrimage-progress-track {
+            height: 9px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--primary) 16%, transparent);
+        }
+
+        .pilgrimage-progress-track[hidden],
+        .pilgrimage-progress-message[hidden] {
+            display: none;
+        }
+
+        .pilgrimage-progress-fill {
+            display: block;
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--primary), var(--green));
+            transition: width 260ms ease;
+        }
+
+        .pilgrimage-progress-message {
+            margin: 0;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.35;
+            font-weight: 750;
         }
 
         .section {
@@ -487,15 +519,15 @@
 
         .quote {
             margin: 0;
-            padding: 18px;
+            padding: 14px 16px;
             border-radius: 8px;
             background: var(--surface);
+            border: 1px solid var(--line);
             border-left: 4px solid var(--primary);
             color: var(--text);
-            line-height: 1.55;
-            font-size: 1rem;
+            line-height: 1.5;
+            font-size: 0.94rem;
             font-style: italic;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
             overflow-wrap: anywhere;
         }
 
@@ -508,16 +540,18 @@
 
         .action-card {
             min-width: 0;
-            min-height: 150px;
-            padding: 18px;
+            min-height: 132px;
+            padding: 18px 14px;
             border-radius: 8px;
             background: var(--surface);
             border: 1px solid var(--line);
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            text-align: left;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            text-align: center;
         }
 
         .action-card:active,
@@ -529,8 +563,8 @@
         }
 
         .card-icon {
-            width: 42px;
-            height: 42px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: grid;
             place-items: center;
@@ -552,8 +586,7 @@
 
         .action-card strong {
             display: block;
-            margin-top: 18px;
-            font-size: 1rem;
+            font-size: 1.02rem;
             line-height: 1.1;
             letter-spacing: 0;
             text-transform: uppercase;
@@ -563,15 +596,6 @@
         .action-card > span:not(.card-icon) {
             display: block;
             min-width: 0;
-        }
-
-        .action-card > span:not(.card-icon) > span {
-            display: block;
-            margin-top: 8px;
-            color: var(--muted);
-            font-size: 0.78rem;
-            line-height: 1.35;
-            font-weight: 650;
         }
 
         .toolbar {
@@ -806,6 +830,153 @@
             border-radius: 8px 8px 0 0;
         }
 
+        .route-overview {
+            display: grid;
+            gap: 12px;
+            padding-top: 18px;
+        }
+
+        .route-public-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .route-public-time {
+            min-width: 0;
+            padding: 11px 12px;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
+        }
+
+        .route-public-time span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.66rem;
+            line-height: 1.2;
+            font-weight: 850;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .route-public-time strong {
+            display: block;
+            margin-top: 4px;
+            color: var(--primary-strong);
+            font-size: 0.94rem;
+            line-height: 1.2;
+            font-weight: 950;
+            overflow-wrap: anywhere;
+        }
+
+        .route-timeline {
+            display: grid;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .route-timeline-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 18px 1fr;
+            gap: 12px;
+            min-width: 0;
+            padding: 0 0 14px;
+        }
+
+        .route-timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 20px;
+            bottom: -2px;
+            width: 2px;
+            border-radius: 999px;
+            background: var(--line);
+        }
+
+        .route-timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .route-timeline-item:last-child::before {
+            display: none;
+        }
+
+        .route-timeline-dot {
+            width: 18px;
+            height: 18px;
+            margin-top: 1px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 0 4px var(--surface-soft);
+            z-index: 1;
+        }
+
+        .route-timeline-item:first-child .route-timeline-dot,
+        .route-timeline-item:last-child .route-timeline-dot {
+            background: var(--primary);
+        }
+
+        .route-timeline-item.is-location-passed .route-timeline-dot {
+            background: color-mix(in srgb, var(--green) 62%, var(--surface));
+            border-color: var(--green);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 12%, transparent);
+        }
+
+        .route-timeline-item.is-location-current .route-timeline-dot {
+            background: var(--green);
+            border-color: var(--green);
+            box-shadow: 0 0 0 5px color-mix(in srgb, var(--green) 22%, transparent);
+        }
+
+        .route-timeline-content {
+            min-width: 0;
+            padding: 0 0 2px;
+        }
+
+        .route-timeline-content strong {
+            display: block;
+            color: var(--text);
+            font-size: 0.92rem;
+            line-height: 1.25;
+            font-weight: 900;
+            overflow-wrap: anywhere;
+        }
+
+        .route-timeline-content span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 0.76rem;
+            line-height: 1.35;
+            font-weight: 750;
+        }
+
+        .route-timeline-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 7px;
+        }
+
+        .route-timeline-meta span {
+            margin: 0;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
+            color: var(--primary-strong);
+            font-size: 0.72rem;
+            line-height: 1.2;
+            font-weight: 850;
+        }
+
         .schedule-list {
             display: grid;
             gap: 10px;
@@ -880,6 +1051,10 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
             margin-top: 14px;
+        }
+
+        .media-grid.route-media-single {
+            grid-template-columns: 1fr;
         }
 
         .media-card {
@@ -1215,11 +1390,11 @@
             gap: 3px;
             background: transparent;
             color: var(--muted);
-            font-size: 0.64rem;
+            font-size: 0.56rem;
             line-height: 1;
             font-weight: 850;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
+            letter-spacing: 0;
         }
 
         .nav-item.active {
@@ -1282,6 +1457,17 @@
             border: 1px solid var(--line);
             box-shadow: 0 22px 64px rgba(0, 0, 0, 0.3);
             scrollbar-width: none;
+        }
+
+        .modal-shell.sheet-modal {
+            place-items: end center;
+            padding-top: max(52px, calc(var(--safe-top) + 36px));
+        }
+
+        .sheet-modal .modal-card {
+            width: min(100%, 430px);
+            border-radius: 18px 18px 0 0;
+            padding-bottom: max(20px, calc(var(--safe-bottom) + 16px));
         }
 
         .modal-card::-webkit-scrollbar {
@@ -1423,6 +1609,53 @@
             font-weight: 750;
         }
 
+        .password-field {
+            position: relative;
+            margin-top: 16px;
+        }
+
+        .password-field .modal-input {
+            margin-top: 0;
+            padding-left: 44px;
+            padding-right: 46px;
+        }
+
+        .password-field svg {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 19px;
+            height: 19px;
+            color: var(--muted);
+            stroke-width: 2.2;
+            pointer-events: none;
+        }
+
+        .password-field > svg {
+            left: 14px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            width: 38px;
+            height: 38px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: transparent;
+            color: var(--primary-strong);
+            line-height: 0;
+        }
+
+        .password-toggle svg {
+            position: static;
+            transform: none;
+            pointer-events: auto;
+        }
+
         .image-preview {
             width: 100%;
             max-height: 68vh;
@@ -1481,8 +1714,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .status-band,
-            .countdown-band,
+            .home-hero,
             .content-card {
                 padding: 16px;
             }
@@ -1497,7 +1729,7 @@
             }
 
             .nav-item {
-                font-size: 0.58rem;
+                font-size: 0.52rem;
             }
         }
 
@@ -1521,7 +1753,7 @@
                 height: 42px;
             }
 
-            .status-title {
+            .home-hero-title {
                 font-size: 1.55rem;
             }
 
@@ -1537,6 +1769,10 @@
             .list-row,
             .option-row {
                 padding: 14px;
+            }
+
+            .route-public-times {
+                grid-template-columns: 1fr;
             }
 
             .schedule-stop {
@@ -1560,7 +1796,7 @@
             }
 
             .nav-item {
-                font-size: 0.52rem;
+                font-size: 0.48rem;
             }
 
             .nav-item svg {
@@ -1583,8 +1819,7 @@
                 margin-top: 18px;
             }
 
-            .status-band,
-            .countdown-band {
+            .home-hero {
                 padding: 15px;
             }
 
@@ -1625,12 +1860,12 @@
 
     <div class="app">
         <header class="topbar">
-            <button class="brand" id="brand-trigger" type="button" aria-label="EPP 2026">
+            <button class="brand" id="brand-trigger" type="button" aria-label="EPP na Jasną Górę">
                 <div class="brand-mark" aria-hidden="true">
                     <img src="icon-192.png" alt="">
                 </div>
                 <div class="brand-text">
-                    <strong>EPP 2026</strong>
+                    <strong>EPP na Jasną Górę</strong>
                     <span>Aplikacja pielgrzyma</span>
                 </div>
             </button>
@@ -1645,21 +1880,11 @@
         <main class="screen" id="screen">
             <section class="view active" id="view-home" data-view="home">
                 <div class="today">
-                    <div class="status-band">
-                        <p class="status-kicker" id="home-date-label">Dziś</p>
-                        <h1 class="status-title">Witaj Pielgrzymie!</h1>
-                        <p class="status-copy" id="home-greeting">Najważniejsze informacje, śpiew i plan trasy są zawsze pod ręką.</p>
-                        <div class="route-line" aria-hidden="true"><span></span></div>
-                    </div>
-
-                    <div class="countdown-band" id="pilgrimage-countdown" aria-live="polite">
-                        <div class="countdown-top">
-                            <div>
-                                <p class="section-kicker" id="countdown-kicker">Odliczanie</p>
-                                <strong class="countdown-title" id="countdown-title">Do wyjścia z Ełku</strong>
-                            </div>
-                            <span class="countdown-badge" id="countdown-badge">Start</span>
+                    <div class="home-hero" id="pilgrimage-countdown" aria-live="polite">
+                        <div class="home-hero-meta">
+                            <span class="status-kicker" id="home-date-label">Dziś</span>
                         </div>
+                        <h1 class="home-hero-title" id="countdown-title">34 raz z Ełku na Jasną Górę wyruszymy za:</h1>
                         <div class="countdown-values">
                             <div class="countdown-value">
                                 <b id="countdown-days">--</b>
@@ -1675,27 +1900,43 @@
                             </div>
                         </div>
                         <p class="countdown-note" id="countdown-note">Wyjście: 28 lipca 2026, 7:00</p>
+                        <div class="pilgrimage-progress" id="pilgrimage-progress" hidden>
+                            <div class="pilgrimage-progress-top">
+                                <span id="pilgrimage-progress-label">Postęp trasy</span>
+                                <strong id="pilgrimage-progress-value">0%</strong>
+                            </div>
+                            <div class="pilgrimage-progress-track" id="pilgrimage-progress-track" aria-hidden="true">
+                                <span class="pilgrimage-progress-fill" id="pilgrimage-progress-fill"></span>
+                            </div>
+                            <p class="pilgrimage-progress-message" id="pilgrimage-progress-message" hidden></p>
+                        </div>
+                        <p class="home-hero-copy" id="home-greeting">Witaj Pielgrzymie! Najważniejsze rzeczy są zawsze pod ręką.</p>
+                        <div class="route-line" aria-hidden="true"><span></span></div>
                     </div>
                 </div>
 
                 <section class="section">
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker">Myśl na dziś</p>
-                            <h2 class="section-title">Słowo w drodze</h2>
+                            <p class="section-kicker">Słowo na dziś</p>
                         </div>
                     </div>
                     <blockquote class="quote" id="home-quote">"Ja jestem drogą i prawdą, i życiem. Nikt nie przychodzi do Ojca inaczej jak tylko przeze Mnie. (J 14, 6)"</blockquote>
                 </section>
 
                 <section class="section">
-                    <div class="section-header">
-                        <div>
-                            <p class="section-kicker">Szybki dostęp</p>
-                            <h2 class="section-title">Co teraz?</h2>
-                        </div>
-                    </div>
                     <div class="action-grid">
+                        <button class="action-card" type="button" data-open="route">
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/>
+                                    <path d="M9 3v15M15 6v15"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Trasa</strong>
+                            </span>
+                        </button>
                         <button class="action-card" type="button" data-open="songs">
                             <span class="card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -1706,7 +1947,6 @@
                             </span>
                             <span>
                                 <strong>Śpiewnik</strong>
-                                <span>Pieśni pielgrzymkowe i refreny.</span>
                             </span>
                         </button>
                         <button class="action-card" type="button" data-open="prayers">
@@ -1718,19 +1958,6 @@
                             </span>
                             <span>
                                 <strong>Modlitewnik</strong>
-                                <span>Modlitwy na trasę i postoje.</span>
-                            </span>
-                        </button>
-                        <button class="action-card" type="button" data-open="route">
-                            <span class="card-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                    <path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/>
-                                    <path d="M9 3v15M15 6v15"/>
-                                </svg>
-                            </span>
-                            <span>
-                                <strong>Trasa</strong>
-                                <span>Mapy i harmonogramy jako zdjęcia.</span>
                             </span>
                         </button>
                         <button class="action-card" type="button" data-open="more">
@@ -1742,7 +1969,6 @@
                             </span>
                             <span>
                                 <strong>Opcje</strong>
-                                <span>Grupa, kadra i wersja.</span>
                             </span>
                         </button>
                     </div>
@@ -1754,8 +1980,7 @@
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker">Śpiewnik</p>
-                            <h2 class="section-title">Pieśni</h2>
+                            <h2 class="section-title">Śpiewnik</h2>
                         </div>
                     </div>
                     <label class="search">
@@ -1774,8 +1999,7 @@
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker">Modlitewnik</p>
-                            <h2 class="section-title">Modlitwy</h2>
+                            <h2 class="section-title">Modlitewnik</h2>
                         </div>
                     </div>
                     <label class="search">
@@ -1794,8 +2018,7 @@
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker">Trasa</p>
-                            <h2 class="section-title">Mapy i harmonogramy</h2>
+                            <h2 class="section-title">Trasa</h2>
                         </div>
                     </div>
                     <div class="segmented" id="group-tabs"></div>
@@ -1808,8 +2031,7 @@
                 <button class="back-button" type="button" data-back>‹ Wróć</button>
                 <div class="section-header">
                     <div>
-                        <p class="section-kicker">Opcje</p>
-                        <h2 class="section-title">Ustawienia</h2>
+                        <h2 class="section-title">Opcje</h2>
                     </div>
                 </div>
                 <div class="option-list">
@@ -1825,24 +2047,16 @@
                             </svg>
                         </button>
                     </div>
+                    <button class="option-row" type="button" data-open="regulations">
+                        <div>
+                            <strong>Regulamin Pielgrzymki</strong>
+                        </div>
+                        <span class="chevron">›</span>
+                    </button>
                     <button class="option-row" id="install-row" type="button">
                         <div>
                             <strong>Skrót na ekranie głównym</strong>
                             <span id="install-status-label">Dodaj aplikację jak normalną ikonę telefonu.</span>
-                        </div>
-                        <span class="chevron">›</span>
-                    </button>
-                    <button class="option-row" type="button" data-open="regulations">
-                        <div>
-                            <strong>Regulamin Pielgrzymki</strong>
-                            <span>Zasady drogi, noclegów, bagażu i bezpieczeństwa.</span>
-                        </div>
-                        <span class="chevron">›</span>
-                    </button>
-                    <button class="option-row" id="kadra-entry-row" type="button" data-open="kadra" hidden>
-                        <div>
-                            <strong>Zakładka Kadra</strong>
-                            <span>Kontakty i informacje organizacyjne po zalogowaniu.</span>
                         </div>
                         <span class="chevron">›</span>
                     </button>
@@ -1859,7 +2073,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.1<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.27<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -1958,14 +2172,14 @@
                     <circle cx="6" cy="18" r="3"/>
                     <circle cx="18" cy="16" r="3"/>
                 </svg>
-                <span>Śpiew</span>
+                <span>Śpiewnik</span>
             </button>
             <button class="nav-item" type="button" data-open="prayers" aria-label="Modlitewnik">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                     <path d="M12 2v20M5 7h14"/>
                     <path d="M7 22h10"/>
                 </svg>
-                <span>Modlitwa</span>
+                <span>Modlitewnik</span>
             </button>
             <button class="nav-item" type="button" data-open="route" aria-label="Trasa">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -2002,9 +2216,10 @@
                             </svg>
                         </div>
                     </div>
-                    <h2 class="modal-title" id="intro-title">Witaj w wersji testowej</h2>
-                    <p class="modal-copy">Ta aplikacja jest prototypem pielgrzymkowym EPP 2026. Sprawdzamy, czy może zastąpić książeczkę pielgrzyma i realnie pomagać w czasie drogi.</p>
-                    <p class="modal-copy">Wygląd i część funkcji mogą się jeszcze zmieniać. Po pielgrzymce poprosimy Cię o krótką opinię, żeby dopracować aplikację przed kolejną edycją.</p>
+                    <h2 class="modal-title" id="intro-title">Witaj Pielgrzymie w (beta) aplikacji pielgrzymkowej!</h2>
+                    <p class="modal-copy">Dziękujemy, że bierzesz udział w testach i pomagasz nam ją rozwijać. Cała aplikacja — zarówno jej działanie, jak i wygląd — jest wciąż w fazie testowej.</p>
+                    <p class="modal-copy">Sprawdzamy, czy może ona w przyszłości zastąpić tradycyjną książeczkę pielgrzyma i być realnym wsparciem w czasie pielgrzymki.</p>
+                    <p class="modal-copy">Na zakończenie pielgrzymki poprosimy Cię o krótką ankietę (ok. 5 minut). Twoja opinia pomoże nam ją ulepszyć. Dziękujemy!</p>
                     <div class="modal-actions">
                         <button class="primary-button" id="intro-next" type="button">Dalej</button>
                     </div>
@@ -2028,11 +2243,22 @@
                             <path d="M9 12l2 2 4-5"/>
                         </svg>
                     </div>
-                    <button class="secondary-button" id="kadra-close" type="button">Zamknij</button>
                 </div>
-                <h2 class="modal-title" id="kadra-title">Strefa kadry</h2>
-                <p class="modal-copy">Funkcja przeznaczona wyłącznie dla organizatorów. Wprowadź hasło kadry kierowniczej.</p>
-                <input class="modal-input" id="kadra-password" type="password" placeholder="Hasło kadry" autocomplete="current-password">
+                <h2 class="modal-title" id="kadra-title">Dostęp organizacyjny</h2>
+                <p class="modal-copy">Zaloguj się, aby włączyć widok kadry.</p>
+                <div class="password-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                        <rect x="5" y="10" width="14" height="10" rx="2"/>
+                        <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                    </svg>
+                    <input class="modal-input" id="kadra-password" type="password" placeholder="Hasło kadry" autocomplete="current-password">
+                    <button class="password-toggle" id="kadra-password-toggle" type="button" aria-label="Pokaż hasło">
+                        <svg id="kadra-password-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                            <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
                 <p class="input-error" id="kadra-error"></p>
                 <div class="modal-actions">
                     <button class="secondary-button" id="kadra-cancel" type="button">Anuluj</button>
@@ -2072,6 +2298,28 @@
             </div>
         </div>
 
+        <div class="modal-shell" id="survey-modal" hidden>
+            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="survey-title">
+                <div class="modal-top">
+                    <div class="modal-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 11l2 2 4-4"/>
+                            <path d="M20 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2Z"/>
+                            <path d="M8 16h8"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="section-kicker">Ankieta</p>
+                <h2 class="modal-title" id="survey-title">Ankieta użyteczności jest już dostępna</h2>
+                <p class="modal-copy">Zapraszamy do wypełnienia krótkiej ankiety i podzielenia się swoimi wrażeniami z użytkowania aplikacji.</p>
+                <p class="modal-copy">Twoja opinia pomoże nam lepiej dopasować aplikację do realnych potrzeb pielgrzymów.</p>
+                <div class="modal-actions">
+                    <button class="secondary-button" id="survey-later" type="button">Później</button>
+                    <button class="primary-button" id="survey-open" type="button">Wypełnij ankietę</button>
+                </div>
+            </div>
+        </div>
+
         <div class="modal-shell" id="image-modal" hidden>
             <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="image-title">
                 <div class="modal-top">
@@ -2090,12 +2338,15 @@
     </div>
 
     <script>
-        let appActiveVersion = "Wersja 1.0.14";
+        let appActiveVersion = "Wersja 1.0.27";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
         let openRouteDayId = null;
         let currentViewName = "home";
+        let userRoutePosition = null;
+        let routeLocationStatus = "unknown";
+        let routeLocationWatchId = null;
         const viewHistory = [];
 
         const safeStorage = {
@@ -2137,6 +2388,8 @@
                 delete this.fallbackStore[key];
             }
         };
+
+        routeLocationStatus = safeStorage.getItem("epp-route-location-status") || "unknown";
 
         const sourceTextData = {
             songs: [
@@ -2375,7 +2628,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }))
         ];
 
-        const mainRouteDayCount = 15;
         const prefixRouteDayCounts = {
             augustow: 2,
             galindia: 1,
@@ -2384,113 +2636,1203 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             suwalki: 2
         };
 
-        const kadraRouteDetails = {
-            1: [
-                { nazwa: "Ełk Katedra (Start)", wejscie: "06:00", wyjscie: "07:00", czas: "60 min", uwagi: "Zbiórka, Msza św., załadunek bagaży grupy." },
-                { nazwa: "Postój I - Nowa Wieś Ełcka", wejscie: "08:30", wyjscie: "09:00", czas: "30 min", uwagi: "Herbata i drożdżówki w parku przy kościele." },
-                { nazwa: "Postój II - Zdunki", wejscie: "11:15", wyjscie: "11:45", czas: "30 min", uwagi: "Uzupełnienie wody, krótka modlitwa." },
-                { nazwa: "Obiad - Biała Piska", wejscie: "14:00", wyjscie: "15:30", czas: "90 min", uwagi: "Ciepły posiłek z kuchni polowej. Dołącza grupa Galindia." },
-                { nazwa: "Nocleg - Skarżyn", wejscie: "18:30", wyjscie: "---", czas: "---", uwagi: "Zakwaterowanie. Apel Jasnogórski o 21:00." }
-            ],
-            2: [
-                { nazwa: "Skarżyn (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Bagaże zdać do 05:45." },
-                { nazwa: "Postój I - Niedźwiedzkie", wejscie: "08:15", wyjscie: "08:45", czas: "30 min", uwagi: "Punkt medyczny dla pątników z pęcherzami." },
-                { nazwa: "Postój II - Szczuczyn", wejscie: "11:00", wyjscie: "11:45", czas: "45 min", uwagi: "Wejście do kościoła i konferencja duchowa." },
-                { nazwa: "Obiad - Wąsosz", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Tradycyjny obiad przy parafii." },
-                { nazwa: "Nocleg - Radziłów", wejscie: "18:00", wyjscie: "---", czas: "---", uwagi: "Nabożeństwo pokutne. Odprawa o 21:15." }
-            ],
-            3: [
-                { nazwa: "Radziłów (Wyjście)", wejscie: "---", wyjscie: "05:30", czas: "---", uwagi: "Wczesne wyjście ze względu na trudny etap." },
-                { nazwa: "Postój I - Mścichy", wejscie: "07:45", wyjscie: "08:15", czas: "30 min", uwagi: "Ostatnia strefa z dobrym zasięgiem." },
-                { nazwa: "Postój II - Klimaszewnica", wejscie: "10:30", wyjscie: "11:00", czas: "30 min", uwagi: "Odpoczynek na łące, zabezpieczenie kierunkowe." },
-                { nazwa: "Obiad - Osowiec-Twierdza", wejscie: "13:15", wyjscie: "14:45", czas: "90 min", uwagi: "Posiłek regeneracyjny i odpoczynek." },
-                { nazwa: "Nocleg - Goniądz", wejscie: "17:45", wyjscie: "---", czas: "---", uwagi: "Noclegi w namiotach i remizie." }
-            ],
-            4: [
-                { nazwa: "Goniądz (Wyjście)", wejscie: "---", wyjscie: "06:15", czas: "---", uwagi: "Modlitwa poranna przy bazie." },
-                { nazwa: "Postój I - Downary", wejscie: "08:30", wyjscie: "09:00", czas: "30 min", uwagi: "Woda od mieszkańców, punkt medyczny." },
-                { nazwa: "Postój II - Kulesze", wejscie: "11:15", wyjscie: "11:45", czas: "30 min", uwagi: "Różaniec w intencji dobrodziejów." },
-                { nazwa: "Obiad - Mońki", wejscie: "13:45", wyjscie: "15:15", czas: "90 min", uwagi: "Msza św. i obiad polowy." },
-                { nazwa: "Nocleg - Knyszyn", wejscie: "18:15", wyjscie: "---", czas: "---", uwagi: "Zbiórka bagażowa i apel muzyczny." }
-            ],
-            5: [
-                { nazwa: "Knyszyn (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Start przez Knyszyński Park Krajobrazowy." },
-                { nazwa: "Postój I - Krypno Kościelne", wejscie: "08:00", wyjscie: "08:45", czas: "45 min", uwagi: "Sanktuarium Maryjne, modlitwa przed obrazem." },
-                { nazwa: "Postój II - Długołęka", wejscie: "11:00", wyjscie: "11:30", czas: "30 min", uwagi: "Zgłoszenie stanu rannych pątników." },
-                { nazwa: "Obiad - Kobylin-Borzymy", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Posiłek i odprawa kwatermistrza." },
-                { nazwa: "Nocleg - Sokoły", wejscie: "18:00", wyjscie: "---", czas: "---", uwagi: "Przydział kwater po wejściu." }
-            ],
-            6: [
-                { nazwa: "Sokoły (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Bagaże na samochody do 05:40." },
-                { nazwa: "Postój I - Bruszewo", wejscie: "08:15", wyjscie: "08:45", czas: "30 min", uwagi: "Poczęstunek od mieszkańców." },
-                { nazwa: "Postój II - Wysokie Mazowieckie", wejscie: "11:00", wyjscie: "11:45", czas: "45 min", uwagi: "Konferencja na placu miejskim." },
-                { nazwa: "Obiad - Szepietowo", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Obiad polowy." },
-                { nazwa: "Nocleg - Dąbrowa Wielka", wejscie: "18:15", wyjscie: "---", czas: "---", uwagi: "Odprawa przewodników o 21:00." }
-            ],
-            7: [
-                { nazwa: "Dąbrowa Wielka (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Jutrznia śpiewana przez megafony." },
-                { nazwa: "Postój I - Szepietowo-Podgórze", wejscie: "08:00", wyjscie: "08:30", czas: "30 min", uwagi: "Zabezpieczenie przejazdu kolejowego." },
-                { nazwa: "Postój II - Czyżew", wejscie: "10:45", wyjscie: "11:30", czas: "45 min", uwagi: "Wejście do kościoła na modlitwę." },
-                { nazwa: "Obiad - Rosochate Kościelne", wejscie: "13:45", wyjscie: "15:15", czas: "90 min", uwagi: "Ciepła zupa od parafian." },
-                { nazwa: "Nocleg - Zuzela", wejscie: "18:30", wyjscie: "---", czas: "---", uwagi: "Miejsce urodzenia kard. Stefana Wyszyńskiego." }
-            ],
-            8: [
-                { nazwa: "Zuzela (Wyjście)", wejscie: "---", wyjscie: "05:45", czas: "---", uwagi: "Trudny etap wzdłuż rzeki Bug." },
-                { nazwa: "Postój I - Małkinia Górna", wejscie: "08:15", wyjscie: "09:00", czas: "45 min", uwagi: "Duży postój regeneracyjny." },
-                { nazwa: "Postój II - Brok", wejscie: "11:30", wyjscie: "12:15", czas: "45 min", uwagi: "Nabożeństwo i modlitwa powołaniowa." },
-                { nazwa: "Obiad - Sadowne", wejscie: "14:15", wyjscie: "15:45", czas: "90 min", uwagi: "Obiad od OSP i parafii." },
-                { nazwa: "Nocleg - Łochów", wejscie: "18:45", wyjscie: "---", czas: "---", uwagi: "Wieczorny apel z zespołem ewangelizacyjnym." }
-            ],
-            9: [
-                { nazwa: "Łochów (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Wymarsz leśnymi traktami." },
-                { nazwa: "Postój I - Kamionna", wejscie: "08:15", wyjscie: "08:45", czas: "30 min", uwagi: "Zabezpieczenie przy drodze krajowej." },
-                { nazwa: "Postój II - Węgrów", wejscie: "11:15", wyjscie: "12:00", czas: "45 min", uwagi: "Wejście do Bazyliki Mniejszej." },
-                { nazwa: "Obiad - Liw", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Obiad na terenie przy zamku." },
-                { nazwa: "Nocleg - Grębków", wejscie: "18:15", wyjscie: "---", czas: "---", uwagi: "Przygotowanie ołtarza polowego." }
-            ],
-            10: [
-                { nazwa: "Grębków (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Służba drogowa pilnuje tempa kolumny." },
-                { nazwa: "Postój I - Kopcie", wejscie: "08:15", wyjscie: "08:45", czas: "30 min", uwagi: "Opatrywanie ran stóp." },
-                { nazwa: "Postój II - Kałuszyn", wejscie: "11:00", wyjscie: "11:45", czas: "45 min", uwagi: "Konferencja duchowa." },
-                { nazwa: "Obiad - Siennica", wejscie: "14:00", wyjscie: "15:30", czas: "90 min", uwagi: "Posiłek w cieniu ogrodów poklasztornych." },
-                { nazwa: "Nocleg - Latowicz", wejscie: "18:30", wyjscie: "---", czas: "---", uwagi: "Spotkanie z rodzinami przyjmującymi." }
-            ],
-            11: [
-                { nazwa: "Latowicz (Wyjście)", wejscie: "---", wyjscie: "05:45", czas: "---", uwagi: "Marsz dolinami rzeki Świder." },
-                { nazwa: "Postój I - Wielgolas", wejscie: "08:00", wyjscie: "08:45", czas: "45 min", uwagi: "Sanktuarium MB Łaskawej." },
-                { nazwa: "Postój II - Jeruzal", wejscie: "11:00", wyjscie: "11:30", czas: "30 min", uwagi: "Krótki postój na rynku." },
-                { nazwa: "Obiad - Cegłów", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Ciepły posiłek od parafian." },
-                { nazwa: "Nocleg - Mińsk Mazowiecki", wejscie: "18:00", wyjscie: "---", czas: "---", uwagi: "Zakwaterowanie w szkołach." }
-            ],
-            12: [
-                { nazwa: "Mińsk Mazowiecki (Wyjście)", wejscie: "---", wyjscie: "06:00", czas: "---", uwagi: "Wymarsz lewym poboczem drogi lokalnej." },
-                { nazwa: "Postój I - Dębe Wielkie", wejscie: "08:15", wyjscie: "08:45", czas: "30 min", uwagi: "Monitoring nawodnienia kolumny." },
-                { nazwa: "Postój II - Halinów", wejscie: "11:00", wyjscie: "11:45", czas: "45 min", uwagi: "Adoracja Najświętszego Sakramentu." },
-                { nazwa: "Obiad - Sulejówek", wejscie: "13:30", wyjscie: "15:00", czas: "90 min", uwagi: "Obiad polowy." },
-                { nazwa: "Nocleg - Warszawa Rembertów", wejscie: "18:15", wyjscie: "---", czas: "---", uwagi: "Noclegi u rodzin parafii." }
-            ],
-            13: [
-                { nazwa: "Warszawa Rembertów (Wyjście)", wejscie: "---", wyjscie: "05:30", czas: "---", uwagi: "Kluczowe przejście przez warszawskie węzły." },
-                { nazwa: "Postój I - Warszawa Siekierki", wejscie: "08:15", wyjscie: "09:00", czas: "45 min", uwagi: "Sanktuarium Maryjne." },
-                { nazwa: "Postój II - Warszawa Ursynów", wejscie: "11:30", wyjscie: "12:15", czas: "45 min", uwagi: "Adoracja i konferencja." },
-                { nazwa: "Obiad - Raszyn", wejscie: "14:15", wyjscie: "15:45", czas: "90 min", uwagi: "Obiad polowy w parku." },
-                { nazwa: "Nocleg - Nadarzyn", wejscie: "19:00", wyjscie: "---", czas: "---", uwagi: "Przygotowanie przed długim etapem." }
-            ],
-            14: [
-                { nazwa: "Nadarzyn (Wyjście)", wejscie: "---", wyjscie: "05:30", czas: "---", uwagi: "Wymarsz piaszczystym traktem leśnym." },
-                { nazwa: "Postój I - Radziejowice", wejscie: "08:15", wyjscie: "09:00", czas: "45 min", uwagi: "Postój w parku pałacowym." },
-                { nazwa: "Postój II - Mszczonów", wejscie: "11:30", wyjscie: "12:15", czas: "45 min", uwagi: "Różaniec w intencji powołań." },
-                { nazwa: "Obiad - Biała Rawska", wejscie: "14:15", wyjscie: "15:45", czas: "90 min", uwagi: "Obiad od OSP." },
-                { nazwa: "Nocleg - Rawa Mazowiecka", wejscie: "19:15", wyjscie: "---", czas: "---", uwagi: "Wieczorne czuwanie i spowiedź." }
-            ],
-            15: [
-                { nazwa: "Rawa Mazowiecka (Wyjście)", wejscie: "---", wyjscie: "05:00", czas: "---", uwagi: "Ostatni etap przed Jasną Górą." },
-                { nazwa: "Postój I - Regnów", wejscie: "07:30", wyjscie: "08:00", czas: "30 min", uwagi: "Formowanie kolumny." },
-                { nazwa: "Częstochowa (Zbiórka)", wejscie: "09:30", wyjscie: "10:30", czas: "60 min", uwagi: "Przebranie w odświętne koszulki." },
-                { nazwa: "Wejście na Jasną Górę", wejscie: "11:00", wyjscie: "---", czas: "---", uwagi: "Powitanie i pokłon przed Obrazem." },
-                { nazwa: "Msza święta dziękczynna", wejscie: "16:00", wyjscie: "---", czas: "---", uwagi: "Zakończenie EPP 2026." }
-            ]
-        };
+        const mainRouteSchedule = [
+          {
+                    "day": 1,
+                    "distance": "35 km",
+                    "date": "28.07",
+                    "route": "Ełk - Biała Piska",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Ełk",
+                                        "wejscie": "---",
+                                        "wyjscie": "07:15",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Nowa Wieś Ełcka",
+                                        "wejscie": "09:00",
+                                        "wyjscie": "09:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Bajtkowo",
+                                        "wejscie": "11:30",
+                                        "wyjscie": "12:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Pogorzel Wielka",
+                                        "wejscie": "13:30",
+                                        "wyjscie": "14:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Drygały",
+                                        "wejscie": "15:00",
+                                        "wyjscie": "16:30",
+                                        "czas": "1 godz. 30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Sulimy",
+                                        "wejscie": "17:30",
+                                        "wyjscie": "18:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Biała Piska",
+                                        "wejscie": "19:00",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Ełk",
+                              "Nowa Wieś Ełcka",
+                              "Bajtkowo",
+                              "Pogorzel Wielka",
+                              "Drygały",
+                              "Sulimy",
+                              "Biała Piska"
+                    ],
+                    "title": "Ełk - Biała Piska",
+                    "start": "Ełk",
+                    "finish": "Biała Piska",
+                    "publicNote": "35 km. Przebieg: Ełk - Biała Piska.",
+                    "publicDeparture": "07:15",
+                    "publicAppeal": "21:00",
+                    "publicSummary": "Wyjście 07:15 · Apel 21:00",
+                    "publicMass": {
+                              "time": "06:00",
+                              "place": "Ełk"
+                    }
+          },
+          {
+                    "day": 2,
+                    "distance": "33,5 km",
+                    "date": "29.07",
+                    "route": "Biała Piska - Zabiele",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Biała Piska",
+                                        "wejscie": "---",
+                                        "wyjscie": "08:15",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Kumielsk",
+                                        "wejscie": "10:00",
+                                        "wyjscie": "10:45",
+                                        "czas": "45 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Grodzisko las",
+                                        "wejscie": "11:45",
+                                        "wyjscie": "12:15",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Okurowo",
+                                        "wejscie": "13:15",
+                                        "wyjscie": "14:00",
+                                        "czas": "45 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Górskie",
+                                        "wejscie": "15:00",
+                                        "wyjscie": "15:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Kolno",
+                                        "wejscie": "17:30",
+                                        "wyjscie": "18:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Zabiele",
+                                        "wejscie": "19:30",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Biała Piska",
+                              "Kumielsk",
+                              "Grodzisko las",
+                              "Okurowo",
+                              "Górskie",
+                              "Kolno",
+                              "Zabiele"
+                    ],
+                    "title": "Biała Piska - Zabiele",
+                    "start": "Biała Piska",
+                    "finish": "Zabiele",
+                    "publicNote": "33,5 km. Przebieg: Biała Piska - Zabiele.",
+                    "publicDeparture": "08:15",
+                    "publicAppeal": "21:00",
+                    "publicSummary": "Wyjście 08:15 · Apel 21:00",
+                    "publicMass": {
+                              "time": "07:00",
+                              "place": "Biała Piska"
+                    }
+          },
+          {
+                    "day": 3,
+                    "distance": "31,5 km",
+                    "date": "30.07",
+                    "route": "Zabiele - Dąbrówka",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Zabiele",
+                                        "wejscie": "---",
+                                        "wyjscie": "08:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Kolimagi",
+                                        "wejscie": "09:00",
+                                        "wyjscie": "09:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Cieciory",
+                                        "wejscie": "11:30",
+                                        "wyjscie": "12:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Popiołki ( las)",
+                                        "wejscie": "13:20",
+                                        "wyjscie": "14:00",
+                                        "czas": "40 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Gawrychy",
+                                        "wejscie": "15:00",
+                                        "wyjscie": "16:00",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Wyk las skrz.",
+                                        "wejscie": "17:15",
+                                        "wyjscie": "17:45",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Dąbrówka",
+                                        "wejscie": "19:15",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Zabiele",
+                              "Kolimagi",
+                              "Cieciory",
+                              "Popiołki ( las)",
+                              "Gawrychy",
+                              "Wyk las skrz.",
+                              "Dąbrówka"
+                    ],
+                    "title": "Zabiele - Dąbrówka",
+                    "start": "Zabiele",
+                    "finish": "Dąbrówka",
+                    "publicNote": "31,5 km. Przebieg: Zabiele - Dąbrówka.",
+                    "publicDeparture": "08:00",
+                    "publicAppeal": "po dojściu",
+                    "publicSummary": "Wyjście 08:00 · Apel po dojściu",
+                    "publicMass": {
+                              "time": "07:00",
+                              "place": "Zabiele"
+                    }
+          },
+          {
+                    "day": 4,
+                    "distance": "40 km",
+                    "date": "31.07",
+                    "route": "Dąbrówka - Sypniewo",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Dąbrówka",
+                                        "wejscie": "---",
+                                        "wyjscie": "05:30",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Łęg Starościński",
+                                        "wejscie": "07:30",
+                                        "wyjscie": "08:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Łęg Przedmiejski – las",
+                                        "wejscie": "09:00",
+                                        "wyjscie": "09:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Ostrołęka (k-ł. Nawiedz. NMP)",
+                                        "wejscie": "11:00",
+                                        "wyjscie": "13:00",
+                                        "czas": "2 godz.",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Żebry-Chudek – las",
+                                        "wejscie": "14:30",
+                                        "wyjscie": "15:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Nowa Wieś Kościelna",
+                                        "wejscie": "16:00",
+                                        "wyjscie": "17:00",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Las (przed tabl. Powiatu Maków)",
+                                        "wejscie": "18:30",
+                                        "wyjscie": "19:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Sypniewo",
+                                        "wejscie": "20:15",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Dąbrówka",
+                              "Łęg Starościński",
+                              "Łęg Przedmiejski – las",
+                              "Ostrołęka (k-ł. Nawiedz. NMP)",
+                              "Żebry-Chudek – las",
+                              "Nowa Wieś Kościelna",
+                              "Las (przed tabl. Powiatu Maków)",
+                              "Sypniewo"
+                    ],
+                    "title": "Dąbrówka - Sypniewo",
+                    "start": "Dąbrówka",
+                    "finish": "Sypniewo",
+                    "publicNote": "40 km. Przebieg: Dąbrówka - Sypniewo.",
+                    "publicDeparture": "05:30",
+                    "publicAppeal": "po dojściu wszystkich grup",
+                    "publicSummary": "Wyjście 05:30 · Apel po dojściu wszystkich grup",
+                    "publicMass": {
+                              "time": "11:00",
+                              "place": "Ostrołęka"
+                    }
+          },
+          {
+                    "day": 5,
+                    "distance": "24,5 km",
+                    "date": "01.08",
+                    "route": "Sypniewo - Maków Mazowiecki",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Sypniewo",
+                                        "wejscie": "---",
+                                        "wyjscie": "09:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Gąsewo",
+                                        "wejscie": "11:00",
+                                        "wyjscie": "13:00",
+                                        "czas": "2 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Jurki (przed lasem)",
+                                        "wejscie": "14:30",
+                                        "wyjscie": "15:30",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Ulaski",
+                                        "wejscie": "17:00",
+                                        "wyjscie": "17:45",
+                                        "czas": "45 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Maków Mazowiecki",
+                                        "wejscie": "18:45",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Sypniewo",
+                              "Gąsewo",
+                              "Jurki (przed lasem)",
+                              "Ulaski",
+                              "Maków Mazowiecki"
+                    ],
+                    "title": "Sypniewo - Maków Mazowiecki",
+                    "start": "Sypniewo",
+                    "finish": "Maków Mazowiecki",
+                    "publicNote": "24,5 km. Przebieg: Sypniewo - Maków Mazowiecki.",
+                    "publicDeparture": "09:00",
+                    "publicAppeal": "21:00",
+                    "publicSummary": "Wyjście 09:00 · Apel 21:00",
+                    "publicMass": {
+                              "time": "08:00",
+                              "place": "Sypniewo"
+                    }
+          },
+          {
+                    "day": 6,
+                    "distance": "32 km",
+                    "date": "02.08",
+                    "route": "Maków Mazowiecki - Winnica",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Maków Mazowiecki",
+                                        "wejscie": "---",
+                                        "wyjscie": "06:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Pomaski Wielkie",
+                                        "wejscie": "07:15",
+                                        "wyjscie": "07:50",
+                                        "czas": "35 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Przemiarowo (Remiza)",
+                                        "wejscie": "09:20",
+                                        "wyjscie": "10:00",
+                                        "czas": "40 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Pułtusk",
+                                        "wejscie": "11:30",
+                                        "wyjscie": "14:00",
+                                        "czas": "2 godz. 30 min",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Jeżewo",
+                                        "wejscie": "15:00",
+                                        "wyjscie": "15:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Golądkowo",
+                                        "wejscie": "17:00",
+                                        "wyjscie": "17:40",
+                                        "czas": "40 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Winnica",
+                                        "wejscie": "18:40",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Maków Mazowiecki",
+                              "Pomaski Wielkie",
+                              "Przemiarowo (Remiza)",
+                              "Pułtusk",
+                              "Jeżewo",
+                              "Golądkowo",
+                              "Winnica"
+                    ],
+                    "title": "Maków Mazowiecki - Winnica",
+                    "start": "Maków Mazowiecki",
+                    "finish": "Winnica",
+                    "publicNote": "32 km. Przebieg: Maków Mazowiecki - Winnica.",
+                    "publicDeparture": "06:00",
+                    "publicAppeal": "21:00",
+                    "publicSummary": "Wyjście 06:00 · Apel 21:00",
+                    "publicMass": {
+                              "time": "11:30",
+                              "place": "Pułtusk"
+                    }
+          },
+          {
+                    "day": 7,
+                    "distance": "38,5 km",
+                    "date": "03.08",
+                    "route": "Winnica - Kazuń Polski",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Winnica",
+                                        "wejscie": "---",
+                                        "wyjscie": "05:45",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Poniaty Wlk.",
+                                        "wejscie": "07:00",
+                                        "wyjscie": "07:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Nasielsk",
+                                        "wejscie": "09:00",
+                                        "wyjscie": "11:00",
+                                        "czas": "2 godz.",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Budy Sienickie",
+                                        "wejscie": "12:00",
+                                        "wyjscie": "12:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Psucin",
+                                        "wejscie": "13:30",
+                                        "wyjscie": "14:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Pomiechówek",
+                                        "wejscie": "15:30",
+                                        "wyjscie": "16:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Nowy Dwór (Modlin)",
+                                        "wejscie": "17:00",
+                                        "wyjscie": "17:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Kazuń Polski",
+                                        "wejscie": "19:30",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Winnica",
+                              "Poniaty Wlk.",
+                              "Nasielsk",
+                              "Budy Sienickie",
+                              "Psucin",
+                              "Pomiechówek",
+                              "Nowy Dwór (Modlin)",
+                              "Kazuń Polski"
+                    ],
+                    "title": "Winnica - Kazuń Polski",
+                    "start": "Winnica",
+                    "finish": "Kazuń Polski",
+                    "publicNote": "38,5 km. Przebieg: Winnica - Kazuń Polski.",
+                    "publicDeparture": "05:45",
+                    "publicAppeal": "po dojściu",
+                    "publicSummary": "Wyjście 05:45 · Apel po dojściu",
+                    "publicMass": {
+                              "time": "09:00",
+                              "place": "Nasielsk"
+                    }
+          },
+          {
+                    "day": 8,
+                    "distance": "24,5 km",
+                    "date": "04.08",
+                    "route": "Kazuń Polski - Kampinos",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Kazuń Polski",
+                                        "wejscie": "---",
+                                        "wyjscie": "07:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Sowia Wola (krzyżówka)",
+                                        "wejscie": "09:00",
+                                        "wyjscie": "09:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Za Dąbrową Starą ( kapliczka)",
+                                        "wejscie": "10:45",
+                                        "wyjscie": "11:15",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Górki Kampinoskie",
+                                        "wejscie": "12:15",
+                                        "wyjscie": "14:30",
+                                        "czas": "2 godz. 15 min",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Za Puszczą Kamp.",
+                                        "wejscie": "15:30",
+                                        "wyjscie": "16:30",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Kampinos",
+                                        "wejscie": "17:30",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Kazuń Polski",
+                              "Sowia Wola (krzyżówka)",
+                              "Za Dąbrową Starą ( kapliczka)",
+                              "Górki Kampinoskie",
+                              "Za Puszczą Kamp.",
+                              "Kampinos"
+                    ],
+                    "title": "Kazuń Polski - Kampinos",
+                    "start": "Kazuń Polski",
+                    "finish": "Kampinos",
+                    "publicNote": "24,5 km. Przebieg: Kazuń Polski - Kampinos.",
+                    "publicDeparture": "07:00",
+                    "publicAppeal": "21:00",
+                    "publicSummary": "Wyjście 07:00 · Apel 21:00",
+                    "publicMass": {
+                              "time": "12:15",
+                              "place": "Górki Kampinoskie"
+                    }
+          },
+          {
+                    "day": 9,
+                    "distance": "33,5 km",
+                    "date": "05.08",
+                    "route": "Kampinos - Jesionka",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Kampinos",
+                                        "wejscie": "---",
+                                        "wyjscie": "06:15",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Niepokalanów",
+                                        "wejscie": "08:30",
+                                        "wyjscie": "10:30",
+                                        "czas": "2 godz.",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Szymanów",
+                                        "wejscie": "12:00",
+                                        "wyjscie": "13:00",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Oryszew",
+                                        "wejscie": "14:15",
+                                        "wyjscie": "14:45",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Wiskitki",
+                                        "wejscie": "16:15",
+                                        "wyjscie": "17:00",
+                                        "czas": "45 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Jesionka",
+                                        "wejscie": "19:00",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Kampinos",
+                              "Niepokalanów",
+                              "Szymanów",
+                              "Oryszew",
+                              "Wiskitki",
+                              "Jesionka"
+                    ],
+                    "title": "Kampinos - Jesionka",
+                    "start": "Kampinos",
+                    "finish": "Jesionka",
+                    "publicNote": "33,5 km. Przebieg: Kampinos - Jesionka.",
+                    "publicDeparture": "06:15",
+                    "publicAppeal": "w grupach i w kościele",
+                    "publicSummary": "Wyjście 06:15 · Apel w grupach i w kościele",
+                    "publicMass": {
+                              "time": "08:30",
+                              "place": "Niepokalanów"
+                    }
+          },
+          {
+                    "day": 10,
+                    "distance": "39 km",
+                    "date": "06.08",
+                    "route": "Jesionka - Głuchów",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Jesionka",
+                                        "wejscie": "---",
+                                        "wyjscie": "06:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Puszcza Mariańska",
+                                        "wejscie": "07:45",
+                                        "wyjscie": "09:10",
+                                        "czas": "1 godz. 25 min",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Lisowola las",
+                                        "wejscie": "10:15",
+                                        "wyjscie": "10:45",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Suliszew",
+                                        "wejscie": "11:45",
+                                        "wyjscie": "12:35",
+                                        "czas": "50 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Las brzozowy",
+                                        "wejscie": "13:50",
+                                        "wyjscie": "14:20",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Kwasowiec",
+                                        "wejscie": "15:30",
+                                        "wyjscie": "16:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Wilkowice",
+                                        "wejscie": "17:30",
+                                        "wyjscie": "18:15",
+                                        "czas": "45 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Jasień",
+                                        "wejscie": "19:10",
+                                        "wyjscie": "19:30",
+                                        "czas": "20 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Głuchów",
+                                        "wejscie": "20:15",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Jesionka",
+                              "Puszcza Mariańska",
+                              "Lisowola las",
+                              "Suliszew",
+                              "Las brzozowy",
+                              "Kwasowiec",
+                              "Wilkowice",
+                              "Jasień",
+                              "Głuchów"
+                    ],
+                    "title": "Jesionka - Głuchów",
+                    "start": "Jesionka",
+                    "finish": "Głuchów",
+                    "publicNote": "39 km. Przebieg: Jesionka - Głuchów.",
+                    "publicDeparture": "06:00",
+                    "publicAppeal": "po dojściu",
+                    "publicSummary": "Wyjście 06:00 · Apel po dojściu",
+                    "publicMass": {
+                              "time": "07:45",
+                              "place": "Puszcza Mariańska"
+                    }
+          },
+          {
+                    "day": 11,
+                    "distance": "40 km",
+                    "date": "07.08",
+                    "route": "Głuchów - Będków",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Głuchów",
+                                        "wejscie": "---",
+                                        "wyjscie": "07:15",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Żelechlinek",
+                                        "wejscie": "09:30",
+                                        "wyjscie": "10:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Rękawiec",
+                                        "wejscie": "11:00",
+                                        "wyjscie": "11:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Budziszewice",
+                                        "wejscie": "13:00",
+                                        "wyjscie": "14:00",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Przed Łęczkowicami las",
+                                        "wejscie": "15:00",
+                                        "wyjscie": "15:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Buków",
+                                        "wejscie": "16:30",
+                                        "wyjscie": "17:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Brzostów",
+                                        "wejscie": "18:30",
+                                        "wyjscie": "19:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Będków",
+                                        "wejscie": "20:00",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Głuchów",
+                              "Żelechlinek",
+                              "Rękawiec",
+                              "Budziszewice",
+                              "Przed Łęczkowicami las",
+                              "Buków",
+                              "Brzostów",
+                              "Będków"
+                    ],
+                    "title": "Głuchów - Będków",
+                    "start": "Głuchów",
+                    "finish": "Będków",
+                    "publicNote": "40 km. Przebieg: Głuchów - Będków.",
+                    "publicDeparture": "07:15",
+                    "publicAppeal": "po dojściu",
+                    "publicSummary": "Wyjście 07:15 · Apel po dojściu",
+                    "publicMass": {
+                              "time": "06:00",
+                              "place": "Głuchów"
+                    }
+          },
+          {
+                    "day": 12,
+                    "distance": "32,5 km",
+                    "date": "08.08",
+                    "route": "Będków - Woźniki",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Będków",
+                                        "wejscie": "---",
+                                        "wyjscie": "07:30",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Baby",
+                                        "wejscie": "09:00",
+                                        "wyjscie": "10:00",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Srock",
+                                        "wejscie": "12:00",
+                                        "wyjscie": "14:00",
+                                        "czas": "2 godz.",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Lubanów",
+                                        "wejscie": "16:00",
+                                        "wyjscie": "16:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Zaborów",
+                                        "wejscie": "17:45",
+                                        "wyjscie": "18:15",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Woźniki",
+                                        "wejscie": "19:15",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Będków",
+                              "Baby",
+                              "Srock",
+                              "Lubanów",
+                              "Zaborów",
+                              "Woźniki"
+                    ],
+                    "title": "Będków - Woźniki",
+                    "start": "Będków",
+                    "finish": "Woźniki",
+                    "publicNote": "32,5 km. Przebieg: Będków - Woźniki.",
+                    "publicDeparture": "07:30",
+                    "publicAppeal": "po dojściu",
+                    "publicSummary": "Wyjście 07:30 · Apel po dojściu",
+                    "publicMass": {
+                              "time": "12:00",
+                              "place": "Srock"
+                    }
+          },
+          {
+                    "day": 13,
+                    "distance": "36,5 km",
+                    "date": "09.08",
+                    "route": "Woźniki - Lgota Wielka",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Woźniki",
+                                        "wejscie": "---",
+                                        "wyjscie": "06:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Bogdanów",
+                                        "wejscie": "07:45",
+                                        "wyjscie": "09:15",
+                                        "czas": "1 godz. 30 min",
+                                        "uwagi": "Odpoczynek",
+                                        "msza": true
+                              },
+                              {
+                                        "nazwa": "Bukowa",
+                                        "wejscie": "10:30",
+                                        "wyjscie": "11:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Łękawa",
+                                        "wejscie": "12:30",
+                                        "wyjscie": "13:30",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Piaski (parking przy kopalni)",
+                                        "wejscie": "14:30",
+                                        "wyjscie": "15:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Wolica",
+                                        "wejscie": "16:30",
+                                        "wyjscie": "17:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Brudzice",
+                                        "wejscie": "18:00",
+                                        "wyjscie": "18:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Lgota Wielka",
+                                        "wejscie": "19:15",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Przyjście"
+                              },
+                              {
+                                        "nazwa": "Lgota Wielka",
+                                        "wejscie": "---",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Wola Blakowa",
+                                        "wejscie": "20:15",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg"
+                              }
+                    ],
+                    "publicStops": [
+                              "Woźniki",
+                              "Bogdanów",
+                              "Bukowa",
+                              "Łękawa",
+                              "Piaski (parking przy kopalni)",
+                              "Wolica",
+                              "Brudzice",
+                              "Lgota Wielka",
+                              "Wola Blakowa"
+                    ],
+                    "title": "Woźniki - Lgota Wielka",
+                    "start": "Woźniki",
+                    "finish": "Lgota Wielka",
+                    "publicNote": "36,5 km. Przebieg: Woźniki - Lgota Wielka.",
+                    "publicDeparture": "06:00",
+                    "publicAppeal": "w kościele i w grupach",
+                    "publicSummary": "Wyjście 06:00 · Apel w kościele i w grupach",
+                    "publicMass": {
+                              "time": "08:00",
+                              "place": "Bogdanów"
+                    }
+          },
+          {
+                    "day": 14,
+                    "distance": "36,3 km",
+                    "date": "10.08",
+                    "route": "Lgota Wielka - Mykanów",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Lgota Wielka",
+                                        "wejscie": "---",
+                                        "wyjscie": "06:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Wola Blakowa",
+                                        "wejscie": "---",
+                                        "wyjscie": "06:30",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Wola Jedlińska",
+                                        "wejscie": "08:00",
+                                        "wyjscie": "08:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Zakrzówek Szlachecki",
+                                        "wejscie": "10:00",
+                                        "wyjscie": "10:30",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Ważne Młyny",
+                                        "wejscie": "12:00",
+                                        "wyjscie": "13:00",
+                                        "czas": "1 godz.",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Broniszew Stary",
+                                        "wejscie": "14:30",
+                                        "wyjscie": "15:00",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Mykanów",
+                                        "wejscie": "17:00",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Nocleg",
+                                        "msza": true
+                              }
+                    ],
+                    "publicStops": [
+                              "Lgota Wielka",
+                              "Wola Blakowa",
+                              "Wola Jedlińska",
+                              "Zakrzówek Szlachecki",
+                              "Ważne Młyny",
+                              "Broniszew Stary",
+                              "Mykanów"
+                    ],
+                    "title": "Lgota Wielka - Mykanów",
+                    "start": "Lgota Wielka",
+                    "finish": "Mykanów",
+                    "publicNote": "36,3 km. Przebieg: Lgota Wielka - Mykanów.",
+                    "publicDeparture": "06:00",
+                    "publicAppeal": "po Mszy św. o 19:00",
+                    "publicSummary": "Wyjście 06:00 · Apel po Mszy św. o 19:00",
+                    "publicMass": {
+                              "time": "19:00",
+                              "place": "Mykanów"
+                    }
+          },
+          {
+                    "day": 15,
+                    "distance": "17 km",
+                    "date": "11.08",
+                    "route": "Mykanów - Jasna Góra",
+                    "staffStops": [
+                              {
+                                        "nazwa": "Mykanów",
+                                        "wejscie": "---",
+                                        "wyjscie": "05:00",
+                                        "czas": "---",
+                                        "uwagi": "Wymarsz"
+                              },
+                              {
+                                        "nazwa": "Lubojna",
+                                        "wejscie": "06:45",
+                                        "wyjscie": "07:15",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Kiedrzyn",
+                                        "wejscie": "08:45",
+                                        "wyjscie": "09:15",
+                                        "czas": "30 min",
+                                        "uwagi": "Odpoczynek"
+                              },
+                              {
+                                        "nazwa": "Wejście trasą Nr 10 wskazaną przez Urząd Miasta",
+                                        "wejscie": "---",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Informacja"
+                              },
+                              {
+                                        "nazwa": "Aleja Sienkiewicza",
+                                        "wejscie": "10:00",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Wejście"
+                              },
+                              {
+                                        "nazwa": "Jasna Góra",
+                                        "wejscie": "10:30",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Przywitanie"
+                              },
+                              {
+                                        "nazwa": "Jasna Góra",
+                                        "wejscie": "11:00",
+                                        "wyjscie": "---",
+                                        "czas": "---",
+                                        "uwagi": "Msza św.",
+                                        "msza": true
+                              }
+                    ],
+                    "publicStops": [
+                              "Mykanów",
+                              "Lubojna",
+                              "Kiedrzyn",
+                              "Aleja Sienkiewicza",
+                              "Jasna Góra"
+                    ],
+                    "title": "Mykanów - Jasna Góra",
+                    "start": "Mykanów",
+                    "finish": "Jasna Góra",
+                    "publicNote": "17 km. Przebieg: Mykanów - Jasna Góra.",
+                    "publicDeparture": "05:00",
+                    "publicAppeal": "21:00",
+                    "publicSummary": "Wyjście 05:00 · Apel 21:00",
+                    "publicMass": {
+                              "time": "11:00",
+                              "place": "Jasna Góra"
+                    }
+          }
+];
+
+        const mainRouteDayCount = mainRouteSchedule.length;
+
+        const kadraRouteDetails = Object.fromEntries(mainRouteSchedule.map(day => [day.day, day.staffStops]));
 
         const kadraPrefixRouteDetails = {
             augustow: [
@@ -2556,6 +3898,42 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             ]
         };
 
+        const routeStopCoordinates = {
+            "elk": { lat: 53.8282, lng: 22.3647, radius: 1800 },
+            "nowa wies elcka": { lat: 53.7818, lng: 22.3856, radius: 1600 },
+            "bajtkowo": { lat: 53.7351, lng: 22.3206, radius: 1600 },
+            "drygaly": { lat: 53.6328, lng: 22.0626, radius: 1700 },
+            "biala piska": { lat: 53.6114, lng: 22.0639, radius: 1900 },
+            "kolno": { lat: 53.4116, lng: 21.9339, radius: 1900 },
+            "zabiele": { lat: 53.3476, lng: 21.9251, radius: 1600 },
+            "ostroleka": { lat: 53.0833, lng: 21.5667, radius: 2400 },
+            "sypniewo": { lat: 53.0058, lng: 21.3072, radius: 1800 },
+            "makow mazowiecki": { lat: 52.8649, lng: 21.1006, radius: 2200 },
+            "pultusk": { lat: 52.7025, lng: 21.0828, radius: 2400 },
+            "winnica": { lat: 52.6435, lng: 20.9419, radius: 1800 },
+            "nasielsk": { lat: 52.5897, lng: 20.8053, radius: 2200 },
+            "pomiechowek": { lat: 52.4716, lng: 20.7297, radius: 1900 },
+            "kazun polski": { lat: 52.3934, lng: 20.6223, radius: 1900 },
+            "gorki kampinoskie": { lat: 52.3042, lng: 20.4631, radius: 1900 },
+            "kampinos": { lat: 52.2686, lng: 20.4634, radius: 2000 },
+            "niepokalanow": { lat: 52.2042, lng: 20.4434, radius: 1900 },
+            "szymanow": { lat: 52.1892, lng: 20.5330, radius: 1700 },
+            "wiskitki": { lat: 52.0880, lng: 20.3879, radius: 1800 },
+            "puszcza marianska": { lat: 51.9806, lng: 20.3508, radius: 1900 },
+            "gluchow": { lat: 51.7792, lng: 20.0717, radius: 2000 },
+            "zelechlinek": { lat: 51.7095, lng: 20.0349, radius: 1700 },
+            "bedkow": { lat: 51.5862, lng: 19.7493, radius: 1900 },
+            "srock": { lat: 51.4764, lng: 19.8581, radius: 1900 },
+            "wozniki": { lat: 51.3945, lng: 19.7357, radius: 1800 },
+            "bogdanow": { lat: 51.2858, lng: 19.5442, radius: 1900 },
+            "lgota wielka": { lat: 51.1497, lng: 19.3275, radius: 1900 },
+            "mykanow": { lat: 50.9236, lng: 19.2007, radius: 2000 },
+            "lubojna": { lat: 50.8745, lng: 19.1299, radius: 1700 },
+            "kiedrzyn": { lat: 50.8419, lng: 19.1293, radius: 1700 },
+            "aleja sienkiewicza": { lat: 50.8129, lng: 19.1140, radius: 1400 },
+            "jasna gora": { lat: 50.8120, lng: 19.0970, radius: 1800 }
+        };
+
         const html = document.documentElement;
         const screen = document.getElementById("screen");
         const themeMeta = document.getElementById("theme-color");
@@ -2567,9 +3945,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         const kadraModal = document.getElementById("kadra-modal");
         const groupModal = document.getElementById("group-modal");
         const installModal = document.getElementById("install-modal");
+        const surveyModal = document.getElementById("survey-modal");
         const installNative = document.getElementById("install-native");
         const appSplash = document.getElementById("app-splash");
         const kadraPassword = document.getElementById("kadra-password");
+        const kadraPasswordToggle = document.getElementById("kadra-password-toggle");
+        const kadraPasswordIcon = document.getElementById("kadra-password-icon");
         const kadraError = document.getElementById("kadra-error");
         const imageModal = document.getElementById("image-modal");
         const imagePreview = document.getElementById("image-preview");
@@ -2585,16 +3966,26 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
         };
 
-        const pilgrimageStart = new Date(2026, 6, 28, 7, 0, 0);
-        const pilgrimageFinish = new Date(2026, 7, 11, 11, 0, 0);
+        const basePilgrimageYear = 2026;
+        const basePilgrimageEdition = 34;
+        const pilgrimageStart = getPilgrimageStartDate(basePilgrimageYear);
+        const pilgrimageFinish = getPilgrimageFinishDate(basePilgrimageYear);
+        const surveyUrl = "https://tally.so/r/Bzj8A4";
+        const forceSurveyPromptPreview = false;
         const countdownElements = {
-            kicker: document.getElementById("countdown-kicker"),
             title: document.getElementById("countdown-title"),
-            badge: document.getElementById("countdown-badge"),
             days: document.getElementById("countdown-days"),
             hours: document.getElementById("countdown-hours"),
             minutes: document.getElementById("countdown-minutes"),
             note: document.getElementById("countdown-note")
+        };
+        const pilgrimageProgressElements = {
+            wrap: document.getElementById("pilgrimage-progress"),
+            label: document.getElementById("pilgrimage-progress-label"),
+            value: document.getElementById("pilgrimage-progress-value"),
+            track: document.getElementById("pilgrimage-progress-track"),
+            message: document.getElementById("pilgrimage-progress-message"),
+            fill: document.getElementById("pilgrimage-progress-fill")
         };
 
         function syncViewportHeight() {
@@ -2628,18 +4019,31 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         }
 
         function viewUrl(viewName) {
+            if (window.location.protocol === "file:") {
+                return viewName === "home" ? window.location.href.split("#")[0] : `#${viewName}`;
+            }
             const baseUrl = `${window.location.pathname}${window.location.search}`;
             return viewName === "home" ? baseUrl : `${baseUrl}#${viewName}`;
         }
 
         function pushAppHistory(viewName) {
             if (!window.history?.pushState) return;
-            window.history.pushState({ eppApp: true, appView: viewName }, "", viewUrl(viewName));
+            if (window.location.protocol === "file:") return;
+            try {
+                window.history.pushState({ eppApp: true, appView: viewName }, "", viewUrl(viewName));
+            } catch (error) {
+                console.warn("Historia aplikacji nie jest dostępna w tym trybie podglądu:", error);
+            }
         }
 
         function replaceAppHistory(viewName) {
             if (!window.history?.replaceState) return;
-            window.history.replaceState({ eppApp: true, appView: viewName }, "", viewUrl(viewName));
+            if (window.location.protocol === "file:") return;
+            try {
+                window.history.replaceState({ eppApp: true, appView: viewName }, "", viewUrl(viewName));
+            } catch (error) {
+                console.warn("Historia aplikacji nie jest dostępna w tym trybie podglądu:", error);
+            }
         }
 
         function handleSystemBack(event) {
@@ -2651,8 +4055,13 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         }
 
         function initializeAppHistory() {
-            replaceAppHistory(currentViewName);
-            window.addEventListener("popstate", handleSystemBack);
+            if (window.location.protocol === "file:") return;
+            try {
+                replaceAppHistory(currentViewName);
+                window.addEventListener("popstate", handleSystemBack);
+            } catch (error) {
+                console.warn("Nawigacja historii aplikacji została pominięta:", error);
+            }
         }
 
         function initializeViewportTracking() {
@@ -2684,6 +4093,75 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             themeToggle.setAttribute("title", label);
         }
 
+        function getPilgrimageStartDate(year) {
+            return new Date(year, 6, 28, 7, 0, 0);
+        }
+
+        function getPilgrimageFinishDate(year) {
+            return new Date(year, 7, 11, 11, 0, 0);
+        }
+
+        function getPilgrimageEdition(year) {
+            return basePilgrimageEdition + Math.max(0, year - basePilgrimageYear);
+        }
+
+        function isSameCalendarDate(firstDate, secondDate) {
+            return firstDate.getFullYear() === secondDate.getFullYear()
+                && firstDate.getMonth() === secondDate.getMonth()
+                && firstDate.getDate() === secondDate.getDate();
+        }
+
+        function formatPilgrimageDateTime(date) {
+            const datePart = date.toLocaleDateString("pl-PL", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+            const timePart = date.toLocaleTimeString("pl-PL", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+            return `${datePart}, ${timePart}`;
+        }
+
+        function getPilgrimageCycle(now = new Date()) {
+            const currentYear = Math.max(now.getFullYear(), basePilgrimageYear);
+            const startThisYear = getPilgrimageStartDate(currentYear);
+            const finishThisYear = getPilgrimageFinishDate(currentYear);
+
+            if (now < startThisYear) {
+                return {
+                    phase: "before",
+                    edition: getPilgrimageEdition(currentYear),
+                    start: startThisYear,
+                    finish: finishThisYear,
+                    targetDate: startThisYear
+                };
+            }
+
+            if (now < finishThisYear) {
+                return {
+                    phase: "live",
+                    edition: getPilgrimageEdition(currentYear),
+                    start: startThisYear,
+                    finish: finishThisYear,
+                    targetDate: finishThisYear
+                };
+            }
+
+            const nextYear = currentYear + 1;
+            const nextStart = getPilgrimageStartDate(nextYear);
+            return {
+                phase: "after",
+                edition: getPilgrimageEdition(nextYear),
+                start: nextStart,
+                finish: getPilgrimageFinishDate(nextYear),
+                targetDate: nextStart,
+                previousFinish: finishThisYear,
+                showArrivalCongratulations: isSameCalendarDate(now, finishThisYear)
+            };
+        }
+
         function renderHomeContent() {
             const now = new Date();
             const dateLabel = now.toLocaleDateString("pl-PL", {
@@ -2708,43 +4186,75 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             };
         }
 
-        function updatePilgrimageCountdown(now = new Date()) {
-            let targetDate = pilgrimageStart;
-            let content = {
-                kicker: "Przygotowania",
-                title: "Do wyjścia z Ełku",
-                badge: "Start",
-                note: "Wyjście z Ełku: 28 lipca 2026, 7:00"
-            };
+        function getPilgrimageProgressPercent(now = new Date(), cycle = getPilgrimageCycle(now)) {
+            if (cycle.phase !== "live") return null;
+            const totalHours = Math.max(1, Math.ceil((cycle.finish.getTime() - cycle.start.getTime()) / 3600000));
+            const elapsedHours = Math.max(0, Math.floor((now.getTime() - cycle.start.getTime()) / 3600000));
+            return Math.max(0, Math.min(99, Math.floor((elapsedHours / totalHours) * 100)));
+        }
 
-            if (now >= pilgrimageStart && now < pilgrimageFinish) {
-                targetDate = pilgrimageFinish;
-                content = {
-                    kicker: "W drodze",
-                    title: "Do wejścia na Jasną Górę",
-                    badge: "Meta",
-                    note: "Wejście na Jasną Górę: 11 sierpnia 2026, 11:00"
-                };
+        function updatePilgrimageProgress(now = new Date()) {
+            const cycle = getPilgrimageCycle(now);
+            const percent = getPilgrimageProgressPercent(now, cycle);
+            if (!pilgrimageProgressElements.wrap) return;
+
+            if (cycle.showArrivalCongratulations) {
+                pilgrimageProgressElements.wrap.hidden = false;
+                pilgrimageProgressElements.label.textContent = "Gratulacje";
+                pilgrimageProgressElements.value.textContent = "100%";
+                pilgrimageProgressElements.track.hidden = true;
+                pilgrimageProgressElements.message.hidden = false;
+                pilgrimageProgressElements.message.textContent = "Dotarliśmy na Jasną Górę. Dziękujemy za wspólną drogę!";
+                pilgrimageProgressElements.fill.style.width = "100%";
+                return;
             }
 
-            if (now >= pilgrimageFinish) {
-                targetDate = now;
+            if (percent === null) {
+                pilgrimageProgressElements.wrap.hidden = true;
+                pilgrimageProgressElements.label.textContent = "Postęp trasy";
+                pilgrimageProgressElements.value.textContent = "0%";
+                pilgrimageProgressElements.track.hidden = false;
+                pilgrimageProgressElements.message.hidden = true;
+                pilgrimageProgressElements.message.textContent = "";
+                pilgrimageProgressElements.fill.style.width = "0%";
+                return;
+            }
+
+            pilgrimageProgressElements.wrap.hidden = false;
+            pilgrimageProgressElements.label.textContent = "Postęp trasy";
+            pilgrimageProgressElements.value.textContent = `${percent}%`;
+            pilgrimageProgressElements.track.hidden = false;
+            pilgrimageProgressElements.message.hidden = true;
+            pilgrimageProgressElements.message.textContent = "";
+            pilgrimageProgressElements.fill.style.width = `${percent}%`;
+        }
+
+        function updatePilgrimageCountdown(now = new Date()) {
+            const cycle = getPilgrimageCycle(now);
+            let targetDate = cycle.targetDate;
+            let content = {
+                title: `${cycle.edition} raz z Ełku na Jasną Górę wyruszymy za:`,
+                note: `Wyjście z Ełku: ${formatPilgrimageDateTime(cycle.start)}`
+            };
+
+            if (cycle.phase === "live") {
+                targetDate = cycle.finish;
                 content = {
-                    kicker: "Zakończone",
-                    title: "Pielgrzymka dotarła na Jasną Górę",
-                    badge: "Amen",
-                    note: "Wejście na Jasną Górę było 11 sierpnia 2026 o 11:00"
+                    title: "Do wejścia na Jasną Górę",
+                    note: `Wejście na Jasną Górę: ${formatPilgrimageDateTime(cycle.finish)}`
                 };
             }
 
             const parts = getCountdownParts(targetDate, now);
-            countdownElements.kicker.textContent = content.kicker;
             countdownElements.title.textContent = content.title;
-            countdownElements.badge.textContent = content.badge;
             countdownElements.days.textContent = String(parts.days);
             countdownElements.hours.textContent = String(parts.hours).padStart(2, "0");
             countdownElements.minutes.textContent = String(parts.minutes).padStart(2, "0");
             countdownElements.note.textContent = content.note;
+            updatePilgrimageProgress(now);
+            if (cycle.phase === "live" && !userRoutePosition && routeLocationStatus !== "denied" && routeLocationStatus !== "pending") {
+                window.setTimeout(requestRouteLocationAccess, 0);
+            }
         }
 
         function openView(viewName, options = {}) {
@@ -2760,6 +4270,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 pushAppHistory(viewName);
             }
             if (viewName === "more") updateActionStatuses();
+            if (viewName === "route") {
+                renderGroupControls();
+                renderRoute();
+            }
             if (viewName === "kadra") renderKadraView();
             document.querySelectorAll(".view").forEach(view => {
                 view.classList.toggle("active", view.dataset.view === viewName);
@@ -2790,8 +4304,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }, 3200);
         }
 
+        const introNoticeStorageKey = "epp-concept-beta-notice-v2";
+
         function showIntroIfNeeded() {
-            if (!safeStorage.getItem("epp-concept-beta-visited")) {
+            if (!safeStorage.getItem(introNoticeStorageKey)) {
                 introModal.hidden = false;
             }
         }
@@ -2833,6 +4349,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
             if (options.markVisited) {
                 safeStorage.setItem("epp-concept-beta-visited", "true");
+                safeStorage.setItem(introNoticeStorageKey, "true");
             }
             if (options.closeIntro) introModal.hidden = true;
             if (options.closeSettings) groupModal.hidden = true;
@@ -2840,6 +4357,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             renderGroupControls();
             renderRoute();
             showToast(`Wybrano: ${selected.name}`);
+            if (options.closeIntro) window.setTimeout(showSurveyPromptIfNeeded, 150);
         }
 
         function renderGroupChoiceList(targetId, dataAttribute) {
@@ -2866,9 +4384,23 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         function openKadraLogin() {
             kadraPassword.value = "";
+            kadraPassword.type = "password";
+            if (kadraPasswordToggle) kadraPasswordToggle.setAttribute("aria-label", "Pokaż hasło");
+            if (kadraPasswordIcon) {
+                kadraPasswordIcon.innerHTML = '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>';
+            }
             kadraError.textContent = "";
             kadraModal.hidden = false;
             setTimeout(() => kadraPassword.focus(), 40);
+        }
+
+        function toggleKadraPasswordVisibility() {
+            const showPassword = kadraPassword.type === "password";
+            kadraPassword.type = showPassword ? "text" : "password";
+            kadraPasswordToggle.setAttribute("aria-label", showPassword ? "Ukryj hasło" : "Pokaż hasło");
+            kadraPasswordIcon.innerHTML = showPassword
+                ? '<path d="m3 3 18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.4 10.4 0 0 1 12 5c6.5 0 10 7 10 7a17.2 17.2 0 0 1-3 4.1"/><path d="M6.6 6.6C3.7 8.4 2 12 2 12s3.5 7 10 7a9.8 9.8 0 0 0 4.3-1"/>'
+                : '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>';
         }
 
         function closeKadraLogin() {
@@ -2877,7 +4409,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         function updateKadraPanel() {
             const isKadra = safeStorage.getItem("epp-concept-user-role") === "kadra";
-            document.getElementById("kadra-entry-row").hidden = !isKadra;
             document.getElementById("nav-kadra").hidden = !isKadra;
             document.getElementById("view-kadra").hidden = !isKadra;
             document.documentElement.style.setProperty("--nav-count", isKadra ? "6" : "5");
@@ -2885,6 +4416,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 openView("more");
             }
             renderKadraView();
+            renderRoute();
         }
 
         function submitKadraLogin() {
@@ -2923,10 +4455,153 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return `${String(dateDay).padStart(2, "0")}.${month}`;
         }
 
+        function escapeHtml(value = "") {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
         function getRouteSummary(stops) {
-            const firstDeparture = stops.find(stop => stop.wyjscie && stop.wyjscie !== "---")?.wyjscie || "wg planu";
+            const firstStop = stops[0]?.nazwa || "start";
             const finalStop = stops[stops.length - 1]?.nazwa || "nocleg";
-            return `Start: ${firstDeparture}. Koniec: ${finalStop}.`;
+            return `${firstStop} - ${finalStop}.`;
+        }
+
+        function normalizeRouteText(value = "") {
+            return String(value)
+                .toLocaleLowerCase("pl-PL")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ł/g, "l")
+                .replace(/[^a-z0-9]+/g, " ")
+                .trim();
+        }
+
+        function isSameRoutePlace(stopName, placeName) {
+            const stop = ` ${normalizeRouteText(stopName)} `;
+            const place = normalizeRouteText(placeName);
+            return Boolean(place && stop.includes(` ${place} `));
+        }
+
+        function getRouteStopName(stop) {
+            return typeof stop === "string" ? stop : stop?.nazwa || "";
+        }
+
+        function getStopCoordinates(stop) {
+            const normalized = normalizeRouteText(getRouteStopName(stop));
+            if (!normalized) return null;
+            if (routeStopCoordinates[normalized]) return routeStopCoordinates[normalized];
+
+            const matchingKey = Object.keys(routeStopCoordinates)
+                .sort((first, second) => second.length - first.length)
+                .find(key => key.length >= 5 && ` ${normalized} `.includes(` ${key} `));
+
+            return matchingKey ? routeStopCoordinates[matchingKey] : null;
+        }
+
+        function distanceInMeters(from, to) {
+            const earthRadius = 6371000;
+            const toRadians = value => value * Math.PI / 180;
+            const latDelta = toRadians(to.lat - from.lat);
+            const lngDelta = toRadians(to.lng - from.lng);
+            const fromLat = toRadians(from.lat);
+            const toLat = toRadians(to.lat);
+            const a = Math.sin(latDelta / 2) ** 2
+                + Math.cos(fromLat) * Math.cos(toLat) * Math.sin(lngDelta / 2) ** 2;
+            return earthRadius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        function getRouteLocationMatch(stops) {
+            if (!userRoutePosition) return null;
+
+            return stops.reduce((bestMatch, stop, index) => {
+                const coordinates = getStopCoordinates(stop);
+                if (!coordinates) return bestMatch;
+
+                const distance = distanceInMeters(userRoutePosition, coordinates);
+                const accuracyPadding = Math.min(userRoutePosition.accuracy || 0, 1200);
+                const radius = coordinates.radius + accuracyPadding;
+                if (distance > radius) return bestMatch;
+                if (!bestMatch || distance < bestMatch.distance) {
+                    return { index, distance };
+                }
+                return bestMatch;
+            }, null);
+        }
+
+        function getRouteTimelineLocationClass(locationMatch, index) {
+            if (!locationMatch) return "";
+            if (index < locationMatch.index) return "is-location-passed";
+            if (index === locationMatch.index) return "is-location-current";
+            return "";
+        }
+
+        function isPilgrimageLive(now = new Date()) {
+            return getPilgrimageCycle(now).phase === "live";
+        }
+
+        function isRouteLocationSupported() {
+            const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+            return "geolocation" in navigator && (window.isSecureContext || isLocalHost);
+        }
+
+        function handleRoutePosition(position) {
+            routeLocationStatus = "granted";
+            safeStorage.setItem("epp-route-location-status", "granted");
+            userRoutePosition = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                accuracy: position.coords.accuracy || 0
+            };
+            renderRoute();
+        }
+
+        function handleRoutePositionError(error) {
+            if (error?.code === error.PERMISSION_DENIED) {
+                routeLocationStatus = "denied";
+                safeStorage.setItem("epp-route-location-status", "denied");
+            } else {
+                routeLocationStatus = "unavailable";
+            }
+        }
+
+        function startRouteLocationWatch() {
+            if (routeLocationWatchId !== null || !isRouteLocationSupported()) return;
+            try {
+                routeLocationWatchId = navigator.geolocation.watchPosition(
+                    handleRoutePosition,
+                    handleRoutePositionError,
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 }
+                );
+            } catch (error) {
+                routeLocationStatus = "unavailable";
+            }
+        }
+
+        function requestRouteLocationAccess() {
+            if (routeLocationStatus === "denied" || routeLocationStatus === "pending") return;
+            if (!isPilgrimageLive()) return;
+            if (!isRouteLocationSupported()) {
+                routeLocationStatus = "unavailable";
+                return;
+            }
+
+            routeLocationStatus = "pending";
+            try {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        handleRoutePosition(position);
+                        startRouteLocationWatch();
+                    },
+                    handleRoutePositionError,
+                    { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+                );
+            } catch (error) {
+                routeLocationStatus = "unavailable";
+            }
         }
 
         function getRouteMedia(groupId) {
@@ -2938,56 +4613,128 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 const stops = details.stops?.length ? details.stops : [
                     { nazwa: "Start dnia dojściowego", wejscie: "---", wyjscie: "wg planu", czas: "---", uwagi: "Szczegółowy harmonogram zostanie uzupełniony po wgraniu zdjęcia." }
                 ];
-                return {
-                    id: `${groupId}-dojscie-${day}`,
-                    label: `Dojście ${day}`,
-                    date: details.date || "",
-                    title: details.date ? `${details.date} - trasa dojściowa` : "Trasa dojściowa",
-                    summary: getRouteSummary(stops),
-                    stops,
-                    routeSrc: `img/${groupId}_dojscie${day}_1.jpg`,
-                    scheduleSrc: `img/${groupId}_dojscie${day}_2.jpg`
-                };
-            });
+	                return {
+	                    id: `${groupId}-dojscie-${day}`,
+	                    label: `Dojście ${day}`,
+	                    date: details.date || "",
+		                    title: [details.date, "Trasa dojściowa"].filter(Boolean).join(" · "),
+		                    summary: "",
+	                    publicStops: stops.map(stop => stop.nazwa).filter(Boolean),
+	                    stops,
+	                    routeSrc: `img/${groupId}_dojscie${day}_1.jpg`,
+	                    scheduleSrc: `img/${groupId}_dojscie${day}_2.jpg`
+	                };
+	            });
 
-            const main = Array.from({ length: mainRouteDayCount }, (_, index) => {
-                const day = index + 1;
-                const stops = kadraRouteDetails[day] || [
-                    { nazwa: "Start dnia", wejscie: "---", wyjscie: "wg planu", czas: "---", uwagi: "Szczegółowy harmonogram zostanie uzupełniony." }
-                ];
-                return {
-                    id: `dzien-${day}`,
-                    label: `Dzień ${day}`,
-                    date: getMainRouteDate(day),
-                    title: `${getMainRouteDate(day)} - trasa główna`,
-                    summary: getRouteSummary(stops),
-                    stops,
-                    routeSrc: `img/dzien${day}_1.jpg`,
-                    scheduleSrc: `img/dzien${day}_2.jpg`
-                };
-            });
+	            const main = Array.from({ length: mainRouteDayCount }, (_, index) => {
+	                const day = index + 1;
+	                const dayData = mainRouteSchedule[index] || {};
+	                const stops = dayData.staffStops || kadraRouteDetails[day] || [
+	                    { nazwa: "Start dnia", wejscie: "---", wyjscie: "wg planu", czas: "---", uwagi: "Szczegółowy harmonogram zostanie uzupełniony." }
+	                ];
+	                const date = dayData.date || getMainRouteDate(day);
+	                const routeTitle = dayData.title || "trasa główna";
+	                return {
+	                    id: `dzien-${day}`,
+	                    label: `Dzień ${day}`,
+	                    date,
+		                    distance: dayData.distance || "",
+		                    routeName: routeTitle,
+		                    publicDeparture: dayData.publicDeparture || "",
+		                    publicMass: dayData.publicMass || null,
+		                    publicAppeal: dayData.publicAppeal || "",
+		                    publicStops: dayData.publicStops || stops.map(stop => stop.nazwa).filter(Boolean),
+		                    title: [date, dayData.distance, routeTitle].filter(Boolean).join(" · "),
+		                    summary: "",
+	                    stops,
+	                    routeSrc: `img/dzien${day}_1.jpg`,
+	                    scheduleSrc: `img/dzien${day}_2.jpg`
+	                };
+	            });
 
-            return [...prefix, ...main];
-        }
+	            return [...prefix, ...main];
+	        }
 
-        function renderSchedule(stops) {
-            return stops.map(stop => {
-                const timeLines = [
-                    stop.wejscie && stop.wejscie !== "---" ? `Wejście ${stop.wejscie}` : "",
-                    stop.wyjscie && stop.wyjscie !== "---" ? `Wyjście ${stop.wyjscie}` : ""
+        function renderRouteOverview(item) {
+            const isKadra = safeStorage.getItem("epp-concept-user-role") === "kadra";
+            const routeStops = isKadra
+                ? item.stops.filter(stop => stop.nazwa)
+                : (item.publicStops?.length ? item.publicStops : item.stops.map(stop => stop.nazwa))
+                    .filter(Boolean)
+                    .map(nazwa => ({
+                        nazwa,
+                        msza: item.publicMass ? isSameRoutePlace(nazwa, item.publicMass.place) : false
+                    }));
+            const locationMatch = getRouteLocationMatch(routeStops);
+            const labelForStop = (index) => {
+                if (index === 0) return "Start dnia";
+                if (index === routeStops.length - 1) return "Koniec trasy dnia";
+                return "Postój";
+            };
+            const renderStaffMeta = (stop) => {
+                if (!isKadra) return "";
+                const meta = [
+                    stop.wejscie && stop.wejscie !== "---" ? `Przyjście ${stop.wejscie}` : "",
+                    stop.wyjscie && stop.wyjscie !== "---" ? `Wyjście ${stop.wyjscie}` : "",
+                    stop.czas && stop.czas !== "---" ? `Czas postoju ${stop.czas}` : ""
                 ].filter(Boolean);
+                if (!meta.length) return "";
+                return `<span class="route-timeline-meta">${meta.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</span>`;
+            };
 
-                return `
-                    <div class="schedule-stop">
-                        <div class="schedule-time">${timeLines.length ? timeLines.join("<br>") : "Według planu"}</div>
-                        <div>
-                            <strong class="schedule-place">${stop.nazwa}</strong>
-                            <span class="schedule-note">${stop.uwagi || ""}</span>
+            return `
+                <div class="route-overview">
+                    <div class="route-public-times" aria-label="Godziny publiczne">
+                        <div class="route-public-time">
+                            <span>Wyjście</span>
+                            <strong>${escapeHtml(item.publicDeparture || "wg planu")}</strong>
+                        </div>
+                        ${item.publicMass ? `
+                            <div class="route-public-time">
+                                <span>Msza święta</span>
+                                <strong>${escapeHtml(item.publicMass.time)} · ${escapeHtml(item.publicMass.place)}</strong>
+                            </div>
+                        ` : ""}
+                        <div class="route-public-time">
+                            <span>Apel</span>
+                            <strong>${escapeHtml(item.publicAppeal || "wg ogłoszeń")}</strong>
                         </div>
                     </div>
-                `;
-            }).join("");
+                    <ol class="route-timeline" aria-label="Przebieg trasy">
+                        ${routeStops.map((stop, index) => `
+                            <li class="route-timeline-item ${getRouteTimelineLocationClass(locationMatch, index)}">
+	                                <span class="route-timeline-dot" aria-hidden="true"></span>
+	                                <span class="route-timeline-content">
+	                                    <strong>${escapeHtml(stop.nazwa)}</strong>
+	                                    <span>${labelForStop(index)}${stop.msza ? " · Msza święta" : ""}</span>
+	                                    ${renderStaffMeta(stop)}
+	                                </span>
+                            </li>
+                        `).join("")}
+                    </ol>
+                </div>
+            `;
         }
+
+	        function renderSchedule(stops) {
+	            return stops.map(stop => {
+	                const timeLines = [
+	                    stop.wejscie && stop.wejscie !== "---" ? `Wejście ${stop.wejscie}` : "",
+	                    stop.wyjscie && stop.wyjscie !== "---" ? `Wyjście ${stop.wyjscie}` : "",
+	                    stop.czas && stop.czas !== "---" ? `Postój ${stop.czas}` : ""
+	                ].filter(Boolean);
+
+	                return `
+	                    <div class="schedule-stop">
+	                        <div class="schedule-time">${timeLines.length ? timeLines.join("<br>") : "Według planu"}</div>
+	                        <div>
+	                            <strong class="schedule-place">${escapeHtml(stop.nazwa)}</strong>
+	                            <span class="schedule-note">${escapeHtml(stop.uwagi || "")}</span>
+	                        </div>
+	                    </div>
+	                `;
+	            }).join("");
+	        }
 
         function openImagePreview(src, title) {
             imageTitle.textContent = title;
@@ -3071,41 +4818,38 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 openRouteDayId = null;
             }
 
-            target.innerHTML = mediaItems.map(item => `
-                <article class="media-day ${item.id === openRouteDayId ? "is-open" : ""}">
-                    <button class="route-toggle" type="button" data-toggle-day="${item.id}" aria-expanded="${item.id === openRouteDayId}" aria-controls="route-details-${item.id}">
-                        <span class="route-toggle-main">
-                            <span class="status-kicker">${item.label}</span>
-                            <span class="route-toggle-title">${item.title}</span>
-                            <span class="route-toggle-summary">${item.summary}</span>
-                        </span>
-                        <span class="route-toggle-icon" aria-hidden="true">⌄</span>
-                    </button>
-                    <div class="route-details" id="route-details-${item.id}">
-                        <div class="schedule-list">${renderSchedule(item.stops)}</div>
-                        <div class="media-grid">
-                            <button class="media-card" type="button" data-full-src="${item.routeSrc}" data-full-title="${item.label} - mapa trasy">
-                                <span class="media-frame">
-                                    <img src="${item.routeSrc}" alt="${item.label} - mapa trasy" onerror="this.closest('.media-frame').classList.add('is-missing')">
-                                    <span class="media-placeholder">${item.routeSrc}</span>
-                                </span>
-                                <span class="media-type">Mapa trasy</span>
-                            </button>
-                            <button class="media-card" type="button" data-full-src="${item.scheduleSrc}" data-full-title="${item.label} - harmonogram">
-                                <span class="media-frame">
-                                    <img src="${item.scheduleSrc}" alt="${item.label} - harmonogram" onerror="this.closest('.media-frame').classList.add('is-missing')">
-                                    <span class="media-placeholder">${item.scheduleSrc}</span>
-                                </span>
-                                <span class="media-type">Harmonogram jako zdjęcie</span>
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            `).join("");
+	            target.innerHTML = mediaItems.map(item => `
+	                <article class="media-day ${item.id === openRouteDayId ? "is-open" : ""}">
+	                    <button class="route-toggle" type="button" data-toggle-day="${item.id}" aria-expanded="${item.id === openRouteDayId}" aria-controls="route-details-${item.id}">
+		                        <span class="route-toggle-main">
+		                            <span class="status-kicker">${escapeHtml(item.label)}</span>
+		                            <span class="route-toggle-title">${escapeHtml(item.title)}</span>
+		                            ${item.summary ? `<span class="route-toggle-summary">${escapeHtml(item.summary)}</span>` : ""}
+		                        </span>
+	                        <span class="route-toggle-icon" aria-hidden="true">⌄</span>
+	                    </button>
+	                    <div class="route-details" id="route-details-${item.id}">
+	                        ${renderRouteOverview(item)}
+	                        <div class="media-grid route-media-single">
+	                            <button class="media-card" type="button" data-full-src="${item.routeSrc}" data-full-title="${escapeHtml(item.label)} - mapa trasy">
+	                                <span class="media-frame">
+	                                    <img src="${item.routeSrc}" alt="${escapeHtml(item.label)} - mapa trasy" onerror="this.closest('.media-frame').classList.add('is-missing')">
+	                                    <span class="media-placeholder">${escapeHtml(item.routeSrc)}</span>
+	                                </span>
+	                                <span class="media-type">Mapa trasy</span>
+	                            </button>
+	                        </div>
+	                    </div>
+	                </article>
+	            `).join("");
         }
 
         function isRunningStandalone() {
             return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+        }
+
+        function shouldShowInstallRow() {
+            return !isRunningStandalone() && safeStorage.getItem("epp-concept-app-installed") !== "true";
         }
 
         function hideAppSplash() {
@@ -3152,17 +4896,59 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return `<a class="install-browser-link" href="${getChromeIntentUrl()}" rel="noopener">Otwórz w Chrome</a>`;
         }
 
-        function isSurveyUnlocked() {
-            const today = new Date();
-            return today >= new Date(today.getFullYear(), 7, 9);
+        function getCurrentAppDate() {
+            return new Date();
+        }
+
+        function getSurveyUnlockDate(now = getCurrentAppDate()) {
+            return new Date(now.getFullYear(), 7, 9, 0, 0, 0);
+        }
+
+        function isSurveyUnlocked(now = getCurrentAppDate()) {
+            return now >= getSurveyUnlockDate(now);
+        }
+
+        function getSurveyPromptStorageKey(now = getCurrentAppDate()) {
+            return `epp-concept-survey-prompt-${getSurveyUnlockDate(now).getFullYear()}`;
+        }
+
+        function shouldShowSurveyPrompt(now = getCurrentAppDate()) {
+            if (forceSurveyPromptPreview) return true;
+            if (!isSurveyUnlocked(now)) return false;
+            return safeStorage.getItem(getSurveyPromptStorageKey(now)) !== "true";
+        }
+
+        function markSurveyPromptSeen(now = getCurrentAppDate()) {
+            if (forceSurveyPromptPreview) return;
+            safeStorage.setItem(getSurveyPromptStorageKey(now), "true");
+        }
+
+        function showSurveyPromptIfNeeded(options = {}) {
+            if (!surveyModal || !shouldShowSurveyPrompt()) return;
+            if (!options.ignoreIntro && introModal && !introModal.hidden) return;
+            if (forceSurveyPromptPreview && introModal) introModal.hidden = true;
+            surveyModal.hidden = false;
+        }
+
+        function closeSurveyPrompt() {
+            markSurveyPromptSeen();
+            surveyModal.hidden = true;
+        }
+
+        function openSurveyFromPrompt() {
+            closeSurveyPrompt();
+            handleSurvey();
         }
 
         function updateActionStatuses() {
+            const installRow = document.getElementById("install-row");
             const installLabel = document.getElementById("install-status-label");
             const surveyLabel = document.getElementById("survey-status-label");
             const installContext = getInstallContext();
+            const showInstallRow = shouldShowInstallRow();
+            if (installRow) installRow.hidden = !showInstallRow;
             if (installLabel) {
-                if (isRunningStandalone()) {
+                if (!showInstallRow) {
                     installLabel.textContent = "Aplikacja działa już jak skrót z ekranu głównego.";
                 } else if (installContext.isIOS && installContext.isSafariIOS) {
                     installLabel.textContent = "Na iPhonie dodaj przez Safari: Udostępnij i Dodaj do ekranu początkowego.";
@@ -3187,23 +4973,23 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
         }
 
-        function handleSurvey() {
-            if (!isSurveyUnlocked()) {
-                showToast("Ankieta będzie dostępna od 9 sierpnia.");
-                return;
-            }
-            window.open("https://tally.so/r/Bzj8A4", "_blank", "noopener");
-        }
+	        function handleSurvey() {
+	            if (!isSurveyUnlocked()) {
+	                showToast("Ankieta będzie dostępna od 9 sierpnia.");
+	                return;
+	            }
+	            window.open(surveyUrl, "_blank", "noopener");
+	        }
 
-        function renderKadraView() {
-            const contactList = document.getElementById("kadra-contact-list");
-            const orgList = document.getElementById("kadra-org-list");
-            if (!contactList || !orgList) return;
+	        function renderKadraView() {
+	            const contactList = document.getElementById("kadra-contact-list");
+	            const orgList = document.getElementById("kadra-org-list");
+	            if (!contactList || !orgList) return;
 
-            contactList.innerHTML = kadradata.telefony.map(contact => `
-                <a class="contact-button" href="tel:${contact.numer.replace(/\s/g, "")}">
-                    <span>
-                        <strong>${contact.nazwa}</strong>
+	            contactList.innerHTML = kadradata.telefony.map(contact => `
+	                <a class="contact-button" href="tel:${contact.numer.replace(/\s/g, "")}">
+	                    <span>
+	                        <strong>${contact.nazwa}</strong>
                         <span>${contact.opis}</span>
                     </span>
                     <strong>${contact.numer}</strong>
@@ -3213,12 +4999,13 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             orgList.innerHTML = kadradata.informacje.map(item => `
                 <div class="org-item">
                     <strong>${item.tytul}</strong>
-                    <span>${item.opis}</span>
-                </div>
-            `).join("");
-        }
+	                    <span>${item.opis}</span>
+	                </div>
+	            `).join("");
+	        }
 
         function openInstallModal() {
+            if (!shouldShowInstallRow()) return;
             const content = document.getElementById("install-modal-content");
             const installContext = getInstallContext();
             installNative.hidden = true;
@@ -3244,7 +5031,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     <div class="notice">Skopiuj adres tej strony, otwórz go w Safari i dopiero tam wybierz udostępnianie oraz “Dodaj do ekranu początkowego”.</div>
                     <div class="install-steps">
                         <div class="install-step"><b>1</b><span>Otwórz aplikację Safari.</span></div>
-                        <div class="install-step"><b>2</b><span>Wklej adres EPP 2026 w pasku adresu.</span></div>
+                        <div class="install-step"><b>2</b><span>Wklej adres EPP na Jasną Górę w pasku adresu.</span></div>
                         <div class="install-step"><b>3</b><span>Stuknij udostępnianie i wybierz “Dodaj do ekranu początkowego”.</span></div>
                     </div>
                 `;
@@ -3272,7 +5059,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 `;
             } else if (deferredPrompt) {
                 content.innerHTML = `
-                    <p class="modal-copy">Telefon pozwala dodać EPP 2026 automatycznie. To najszybsza opcja i działa bez sklepu z aplikacjami.</p>
+                    <p class="modal-copy">Telefon pozwala dodać EPP na Jasną Górę automatycznie. To najszybsza opcja i działa bez sklepu z aplikacjami.</p>
                     <div class="notice">Po dodaniu używaj ikony z ekranu głównego, żeby aplikacja otwierała się pełnoekranowo. Przed instalacją warto mieć aktualny Chrome i Android System WebView.</div>
                 `;
                 installNative.hidden = false;
@@ -3316,7 +5103,9 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             try {
                 const result = await promptEvent.userChoice;
                 if (result?.outcome === "accepted") {
+                    safeStorage.setItem("epp-concept-app-installed", "true");
                     showToast("Skrót został dodany do ekranu głównego.");
+                    updateActionStatuses();
                 }
             } catch (error) {
                 showToast("Sprawdź ekran główny telefonu po potwierdzeniu instalacji.");
@@ -3465,9 +5254,9 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             if (!button) return;
             setSelectedGroup(button.dataset.introGroup, { closeIntro: true, markVisited: true });
         });
-        document.getElementById("kadra-close").addEventListener("click", closeKadraLogin);
         document.getElementById("kadra-cancel").addEventListener("click", closeKadraLogin);
         document.getElementById("kadra-submit").addEventListener("click", submitKadraLogin);
+        kadraPasswordToggle.addEventListener("click", toggleKadraPasswordVisibility);
         document.getElementById("kadra-password").addEventListener("keydown", event => {
             if (event.key === "Enter") submitKadraLogin();
         });
@@ -3482,6 +5271,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         document.getElementById("install-cancel").addEventListener("click", closeInstallModal);
         document.getElementById("install-native").addEventListener("click", triggerNativeInstall);
         document.getElementById("survey-row").addEventListener("click", handleSurvey);
+        document.getElementById("survey-later").addEventListener("click", closeSurveyPrompt);
+        document.getElementById("survey-open").addEventListener("click", openSurveyFromPrompt);
 
         window.addEventListener("beforeinstallprompt", event => {
             event.preventDefault();
@@ -3492,29 +5283,41 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         window.addEventListener("appinstalled", () => {
             deferredPrompt = null;
             safeStorage.setItem("epp-concept-banner-dismissed", "true");
+            safeStorage.setItem("epp-concept-app-installed", "true");
             showToast("Skrót pomyślnie dodany do ekranu głównego.");
             updateActionStatuses();
         });
 
-        initializeViewportTracking();
-        initializeAppHistory();
-        preventDoubleTapZoom();
+        function initializeApplication() {
+            initializeViewportTracking();
+            initializeAppHistory();
+            preventDoubleTapZoom();
 
-        const savedTheme = safeStorage.getItem("epp-concept-theme");
-        setTheme(savedTheme === "dark");
-        renderHomeContent();
-        window.setInterval(updatePilgrimageCountdown, 60000);
-        renderIntroGroups();
-        renderList("songs-list", songs, "", "songs");
-        renderList("prayers-list", prayers, "", "prayers");
-        renderGroupControls();
-        renderRoute();
-        updateKadraPanel();
-        updateActionStatuses();
-        registerPwaServiceWorker();
-        triggerDynamicVersionDisplay();
-        showIntroIfNeeded();
-        hideAppSplash();
+            const savedTheme = safeStorage.getItem("epp-concept-theme");
+            setTheme(savedTheme === "dark");
+            renderHomeContent();
+            window.setInterval(updatePilgrimageCountdown, 60000);
+            renderIntroGroups();
+            renderList("songs-list", songs, "", "songs");
+            renderList("prayers-list", prayers, "", "prayers");
+            renderGroupControls();
+            renderRoute();
+            updateKadraPanel();
+            updateActionStatuses();
+            registerPwaServiceWorker();
+            triggerDynamicVersionDisplay();
+            showIntroIfNeeded();
+            showSurveyPromptIfNeeded({ ignoreIntro: forceSurveyPromptPreview });
+            window.setTimeout(requestRouteLocationAccess, 700);
+        }
+
+        try {
+            initializeApplication();
+        } catch (error) {
+            console.error("Nie udało się w pełni uruchomić aplikacji:", error);
+        } finally {
+            hideAppSplash();
+        }
     </script>
 </body>
 </html>
