@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" id="theme-color" content="#fbf7ef">
     <meta name="color-scheme" id="color-scheme" content="light dark">
     <meta name="mobile-web-app-capable" content="yes">
@@ -30,7 +30,7 @@
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-left: env(safe-area-inset-left, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
-            --nav-count: 5;
+            --nav-count: 6;
             --nav-item-height: 54px;
             --nav-padding-top: 8px;
             --nav-padding-bottom: max(10px, calc(var(--safe-bottom) + 8px));
@@ -119,6 +119,11 @@
         select,
         [role="button"] {
             touch-action: manipulation;
+        }
+
+        :where(button, a, input, textarea, select, [tabindex]):focus-visible {
+            outline: 3px solid color-mix(in srgb, var(--primary) 74%, #ffffff 26%);
+            outline-offset: 3px;
         }
 
         img,
@@ -967,14 +972,14 @@
 
         .route-timeline-meta span {
             margin: 0;
-            padding: 5px 8px;
+            padding: 6px 9px;
             border-radius: 8px;
-            background: var(--surface-soft);
-            border: 1px solid var(--line);
+            background: color-mix(in srgb, var(--primary) 10%, var(--surface-soft));
+            border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--line));
             color: var(--primary-strong);
-            font-size: 0.72rem;
+            font-size: 0.76rem;
             line-height: 1.2;
-            font-weight: 850;
+            font-weight: 900;
         }
 
         .schedule-list {
@@ -1063,6 +1068,7 @@
             border-radius: 8px;
             background: transparent;
             text-align: left;
+            color: inherit;
         }
 
         .media-frame {
@@ -1075,6 +1081,29 @@
             display: grid;
             place-items: center;
             position: relative;
+        }
+
+        .media-card:focus-visible .media-frame {
+            outline: 3px solid color-mix(in srgb, var(--primary) 74%, #ffffff 26%);
+            outline-offset: 3px;
+        }
+
+        .media-zoom-badge {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: color-mix(in srgb, var(--surface) 88%, transparent);
+            border: 1px solid var(--line);
+            color: var(--primary-strong);
+            font-size: 1.15rem;
+            line-height: 1;
+            font-weight: 950;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
         }
 
         .media-frame img {
@@ -1238,6 +1267,92 @@
             overflow-wrap: anywhere;
         }
 
+        .liturgy-list {
+            display: grid;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .liturgy-card {
+            display: grid;
+            gap: 14px;
+        }
+
+        .liturgy-card-top {
+            display: grid;
+            gap: 5px;
+            min-width: 0;
+        }
+
+        .liturgy-date {
+            color: var(--primary);
+            font-size: 0.72rem;
+            line-height: 1.25;
+            font-weight: 950;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .liturgy-title {
+            margin: 0;
+            color: var(--text);
+            font-size: 1.05rem;
+            line-height: 1.25;
+            font-weight: 950;
+        }
+
+        .liturgy-readings {
+            display: grid;
+            gap: 8px;
+        }
+
+        .liturgy-row {
+            min-width: 0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
+        }
+
+        .liturgy-row span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.66rem;
+            line-height: 1.2;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .liturgy-row strong {
+            display: block;
+            margin-top: 4px;
+            color: var(--text);
+            font-size: 0.94rem;
+            line-height: 1.25;
+            font-weight: 900;
+            overflow-wrap: anywhere;
+        }
+
+        .liturgy-source {
+            min-height: 42px;
+            padding: 0 14px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            justify-self: start;
+            background: color-mix(in srgb, var(--primary) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--line));
+            color: var(--primary-strong);
+            text-decoration: none;
+            font-size: 0.76rem;
+            line-height: 1.2;
+            font-weight: 950;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
         .regulation-content {
             color: var(--text);
             font-size: 0.96rem;
@@ -1245,8 +1360,23 @@
             font-weight: 640;
         }
 
+        .regulation-heading {
+            margin: 0 0 18px;
+            color: var(--primary-strong);
+            font-size: 1.08rem;
+            line-height: 1.32;
+            font-weight: 950;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
         .regulation-content p {
             margin: 0 0 14px;
+        }
+
+        .regulation-content ol {
+            margin: 0;
+            padding-left: 22px;
         }
 
         .regulation-content ul {
@@ -1255,7 +1385,17 @@
         }
 
         .regulation-content li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .regulation-alpha {
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+            list-style-type: lower-alpha;
+        }
+
+        .regulation-alpha li {
+            margin-bottom: 6px;
         }
 
         .detail-text {
@@ -1303,6 +1443,27 @@
             margin-top: 14px;
         }
 
+        .contact-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        .contact-group + .contact-group {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid color-mix(in srgb, var(--green) 30%, var(--line));
+        }
+
+        .contact-group-title {
+            margin: 0;
+            color: var(--primary-strong);
+            font-size: 0.78rem;
+            line-height: 1.25;
+            font-weight: 950;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
         .contact-button {
             width: 100%;
             min-width: 0;
@@ -1311,12 +1472,17 @@
             border-radius: 8px;
             background: var(--surface);
             border: 1px solid var(--line);
+            border-left: 5px solid var(--contact-accent, var(--line));
             color: inherit;
             text-decoration: none;
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
             gap: 12px;
             align-items: center;
+        }
+
+        .contact-button.is-disabled {
+            cursor: default;
         }
 
         .contact-button strong,
@@ -1335,6 +1501,22 @@
             font-size: 0.82rem;
             line-height: 1.35;
             font-weight: 720;
+        }
+
+        .contact-tag {
+            display: inline-flex !important;
+            width: fit-content;
+            margin-top: 8px !important;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--contact-accent, var(--primary)) 16%, transparent);
+            border: 1px solid color-mix(in srgb, var(--contact-accent, var(--primary)) 28%, var(--line));
+            color: var(--contact-accent, var(--primary-strong)) !important;
+            font-size: 0.68rem !important;
+            line-height: 1.15 !important;
+            font-weight: 950 !important;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .org-item,
@@ -1949,6 +2131,18 @@
                                 <strong>Śpiewnik</strong>
                             </span>
                         </button>
+                        <button class="action-card" type="button" data-open="liturgy">
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/>
+                                    <path d="M8 7h8M8 11h7"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Liturgia Słowa</strong>
+                            </span>
+                        </button>
                         <button class="action-card" type="button" data-open="prayers">
                             <span class="card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -1958,6 +2152,18 @@
                             </span>
                             <span>
                                 <strong>Modlitewnik</strong>
+                            </span>
+                        </button>
+                        <button class="action-card" type="button" data-open="regulations">
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Z"/>
+                                    <path d="M14 2v5h5"/>
+                                    <path d="M9 13h6M9 17h6M9 9h1"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Regulamin</strong>
                             </span>
                         </button>
                         <button class="action-card" type="button" data-open="more">
@@ -2013,6 +2219,18 @@
                 <div class="list" id="prayers-list"></div>
             </section>
 
+            <section class="view" id="view-liturgy" data-view="liturgy">
+                <div class="toolbar">
+                    <button class="back-button" type="button" data-back>‹ Wróć</button>
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">Liturgia Słowa</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="liturgy-list" id="liturgy-list"></div>
+            </section>
+
             <section class="view" id="view-route" data-view="route">
                 <div class="toolbar">
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
@@ -2021,8 +2239,6 @@
                             <h2 class="section-title">Trasa</h2>
                         </div>
                     </div>
-                    <div class="segmented" id="group-tabs"></div>
-                    <p class="route-context" id="route-context"></p>
                 </div>
                 <div class="route-gallery" id="route-list"></div>
             </section>
@@ -2035,18 +2251,6 @@
                     </div>
                 </div>
                 <div class="option-list">
-                    <div class="option-row">
-                        <div>
-                            <strong>Wybrana grupa</strong>
-                            <span id="selected-group-label">Trasa Główna</span>
-                        </div>
-                        <button class="small-action" id="change-group" type="button" aria-label="Zmień grupę">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                <path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/>
-                                <path d="M9 3v15M15 6v15"/>
-                            </svg>
-                        </button>
-                    </div>
                     <button class="option-row" type="button" data-open="regulations">
                         <div>
                             <strong>Regulamin Pielgrzymki</strong>
@@ -2073,7 +2277,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.27<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.36<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2081,37 +2285,54 @@
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker">Pomoc</p>
                             <h2 class="section-title">Regulamin Pielgrzymki</h2>
                         </div>
                     </div>
                 </div>
                 <div class="content-card regulation-content">
-                    <div class="notice">Pielgrzymka ma charakter religijno-pokutny. Obowiązuje duch modlitwy, porządek zewnętrzny i wzajemna odpowiedzialność.</div>
-                    <p><strong>W Ełckiej Pielgrzymce Pieszej na Jasną Górę może uczestniczyć każdy, kto:</strong></p>
-                    <ul>
-                        <li>akceptuje jej religijny i rekolekcyjny charakter: Mszę świętą, nabożeństwa, konferencje, wspólne modlitwy i śpiew;</li>
-                        <li>pragnie pogłębić chrześcijańską formację lub szczerym sercem poszukuje Boga;</li>
-                        <li>nie będzie palił tytoniu, pił alkoholu ani używał narkotyków;</li>
-                        <li>podporządkuje się poleceniom księży przewodników i służby porządkowej;</li>
-                        <li>nie będzie uczestnikiem ani przyczyną konfliktów.</li>
-                    </ul>
-                    <p>Każdy zapisany pielgrzym otrzymuje znaczek i kartę uczestnictwa, które nosi ze sobą.</p>
-                    <p><strong>Noclegi:</strong> przede wszystkim u gospodarzy, w szkołach i remizach strażackich, w razie potrzeby w namiotach. Noclegi są oddzielne dla sióstr i braci. Cisza nocna po 22:30 jest obowiązkiem wynikającym z miłości bliźniego.</p>
-                    <p><strong>Wyżywienie:</strong> kierownictwo organizuje zakup chleba, kuchnia pielgrzymkowa przygotowuje kawę i herbatę. Pielgrzym zabiera odpowiednią ilość suchego prowiantu.</p>
-                    <p><strong>Wyposażenie indywidualne:</strong> wygodne rozchodzone buty, peleryna od deszczu, skarpety na zmianę, bielizna, czapeczka od słońca, łyżka, nóż, kubek, bidon, chlebak, różaniec, śpiewnik i coś do pisania.</p>
-                    <p>Zapas żywności, zapasową garderobę, namiot, śpiwór lub koc należy zdać na samochód bagażowy swojej grupy i odbierać wieczorem w miejscu noclegu.</p>
-                    <p>Osoby dołączające na trasie zapisują się w sekretariacie pielgrzymki i otrzymują znaczek oraz kartę uczestnictwa. Pątnicy idą w grupach, do których się zapisali.</p>
-                    <p>W miejscach postoju pielgrzymi zachowują czystość i składają śmieci do przygotowanych koszy.</p>
-                    <p><strong>Wszyscy uczestnicy dbają o:</strong></p>
-                    <ul>
-                        <li>atmosferę życzliwości, wzajemnej troski i pogody ducha;</li>
-                        <li>czynne uczestnictwo w liturgii;</li>
-                        <li>wymianę duchowych wartości wewnątrz grupy i wobec ludzi spotkanych na trasie;</li>
-                        <li>zachowanie przepisów ruchu drogowego, porządku, bezpieczeństwa i dyscypliny;</li>
-                        <li>rozwijanie tradycji pielgrzymkowych w swoim środowisku.</li>
-                    </ul>
-                    <p><strong>Kary i dyscyplina:</strong> za nieprzestrzeganie regulaminu lub postawę sprzeczną z duchem pielgrzymki przewiduje się upomnienie z wpisem do legitymacji pielgrzyma albo natychmiastowe usunięcie z pielgrzymki.</p>
+                    <p class="regulation-heading">REGULAMIN<br>Ełckiej Pieszej Pielgrzymki<br>na Jasną Górę</p>
+                    <ol>
+                        <li>W Ełckiej Pielgrzymce Pieszej na Jasną Górę może uczestniczyć każdy, kto:
+                            <ol class="regulation-alpha">
+                                <li>akceptuje jej religijny i rekolekcyjny charakter, w szczególności: Msze Święte, nabożeństwa, konferencje, wspólne modlitwy i śpiewy;</li>
+                                <li>pragnie pogłębić swoją chrześcijańską formację lub szczerym sercem poszukuje Boga;</li>
+                                <li>nie będzie uczestnikiem ani przyczyną konfliktów.</li>
+                            </ol>
+                        </li>
+                        <li>W trakcie Pielgrzymki zabronione jest palenie tytoniu, w tym e-papierosów i produktów podobnych, picie alkoholu, zażywanie środków odurzających i psychoaktywnych (narkotyków). Zabronione jest także przebywanie pod wpływem w/w substancji i środków.</li>
+                        <li>Każdy uczestnik Pielgrzymki obowiązany jest przestrzegać i podporządkować się poleceniom Księdza Kierownika, jego zastępcy i Księży przewodników (stanowiących razem kierownictwo Pielgrzymki) i służby porządkowej. Kierownictwo Pielgrzymki uprawnione jest do wydawania tak zbiorczych jak i indywidualnych poleceń, które mają moc równą niniejszemu regulaminowi. Nieprzestrzeganie tych poleceń będzie równoznaczne z naruszeniem regulaminu Pielgrzymki i może skutkować określonymi konsekwencjami.</li>
+                        <li>Każdy uczestnik Pielgrzymki, podczas Pielgrzymki obowiązany jest nosić ze sobą znaczek i kartę uczestnictwa w Pielgrzymce, które otrzymał w związku z udziałem w tej Pielgrzymce.</li>
+                        <li><strong>NOCLEGI.</strong> Każdy uczestnik Pielgrzymki przyjmuje do wiadomości i akceptuje to, iż w trakcie Pielgrzymki noclegi odbywać się będą przede wszystkim „u gospodarzy” lub w szkołach i remizach strażackich. Noclegi są zawsze oddzielne dla sióstr (kobiet) i braci (mężczyzn). Nie zawsze możliwe jest spędzenie noclegu w uprzednio zaplanowanych grupach. Każdy uczestnik Pielgrzymki podczas noclegów obowiązany jest do zachowania dobrych obyczajów, w tym do niezakłócania spoczynku nocnego po godz. 22:30. Jest to podstawowy obowiązek wynikający z zachowania miłości i szacunku do Bliźniego.</li>
+                        <li><strong>WYPOSAŻENIE INDYWIDUALNE.</strong> Każdy uczestnik Pielgrzymki powinien w szczególności zabrać ze sobą wygodne i rozchodzone buty (zaleca się zabranie butów większych o jeden numer), pelerynę od deszczu, grube skarpety (kilka par na zmianę), bieliznę (kilka sztuk na zmianę), czapeczkę lub kapelusz od słońca, bidon na napoje. Podczas Pielgrzymki obowiązuje strój skromy i wygodny.</li>
+                        <li>Każdy uczestnik Pielgrzymki obowiązany jest zabrać ze sobą potrzebne leki, stosowne środki medyczne i opatrunkowe, w odpowiedniej ilości na cały okres swojego udziału w pielgrzymce. Sanitariat pielgrzymkowy udziela tylko doraźnej pomocy na trasie i w punktach opatrunkowych.</li>
+                        <li>Każdy uczestnik Pielgrzymki zobowiązany jest do bezzwłocznego zgłoszenia kierownictwu Pielgrzymki wszelkich urazów i zdarzeń mogących wpłynąć na zdrowie i bezpieczeństwo danego uczestnika Pielgrzymki, a w szczególności związanych z odpowiedzialnością ubezpieczeniową. Niezgłoszenie powyższego we wskazanym terminie zwalnia kierownictwo jak i organizatora Pielgrzymki z jakiejkolwiek dalszej odpowiedzialności.</li>
+                        <li>Każdy uczestnik Pielgrzymki powinien zabrać ze sobą różaniec, śpiewnik i „coś do pisania” (np. długopis i kartki papieru).</li>
+                        <li>Zapas żywności, zapasowa garderoba, śpiwór lub koc oraz względnie inne przedmioty, które nie muszą być doraźnie używane w trakcie pieszego pielgrzymowania winny być stosownie spakowane i zabezpieczone (np. w plecak, torbę lub walizkę). Przedmioty te winne być przekazane do samochodu bagażowego grupy w której pielgrzymuje dany uczestnik, w tym odebrane wieczorem na nocleg i każdorazowo zdane rano przed wyruszeniem Pielgrzymki w dalszą drogę.</li>
+                        <li>Podczas Pielgrzymki działa „Poczta Pielgrzymkowa” gdzie można nabyć odpłatnie kartki pocztowe i znaczki, jak również za jej pośrednictwem można nadać także inną korespondencję pocztową.</li>
+                        <li>Istnieje możliwość dołączenia do Pielgrzymki w trakcie pielgrzymowania. Takie osoby zobowiązane są do zapisania się w sekretariacie Pielgrzymki i dopełnienia innych niezbędnych formalności. Osoby te otrzymują znaczek i kartę uczestnictwa. Osoby te obowiązane są do przestrzegania regulaminu i zasad Pielgrzymki tak jak inne osoby uczestniczące w niej od początku.</li>
+                        <li>Uczestnicy Pielgrzymki pielgrzymują w grupach do których zostali uprzednio zapisani. Zmiana grupy możliwa jest po wcześniejszym zgłoszeniu tego Księżom Przewodnikom i wyrażeniu przez nich zgody na taką zmianę.</li>
+                        <li>Każdy uczestnik Pielgrzymki zobowiązany jest do zachowania w miejscach postoju czystości. Śmieci winne być złożone do przygotowanych w tym celu koszy.</li>
+                        <li>Kierownictwo oraz organizatorzy Pielgrzymki nie odpowiadają za rzeczy zagubione, pozostawione, czy też zniszczone przez inne osoby bądź samego pielgrzyma.</li>
+                        <li>Wszyscy uczestnicy Pielgrzymki powinni:
+                            <ol class="regulation-alpha">
+                                <li>dbać o tworzenie atmosfery życzliwości, wzajemnej troski i pogody ducha;</li>
+                                <li>czynnie uczestniczyć w liturgii i wspólnych modlitwach;</li>
+                                <li>dbać o wymianę duchową wartości wewnątrz grupy i wobec ludzi spotkanych na trasie Pielgrzymki;</li>
+                                <li>ze szczególną uwagą przestrzegać przepisów o ruchu drogowym a także innych przepisów powszechnie obowiązujących, w tym także stosować się do przepisów i zaleceń porządkowych, bezpieczeństwa i dyscypliny;</li>
+                                <li>dbać o rozwijanie tradycji pielgrzymkowych w swoim środowisku.</li>
+                            </ol>
+                        </li>
+                        <li>Kierownictwo Pielgrzymki oraz jej organizatorzy nie ponoszą odpowiedzialności za niespełnienie przez któregoś z uczestników Pielgrzymki wymogów wskazanych w niniejszym regulaminie i warunkach pielgrzymki oraz wydanych poleceniach, w szczególności dotyczących ubioru, wyżywienia, czy zachowania.</li>
+                        <li>Każdy uczestnik Pielgrzymki wyraża zgodę na przetwarzanie swoich danych osobowych, i nieodpłatne publikowanie swojego wizerunku na zdjęciach i filmach pielgrzymkowych oraz popielgrzymkowych. Odrębna zgoda na powyższe nie jest wymagana.</li>
+                        <li>W Pielgrzymce mogą uczestniczyć także osoby niepełnoletnie. Udział takiej osoby możliwy jest wyłącznie pod opieką innej osoby pełnoletniej biorącej udział w pielgrzymce (innego pielgrzyma), która ponosi odpowiedzialność za swojego podopiecznego. Udział niepełnoletniego pielgrzyma w Pielgrzymce trwa tak długo jak trwa w niej udział osoby pełnoletniej pod opieką której pozostaje. Osoba niepełnoletnia powinna przedłożyć zgodę opiekunów prawnych na udział w Pielgrzymce oraz oświadczenie o powierzeniu jej na czas Pielgrzymki pod opiekę w/w pełnoletniego uczestnika Pielgrzymki wraz z upoważnieniem tej osoby do prawa zasięgania informacji o stanie zdrowia nieletniego pielgrzyma oraz upoważnienie do podejmowania decyzji medycznych względem tego nieletniego pielgrzyma o ile zajdzie taka potrzeba.</li>
+                        <li>Każdy uczestnik Pielgrzymki za nieprzestrzeganie regulaminu i warunków pielgrzymki, a także poleceń Kierownictwa Pielgrzymki, jego zastępcy lub Księży Przewodników może być:
+                            <ol class="regulation-alpha">
+                                <li>upomniany, w tym z wpisem do legitymacji pielgrzyma;</li>
+                                <li>natychmiast usunięty z Pielgrzymki, na własny koszt i odpowiedzialność, w tym z podaniem nazwiska pielgrzyma do publicznej wiadomości innych pielgrzymów a także właściwego mu Księdza Proboszcza.</li>
+                            </ol>
+                        </li>
+                        <li>Decyzję o wykluczeniu z Pielgrzymki podejmuje Kierownik Pielgrzymki. W przypadku wykluczenia danej osoby z dalszego udziału w Pielgrzymce kierownictwo Pielgrzymki jak i jej organizatorzy nie ponoszą jakiejkolwiek odpowiedzialności odszkodowawczej.</li>
+                    </ol>
                 </div>
             </section>
 
@@ -2120,7 +2341,6 @@
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker" id="detail-kicker">Treść</p>
                             <h2 class="section-title" id="detail-title">Szczegóły</h2>
                         </div>
                     </div>
@@ -2141,7 +2361,7 @@
                     </div>
                 </div>
                 <div class="kadra-panel">
-                    <p class="section-kicker">Telefony kierownicze</p>
+                    <p class="section-kicker">Kontakty</p>
                     <div class="contact-list" id="kadra-contact-list"></div>
                 </div>
                 <section class="section">
@@ -2172,14 +2392,22 @@
                     <circle cx="6" cy="18" r="3"/>
                     <circle cx="18" cy="16" r="3"/>
                 </svg>
-                <span>Śpiewnik</span>
+                <span>Pieśni</span>
             </button>
             <button class="nav-item" type="button" data-open="prayers" aria-label="Modlitewnik">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                     <path d="M12 2v20M5 7h14"/>
                     <path d="M7 22h10"/>
                 </svg>
-                <span>Modlitewnik</span>
+                <span>Modl.</span>
+            </button>
+            <button class="nav-item" type="button" data-open="liturgy" aria-label="Liturgia Słowa">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/>
+                    <path d="M8 7h8M8 11h7"/>
+                </svg>
+                <span>Słowo</span>
             </button>
             <button class="nav-item" type="button" data-open="route" aria-label="Trasa">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -2221,15 +2449,8 @@
                     <p class="modal-copy">Sprawdzamy, czy może ona w przyszłości zastąpić tradycyjną książeczkę pielgrzyma i być realnym wsparciem w czasie pielgrzymki.</p>
                     <p class="modal-copy">Na zakończenie pielgrzymki poprosimy Cię o krótką ankietę (ok. 5 minut). Twoja opinia pomoże nam ją ulepszyć. Dziękujemy!</p>
                     <div class="modal-actions">
-                        <button class="primary-button" id="intro-next" type="button">Dalej</button>
+                        <button class="primary-button" id="intro-next" type="button">Rozumiem</button>
                     </div>
-                </section>
-
-                <section class="modal-step" id="intro-step-group">
-                    <p class="section-kicker">Ustawienia startowe</p>
-                    <h2 class="modal-title">Z którą grupą wędrujesz?</h2>
-                    <p class="modal-copy">Wybierz grupę, żeby trasa i komunikaty były dopasowane do Twojej drogi. Możesz to później zmienić w Opcjach.</p>
-                    <div class="group-choice-list" id="intro-group-list"></div>
                 </section>
             </div>
         </div>
@@ -2245,7 +2466,7 @@
                     </div>
                 </div>
                 <h2 class="modal-title" id="kadra-title">Dostęp organizacyjny</h2>
-                <p class="modal-copy">Zaloguj się, aby włączyć widok kadry.</p>
+                <p class="modal-copy">Włącz pomocniczy widok kadry na czas tej sesji. Ten statyczny prototyp nie zastępuje prywatnego systemu organizacyjnego.</p>
                 <div class="password-field">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <rect x="5" y="10" width="14" height="10" rx="2"/>
@@ -2264,20 +2485,6 @@
                     <button class="secondary-button" id="kadra-cancel" type="button">Anuluj</button>
                     <button class="primary-button" id="kadra-submit" type="button">Zaloguj</button>
                 </div>
-            </div>
-        </div>
-
-        <div class="modal-shell" id="group-modal" hidden>
-            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="group-title">
-                <div class="modal-top">
-                    <div>
-                        <p class="section-kicker">Moja grupa</p>
-                        <h2 class="modal-title" id="group-title">Zmień grupę</h2>
-                    </div>
-                    <button class="secondary-button" id="group-close" type="button">Zamknij</button>
-                </div>
-                <p class="modal-copy">Ten wybór określa, z którą grupą idziesz. Trasa tej grupy będzie widoczna bez dodatkowych przełączników.</p>
-                <div class="group-choice-list" id="settings-group-list"></div>
             </div>
         </div>
 
@@ -2334,11 +2541,11 @@
             </div>
         </div>
 
-        <div class="toast" id="toast" hidden></div>
+        <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
     </div>
 
     <script>
-        let appActiveVersion = "Wersja 1.0.27";
+        let appActiveVersion = "Wersja 1.0.36";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -2390,6 +2597,30 @@
         };
 
         routeLocationStatus = safeStorage.getItem("epp-route-location-status") || "unknown";
+
+        const kadraRoleKey = "epp-concept-user-role";
+
+        function getKadraRole() {
+            try {
+                return sessionStorage.getItem(kadraRoleKey);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function setKadraRole() {
+            try {
+                sessionStorage.setItem(kadraRoleKey, "kadra");
+            } catch (error) {}
+            safeStorage.removeItem(kadraRoleKey);
+        }
+
+        function clearKadraRole() {
+            try {
+                sessionStorage.removeItem(kadraRoleKey);
+            } catch (error) {}
+            safeStorage.removeItem(kadraRoleKey);
+        }
 
         const sourceTextData = {
             songs: [
@@ -2568,6 +2799,147 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             text: item.tekst
         }));
 
+        const liturgyDays = [
+            {
+                day: 1,
+                date: "28.07.2026",
+                title: "Wtorek XVII tygodnia zwykłego",
+                reading1: "Jr 14,17-22",
+                psalm: "Ps 79,8.9.11.13",
+                gospel: "Mt 13,36-43",
+                source: "https://bible.usccb.org/bible/readings/072826.cfm"
+            },
+            {
+                day: 2,
+                date: "29.07.2026",
+                title: "Wspomnienie świętych Marty, Marii i Łazarza",
+                reading1: "Jr 15,10.16-21",
+                psalm: "Ps 59,2-3.4.10-11.17.18",
+                gospel: "J 11,19-27 albo Łk 10,38-42",
+                source: "https://bible.usccb.org/bible/readings/072926.cfm"
+            },
+            {
+                day: 3,
+                date: "30.07.2026",
+                title: "Czwartek XVII tygodnia zwykłego",
+                reading1: "Jr 18,1-6",
+                psalm: "Ps 146,1b-2.3-4.5-6ab",
+                gospel: "Mt 13,47-53",
+                source: "https://bible.usccb.org/bible/readings/073026.cfm"
+            },
+            {
+                day: 4,
+                date: "31.07.2026",
+                title: "Wspomnienie św. Ignacego z Loyoli, prezbitera",
+                reading1: "Jr 26,1-9",
+                psalm: "Ps 69,5.8-10.14",
+                gospel: "Mt 13,54-58",
+                source: "https://bible.usccb.org/bible/readings/073126.cfm"
+            },
+            {
+                day: 5,
+                date: "01.08.2026",
+                title: "Wspomnienie św. Alfonsa Marii Liguoriego, biskupa i doktora Kościoła",
+                reading1: "Jr 26,11-16.24",
+                psalm: "Ps 69,15-16.30-31.33-34",
+                gospel: "Mt 14,1-12",
+                source: "https://bible.usccb.org/bible/readings/080126"
+            },
+            {
+                day: 6,
+                date: "02.08.2026",
+                title: "XVIII niedziela zwykła",
+                reading1: "Iz 55,1-3",
+                psalm: "Ps 145,8-9.15-16.17-18",
+                reading2: "Rz 8,35.37-39",
+                gospel: "Mt 14,13-21",
+                source: "https://bible.usccb.org/bible/readings/080226.cfm"
+            },
+            {
+                day: 7,
+                date: "03.08.2026",
+                title: "Poniedziałek XVIII tygodnia zwykłego",
+                reading1: "Jr 28,1-17",
+                psalm: "Ps 119,29.43.79.80.95.102",
+                gospel: "Mt 14,22-36",
+                source: "https://bible.usccb.org/bible/readings/080326.cfm"
+            },
+            {
+                day: 8,
+                date: "04.08.2026",
+                title: "Wspomnienie św. Jana Marii Vianneya, prezbitera",
+                reading1: "Jr 30,1-2.12-15.18-22",
+                psalm: "Ps 102,16-18.19-21.29.22-23",
+                gospel: "Mt 14,22-36 albo Mt 15,1-2.10-14",
+                source: "https://bible.usccb.org/bible/readings/080426.cfm"
+            },
+            {
+                day: 9,
+                date: "05.08.2026",
+                title: "Środa XVIII tygodnia zwykłego",
+                reading1: "Jr 31,1-7",
+                psalm: "Jr 31,10.11-12ab.13",
+                gospel: "Mt 15,21-28",
+                source: "https://bible.usccb.org/bible/readings/080526.cfm"
+            },
+            {
+                day: 10,
+                date: "06.08.2026",
+                title: "Święto Przemienienia Pańskiego",
+                reading1: "Dn 7,9-10.13-14",
+                psalm: "Ps 97,1-2.5-6.9",
+                reading2: "2 P 1,16-19",
+                gospel: "Mt 17,1-9",
+                source: "https://bible.usccb.org/bible/readings/080626.cfm"
+            },
+            {
+                day: 11,
+                date: "07.08.2026",
+                title: "Piątek XVIII tygodnia zwykłego",
+                reading1: "Na 2,1.3; 3,1-3.6-7",
+                psalm: "Pwt 32,35cd-36ab.39abcd.41",
+                gospel: "Mt 16,24-28",
+                source: "https://bible.usccb.org/bible/readings/080726.cfm"
+            },
+            {
+                day: 12,
+                date: "08.08.2026",
+                title: "Wspomnienie św. Dominika, prezbitera",
+                reading1: "Ha 1,12-2,4",
+                psalm: "Ps 9,8-9.10-11.12-13",
+                gospel: "Mt 17,14-20",
+                source: "https://bible.usccb.org/bible/readings/memorial-saint-dominic-priest"
+            },
+            {
+                day: 13,
+                date: "09.08.2026",
+                title: "XIX niedziela zwykła",
+                reading1: "1 Krl 19,9a.11-13a",
+                psalm: "Ps 85,9.10.11-12.13-14",
+                reading2: "Rz 9,1-5",
+                gospel: "Mt 14,22-33",
+                source: "https://bible.usccb.org/bible/readings/080926.cfm"
+            },
+            {
+                day: 14,
+                date: "10.08.2026",
+                title: "Święto św. Wawrzyńca, diakona i męczennika",
+                reading1: "2 Kor 9,6-10",
+                psalm: "Ps 112,1-2.5-6.7-8.9",
+                gospel: "J 12,24-26",
+                source: "https://bible.usccb.org/bible/readings/081026.cfm"
+            },
+            {
+                day: 15,
+                date: "11.08.2026",
+                title: "Wspomnienie św. Klary, dziewicy",
+                reading1: "Ez 2,8-3,4",
+                psalm: "Ps 119,14.24.72.103.111.131",
+                gospel: "Mt 18,1-5.10.12-14",
+                source: "https://bible.usccb.org/bible/readings/081126.cfm"
+            }
+        ];
+
         const bibleQuotes = [
             "Pan jest pasterzem moim, nie brak mi niczego. Pozwala mi leżeć na zielonych pastwiskach. (Ps 23, 1-2)",
             "Ja jestem drogą i prawdą, i życiem. Nikt nie przychodzi do Ojca inaczej jak tylko przeze Mnie. (J 14, 6)",
@@ -2592,15 +2964,32 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
         const kadradata = {
             telefony: [
-                { nazwa: "Kierownik Pielgrzymki", numer: "+48 602 693 605", opis: "Ks. Karol Czaplicki" },
-                { nazwa: "VC Kierownik Pielgrzymki", numer: "+48 791 865 762", opis: "Ks. Tomasz Zajkowski" },
-                { nazwa: "Kwatermistrz Główny", numer: "+48 xxx xxx xxx", opis: "Ks. Przemysław Jermak " },
-                { nazwa: "Pilot", numer: "+48 517 852 004", opis: "kl. Tobiasz Samul" },
-                { nazwa: "Kierowca Sekretariatu", numer: "+48 506 396 602", opis: "brat Andrzej Fornalski" },
-                { nazwa: "Sekretariat", numer: "+48 xxx xxx xxx", opis: "....." },
-                { nazwa: "Ambulans", numer: "+48 xxx xxx xxx", opis: "....." },
-                { nazwa: "Kuchnia", numer: "+48 xxx xxx xxx", opis: "....." },
-                { nazwa: "Toyota", numer: "+48 xxx xxx xxx", opis: "....." },
+                {
+                    grupa: "Księża kierownicy oraz przewodnicy",
+                    kontakty: [
+                        { nazwa: "Kierownik Pielgrzymki", numer: "+48 602 693 605", opis: "Ks. Karol Czaplicki" },
+                        { nazwa: "Wicekierownik Pielgrzymki", numer: "+48 791 865 762", opis: "Ks. Tomasz Zajkowski" },
+                        { nazwa: "Ks. Kamil Wielgat", numer: "+48 511 551 444", opis: "Przewodnik grupy", grupaPielgrzymkowa: "Jaćwingowie Ełk", kolor: "#174a34" },
+                        { nazwa: "Ks. Bartosz Chrulski", numer: "+48 516 066 522", opis: "Przewodnik grupy", grupaPielgrzymkowa: "Galindia Pisz", kolor: "#77b255" },
+                        { nazwa: "Ks. Janusz Lisowski", numer: "+48 501 686 611", opis: "Przewodnik grupy", grupaPielgrzymkowa: "Grupa Suwałki", kolor: "#c93f3f" },
+                        { nazwa: "Ks. Łukasz Kalinowski", numer: "+48 503 381 357", opis: "Przewodnik grupy", grupaPielgrzymkowa: "Jaćwierz Giżycko", kolor: "#5daeea" },
+                        { nazwa: "Ks. Tomasz Piotrowski", numer: "+48 508 828 552", opis: "Przewodnik grupy", grupaPielgrzymkowa: "Grupa Augustów", kolor: "#d6a800" },
+                        { nazwa: "Ks. Jakub Kozikowski", numer: "+48 697 323 361", opis: "Przewodnik grupy", grupaPielgrzymkowa: "Sambia", kolor: "#df7c2f" }
+                    ]
+                },
+                {
+                    grupa: "Osoby funkcyjne",
+                    kontakty: [
+                        { nazwa: "Kwatermistrz Główny", numer: "+48 608 233 157", opis: "Ks. Przemysław Jermak" },
+                        { nazwa: "Ojciec Duchowny", numer: "+48 661 033 707", opis: "Ks. Mateusz Michniewicz" },
+                        { nazwa: "Pilot", numer: "+48 517 852 004", opis: "al. Tobiasz Samul" },
+                        { nazwa: "Kierowca Sekretariatu", numer: "+48 506 396 602", opis: "brat Andrzej Fornalski" },
+                        { nazwa: "Sekretariat", numer: "+48 605 844 684", opis: "siostra Magdalena Niedźwiedzcka" },
+                        { nazwa: "Ambulans", numer: "+48 660 532 374", opis: "brat Krzysztof Ostrowski" },
+                        { nazwa: "Kuchnia", numer: "+48 695 792 336", opis: "al. Mateusz Sawicki" },
+                        { nazwa: "Punkt Medyczny", numer: "+48 513 234 108", opis: "Brat Paweł Pawłowski" }
+                    ]
+                }
             ],
             informacje: [
                 { tytul: "Odprawa kadry", opis: "Codziennie o 21:15 w miejscu noclegu grupy głównej." },
@@ -3577,7 +3966,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "day": 13,
                     "distance": "36,5 km",
                     "date": "09.08",
-                    "route": "Woźniki - Lgota Wielka",
+                    "route": "Woźniki - Wola Blakowa",
                     "staffStops": [
                               {
                                         "nazwa": "Woźniki",
@@ -3662,10 +4051,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                               "Lgota Wielka",
                               "Wola Blakowa"
                     ],
-                    "title": "Woźniki - Lgota Wielka",
+                    "title": "Woźniki - Wola Blakowa",
                     "start": "Woźniki",
-                    "finish": "Lgota Wielka",
-                    "publicNote": "36,5 km. Przebieg: Woźniki - Lgota Wielka.",
+                    "finish": "Wola Blakowa",
+                    "publicNote": "36,5 km. Przebieg: Woźniki - Wola Blakowa.",
                     "publicDeparture": "06:00",
                     "publicAppeal": "w kościele i w grupach",
                     "publicSummary": "Wyjście 06:00 · Apel w kościele i w grupach",
@@ -3943,7 +4332,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         const themeToggleIcon = document.getElementById("theme-toggle-icon");
         const introModal = document.getElementById("intro-modal");
         const kadraModal = document.getElementById("kadra-modal");
-        const groupModal = document.getElementById("group-modal");
         const installModal = document.getElementById("install-modal");
         const surveyModal = document.getElementById("survey-modal");
         const installNative = document.getElementById("install-native");
@@ -3960,6 +4348,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         let brandTapCount = 0;
         let brandTapTimer = null;
         let toastTimer = null;
+        let activeModal = null;
+        let previousFocus = null;
 
         const themeIcons = {
             sun: '<path d="M12 3v2.2M12 18.8V21M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M3 12h2.2M18.8 12H21M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"/><circle cx="12" cy="12" r="4"/>',
@@ -4000,22 +4390,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             requestAnimationFrame(syncViewportHeight);
             window.setTimeout(syncViewportHeight, 120);
             window.setTimeout(syncViewportHeight, 360);
-        }
-
-        function preventDoubleTapZoom() {
-            let lastTouchEnd = 0;
-
-            document.addEventListener("touchend", event => {
-                const now = Date.now();
-                if (now - lastTouchEnd <= 300 && event.cancelable) {
-                    event.preventDefault();
-                }
-                lastTouchEnd = now;
-            }, { passive: false });
-
-            document.addEventListener("gesturestart", event => {
-                if (event.cancelable) event.preventDefault();
-            }, { passive: false });
         }
 
         function viewUrl(viewName) {
@@ -4252,13 +4626,10 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             countdownElements.minutes.textContent = String(parts.minutes).padStart(2, "0");
             countdownElements.note.textContent = content.note;
             updatePilgrimageProgress(now);
-            if (cycle.phase === "live" && !userRoutePosition && routeLocationStatus !== "denied" && routeLocationStatus !== "pending") {
-                window.setTimeout(requestRouteLocationAccess, 0);
-            }
         }
 
         function openView(viewName, options = {}) {
-            if (viewName === "kadra" && safeStorage.getItem("epp-concept-user-role") !== "kadra") {
+            if (viewName === "kadra" && getKadraRole() !== "kadra") {
                 openKadraLogin();
                 return;
             }
@@ -4271,8 +4642,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
             if (viewName === "more") updateActionStatuses();
             if (viewName === "route") {
-                renderGroupControls();
                 renderRoute();
+                window.setTimeout(requestRouteLocationAccess, 0);
             }
             if (viewName === "kadra") renderKadraView();
             document.querySelectorAll(".view").forEach(view => {
@@ -4304,82 +4675,114 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }, 3200);
         }
 
+        function setBackgroundInert(isInert) {
+            [document.querySelector(".topbar"), screen, document.querySelector(".bottom-nav")].forEach(element => {
+                if (!element) return;
+                element.inert = isInert;
+                if (isInert) {
+                    element.setAttribute("aria-hidden", "true");
+                } else {
+                    element.removeAttribute("aria-hidden");
+                }
+            });
+        }
+
+        function getModalFocusableElements(modal) {
+            if (!modal) return [];
+            return Array.from(modal.querySelectorAll([
+                "button:not([disabled])",
+                "a[href]",
+                "input:not([disabled])",
+                "textarea:not([disabled])",
+                "select:not([disabled])",
+                "[tabindex]:not([tabindex='-1'])"
+            ].join(","))).filter(element => {
+                if (element.hidden || element.closest("[hidden]")) return false;
+                const rect = element.getBoundingClientRect();
+                return rect.width > 0 && rect.height > 0;
+            });
+        }
+
+        function openModal(modal, preferredFocusSelector = "") {
+            if (!modal) return;
+            if (!activeModal && document.activeElement && document.activeElement !== document.body) {
+                previousFocus = document.activeElement;
+            }
+            if (activeModal && activeModal !== modal) {
+                activeModal.hidden = true;
+            }
+            modal.hidden = false;
+            activeModal = modal;
+            setBackgroundInert(true);
+            window.setTimeout(() => {
+                const preferred = preferredFocusSelector ? modal.querySelector(preferredFocusSelector) : null;
+                const focusTarget = preferred || getModalFocusableElements(modal)[0] || modal.querySelector(".modal-card");
+                focusTarget?.focus({ preventScroll: true });
+            }, 0);
+        }
+
+        function closeModal(modal, options = {}) {
+            if (!modal) return;
+            modal.hidden = true;
+            if (activeModal === modal) activeModal = null;
+            if (!document.querySelector(".modal-shell:not([hidden])")) {
+                setBackgroundInert(false);
+            }
+            if (options.restoreFocus !== false && previousFocus && document.contains(previousFocus)) {
+                previousFocus.focus({ preventScroll: true });
+            }
+            if (!document.querySelector(".modal-shell:not([hidden])")) {
+                previousFocus = null;
+            }
+        }
+
+        function closeActiveModal() {
+            if (!activeModal) return;
+            if (activeModal === introModal) completeIntro();
+            else if (activeModal === kadraModal) closeKadraLogin();
+            else if (activeModal === installModal) closeInstallModal();
+            else if (activeModal === surveyModal) closeSurveyPrompt();
+            else if (activeModal === imageModal) closeImagePreview();
+            else closeModal(activeModal);
+        }
+
+        function handleModalKeydown(event) {
+            if (!activeModal || activeModal.hidden) return;
+            if (event.key === "Escape") {
+                event.preventDefault();
+                closeActiveModal();
+                return;
+            }
+            if (event.key !== "Tab") return;
+            const focusable = getModalFocusableElements(activeModal);
+            if (!focusable.length) {
+                event.preventDefault();
+                return;
+            }
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus({ preventScroll: true });
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus({ preventScroll: true });
+            }
+        }
+
         const introNoticeStorageKey = "epp-concept-beta-notice-v2";
 
         function showIntroIfNeeded() {
             if (!safeStorage.getItem(introNoticeStorageKey)) {
-                introModal.hidden = false;
+                openModal(introModal, "#intro-next");
             }
         }
 
-        function showIntroStep(stepName) {
-            document.querySelectorAll("#intro-modal .modal-step").forEach(step => {
-                step.classList.toggle("active", step.id === `intro-step-${stepName}`);
-            });
-        }
-
-        function getProfileGroup(groupId) {
-            return profileGroups.find(group => group.id === groupId) || profileGroups[0];
-        }
-
-        function getRouteGroup(groupId) {
-            return routeGroups.find(group => group.id === groupId) || routeGroups[0];
-        }
-
-        function getSelectedGroupId() {
-            const saved = safeStorage.getItem("epp-concept-selected-group") || "all";
-            return profileGroups.some(group => group.id === saved) ? saved : "all";
-        }
-
-        function getBrowsingRouteGroupId() {
-            const saved = safeStorage.getItem("epp-concept-browsing-route-group") || "main";
-            return routeGroups.some(group => group.id === saved) ? saved : "main";
-        }
-
-        function getVisibleRouteGroupId() {
-            const selectedGroupId = getSelectedGroupId();
-            return selectedGroupId === "all" ? getBrowsingRouteGroupId() : selectedGroupId;
-        }
-
-        function setSelectedGroup(groupId, options = {}) {
-            const selected = getProfileGroup(groupId);
-            safeStorage.setItem("epp-concept-selected-group", selected.id);
-            if (selected.id !== "all") {
-                safeStorage.setItem("epp-concept-browsing-route-group", selected.id);
-            }
-            if (options.markVisited) {
-                safeStorage.setItem("epp-concept-beta-visited", "true");
-                safeStorage.setItem(introNoticeStorageKey, "true");
-            }
-            if (options.closeIntro) introModal.hidden = true;
-            if (options.closeSettings) groupModal.hidden = true;
-            openRouteDayId = null;
-            renderGroupControls();
-            renderRoute();
-            showToast(`Wybrano: ${selected.name}`);
-            if (options.closeIntro) window.setTimeout(showSurveyPromptIfNeeded, 150);
-        }
-
-        function renderGroupChoiceList(targetId, dataAttribute) {
-            const selectedGroupId = getSelectedGroupId();
-            const target = document.getElementById(targetId);
-            target.innerHTML = profileGroups.map(group => `
-                <button class="group-choice" type="button" ${dataAttribute}="${group.id}">
-                    <span class="group-choice-text">
-                        <strong>${group.name}</strong>
-                        <small>${group.description}</small>
-                    </span>
-                    <span class="group-choice-mark">${group.id === selectedGroupId ? "✓" : "›"}</span>
-                </button>
-            `).join("");
-        }
-
-        function renderIntroGroups() {
-            renderGroupChoiceList("intro-group-list", "data-intro-group");
-        }
-
-        function renderSettingsGroups() {
-            renderGroupChoiceList("settings-group-list", "data-settings-group");
+        function completeIntro() {
+            safeStorage.setItem("epp-concept-beta-visited", "true");
+            safeStorage.setItem(introNoticeStorageKey, "true");
+            closeModal(introModal, { restoreFocus: false });
+            window.setTimeout(showSurveyPromptIfNeeded, 150);
         }
 
         function openKadraLogin() {
@@ -4390,8 +4793,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 kadraPasswordIcon.innerHTML = '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>';
             }
             kadraError.textContent = "";
-            kadraModal.hidden = false;
-            setTimeout(() => kadraPassword.focus(), 40);
+            openModal(kadraModal, "#kadra-password");
         }
 
         function toggleKadraPasswordVisibility() {
@@ -4404,14 +4806,14 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         }
 
         function closeKadraLogin() {
-            kadraModal.hidden = true;
+            closeModal(kadraModal);
         }
 
         function updateKadraPanel() {
-            const isKadra = safeStorage.getItem("epp-concept-user-role") === "kadra";
+            const isKadra = getKadraRole() === "kadra";
             document.getElementById("nav-kadra").hidden = !isKadra;
             document.getElementById("view-kadra").hidden = !isKadra;
-            document.documentElement.style.setProperty("--nav-count", isKadra ? "6" : "5");
+            document.documentElement.style.setProperty("--nav-count", isKadra ? "7" : "6");
             if (!isKadra && document.getElementById("view-kadra").classList.contains("active")) {
                 openView("more");
             }
@@ -4425,11 +4827,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 kadraError.textContent = "Niepoprawne hasło kadry.";
                 return;
             }
-            safeStorage.setItem("epp-concept-user-role", "kadra");
+            setKadraRole();
             closeKadraLogin();
             updateKadraPanel();
             openView("kadra");
-            showToast("Autoryzacja pomyślna. Panel kadry jest aktywny.");
+            showToast("Widok kadry jest aktywny w tej sesji.");
         }
 
         function handleBrandTap() {
@@ -4462,6 +4864,38 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
+        }
+
+        function renderLiturgyRows(day) {
+            return [
+                { label: "Czytanie I", value: day.reading1 },
+                { label: "Psalm", value: day.psalm },
+                day.reading2 ? { label: "Czytanie II", value: day.reading2 } : null,
+                { label: "Ewangelia", value: day.gospel }
+            ].filter(Boolean).map(row => `
+                <div class="liturgy-row">
+                    <span>${escapeHtml(row.label)}</span>
+                    <strong>${escapeHtml(row.value)}</strong>
+                </div>
+            `).join("");
+        }
+
+        function renderLiturgy() {
+            const target = document.getElementById("liturgy-list");
+            if (!target) return;
+
+            target.innerHTML = liturgyDays.map(day => `
+                <article class="content-card liturgy-card">
+                    <div class="liturgy-card-top">
+                        <span class="liturgy-date">Dzień ${day.day} · ${escapeHtml(day.date)}</span>
+                        <h3 class="liturgy-title">${escapeHtml(day.title)}</h3>
+                    </div>
+                    <div class="liturgy-readings">
+                        ${renderLiturgyRows(day)}
+                    </div>
+                    <a class="liturgy-source" href="${escapeHtml(day.source)}" target="_blank" rel="noopener noreferrer">Źródło czytań</a>
+                </article>
+            `).join("");
         }
 
         function getRouteSummary(stops) {
@@ -4548,6 +4982,20 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return "geolocation" in navigator && (window.isSecureContext || isLocalHost);
         }
 
+        function isAndroidDevice() {
+            return /Android/i.test(navigator.userAgent || "");
+        }
+
+        async function getRouteLocationPermissionState() {
+            if (!navigator.permissions?.query) return "unknown";
+            try {
+                const permission = await navigator.permissions.query({ name: "geolocation" });
+                return permission?.state || "unknown";
+            } catch (error) {
+                return "unknown";
+            }
+        }
+
         function handleRoutePosition(position) {
             routeLocationStatus = "granted";
             safeStorage.setItem("epp-route-location-status", "granted");
@@ -4581,11 +5029,22 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
         }
 
-        function requestRouteLocationAccess() {
+        async function requestRouteLocationAccess() {
             if (routeLocationStatus === "denied" || routeLocationStatus === "pending") return;
             if (!isPilgrimageLive()) return;
             if (!isRouteLocationSupported()) {
                 routeLocationStatus = "unavailable";
+                return;
+            }
+
+            const permissionState = await getRouteLocationPermissionState();
+            if (permissionState === "denied") {
+                routeLocationStatus = "denied";
+                safeStorage.setItem("epp-route-location-status", "denied");
+                return;
+            }
+            if (isAndroidDevice() && permissionState !== "granted") {
+                routeLocationStatus = "prompt";
                 return;
             }
 
@@ -4604,78 +5063,47 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
         }
 
-        function getRouteMedia(groupId) {
-            const prefixDetails = kadraPrefixRouteDetails[groupId] || [];
-            const prefixCount = Math.max(prefixRouteDayCounts[groupId] || 0, prefixDetails.length);
-            const prefix = Array.from({ length: prefixCount }, (_, index) => {
+        function getRouteMedia() {
+            return Array.from({ length: mainRouteDayCount }, (_, index) => {
                 const day = index + 1;
-                const details = prefixDetails[index] || { date: "", stops: [] };
-                const stops = details.stops?.length ? details.stops : [
-                    { nazwa: "Start dnia dojściowego", wejscie: "---", wyjscie: "wg planu", czas: "---", uwagi: "Szczegółowy harmonogram zostanie uzupełniony po wgraniu zdjęcia." }
+                const dayData = mainRouteSchedule[index] || {};
+                const stops = dayData.staffStops || kadraRouteDetails[day] || [
+                    { nazwa: "Start dnia", wejscie: "---", wyjscie: "wg planu", czas: "---", uwagi: "Szczegółowy harmonogram zostanie uzupełniony." }
                 ];
-	                return {
-	                    id: `${groupId}-dojscie-${day}`,
-	                    label: `Dojście ${day}`,
-	                    date: details.date || "",
-		                    title: [details.date, "Trasa dojściowa"].filter(Boolean).join(" · "),
-		                    summary: "",
-	                    publicStops: stops.map(stop => stop.nazwa).filter(Boolean),
-	                    stops,
-	                    routeSrc: `img/${groupId}_dojscie${day}_1.jpg`,
-	                    scheduleSrc: `img/${groupId}_dojscie${day}_2.jpg`
-	                };
-	            });
-
-	            const main = Array.from({ length: mainRouteDayCount }, (_, index) => {
-	                const day = index + 1;
-	                const dayData = mainRouteSchedule[index] || {};
-	                const stops = dayData.staffStops || kadraRouteDetails[day] || [
-	                    { nazwa: "Start dnia", wejscie: "---", wyjscie: "wg planu", czas: "---", uwagi: "Szczegółowy harmonogram zostanie uzupełniony." }
-	                ];
-	                const date = dayData.date || getMainRouteDate(day);
-	                const routeTitle = dayData.title || "trasa główna";
-	                return {
-	                    id: `dzien-${day}`,
-	                    label: `Dzień ${day}`,
-	                    date,
-		                    distance: dayData.distance || "",
-		                    routeName: routeTitle,
-		                    publicDeparture: dayData.publicDeparture || "",
-		                    publicMass: dayData.publicMass || null,
-		                    publicAppeal: dayData.publicAppeal || "",
-		                    publicStops: dayData.publicStops || stops.map(stop => stop.nazwa).filter(Boolean),
-		                    title: [date, dayData.distance, routeTitle].filter(Boolean).join(" · "),
-		                    summary: "",
-	                    stops,
-	                    routeSrc: `img/dzien${day}_1.jpg`,
-	                    scheduleSrc: `img/dzien${day}_2.jpg`
-	                };
-	            });
-
-	            return [...prefix, ...main];
-	        }
+                const date = dayData.date || getMainRouteDate(day);
+                const routeTitle = dayData.title || "trasa główna";
+                const imageDay = String(day).padStart(2, "0");
+                return {
+                    id: `dzien-${day}`,
+                    label: `Dzień ${day}`,
+                    date,
+                    distance: dayData.distance || "",
+                    routeName: routeTitle,
+                    publicDeparture: dayData.publicDeparture || "",
+                    publicMass: dayData.publicMass || null,
+                    publicAppeal: dayData.publicAppeal || "",
+                    title: [date, dayData.distance, routeTitle].filter(Boolean).join(" · "),
+                    summary: "",
+                    stops,
+                    routeSrc: `trasa/dzien-${imageDay}.png`
+                };
+            });
+        }
 
         function renderRouteOverview(item) {
-            const isKadra = safeStorage.getItem("epp-concept-user-role") === "kadra";
-            const routeStops = isKadra
-                ? item.stops.filter(stop => stop.nazwa)
-                : (item.publicStops?.length ? item.publicStops : item.stops.map(stop => stop.nazwa))
-                    .filter(Boolean)
-                    .map(nazwa => ({
-                        nazwa,
-                        msza: item.publicMass ? isSameRoutePlace(nazwa, item.publicMass.place) : false
-                    }));
+            const isKadra = getKadraRole() === "kadra";
+            const routeStops = item.stops.filter(stop => stop.nazwa);
             const locationMatch = getRouteLocationMatch(routeStops);
-            const labelForStop = (index) => {
+            const labelForStop = (stop, index) => {
+                if (stop.uwagi && !["Odpoczynek", "Wymarsz"].includes(stop.uwagi)) return stop.uwagi;
                 if (index === 0) return "Start dnia";
                 if (index === routeStops.length - 1) return "Koniec trasy dnia";
                 return "Postój";
             };
-            const renderStaffMeta = (stop) => {
-                if (!isKadra) return "";
+            const renderStopMeta = (stop) => {
                 const meta = [
-                    stop.wejscie && stop.wejscie !== "---" ? `Przyjście ${stop.wejscie}` : "",
-                    stop.wyjscie && stop.wyjscie !== "---" ? `Wyjście ${stop.wyjscie}` : "",
+                    isKadra && stop.wejscie && stop.wejscie !== "---" ? `Przyjście ${stop.wejscie}` : "",
+                    isKadra && stop.wyjscie && stop.wyjscie !== "---" ? `Wyjście ${stop.wyjscie}` : "",
                     stop.czas && stop.czas !== "---" ? `Czas postoju ${stop.czas}` : ""
                 ].filter(Boolean);
                 if (!meta.length) return "";
@@ -4706,8 +5134,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 	                                <span class="route-timeline-dot" aria-hidden="true"></span>
 	                                <span class="route-timeline-content">
 	                                    <strong>${escapeHtml(stop.nazwa)}</strong>
-	                                    <span>${labelForStop(index)}${stop.msza ? " · Msza święta" : ""}</span>
-	                                    ${renderStaffMeta(stop)}
+	                                    <span>${escapeHtml(labelForStop(stop, index))}${stop.msza ? " · Msza święta" : ""}</span>
+	                                    ${renderStopMeta(stop)}
 	                                </span>
                             </li>
                         `).join("")}
@@ -4741,11 +5169,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             imagePreview.src = src;
             imagePreview.alt = title;
             imageCaption.textContent = src;
-            imageModal.hidden = false;
+            openModal(imageModal, "#image-close");
         }
 
         function closeImagePreview() {
-            imageModal.hidden = true;
+            closeModal(imageModal);
             imagePreview.removeAttribute("src");
         }
 
@@ -4753,7 +5181,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             const items = type === "songs" ? songs : prayers;
             const item = items[index];
             if (!item) return;
-            document.getElementById("detail-kicker").textContent = type === "songs" ? "Śpiewnik" : "Modlitewnik";
             document.getElementById("detail-title").textContent = item.title;
             document.getElementById("detail-text").textContent = item.text || "Brak treści.";
             openView("detail");
@@ -4783,44 +5210,18 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             `).join("");
         }
 
-        function renderGroupControls() {
-            const tabs = document.getElementById("group-tabs");
-            const routeContext = document.getElementById("route-context");
-            const selectedGroupId = getSelectedGroupId();
-            const selectedProfile = getProfileGroup(selectedGroupId);
-            const activeRouteGroupId = getVisibleRouteGroupId();
-            const activeRouteGroup = getRouteGroup(activeRouteGroupId);
-
-            document.getElementById("selected-group-label").textContent = selectedProfile.name;
-            renderSettingsGroups();
-
-            if (selectedGroupId === "all") {
-                tabs.hidden = false;
-                routeContext.textContent = `Ogólny widok: przeglądasz ${activeRouteGroup.routeName || `trasę grupy ${activeRouteGroup.name}`}. To nie zmienia Twojej wybranej grupy.`;
-                tabs.innerHTML = routeGroups.map(group => `
-                <button class="pill ${group.id === activeRouteGroupId ? "active" : ""}" type="button" data-group="${group.id}">
-                    ${group.name}
-                </button>
-            `).join("");
-                return;
-            }
-
-            tabs.hidden = true;
-            tabs.innerHTML = "";
-            routeContext.textContent = `Pokazuję trasę wybranej grupy: ${selectedProfile.name}.`;
-        }
-
-        function renderRoute(groupId = getVisibleRouteGroupId()) {
+        function renderRoute() {
             const target = document.getElementById("route-list");
-            const routeGroupId = routeGroups.some(group => group.id === groupId) ? groupId : getVisibleRouteGroupId();
-            const mediaItems = getRouteMedia(routeGroupId);
+            const mediaItems = getRouteMedia();
             if (openRouteDayId && !mediaItems.some(item => item.id === openRouteDayId)) {
                 openRouteDayId = null;
             }
 
-	            target.innerHTML = mediaItems.map(item => `
-	                <article class="media-day ${item.id === openRouteDayId ? "is-open" : ""}">
-	                    <button class="route-toggle" type="button" data-toggle-day="${item.id}" aria-expanded="${item.id === openRouteDayId}" aria-controls="route-details-${item.id}">
+	            target.innerHTML = mediaItems.map(item => {
+                    const isOpen = item.id === openRouteDayId;
+                    return `
+	                <article class="media-day ${isOpen ? "is-open" : ""}">
+	                    <button class="route-toggle" type="button" data-toggle-day="${item.id}" aria-expanded="${isOpen}" aria-controls="route-details-${item.id}">
 		                        <span class="route-toggle-main">
 		                            <span class="status-kicker">${escapeHtml(item.label)}</span>
 		                            <span class="route-toggle-title">${escapeHtml(item.title)}</span>
@@ -4828,20 +5229,23 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 		                        </span>
 	                        <span class="route-toggle-icon" aria-hidden="true">⌄</span>
 	                    </button>
-	                    <div class="route-details" id="route-details-${item.id}">
+	                    <div class="route-details" id="route-details-${item.id}"${isOpen ? "" : " hidden"}>
+                            ${isOpen ? `
 	                        ${renderRouteOverview(item)}
 	                        <div class="media-grid route-media-single">
-	                            <button class="media-card" type="button" data-full-src="${item.routeSrc}" data-full-title="${escapeHtml(item.label)} - mapa trasy">
+	                            <button class="media-card" type="button" data-full-src="${escapeHtml(item.routeSrc)}" data-full-title="${escapeHtml(item.label)} - obraz trasy" aria-label="Powiększ mapę: ${escapeHtml(item.label)}">
 	                                <span class="media-frame">
-	                                    <img src="${item.routeSrc}" alt="${escapeHtml(item.label)} - mapa trasy" onerror="this.closest('.media-frame').classList.add('is-missing')">
+	                                    <img src="${item.routeSrc}" alt="${escapeHtml(item.label)} - obraz trasy" loading="lazy" decoding="async" onerror="this.closest('.media-frame').classList.add('is-missing')">
+                                        <span class="media-zoom-badge" aria-hidden="true">+</span>
 	                                    <span class="media-placeholder">${escapeHtml(item.routeSrc)}</span>
 	                                </span>
-	                                <span class="media-type">Mapa trasy</span>
 	                            </button>
 	                        </div>
+                            ` : ""}
 	                    </div>
 	                </article>
-	            `).join("");
+	            `;
+                }).join("");
         }
 
         function isRunningStandalone() {
@@ -4926,13 +5330,15 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         function showSurveyPromptIfNeeded(options = {}) {
             if (!surveyModal || !shouldShowSurveyPrompt()) return;
             if (!options.ignoreIntro && introModal && !introModal.hidden) return;
-            if (forceSurveyPromptPreview && introModal) introModal.hidden = true;
-            surveyModal.hidden = false;
+            if (forceSurveyPromptPreview && introModal && !introModal.hidden) {
+                closeModal(introModal, { restoreFocus: false });
+            }
+            openModal(surveyModal, "#survey-open");
         }
 
         function closeSurveyPrompt() {
             markSurveyPromptSeen();
-            surveyModal.hidden = true;
+            closeModal(surveyModal);
         }
 
         function openSurveyFromPrompt() {
@@ -4985,16 +5391,32 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 	            const contactList = document.getElementById("kadra-contact-list");
 	            const orgList = document.getElementById("kadra-org-list");
 	            if (!contactList || !orgList) return;
+                const renderContactCard = (contact) => {
+                    const phoneHref = /x/i.test(contact.numer) ? "" : ` href="tel:${contact.numer.replace(/\s/g, "")}"`;
+                    const tag = contact.grupaPielgrzymkowa
+                        ? `<span class="contact-tag">${escapeHtml(contact.grupaPielgrzymkowa)}</span>`
+                        : "";
+                    const style = contact.kolor ? ` style="--contact-accent: ${escapeHtml(contact.kolor)}"` : "";
+                    const tagName = phoneHref ? "a" : "div";
 
-	            contactList.innerHTML = kadradata.telefony.map(contact => `
-	                <a class="contact-button" href="tel:${contact.numer.replace(/\s/g, "")}">
-	                    <span>
-	                        <strong>${contact.nazwa}</strong>
-                        <span>${contact.opis}</span>
-                    </span>
-                    <strong>${contact.numer}</strong>
-                </a>
-            `).join("");
+                    return `
+                        <${tagName} class="contact-button ${phoneHref ? "" : "is-disabled"}"${phoneHref}${style}>
+                            <span>
+                                <strong>${escapeHtml(contact.nazwa)}</strong>
+                                <span>${escapeHtml(contact.opis)}</span>
+                                ${tag}
+                            </span>
+                            <strong>${escapeHtml(contact.numer)}</strong>
+                        </${tagName}>
+                    `;
+                };
+
+	            contactList.innerHTML = kadradata.telefony.map(group => `
+	                <section class="contact-group">
+	                    <h3 class="contact-group-title">${escapeHtml(group.grupa)}</h3>
+	                    ${group.kontakty.map(renderContactCard).join("")}
+	                </section>
+	            `).join("");
 
             orgList.innerHTML = kadradata.informacje.map(item => `
                 <div class="org-item">
@@ -5013,7 +5435,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             if (isRunningStandalone()) {
                 content.innerHTML = `
                     <p class="modal-copy">Skrót jest aktywny. Aplikacja została uruchomiona jak normalna aplikacja z ekranu głównego.</p>
-                    <div class="notice">Dane grupy, motyw i dostęp kadry są zapisane lokalnie na tym urządzeniu.</div>
+                    <div class="notice">Motyw, dostęp kadry i ustawienia aplikacji są zapisane lokalnie na tym urządzeniu.</div>
                 `;
             } else if (installContext.isIOS && installContext.isSafariIOS) {
                 content.innerHTML = `
@@ -5085,12 +5507,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 `;
             }
 
-            installModal.hidden = false;
+            openModal(installModal, installNative.hidden ? "#install-close" : "#install-native");
         }
 
         function closeInstallModal() {
             safeStorage.setItem("epp-concept-banner-dismissed", "true");
-            installModal.hidden = true;
+            closeModal(installModal);
             updateActionStatuses();
         }
 
@@ -5196,26 +5618,17 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             });
         });
 
-        document.getElementById("group-tabs").addEventListener("click", event => {
-            const button = event.target.closest("[data-group]");
-            if (!button) return;
-            if (getSelectedGroupId() !== "all") return;
-            safeStorage.setItem("epp-concept-browsing-route-group", button.dataset.group);
-            openRouteDayId = null;
-            renderGroupControls();
-            renderRoute(button.dataset.group);
-        });
-
         document.getElementById("route-list").addEventListener("click", event => {
+            const imageButton = event.target.closest("[data-full-src]");
+            if (imageButton) {
+                openImagePreview(imageButton.dataset.fullSrc, imageButton.dataset.fullTitle || "Mapa trasy");
+                return;
+            }
             const toggle = event.target.closest("[data-toggle-day]");
             if (toggle) {
                 openRouteDayId = openRouteDayId === toggle.dataset.toggleDay ? null : toggle.dataset.toggleDay;
                 renderRoute();
-                return;
             }
-            const button = event.target.closest("[data-full-src]");
-            if (!button) return;
-            openImagePreview(button.dataset.fullSrc, button.dataset.fullTitle);
         });
 
         document.querySelectorAll("[data-back]").forEach(button => {
@@ -5235,25 +5648,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         });
 
         themeToggle.addEventListener("click", () => setTheme(!html.classList.contains("dark")));
-        document.getElementById("change-group").addEventListener("click", () => {
-            renderSettingsGroups();
-            groupModal.hidden = false;
-        });
-        document.getElementById("group-close").addEventListener("click", () => {
-            groupModal.hidden = true;
-        });
-        document.getElementById("settings-group-list").addEventListener("click", event => {
-            const button = event.target.closest("[data-settings-group]");
-            if (!button) return;
-            setSelectedGroup(button.dataset.settingsGroup, { closeSettings: true });
-        });
         document.getElementById("brand-trigger").addEventListener("click", handleBrandTap);
-        document.getElementById("intro-next").addEventListener("click", () => showIntroStep("group"));
-        document.getElementById("intro-group-list").addEventListener("click", event => {
-            const button = event.target.closest("[data-intro-group]");
-            if (!button) return;
-            setSelectedGroup(button.dataset.introGroup, { closeIntro: true, markVisited: true });
-        });
+        document.getElementById("intro-next").addEventListener("click", completeIntro);
         document.getElementById("kadra-cancel").addEventListener("click", closeKadraLogin);
         document.getElementById("kadra-submit").addEventListener("click", submitKadraLogin);
         kadraPasswordToggle.addEventListener("click", toggleKadraPasswordVisibility);
@@ -5262,7 +5658,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         });
         document.getElementById("image-close").addEventListener("click", closeImagePreview);
         document.getElementById("kadra-logout").addEventListener("click", () => {
-            safeStorage.removeItem("epp-concept-user-role");
+            clearKadraRole();
             updateKadraPanel();
             showToast("Panel kadry został wyłączony.");
         });
@@ -5273,6 +5669,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         document.getElementById("survey-row").addEventListener("click", handleSurvey);
         document.getElementById("survey-later").addEventListener("click", closeSurveyPrompt);
         document.getElementById("survey-open").addEventListener("click", openSurveyFromPrompt);
+        document.addEventListener("keydown", handleModalKeydown);
 
         window.addEventListener("beforeinstallprompt", event => {
             event.preventDefault();
@@ -5291,16 +5688,14 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         function initializeApplication() {
             initializeViewportTracking();
             initializeAppHistory();
-            preventDoubleTapZoom();
 
             const savedTheme = safeStorage.getItem("epp-concept-theme");
             setTheme(savedTheme === "dark");
             renderHomeContent();
             window.setInterval(updatePilgrimageCountdown, 60000);
-            renderIntroGroups();
             renderList("songs-list", songs, "", "songs");
             renderList("prayers-list", prayers, "", "prayers");
-            renderGroupControls();
+            renderLiturgy();
             renderRoute();
             updateKadraPanel();
             updateActionStatuses();
@@ -5308,7 +5703,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             triggerDynamicVersionDisplay();
             showIntroIfNeeded();
             showSurveyPromptIfNeeded({ ignoreIntro: forceSurveyPromptPreview });
-            window.setTimeout(requestRouteLocationAccess, 700);
         }
 
         try {
