@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" id="theme-color" content="#fbf7ef">
     <meta name="color-scheme" id="color-scheme" content="light dark">
     <meta name="mobile-web-app-capable" content="yes">
@@ -850,10 +850,23 @@
 
         .route-public-time {
             min-width: 0;
+            width: 100%;
             padding: 11px 12px;
             border-radius: 8px;
             background: var(--surface-soft);
             border: 1px solid var(--line);
+            color: inherit;
+            font: inherit;
+            text-align: left;
+        }
+
+        .route-alarm-button {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .route-alarm-button:active {
+            transform: translateY(1px);
         }
 
         .route-public-time span {
@@ -1656,6 +1669,50 @@
             display: none;
         }
 
+        #image-modal {
+            place-items: stretch;
+            padding: 0;
+            background: #101211;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        #image-modal .modal-card {
+            width: 100%;
+            max-height: none;
+            height: 100%;
+            padding: max(12px, calc(var(--safe-top) + 10px)) max(12px, calc(var(--safe-right) + 12px)) max(12px, calc(var(--safe-bottom) + 10px)) max(12px, calc(var(--safe-left) + 12px));
+            border: 0;
+            border-radius: 0;
+            background: #101211;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            color: #fffdfa;
+        }
+
+        #image-modal .modal-top {
+            flex: 0 0 auto;
+            align-items: center;
+        }
+
+        #image-modal .section-kicker {
+            color: rgba(255, 253, 250, 0.68);
+        }
+
+        #image-modal .modal-title {
+            color: #fffdfa;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+
+        #image-modal .secondary-button {
+            min-height: 42px;
+            background: rgba(255, 253, 250, 0.12);
+            border-color: rgba(255, 253, 250, 0.22);
+            color: #fffdfa;
+        }
+
         .modal-top {
             display: flex;
             align-items: flex-start;
@@ -1849,6 +1906,17 @@
             display: block;
         }
 
+        #image-modal .image-preview {
+            flex: 1 1 auto;
+            min-height: 0;
+            height: 100%;
+            max-height: none;
+            margin-top: 12px;
+            border: 0;
+            border-radius: 0;
+            background: #101211;
+        }
+
         .image-caption {
             margin: 12px 0 0;
             color: var(--muted);
@@ -1856,6 +1924,10 @@
             line-height: 1.35;
             font-weight: 750;
             overflow-wrap: anywhere;
+        }
+
+        #image-modal .image-caption {
+            display: none;
         }
 
         .input-error {
@@ -2277,7 +2349,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.36<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.40<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2537,15 +2609,16 @@
                     <button class="secondary-button" id="image-close" type="button">Zamknij</button>
                 </div>
                 <img class="image-preview" id="image-preview" src="" alt="">
-                <p class="image-caption" id="image-caption"></p>
+                <p class="image-caption" id="image-caption" hidden></p>
             </div>
         </div>
 
         <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
     </div>
 
+    <script src="data/songs.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.36";
+        let appActiveVersion = "Wersja 1.0.40";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -2555,6 +2628,7 @@
         let routeLocationStatus = "unknown";
         let routeLocationWatchId = null;
         const viewHistory = [];
+        const rootViewNames = new Set(["home", "songs", "prayers", "liturgy", "route", "more", "kadra"]);
 
         const safeStorage = {
             fallbackStore: {},
@@ -2787,11 +2861,20 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         };
 
 
-        const songs = sourceTextData.songs.map(item => ({
-            title: item.tytul,
-            note: item.tekst.split('\n')[0].slice(0, 84),
-            text: item.tekst
-        }));
+        const songSourceData = Array.isArray(window.EPP_SONGS) && window.EPP_SONGS.length
+            ? window.EPP_SONGS
+            : sourceTextData.songs;
+
+        const songs = songSourceData.map(item => {
+            const title = item.title || item.tytul || "Bez tytułu";
+            const text = item.text || item.tekst || "";
+            const firstLine = text.split("\n").find(line => line.trim()) || "Brak treści.";
+            return {
+                title,
+                note: firstLine.slice(0, 84),
+                text
+            };
+        }).sort((first, second) => first.title.localeCompare(second.title, "pl", { sensitivity: "base" }));
 
         const prayers = sourceTextData.prayers.map(item => ({
             title: item.tytul,
@@ -3174,6 +3257,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Biała Piska",
                     "finish": "Zabiele",
                     "publicNote": "33,5 km. Przebieg: Biała Piska - Zabiele.",
+                    "publicWakeUp": "06:00",
                     "publicDeparture": "08:15",
                     "publicAppeal": "21:00",
                     "publicSummary": "Wyjście 08:15 · Apel 21:00",
@@ -3252,6 +3336,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Zabiele",
                     "finish": "Dąbrówka",
                     "publicNote": "31,5 km. Przebieg: Zabiele - Dąbrówka.",
+                    "publicWakeUp": "06:00",
                     "publicDeparture": "08:00",
                     "publicAppeal": "po dojściu",
                     "publicSummary": "Wyjście 08:00 · Apel po dojściu",
@@ -3338,6 +3423,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Dąbrówka",
                     "finish": "Sypniewo",
                     "publicNote": "40 km. Przebieg: Dąbrówka - Sypniewo.",
+                    "publicWakeUp": "04:30",
                     "publicDeparture": "05:30",
                     "publicAppeal": "po dojściu wszystkich grup",
                     "publicSummary": "Wyjście 05:30 · Apel po dojściu wszystkich grup",
@@ -3365,7 +3451,8 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                                         "wejscie": "11:00",
                                         "wyjscie": "13:00",
                                         "czas": "2 godz.",
-                                        "uwagi": "Odpoczynek"
+                                        "uwagi": "Odpoczynek",
+                                        "nabozenstwo": "Nabożeństwo pokutne"
                               },
                               {
                                         "nazwa": "Jurki (przed lasem)",
@@ -3400,6 +3487,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Sypniewo",
                     "finish": "Maków Mazowiecki",
                     "publicNote": "24,5 km. Przebieg: Sypniewo - Maków Mazowiecki.",
+                    "publicWakeUp": "07:00",
                     "publicDeparture": "09:00",
                     "publicAppeal": "21:00",
                     "publicSummary": "Wyjście 09:00 · Apel 21:00",
@@ -3478,6 +3566,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Maków Mazowiecki",
                     "finish": "Winnica",
                     "publicNote": "32 km. Przebieg: Maków Mazowiecki - Winnica.",
+                    "publicWakeUp": "05:00",
                     "publicDeparture": "06:00",
                     "publicAppeal": "21:00",
                     "publicSummary": "Wyjście 06:00 · Apel 21:00",
@@ -3564,6 +3653,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Winnica",
                     "finish": "Kazuń Polski",
                     "publicNote": "38,5 km. Przebieg: Winnica - Kazuń Polski.",
+                    "publicWakeUp": "05:00",
                     "publicDeparture": "05:45",
                     "publicAppeal": "po dojściu",
                     "publicSummary": "Wyjście 05:45 · Apel po dojściu",
@@ -3634,6 +3724,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Kazuń Polski",
                     "finish": "Kampinos",
                     "publicNote": "24,5 km. Przebieg: Kazuń Polski - Kampinos.",
+                    "publicWakeUp": "06:00",
                     "publicDeparture": "07:00",
                     "publicAppeal": "21:00",
                     "publicSummary": "Wyjście 07:00 · Apel 21:00",
@@ -3671,14 +3762,14 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                                         "uwagi": "Odpoczynek"
                               },
                               {
-                                        "nazwa": "Oryszew",
+                                        "nazwa": "Czerwona Niwa",
                                         "wejscie": "14:15",
                                         "wyjscie": "14:45",
                                         "czas": "30 min",
                                         "uwagi": "Odpoczynek"
                               },
                               {
-                                        "nazwa": "Wiskitki",
+                                        "nazwa": "Miedniewice",
                                         "wejscie": "16:15",
                                         "wyjscie": "17:00",
                                         "czas": "45 min",
@@ -3704,6 +3795,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Kampinos",
                     "finish": "Jesionka",
                     "publicNote": "33,5 km. Przebieg: Kampinos - Jesionka.",
+                    "publicWakeUp": "05:15",
                     "publicDeparture": "06:15",
                     "publicAppeal": "w grupach i w kościele",
                     "publicSummary": "Wyjście 06:15 · Apel w grupach i w kościele",
@@ -3798,6 +3890,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Jesionka",
                     "finish": "Głuchów",
                     "publicNote": "39 km. Przebieg: Jesionka - Głuchów.",
+                    "publicWakeUp": "05:00",
                     "publicDeparture": "06:00",
                     "publicAppeal": "po dojściu",
                     "publicSummary": "Wyjście 06:00 · Apel po dojściu",
@@ -3884,6 +3977,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Głuchów",
                     "finish": "Będków",
                     "publicNote": "40 km. Przebieg: Głuchów - Będków.",
+                    "publicWakeUp": "05:00",
                     "publicDeparture": "07:15",
                     "publicAppeal": "po dojściu",
                     "publicSummary": "Wyjście 07:15 · Apel po dojściu",
@@ -3954,6 +4048,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Będków",
                     "finish": "Woźniki",
                     "publicNote": "32,5 km. Przebieg: Będków - Woźniki.",
+                    "publicWakeUp": "06:30",
                     "publicDeparture": "07:30",
                     "publicAppeal": "po dojściu",
                     "publicSummary": "Wyjście 07:30 · Apel po dojściu",
@@ -4055,6 +4150,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Woźniki",
                     "finish": "Wola Blakowa",
                     "publicNote": "36,5 km. Przebieg: Woźniki - Wola Blakowa.",
+                    "publicWakeUp": "05:00",
                     "publicDeparture": "06:00",
                     "publicAppeal": "w kościele i w grupach",
                     "publicSummary": "Wyjście 06:00 · Apel w kościele i w grupach",
@@ -4133,6 +4229,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Lgota Wielka",
                     "finish": "Mykanów",
                     "publicNote": "36,3 km. Przebieg: Lgota Wielka - Mykanów.",
+                    "publicWakeUp": "05:00",
                     "publicDeparture": "06:00",
                     "publicAppeal": "po Mszy św. o 19:00",
                     "publicSummary": "Wyjście 06:00 · Apel po Mszy św. o 19:00",
@@ -4209,6 +4306,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     "start": "Mykanów",
                     "finish": "Jasna Góra",
                     "publicNote": "17 km. Przebieg: Mykanów - Jasna Góra.",
+                    "publicWakeUp": "04:00",
                     "publicDeparture": "05:00",
                     "publicAppeal": "21:00",
                     "publicSummary": "Wyjście 05:00 · Apel 21:00",
@@ -4420,10 +4518,17 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
         }
 
+        function isRootView(viewName) {
+            return rootViewNames.has(viewName);
+        }
+
         function handleSystemBack(event) {
             const targetView = event.state?.appView || "home";
             if (viewHistory[viewHistory.length - 1] === targetView) {
                 viewHistory.pop();
+            } else if (isRootView(targetView)) {
+                viewHistory.length = 0;
+                if (targetView !== "home") viewHistory.push("home");
             }
             openView(targetView, { skipHistory: true, skipBrowserHistory: true, force: true });
         }
@@ -4635,10 +4740,19 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
             if (viewName === currentViewName && !options.force) return;
             if (!options.skipHistory && currentViewName && currentViewName !== viewName) {
-                viewHistory.push(currentViewName);
+                if (isRootView(viewName)) {
+                    viewHistory.length = 0;
+                    if (viewName !== "home") viewHistory.push("home");
+                } else {
+                    viewHistory.push(currentViewName);
+                }
             }
             if (!options.skipBrowserHistory && currentViewName !== viewName) {
-                pushAppHistory(viewName);
+                if (isRootView(viewName)) {
+                    replaceAppHistory(viewName);
+                } else {
+                    pushAppHistory(viewName);
+                }
             }
             if (viewName === "more") updateActionStatuses();
             if (viewName === "route") {
@@ -4658,12 +4772,13 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         }
 
         function goBack() {
-            if (viewHistory.length && window.history?.state?.eppApp) {
+            if (viewHistory.length && !isRootView(currentViewName) && window.history?.state?.eppApp) {
                 window.history.back();
                 return;
             }
             const previous = viewHistory.pop() || "home";
             openView(previous, { skipHistory: true, skipBrowserHistory: true, force: true });
+            replaceAppHistory(previous);
         }
 
         function showToast(message) {
@@ -5079,6 +5194,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                     date,
                     distance: dayData.distance || "",
                     routeName: routeTitle,
+                    publicWakeUp: dayData.publicWakeUp || "",
                     publicDeparture: dayData.publicDeparture || "",
                     publicMass: dayData.publicMass || null,
                     publicAppeal: dayData.publicAppeal || "",
@@ -5100,6 +5216,13 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 if (index === routeStops.length - 1) return "Koniec trasy dnia";
                 return "Postój";
             };
+            const renderStopLabel = (stop, index) => {
+                const additions = [
+                    stop.msza ? "Msza święta" : "",
+                    stop.nabozenstwo || ""
+                ].filter(Boolean);
+                return `${escapeHtml(labelForStop(stop, index))}${additions.length ? ` · ${additions.map(escapeHtml).join(" · ")}` : ""}`;
+            };
             const renderStopMeta = (stop) => {
                 const meta = [
                     isKadra && stop.wejscie && stop.wejscie !== "---" ? `Przyjście ${stop.wejscie}` : "",
@@ -5113,6 +5236,12 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             return `
                 <div class="route-overview">
                     <div class="route-public-times" aria-label="Godziny publiczne">
+                        ${item.publicWakeUp ? `
+                            <button class="route-public-time route-alarm-button" type="button" data-alarm-time="${escapeHtml(item.publicWakeUp)}" data-alarm-day="${escapeHtml(item.label)}">
+                                <span>Pobudka</span>
+                                <strong>${escapeHtml(item.publicWakeUp)}</strong>
+                            </button>
+                        ` : ""}
                         <div class="route-public-time">
                             <span>Wyjście</span>
                             <strong>${escapeHtml(item.publicDeparture || "wg planu")}</strong>
@@ -5134,7 +5263,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 	                                <span class="route-timeline-dot" aria-hidden="true"></span>
 	                                <span class="route-timeline-content">
 	                                    <strong>${escapeHtml(stop.nazwa)}</strong>
-	                                    <span>${escapeHtml(labelForStop(stop, index))}${stop.msza ? " · Msza święta" : ""}</span>
+	                                    <span>${renderStopLabel(stop, index)}</span>
 	                                    ${renderStopMeta(stop)}
 	                                </span>
                             </li>
@@ -5168,7 +5297,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             imageTitle.textContent = title;
             imagePreview.src = src;
             imagePreview.alt = title;
-            imageCaption.textContent = src;
+            imageCaption.textContent = "";
             openModal(imageModal, "#image-close");
         }
 
@@ -5219,6 +5348,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
 
 	            target.innerHTML = mediaItems.map(item => {
                     const isOpen = item.id === openRouteDayId;
+                    const routeMapTitle = item.routeName || item.title || item.label;
                     return `
 	                <article class="media-day ${isOpen ? "is-open" : ""}">
 	                    <button class="route-toggle" type="button" data-toggle-day="${item.id}" aria-expanded="${isOpen}" aria-controls="route-details-${item.id}">
@@ -5233,11 +5363,11 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                             ${isOpen ? `
 	                        ${renderRouteOverview(item)}
 	                        <div class="media-grid route-media-single">
-	                            <button class="media-card" type="button" data-full-src="${escapeHtml(item.routeSrc)}" data-full-title="${escapeHtml(item.label)} - obraz trasy" aria-label="Powiększ mapę: ${escapeHtml(item.label)}">
+	                            <button class="media-card" type="button" data-full-src="${escapeHtml(item.routeSrc)}" data-full-title="${escapeHtml(routeMapTitle)}" aria-label="Powiększ mapę: ${escapeHtml(routeMapTitle)}">
 	                                <span class="media-frame">
-	                                    <img src="${item.routeSrc}" alt="${escapeHtml(item.label)} - obraz trasy" loading="lazy" decoding="async" onerror="this.closest('.media-frame').classList.add('is-missing')">
+	                                    <img src="${item.routeSrc}" alt="Mapa trasy: ${escapeHtml(routeMapTitle)}" loading="lazy" decoding="async" onerror="this.closest('.media-frame').classList.add('is-missing')">
                                         <span class="media-zoom-badge" aria-hidden="true">+</span>
-	                                    <span class="media-placeholder">${escapeHtml(item.routeSrc)}</span>
+	                                    <span class="media-placeholder">Mapa niedostępna</span>
 	                                </span>
 	                            </button>
 	                        </div>
@@ -5286,6 +5416,43 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 isOpera,
                 isFirefox
             };
+        }
+
+        function parseClockTime(time) {
+            const match = String(time || "").match(/^(\d{1,2}):(\d{2})$/);
+            if (!match) return null;
+            const hour = Number(match[1]);
+            const minute = Number(match[2]);
+            if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
+            return { hour, minute };
+        }
+
+        function buildAndroidAlarmIntent(time, message) {
+            const clockTime = parseClockTime(time);
+            if (!clockTime) return "";
+            const encodedMessage = encodeURIComponent(message);
+            return `intent://alarm#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${clockTime.hour};i.android.intent.extra.alarm.MINUTES=${clockTime.minute};S.android.intent.extra.alarm.MESSAGE=${encodedMessage};end`;
+        }
+
+        function openWakeUpAlarm(time, dayLabel) {
+            const clockTime = parseClockTime(time);
+            if (!clockTime) {
+                showToast("Nie udało się odczytać godziny pobudki.");
+                return;
+            }
+
+            const installContext = getInstallContext();
+            const alarmMessage = `Pobudka EPP${dayLabel ? ` - ${dayLabel}` : ""}`;
+
+            if (installContext.isAndroid) {
+                window.location.href = buildAndroidAlarmIntent(time, alarmMessage);
+                window.setTimeout(() => {
+                    showToast(`Jeśli Zegar się nie otworzył, ustaw pobudkę ręcznie: ${time}.`);
+                }, 900);
+                return;
+            }
+
+            showToast(`Ten telefon nie pozwala PWA ustawić alarmu automatycznie. Ustaw pobudkę ręcznie: ${time}.`);
         }
 
         function getChromeIntentUrl() {
@@ -5619,6 +5786,14 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         });
 
         document.getElementById("route-list").addEventListener("click", event => {
+            const alarmButton = event.target.closest("[data-alarm-time]");
+            if (alarmButton) {
+                event.preventDefault();
+                event.stopPropagation();
+                openWakeUpAlarm(alarmButton.dataset.alarmTime, alarmButton.dataset.alarmDay || "");
+                return;
+            }
+
             const imageButton = event.target.closest("[data-full-src]");
             if (imageButton) {
                 openImagePreview(imageButton.dataset.fullSrc, imageButton.dataset.fullTitle || "Mapa trasy");
