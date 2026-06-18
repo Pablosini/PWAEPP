@@ -1,47 +1,22 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.27';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.36';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
 
-// Pełna lista zasobów do zapisania w trwałej pamięci podręcznej telefonu
-const ASSETS_TO_CACHE = [
+const CORE_ASSETS_TO_CACHE = [
     scopePath,
     scopePath + 'index.html',
     scopePath + '404.html',
     scopePath + 'manifest.json',
     scopePath + 'icon-192.png',
-    scopePath + 'icon-512.png',
-    scopePath + 'logo.png',
-    'https://cdn.tailwindcss.com',
-    'https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700;900&display=swap'
+    scopePath + 'icon-512.png'
 ];
-
-// Trasa wspólna (Dni 1 do 15)
-for (let d = 1; d <= 15; d++) {
-    ASSETS_TO_CACHE.push(`${scopePath}img/dzien${d}_1.jpg`);
-    ASSETS_TO_CACHE.push(`${scopePath}img/dzien${d}_2.jpg`);
-}
-
-// Trasy dojściowe grup
-const prefixGroups = ['augustow', 'galindia', 'jacwiez', 'sambia', 'suwalki'];
-prefixGroups.forEach(group => {
-    const days = group === 'jacwiez' ? 5 : (group === 'galindia' ? 1 : 2);
-    for (let d = 1; d <= days; d++) {
-        ASSETS_TO_CACHE.push(`${scopePath}img/${group}_dojscie${d}_1.jpg`);
-        ASSETS_TO_CACHE.push(`${scopePath}img/${group}_dojscie${d}_2.jpg`);
-    }
-});
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            // Używamy bezpiecznej metody settled, aby brak grafik nie przerwał instalacji na iPhone
             return Promise.allSettled(
-                ASSETS_TO_CACHE.map(url => {
-                    return cache.add(url).catch(err => {
-                        console.warn(`Pominięto opcjonalną grafikę mapy przy instalacji: ${url}`, err);
-                    });
-                })
+                CORE_ASSETS_TO_CACHE.map(url => cache.add(url))
             );
         }).then(() => self.skipWaiting())
     );
@@ -101,6 +76,11 @@ self.addEventListener('fetch', (event) => {
                         .then((matchedPage) => matchedPage || caches.match(scopePath))
                         .then((matchedPage) => matchedPage || caches.match(scopePath + 'index.html'));
                 }
+                return caches.match(event.request)
+                    .then((matchedAsset) => matchedAsset || new Response('Zasób niedostępny offline.', {
+                        status: 503,
+                        statusText: 'Offline'
+                    }));
             });
         })
     );
