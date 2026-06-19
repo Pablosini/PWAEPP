@@ -9769,4 +9769,566 @@ My łaską obdarowani
 
 Tobie składamy hołd`
   },
+  {
+    title: `Prowadź nas Matko`,
+    text: `1.To miłość Cię wiodła do świętej Elżbiety         ehCG
+z sercem pełnym ufności, by w Bogu z nią trwać. eh CD
+Odmawiając różaniec prosimy wspieraj nas        ehCG
+i prowadź swe dzieci śladami Bożych stóp.         ehCD
+ref. Prowadź nas Matko do Twego Syna         GCDG
+w chwilach zwątpienia szlakiem cierpień iłez. eCD
+Kochana Matko nie pozwól nam zbłądzić,       GCDG
+weź nas za rękę i prowadź nas.      eCD(ehCG/x2)
+2. Cierpienie i radość, smutek i śmiech,
+to wszystko wypełnia Maryjo serce Twe.
+Odmawiając różaniec prosimy wspieraj nas
+i prowadź swe dzieci śladami Bożych stóp.`
+  },
+  {
+    title: `Milionami`,
+    text: `Ref. Milionami opasały Twój Gród,      eDe
+Serca wierne, oddane gorące,     CaD
+Popatrz Mario, jak Cię kocha lud, Ghe
+Cała Polska: Tysięcy tysiące. /x2 aDe
+
+1. Jedno morze nie objęte w krąg,     eh
+
+Płomień żywy miłowania bez granic, eh
+
+Morze spojrzeń i wzniesionych rąk,     eD
+
+Tych, co przyszli nie zważając nanic. he
+
+2. ATyś wyszła spotkać ich na próg,
+
+Błogosławić, słuchać modlitw wołania,
+
+Tych, co przyszli aż z najdalszych dróg,
+
+Tych, co oczy żal i ból przesłania.`
+  },
+  {
+    title: `Maryja, cudne Imię`,
+    text: `1.Jest jedno Imię, które wszystkie serca splata. GeCD
+To piękne Imię, a szczęśliwy, kto je zna.
+Ref.: Maryja, cudne Imię             Ge
+To imię Bożej Matki.           aD
+Maryja, gdy Ją wezwiesz,        H7 e
+Osuszy twoje łzy.               aD
+2.Jest jeden obraz, który wszystkie oczy więzi.
+To obraz Matki, On w nieszczęściu mówi nam:
+3. Jest jedna Matka, która kocha wszystkie dzieci,
+Najlepsza z matek, nie zapomnij nigdy Jej.`
+  },
+  {
+    title: `Święta Maryjo Królowo`,
+    text: `Święta Maryjo, Królowo        DAD
+naszych codziennych spraw, GDA
+prowadź nas jasną drogą,      GA
+prowadź nas jasną drogą,      Dh
+
+aż do niebieskich bram!        GAD D7`
+  },
+  {
+    title: `Zaśpiewajcie serca nasze`,
+    text: `Zaśpiewajcie serca nasze eDe
+
+Oto Matka Pana            eD
+
+Dziś bierzemy ją do siebie eDe
+
+Oto Matka nasza            CDe`
+  },
+  {
+    title: `Jest na świecie miłość`,
+    text: `1. Jest na świecie miłość,       GDe
+której imię srebrzystym         CG
+promieniem objęło ziemię.       aD
+Gdy Ci będzie smutno,           GD
+imię to wypowiedz,               ec
+a przy tobie Ona zjawi się.       GaD
+Ref.: Matka z radością poda dłoń,            GDe
+gdy powiesz: "Mario, w Tobie ufność mam. CDG (CD)
+Kiedy jesteś przy mnie, znika ból i w oczach łzy, GDe
+Pragnę z Tobą iść, Ty dodaj sił."                   aGDG
+2. Jest w Niej tyle ciepła,
+a w spojrzeniu Jej dobroć i troska Matczyna gości.
+Otwórz serce swoje, schowaj Ją głęboko
+i jak dziecko powiedz: "Kocham Cię".
+RSA`
+  },
+  {
+    title: `Jest zakątek`,
+    text: `Jest zakątek na tej ziemi,             Ge
+Gdzie powracać każdy chce,          ca
+Gdzie króluje Jej Oblicze,            ca
+Na Nim cięte rysy dwie.             D D7
+Wzrok ma smutny, zatroskany,       Ge
+Jakby chciała prosić cię,                 ca
+Byś w matczyną Jej opiekę oddał się. DD7G  (D)
+Ref.
+
+Madonno, Czarna Madonno,         GC
+Jak dobrze Twym dzieckiem być! DG  (D)
+O, pozwól, Czarna Madonno,        GC
+W ramiona Twoje się skryć!          DG
+2. W Jej ramionach znajdziesz spokój
+
+I uchronisz się od zła,
+
+Bo dla wszystkich swoich dzieci
+
+Ona serce czułe ma.
+
+I opieką cię otoczy,
+
+Gdy Jej serce oddasz swe,
+
+Gdy powtórzysz Jej z radością słowa te:
+3.Dziś, gdy wokół nas niepokój,
+
+Gdzie się człowiek schronić ma,
+
+Gdzie ma pójść, jak nie do Matki,
+
+Która ukojenie da?
+
+Więc błagamy, o Madonno,
+
+Skieruj wzrok na dzieci swe
+
+I wysłuchaj, jak śpiewamy prosząc Cię:`
+  },
+  {
+    title: `Country Maryjne`,
+    text: `1. Imię Jej znane od wielu lat               GCG
+Żyła gdzieś, dawno gdzieś, w zwykły czas. GD
+Synem Jej, czy ty wiesz, Zbawca nasz.      CG
+To Maryja, Matka Boga, Matka ma.         DG
+Ref. Ona jest Matką mą,     D
+
+Kocha mnie, a ja Ją          G
+
+Więc i ty z nami chodź        CG
+
+Kochaj Ją i Jej wciąż bądź. D7G
+
+2. Czy ty też dobrze znasz Matkę swą?
+
+Czy ty też tak, jak ja kochasz Ją?
+
+Czy ty wiesz, bracie mój, że w chwili złej,
+
+Ona szuka, Ona tęskni, kocha Cię.
+
+3. Dziś, gdy przez życia mego idę trud.
+
+Szukać prawdy, szukać krzyża będę mógł.
+
+Nie boję się deszczu ani burzy, ani mgły.
+
+Bo Matka Boga, Matka moja okryje mnie.`
+  },
+  {
+    title: `Matko Jasnogórska Pani`,
+    text: `Matko, Jasnogórska Pani,           GCD
+my dzieci Twe do Ciebie wołamy. GCD
+Błagamy Cię najlepszą z Matek    CGeD
+ulituj się nad całym światem.       CGeDG`
+  },
+  {
+    title: `Dzieci Fatimskie`,
+    text: `1. Dzieci Fatimskie pod drzewem stanęły
+
+i blask przedziwny ujrzały.
+
+Jasność ukazała przecudną Panią,
+
+trzymająca w swym ręku ten mały:
+
+Ref: Różaniec, różaniec, różaniec /x3
+
+2. Przybywam upomnieć dzieci tej ziemi,
+
+by Boga tak nie obrażały.
+
+Pokutujcie wszyscy, odmieńcie swoje życie
+
+i weźcie do ręki ten mały:
+
+3. Maryjo, Królowo różańca świętego
+zachowaj w pokoju świat cały.
+
+Będziemy posłuszni Twojemu wołaniu
+weźmiemy do ręki ten mały:`
+  },
+  {
+    title: `Tobie Boża Matko`,
+    text: `Tobie Boża Matko dzisiaj śpiewać chcę, Ecis
+z serca niech popłynie pieśń.              A H7
+Tobie Boża Matko dzisiaj śpiewać chcę,
+
+z serca niech popłynie pieśń.
+
+Alleluja, alleluja, alleluja. EcisA
+
+Niech płynie pieśń. /x2      fis H7`
+  },
+  {
+    title: `Mario proszę spraw`,
+    text: `Mario proszę Spraw,                       DAh
+aby życie mi nie było obojętne,          eA
+abym zawsze kochał to, co piękne.      DAh
+Pozostawił ciepły ślad na czyjejś ręce. GA`
+  },
+  {
+    title: `Mario, Matko Polskiej ziemi`,
+    text: `1.Mario Matko Polskiejziemi eDhe
+
+I nadziejo wszystkich nas.     CaDe
+
+Ref. Tą nadzieją dziś żyjemy      GDhe
+
+W złej godzinie obroń nas /x2     GDhe
+
+2. Ciebie Matko miłujemy od Bałtyku aż do Tatr.
+3. Ty co brałaś nas w obronę, nie opuszczaj Matko nas.
+4, Mrok niech w jasność się zamieni,
+
+Prawdy niechaj przyjdzie czas.
+
+5. Ciebie także poranili i pocięli Twoją twarz.`
+  },
+  {
+    title: `Mój Jezus`,
+    text: `Ref. Mój Jezus Królem królów jest, E A H7 / wyżejGCD
+mój Jezus władać będzie wciąż,
+Królestwo Jego wiecznie trwa,
+On zbawił duszę mą i teraz we mnie mieszka już. /2x
+1. On dał mi całkiem nowe życie,
+uczynił mnie dzieckiem światłości,
+Dziedzictwem swym obdarzył mnie,
+bo umiłował mnie mój Ojciec Bóg.
+2. On wziął na siebie moje winy,
+On wyrwał mnie z królestwa ciemności,
+Choroby wszystkie wziął na siebie
+i już nie muszę się niczego bać.`
+  },
+  {
+    title: `Zaufaj Panu już dziś`,
+    text: `1. Jak się nie bać powiedz jak, EH7 cisA
+Kiedy w strachu żyje świat.
+Zaufaj Panu już dziś.         E H7 E (H7)
+Jak uwierzyć powiedz mi,
+Kiedy już nie wierzę w nic.
+Zaufaj Panu już dziś.
+2. Jak mam kochać powiedz jak,
+Kiedy rani mnie mój brat.
+Zaufaj Panu już dziś.
+Jak być dobrym powiedz mi,
+Kiedy świat jest taki zły.
+Ref. Zaufaj Panu już dziś! EAEA
+Zaufaj Panu już dziś! EH7E (H7)
+3. Jak mam walczyć powiedz jak,
+Kiedy silnej woli brak.
+Zaufaj panu już dziś.
+Jak pokonać własny grzech,
+Kiedy pokus tyle jest.
+Zaufaj Panu już dziś.
+4. Jak się cieszyć powiedz mi,
+Kiedy płyną gorzkie łzy.
+Zaufaj Panu już dziś.
+Jak do ładu z sobą dojść,
+Kiedy siebie mam już dość.
+5. Jak nie zbłądzić powiedz mi
+Kiedy nie wiem dokąd iść.
+Zaufaj Panu już dziś.
+Jak nadzieję w sercu mieć,
+Kiedy wszystko wali się.`
+  },
+  {
+    title: `Anioł Stróż`,
+    text: `1. Murarz wielkie domy stawia, DGAD
+
+by gdzie mieszkać było
+
+Muzyk gra na instrumencie, by się lepiej żyło
+Piekarz musi zaś pracować, by nie brakło chleba
+Anioł Stróż pilnuje duszy, by poszła do nieba
+
+Ref.: Aniele, Aniele niebieski posłańcu     DGAD
+Przy mnie stój, przy mnie stój w tańcu i w różańcu
+Aniele, Aniele wysłanniku Boga
+
+Czuwaj bo, czuwaj bo niebezpieczna droga
+
+2. Górnik węgiel wydobywa, rybak łowi ryby,
+
+Pan czarodziej coś czaruje, ale tak na niby,
+Żołnierz nam pilnuje granic, bo pilnować trzeba,
+Anioł Stróż pilnuje duszy, by poszła do nieba
+
+3. Nauczyciel uczy dzieci, aby mądre były,
+
+Chemik mydło produkuje, by się dzieci myły,
+
+Pan ogrodnik sieje trawę, aby sobie rosła,
+
+Anioł Stróż pilnuje duszy, by do nieba poszła.`
+  },
+  {
+    title: `Pan wywyższony`,
+    text: `Pan wywyższony, nasz Król wywyższony Dh
+Wśród chwał, uwielbiajmy Go.              GeA
+Pan wywyższony, nasz Król wywyższony, Dh
+Oddajmy Jemu cześć!                       Ge H7
+Królem jest Pan, Jego łaska na wieki trwa, e A Dfish
+Niebo i ziemia radują się Jego Imieniem. DADfisGD
+Pan wywyższony, nasz Król wywyższony G
+Wśród chwał!                              D`
+  },
+  {
+    title: `Jezus jest Panem`,
+    text: `1. Jezus jest Panem,                    CG
+życiem moim i zmartwychwstaniem, De
+więc gram i śpiewam, raduję się,      CG
+niech Ojciec usłyszy mnie.             De
+2. Jezus jest Panem,
+życiem naszym i zmartwychwstaniem,
+więc graj i śpiewaj i w dłonie klaszcz,
+niech Ojciec usłyszy nas.`
+  },
+  {
+    title: `Na Syjon`,
+    text: `ref: Idziemy na Syjon, na Syjon, na Syjon, dC
+idziemy na Syjon, do Raju na Syjon.
+
+1. Pan jest moim pasterzem,
+
+niczego mnie nie braknie.
+
+Pozwala mi leżeć na zielonych pastwiskach.
+
+2. Choćbym chodził w ciemnościach
+
+zła się nie ulęknę,
+
+Przez ciemną dolinę do Nieba pobiegnę.`
+  },
+  {
+    title: `Moje wędrowanie`,
+    text: `1. Moje wędrowanie - Panie mój aGC(dG)
+Moje upadanie - Panie mój
+Moje powstawanie - Panie mój
+Twoje miłowanie... aGC
+Ref. Jesteś dla nas spragnionych
+jak rosa poranna FCGa
+Tobie śpiewamy radosne "Hosanna"
+Jesteś dla nas wędrowców jak zdrój czystej wody
+Duszy wytchnienie, niebiańskie ogrody.
+2. Nasze wędrowanie - Panie nasz
+Nasze upadanie - Panie nasz
+Nasze powstawanie - Panie nasz
+Twoje miłowanie.
+Ref: Jesteś dla nas żeglarzy jak gwiazda zaranna
+Tobie śpiewamy radosne "Hosanna"
+Jesteś dla nas pielgrzymów jak burzy ustanie
+Jesteś drogą, co nam dziś przez Ojca jest dana.`
+  },
+  {
+    title: `Oświeć drogę mą`,
+    text: `Oświeć drogę mą, choćby na jeden krok D
+
+I nie pozwól mi w miejscu stać h
+
+Ciągle czekam nacud G
+
+Abyś nowe pragnienie w serce moje wlał. DA`
+  },
+  {
+    title: `Wiem, że moje imię`,
+    text: `ref.: Wiem, że moje imię jest dla Ciebie ważne,
+łou, łou, ło, Panie     DGDA
+
+kochasz mnie po prostu,
+
+jestem Twoim skarbem. łou, łou, ło Panie
+Wiem, że moje imię jest dla Ciebie ważne
+kochasz mnie po prostu, jestem Twoim skarbem /x2
+1. Krokodyl siedzi w zimnej wodzie
+
+i małe bobry zawiesiły się na kłodzie,
+szop-pracz robi wielkie pranie,
+
+kangury skaczą na śniadanie.
+
+A my całym sercem, dźwięki Panu gramy
+
+z całego serca Jego wysławiamy
+
+Więc hej hop w górę razem z kangurem
+
+hej hop w górę HOP HOP!
+
+2. Dzięcioł atakuje dziobem sosnę,
+
+jaskółki są radosne nie tylko na wiosnę,
+
+ja urosnę — myśli mała kijanka,
+
+z żabami rechocząc pod stodołą od ranka.
+
+3. Zebra ma paski, pandy ma łaty,
+
+żółw jest bez włosów, orangutan kosmaty,
+goryl ze smakiem zjada banana,
+
+słoniątkom musi trąbić słoniowa mama.
+
+4. Koala-mądrala na plaży się opala,
+
+pingwin zza krzaka patrzy na kurczaka,
+
+kret w ziemię nura, zaskoczyła go wiewióra,
+orzeł się zakochał, schował głowę w chmurach.`
+  },
+  {
+    title: `Kiedy pada (cieciereciecie)`,
+    text: `Kiedy pada, słońce świeci eCGD
+
+tu do Ciebie idą dzieci
+
+Bo Mateczka czeka na nas,
+
+pójdę do niej, choć na kolanach.
+
+BO JA.
+
+Idę do Ciebie (x4)
+
+DO CIE BIE JA! Mateczko idę moja!`
+  },
+  {
+    title: `Cieszę się, Jezus zbawił mnie`,
+    text: `1.Cieszę się - Jezus zbawił mnie /x3 EH7, H7E, EA, EH7 E
+ref: Spiewam alleluja, Jezus zbawił mnie!
+
+2. Kiedy byłem grzeszny...
+
+3. Chcę powiedzieć wszystkim...
+
+4. Będę Go uwielbiać...
+
+5. Będę Go wywyższać...`
+  },
+  {
+    title: `Jeśli radość w sercu`,
+    text: `1. Jeśli radość w sercu chcesz mieć Gh CD
+Radość, która wiecznie ma trwać     GhCD
+
+Przed tron Boga przyjdź
+
+i głoś Jego chwałę        GhCD
+
+Przed tron Boga przyjdź
+
+i głoś Jego chwałę imoc GhCDGhC
+
+Głoś chwałę i moc, głoś chwałę imoc DGhCDGhCD
+2. Jeśli pokój...
+
+3. Jeśli miłość...
+
+4. Jeśli ufność ...`
+  },
+  {
+    title: `Wierzę, że droga`,
+    text: `Wierzę, że droga którą idę          EA
+Jest Panie jedną z Twoich dróg      fis H7
+Zamykam oczy, żeby widzieć       gis cis
+Otwieram serce na Twój cud       fis H7
+Do Ciebie wołam w trudną chwilę EA
+Ufam Ci kiedy ziemia drży          fis H7
+Za to, że zawsze jesteś przy mnie gis cis
+Chcę podziękować Panie Ci.         fis H7`
+  },
+  {
+    title: `Na Jasną Górę`,
+    text: `Na Jasną górę i wszyscy ręce w górę, (D)eCD
+Pan tu jest tu jest tu, Hałd uj uduj udu.
+Pielgrzymka to taki stan
+
+gdzie nie idę ciągle sam,
+
+chociaż nogi bolą mnie
+
+to i tak nie poddam się.
+
+Na Jasną górę i wszyscy ręce w górę,
+
+Pan tu jest tu jest tu, Hałd uj uduj udu.
+Pielgrzymka to taki stan
+
+kiedy każdy rusza w tan
+
+Więc i baw się z nami Ty
+
+do samej Częstochowy.
+
+Ufamy Ci, dziś będziemy razem szli,
+
+dziś będziemy modlić się
+
+chociaż nogi bolą dwie
+
+a ja w wierze ciągle trwam
+
+bo nie idę tutaj sam
+
+bo naprawdę kochasz mnie
+
+ija potrzebuję Cię.`
+  },
+  {
+    title: `Tańcem chwalmy Go!`,
+    text: `1. Duchu Święty wlej w nas radość a
+
+byśmy Boga chwalili                 GE
+
+byśmy grali i śpiewali                  aG
+
+jak król Dawid tańczyli               CG
+
+Wlej mądrość by nas nie zwiodła światowa pokusa C DG
+byśmy mogli mężnie kroczyć śladami Chrystusa CDGEa
+Ref.: Tańcem Chwalmy Go! CGCGC
+
+Tańcem Chwalmy Go! CGaEa
+
+2. Synu dzięki za Twój wielki wobec Ojca szacunek
+Żeś na krzyżu Swoje życie oddał na nasz ratunek!
+Prowadź nas rózgą żelazną byśmy nie zbłądzili
+
+Ale radosnym śpiewaniem Stwórcę wywyższyli.`
+  },
+  {
+    title: `Oto ja poślij mnie`,
+    text: `Ref: Oto ja, poślij mnie             EAH7
+
+Dotknij ogniem moich warg
+
+Powiedz Panie czego chcesz
+
+A moją rozkoszą
+
+będzie być posłusznym Acis AH7
+
+1. Daj mi ducha swego abym mógł  gis cis A H7
+stać się chlebem
+
+Abym stał się winem abym gasił twe pragnienie
+
+2. Nie chce Ci już mówić o moich potrzebach
+Panie Ty wiesz wszystko, objaw mi Swe pragnienia`
+  },
 ];
