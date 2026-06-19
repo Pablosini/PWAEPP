@@ -1427,6 +1427,62 @@
             line-height: 1.5;
         }
 
+        .detail-text.structured-detail-text {
+            display: block;
+            white-space: normal;
+        }
+
+        .detail-section {
+            border-top: 1px solid var(--line);
+        }
+
+        .detail-section:last-child {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .detail-section summary {
+            min-height: 58px;
+            padding: 14px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            color: var(--text);
+            cursor: pointer;
+            touch-action: manipulation;
+            list-style: none;
+            font-size: 1rem;
+            line-height: 1.25;
+            font-weight: 900;
+        }
+
+        .detail-section summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .detail-section summary::after {
+            content: "+";
+            flex: 0 0 auto;
+            width: 24px;
+            color: var(--primary-strong);
+            font-size: 1.35rem;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .detail-section[open] summary::after {
+            content: "−";
+        }
+
+        .detail-section-text {
+            padding: 2px 2px 22px;
+            white-space: pre-line;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            font-weight: 650;
+            overflow-wrap: anywhere;
+        }
+
         .song-line {
             min-width: 0;
             min-height: 1.5em;
@@ -2396,7 +2452,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.47<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.49<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2666,7 +2722,7 @@
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.47";
+        let appActiveVersion = "Wersja 1.0.49";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -2847,35 +2903,49 @@ Ref.: Oto są baranki...`
         };
 
 
-        const songSourceData = Array.isArray(window.EPP_SONGS) && window.EPP_SONGS.length
-            ? window.EPP_SONGS
-            : sourceTextData.songs;
-
-        const songs = songSourceData.map(item => {
+        function normalizeContentSourceItem(item) {
             const title = item.title || item.tytul || "Bez tytułu";
-            const text = item.text || item.tekst || "";
-            const firstLine = text.split("\n").find(line => line.trim()) || "Brak treści.";
+            const sections = Array.isArray(item.sections)
+                ? item.sections.map(section => ({
+                    title: section.title || "Część modlitwy",
+                    text: section.text || ""
+                })).filter(section => section.text.trim())
+                : [];
+            const sectionText = sections
+                .map(section => `${section.title}\n${section.text}`)
+                .join("\n\n");
+            const text = item.text || item.tekst || sectionText;
+            const firstLine = item.note
+                || sections[0]?.title
+                || text.split("\n").find(line => line.trim())
+                || "Brak treści.";
             return {
                 title,
                 note: firstLine.slice(0, 84),
-                text
+                text,
+                sections
             };
-        }).sort((first, second) => first.title.localeCompare(second.title, "pl", { sensitivity: "base" }));
+        }
 
         const prayerSourceData = Array.isArray(window.EPP_PRAYERS)
             ? window.EPP_PRAYERS
             : [];
 
-        const prayers = prayerSourceData.map(item => {
-            const title = item.title || item.tytul || "Bez tytułu";
-            const text = item.text || item.tekst || "";
-            const firstLine = text.split("\n").find(line => line.trim()) || "Brak treści.";
-            return {
-                title,
-                note: firstLine.slice(0, 84),
-                text
-            };
-        });
+        const sharedPrayerSongs = prayerSourceData.filter(item => item.includeInSongs);
+        const sharedPrayerSongTitles = new Set(sharedPrayerSongs.map(item => item.title || item.tytul));
+        const baseSongSourceData = Array.isArray(window.EPP_SONGS) && window.EPP_SONGS.length
+            ? window.EPP_SONGS
+            : sourceTextData.songs;
+        const songSourceData = [
+            ...baseSongSourceData.filter(item => !sharedPrayerSongTitles.has(item.title || item.tytul)),
+            ...sharedPrayerSongs
+        ];
+
+        const songs = songSourceData
+            .map(normalizeContentSourceItem)
+            .sort((first, second) => first.title.localeCompare(second.title, "pl", { sensitivity: "base" }));
+
+        const prayers = prayerSourceData.map(normalizeContentSourceItem);
 
         const liturgyDays = [
             {
@@ -5401,6 +5471,15 @@ Ref.: Oto są baranki...`
             }).join("");
         }
 
+        function renderStructuredDetailText(sections = []) {
+            return sections.map(section => `
+                <details class="detail-section">
+                    <summary>${escapeHtml(section.title)}</summary>
+                    <div class="detail-section-text">${escapeHtml(normalizeDetailText(section.text) || "Brak treści.")}</div>
+                </details>
+            `).join("");
+        }
+
         function getContentListConfig(type) {
             if (type === "songs") {
                 return { listId: "songs-list", items: songs };
@@ -5463,8 +5542,12 @@ Ref.: Oto są baranki...`
             saveContentListState(type);
             document.getElementById("detail-title").textContent = item.title;
             const detailText = document.getElementById("detail-text");
-            detailText.classList.toggle("song-detail-text", type === "songs");
-            if (type === "songs") {
+            const hasSections = Array.isArray(item.sections) && item.sections.length > 0;
+            detailText.classList.toggle("structured-detail-text", hasSections);
+            detailText.classList.toggle("song-detail-text", type === "songs" && !hasSections);
+            if (hasSections) {
+                detailText.innerHTML = renderStructuredDetailText(item.sections);
+            } else if (type === "songs") {
                 detailText.innerHTML = renderSongDetailText(item.text);
             } else {
                 detailText.textContent = normalizeDetailText(item.text) || "Brak treści.";
