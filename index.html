@@ -2396,7 +2396,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.45<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.47<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2518,7 +2518,7 @@
                     <path d="M12 2v20M5 7h14"/>
                     <path d="M7 22h10"/>
                 </svg>
-                <span>Modl.</span>
+                <span>Modlitwa</span>
             </button>
             <button class="nav-item" type="button" data-open="liturgy" aria-label="Liturgia Słowa">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -2664,8 +2664,9 @@
     </div>
 
     <script src="data/songs.js"></script>
+    <script src="data/prayers.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.45";
+        let appActiveVersion = "Wersja 1.0.47";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -2842,70 +2843,6 @@ Po czerwonego morza dnie,
 
 Ref.: Oto są baranki...`
                 }
-            ],
-            prayers: [
-                {
-                    id: 1,
-                    tytul: "Modlitwa Pielgrzyma",
-                    tekst: `Panie Jezu,
-Wyruszyłem na pątniczy szlak z wiarą i nadzieją w sercu.
-Spraw, aby ten trud drogi: upał, deszcz, ból fizyczny i zmęczenie,
-stały się dla mnie czasem oczyszczenia i zbliżenia do Ciebie.
-
-Pomóż mi w drugim człowieku dostrzegać Twoją obecność,
-uczyć się cierpliwości, pokory i dzielenia się chlebem oraz uśmiechem.
-Niech wstawiennictwo Matki Bożej Jasnogórskiej,
-do której zmierzam, chroni mnie przed zniechęceniem i niebezpieczeństwami na drodze.
-
-Przemieniaj moje serce, bym po powrocie z pielgrzymki
-był lepszym świadkiem Twojej Ewangelii w codziennym życiu. Amen.`
-                },
-                {
-                    id: 2,
-                    tytul: "Anioł Pański",
-                    tekst: `Anioł Pański zwiastował Pannie Maryi.
-I poczęła z Ducha Świętego.
-Zdrowaś Maryjo...
-
-Oto Ja służebnica Pańska.
-Niech mi się stanie według słowa twego.
-Zdrowaś Maryjo...
-
-A Słowo ciałem się stało.
-I mieszkało między nami.
-Zdrowaś Maryjo...
-
-Módl się za nami, święta Boża Rodzicielko.
-Abyśmy się stali godnymi obietnic Chrystusowych.
-
-Módlmy się: Łaskę Twoją, prosimy Cię, Panie, wlej w serca nasze, abyśmy, którzy za zwiastowaniem anielskim Wcielenie Chrystusa, Syna Twego, poznali, przez mękę Jego i krzyż do chwały zmartwychwstania zostali doprowadzeni. Przez Chrystusa, Pana naszego. Amen.`
-                },
-                {
-                    id: 3,
-                    tytul: "Pod Twoją Obronę",
-                    tekst: `Pod Twoją obronę uciekamy się,
-święta Boża Rodzicielko,
-naszymi prośbami racz nie gardzić w potrzebach naszych,
-ale od wszelakich złych przygód racz nas zawsze wybawiać,
-Panno chwalebna i błogosławiona.
-
-O Pani nasza, Orędowniczko nasza,
-Pośredniczko nasza, Pocieszycielko nasza.
-Z Synem swoim nas pojednaj,
-Synowi supremo nas polecaj,
-swojemu Synowi nas oddawaj.`
-                },
-                {
-                    id: 4,
-                    tytul: "Różaniec - Tajemnice Radosne",
-                    tekst: `1. Zwiastowanie Najświętszej Maryi Pannie
-2. Nawiedzenie św. Elżbiety
-3. Narodzenie Pana Jezusa w Betlejem
-4. Ofiarowanie Pana Jezusa w Świątyni
-5. Odnalezienie Pana Jezusa w Świątyni
-
-Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji nad kolejnymi krokami Jezusa i Maryi oraz ofiarowania intencji niesionych w sercu.`
-                }
             ]
         };
 
@@ -2925,11 +2862,20 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             };
         }).sort((first, second) => first.title.localeCompare(second.title, "pl", { sensitivity: "base" }));
 
-        const prayers = sourceTextData.prayers.map(item => ({
-            title: item.tytul,
-            note: item.tekst.split('\n')[0].slice(0, 84),
-            text: item.tekst
-        }));
+        const prayerSourceData = Array.isArray(window.EPP_PRAYERS)
+            ? window.EPP_PRAYERS
+            : [];
+
+        const prayers = prayerSourceData.map(item => {
+            const title = item.title || item.tytul || "Bez tytułu";
+            const text = item.text || item.tekst || "";
+            const firstLine = text.split("\n").find(line => line.trim()) || "Brak treści.";
+            return {
+                title,
+                note: firstLine.slice(0, 84),
+                text
+            };
+        });
 
         const liturgyDays = [
             {
@@ -5309,7 +5255,6 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
                 if (!meta.length) return "";
                 return `<span class="route-timeline-meta">${meta.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</span>`;
             };
-
             return `
                 <div class="route-overview">
                     <div class="route-public-times" aria-label="Godziny publiczne">
