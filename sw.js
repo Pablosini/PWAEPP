@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.45';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.47';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
@@ -10,7 +10,8 @@ const CORE_ASSETS_TO_CACHE = [
     scopePath + 'manifest.json',
     scopePath + 'icon-192.png',
     scopePath + 'icon-512.png',
-    scopePath + 'data/songs.js'
+    scopePath + 'data/songs.js',
+    scopePath + 'data/prayers.js'
 ];
 
 self.addEventListener('install', (event) => {
