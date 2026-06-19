@@ -1413,9 +1413,56 @@
 
         .detail-text {
             white-space: pre-line;
-            font-size: 1.04rem;
-            line-height: 1.72;
+            font-size: 1rem;
+            line-height: 1.5;
             font-weight: 680;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-text.song-detail-text {
+            display: grid;
+            gap: 0;
+            white-space: normal;
+            font-size: 0.96rem;
+            line-height: 1.5;
+        }
+
+        .song-line {
+            min-width: 0;
+            min-height: 1.5em;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .song-line-gap {
+            min-height: 0.75em;
+        }
+
+        .song-line.has-chords {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .song-line-lyrics {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .song-line-chords,
+        .song-line-chords-only {
+            color: var(--primary-strong);
+            font-size: 0.78em;
+            line-height: 1.25;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+        }
+
+        .song-line-chords {
+            flex: 0 0 auto;
+            max-width: 48%;
         }
 
         .notice {
@@ -2349,7 +2396,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.40<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.43<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2606,7 +2653,7 @@
                         <p class="section-kicker">Podgląd</p>
                         <h2 class="modal-title" id="image-title">Zdjęcie</h2>
                     </div>
-                    <button class="secondary-button" id="image-close" type="button">Zamknij</button>
+                    <button class="secondary-button" id="image-close" type="button">Wróć</button>
                 </div>
                 <img class="image-preview" id="image-preview" src="" alt="">
                 <p class="image-caption" id="image-caption" hidden></p>
@@ -2618,7 +2665,7 @@
 
     <script src="data/songs.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.40";
+        let appActiveVersion = "Wersja 1.0.43";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -4448,6 +4495,7 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
         let toastTimer = null;
         let activeModal = null;
         let previousFocus = null;
+        let imagePreviewHistoryActive = false;
 
         const themeIcons = {
             sun: '<path d="M12 3v2.2M12 18.8V21M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M3 12h2.2M18.8 12H21M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"/><circle cx="12" cy="12" r="4"/>',
@@ -4518,11 +4566,32 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             }
         }
 
+        function pushImagePreviewHistory() {
+            if (!window.history?.pushState) return false;
+            if (window.location.protocol === "file:") return false;
+            try {
+                window.history.pushState({
+                    eppApp: true,
+                    appView: currentViewName,
+                    appModal: "image-preview"
+                }, "", viewUrl(currentViewName));
+                return true;
+            } catch (error) {
+                console.warn("Historia podglądu zdjęcia nie jest dostępna:", error);
+                return false;
+            }
+        }
+
         function isRootView(viewName) {
             return rootViewNames.has(viewName);
         }
 
         function handleSystemBack(event) {
+            if (activeModal === imageModal && imagePreviewHistoryActive) {
+                closeImagePreview({ fromHistory: true, restoreFocus: false });
+                return;
+            }
+
             const targetView = event.state?.appView || "home";
             if (viewHistory[viewHistory.length - 1] === targetView) {
                 viewHistory.pop();
@@ -5298,12 +5367,85 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             imagePreview.src = src;
             imagePreview.alt = title;
             imageCaption.textContent = "";
+            imagePreviewHistoryActive = pushImagePreviewHistory();
             openModal(imageModal, "#image-close");
         }
 
-        function closeImagePreview() {
-            closeModal(imageModal);
+        function closeImagePreview(options = {}) {
+            if (!options.fromHistory && imagePreviewHistoryActive && window.history?.state?.appModal === "image-preview") {
+                window.history.back();
+                return;
+            }
+
+            closeModal(imageModal, options);
             imagePreview.removeAttribute("src");
+            imagePreviewHistoryActive = false;
+        }
+
+        function normalizeDetailText(text = "") {
+            return String(text)
+                .replace(/\r\n/g, "\n")
+                .replace(/\r/g, "\n")
+                .split("\n")
+                .map(line => line.trimEnd())
+                .join("\n")
+                .replace(/\n{3,}/g, "\n\n")
+                .trim();
+        }
+
+        function looksLikeChordToken(token) {
+            const cleaned = String(token || "").replace(/^[([{]+|[)\]},.;:]+$/g, "");
+            if (!cleaned) return false;
+            if (/^(x|capo)\d*$/i.test(cleaned)) return true;
+            return /^[A-Ha-h](?:is|es|#|b)?(?:m|maj|min|dim|aug|sus|add)?\d*(?:[+/.-]?\d*)?(?:\/[A-Ha-h](?:is|es|#|b)?)?$/.test(cleaned);
+        }
+
+        function looksLikeChordSequence(value) {
+            const tokens = String(value || "")
+                .replace(/[|]/g, " ")
+                .split(/\s+/)
+                .filter(Boolean);
+            if (!tokens.length) return false;
+            return tokens.every(looksLikeChordToken);
+        }
+
+        function splitSongLine(rawLine) {
+            const line = String(rawLine || "").trimEnd();
+            const inlineChordMatch = line.match(/^(.*\S)\s{2,}(\S.*)$/);
+            if (inlineChordMatch && looksLikeChordSequence(inlineChordMatch[2])) {
+                return {
+                    lyrics: inlineChordMatch[1].trimEnd(),
+                    chords: inlineChordMatch[2].trim()
+                };
+            }
+            return { lyrics: line };
+        }
+
+        function renderSongDetailText(text = "") {
+            const normalizedText = normalizeDetailText(text);
+            if (!normalizedText) return "Brak treści.";
+
+            return normalizedText.split("\n").map(line => {
+                if (!line.trim()) {
+                    return `<div class="song-line song-line-gap" aria-hidden="true"></div>`;
+                }
+
+                const songLine = splitSongLine(line);
+                if (songLine.chords) {
+                    return `
+                        <div class="song-line has-chords">
+                            <span class="song-line-lyrics">${escapeHtml(songLine.lyrics)}</span>
+                            <span class="song-line-chords">${escapeHtml(songLine.chords)}</span>
+                        </div>
+                    `;
+                }
+
+                if (looksLikeChordSequence(songLine.lyrics)) {
+                    return `<div class="song-line song-line-chords-only">${escapeHtml(songLine.lyrics.trim())}</div>`;
+                }
+
+                return `<div class="song-line">${escapeHtml(songLine.lyrics)}</div>`;
+            }).join("");
         }
 
         function renderContentDetail(type, index) {
@@ -5311,7 +5453,13 @@ Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji n
             const item = items[index];
             if (!item) return;
             document.getElementById("detail-title").textContent = item.title;
-            document.getElementById("detail-text").textContent = item.text || "Brak treści.";
+            const detailText = document.getElementById("detail-text");
+            detailText.classList.toggle("song-detail-text", type === "songs");
+            if (type === "songs") {
+                detailText.innerHTML = renderSongDetailText(item.text);
+            } else {
+                detailText.textContent = normalizeDetailText(item.text) || "Brak treści.";
+            }
             openView("detail");
         }
 
