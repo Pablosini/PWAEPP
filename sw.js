@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.40';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.43';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
