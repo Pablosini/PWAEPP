@@ -2256,7 +2256,7 @@
                                 <span>min</span>
                             </div>
                         </div>
-                        <p class="countdown-note" id="countdown-note">Wyjście: 28 lipca 2026, 7:00</p>
+                        <p class="countdown-note" id="countdown-note">Początek pielgrzymki: 28 lipca 2026, 6:00</p>
                         <div class="pilgrimage-progress" id="pilgrimage-progress" hidden>
                             <div class="pilgrimage-progress-top">
                                 <span id="pilgrimage-progress-label">Postęp trasy</span>
@@ -2452,7 +2452,7 @@
                         </span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.49<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.50<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2722,7 +2722,7 @@
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.49";
+        let appActiveVersion = "Wersja 1.0.50";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -4664,7 +4664,7 @@ Ref.: Oto są baranki...`
         }
 
         function getPilgrimageStartDate(year) {
-            return new Date(year, 6, 28, 7, 0, 0);
+            return new Date(year, 6, 28, 6, 0, 0);
         }
 
         function getPilgrimageFinishDate(year) {
@@ -4804,7 +4804,7 @@ Ref.: Oto są baranki...`
             let targetDate = cycle.targetDate;
             let content = {
                 title: `${cycle.edition} raz z Ełku na Jasną Górę wyruszymy za:`,
-                note: `Wyjście z Ełku: ${formatPilgrimageDateTime(cycle.start)}`
+                note: `Początek pielgrzymki: ${formatPilgrimageDateTime(cycle.start)}`
             };
 
             if (cycle.phase === "live") {
