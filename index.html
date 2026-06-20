@@ -30,7 +30,7 @@
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-left: env(safe-area-inset-left, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
-            --nav-count: 6;
+            --nav-count: 4;
             --nav-item-height: 54px;
             --nav-padding-top: 8px;
             --nav-padding-bottom: max(10px, calc(var(--safe-bottom) + 8px));
@@ -276,6 +276,13 @@
             height: 20px;
             display: block;
             stroke-width: 2.2;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
         }
 
         .screen {
@@ -1411,6 +1418,62 @@
             margin-bottom: 6px;
         }
 
+        .about-content {
+            display: grid;
+            gap: 22px;
+        }
+
+        .about-brand {
+            display: grid;
+            grid-template-columns: 58px minmax(0, 1fr);
+            align-items: center;
+            gap: 14px;
+        }
+
+        .about-brand img {
+            width: 58px;
+            height: 58px;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 1px solid var(--line);
+        }
+
+        .about-brand strong {
+            display: block;
+            font-size: 1.15rem;
+            line-height: 1.2;
+            font-weight: 950;
+        }
+
+        .about-brand span,
+        .about-content p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 680;
+        }
+
+        .about-brand span {
+            display: block;
+            margin-top: 4px;
+        }
+
+        .about-section {
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+        }
+
+        .about-section h3 {
+            margin: 0 0 8px;
+            font-size: 1rem;
+            line-height: 1.3;
+            font-weight: 950;
+        }
+
+        .about-content p {
+            margin: 0;
+        }
+
         .detail-text {
             white-space: pre-line;
             font-size: 1rem;
@@ -1688,10 +1751,10 @@
             gap: 3px;
             background: transparent;
             color: var(--muted);
-            font-size: 0.56rem;
+            font-size: 0.62rem;
             line-height: 1;
             font-weight: 850;
-            text-transform: uppercase;
+            text-transform: none;
             letter-spacing: 0;
         }
 
@@ -1702,9 +1765,13 @@
 
         .nav-item span {
             white-space: nowrap;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: none;
+            overflow: visible;
+            text-overflow: clip;
+        }
+
+        .action-card[hidden] {
+            display: none;
         }
 
         .small-action {
@@ -2086,7 +2153,33 @@
             }
 
             .nav-item {
-                font-size: 0.52rem;
+                font-size: 0.56rem;
+            }
+
+            .topbar {
+                gap: 8px;
+            }
+
+            .brand {
+                gap: 8px;
+            }
+
+            .brand-mark,
+            .icon-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .topbar-actions {
+                gap: 6px;
+            }
+
+            .brand-text strong {
+                font-size: 1rem;
+            }
+
+            .brand-text span {
+                font-size: 0.58rem;
             }
         }
 
@@ -2153,7 +2246,7 @@
             }
 
             .nav-item {
-                font-size: 0.48rem;
+                font-size: 0.54rem;
             }
 
             .nav-item svg {
@@ -2226,12 +2319,20 @@
                     <span>Aplikacja pielgrzyma</span>
                 </div>
             </button>
-            <button class="icon-button" type="button" id="theme-toggle" aria-label="Włącz tryb ciemny" title="Włącz tryb ciemny">
-                <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                    <path d="M12 3v2.2M12 18.8V21M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M3 12h2.2M18.8 12H21M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"/>
-                    <circle cx="12" cy="12" r="4"/>
-                </svg>
-            </button>
+            <div class="topbar-actions">
+                <button class="icon-button" type="button" data-open="more" aria-label="Ustawienia" title="Ustawienia">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2.05 2.05 0 0 1-2.9 2.9l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .32 1.7 1.7 0 0 0-.82 1.46V21a2.05 2.05 0 0 1-4.1 0v-.08A1.7 1.7 0 0 0 8 19.4a1.7 1.7 0 0 0-1.88.34l-.04.04a2.05 2.05 0 0 1-2.9-2.9l.04-.04A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.32-1 1.7 1.7 0 0 0-1.46-.82H1.7a2.05 2.05 0 0 1 0-4.1h.08A1.7 1.7 0 0 0 3.6 8a1.7 1.7 0 0 0-.34-1.88l-.04-.04a2.05 2.05 0 0 1 2.9-2.9l.04.04A1.7 1.7 0 0 0 8 3.6a1.7 1.7 0 0 0 1-.32 1.7 1.7 0 0 0 .82-1.46V1.7a2.05 2.05 0 0 1 4.1 0v.08A1.7 1.7 0 0 0 15 3.6a1.7 1.7 0 0 0 1.88-.34l.04-.04a2.05 2.05 0 0 1 2.9 2.9l-.04.04A1.7 1.7 0 0 0 19.4 8c.12.36.3.7.56 1 .34.4.84.62 1.36.62h.08a2.05 2.05 0 0 1 0 4.1h-.08A1.7 1.7 0 0 0 19.4 15Z"/>
+                    </svg>
+                </button>
+                <button class="icon-button" type="button" id="theme-toggle" aria-label="Włącz tryb ciemny" title="Włącz tryb ciemny">
+                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                        <path d="M12 3v2.2M12 18.8V21M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M3 12h2.2M18.8 12H21M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"/>
+                        <circle cx="12" cy="12" r="4"/>
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <main class="screen" id="screen">
@@ -2344,12 +2445,24 @@
                         <button class="action-card" type="button" data-open="more">
                             <span class="card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                    <path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
                                     <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2.05 2.05 0 0 1-2.9 2.9l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .32 1.7 1.7 0 0 0-.82 1.46V21a2.05 2.05 0 0 1-4.1 0v-.08A1.7 1.7 0 0 0 8 19.4a1.7 1.7 0 0 0-1.88.34l-.04.04a2.05 2.05 0 0 1-2.9-2.9l.04-.04A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.32-1 1.7 1.7 0 0 0-1.46-.82H1.7a2.05 2.05 0 0 1 0-4.1h.08A1.7 1.7 0 0 0 3.6 8a1.7 1.7 0 0 0-.34-1.88l-.04-.04a2.05 2.05 0 0 1 2.9-2.9l.04.04A1.7 1.7 0 0 0 8 3.6a1.7 1.7 0 0 0 1-.32 1.7 1.7 0 0 0 .82-1.46V1.7a2.05 2.05 0 0 1 4.1 0v.08A1.7 1.7 0 0 0 15 3.6a1.7 1.7 0 0 0 1.88-.34l.04-.04a2.05 2.05 0 0 1 2.9 2.9l-.04.04A1.7 1.7 0 0 0 19.4 8c.12.36.3.7.56 1 .34.4.84.62 1.36.62h.08a2.05 2.05 0 0 1 0 4.1h-.08A1.7 1.7 0 0 0 19.4 15Z"/>
                                 </svg>
                             </span>
                             <span>
-                                <strong>Opcje</strong>
+                                <strong>Ustawienia</strong>
+                            </span>
+                        </button>
+                        <button class="action-card" id="home-kadra-card" type="button" data-open="kadra" hidden>
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9.5" cy="7" r="4"/>
+                                    <path d="M17 11l2 2 4-4"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Kadra</strong>
                             </span>
                         </button>
                     </div>
@@ -2441,7 +2554,7 @@
                     </button>
                     <button class="option-row" id="survey-row" type="button">
                         <div>
-                            <strong>Ankieta</strong>
+                            <strong>Ankieta użyteczności</strong>
                             <span id="survey-status-label">Dostępna od 09.08 po zakończeniu pielgrzymki.</span>
                         </div>
                         <span class="small-action" aria-hidden="true">
@@ -2451,8 +2564,14 @@
                             </svg>
                         </span>
                     </button>
+                    <button class="option-row" type="button" data-open="about">
+                        <div>
+                            <strong>O aplikacji</strong>
+                        </div>
+                        <span class="chevron">›</span>
+                    </button>
                 </div>
-                <p class="version">Wersja 1.0.50<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.55<br>Projekt i realizacja: PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2511,6 +2630,51 @@
                 </div>
             </section>
 
+            <section class="view" id="view-about" data-view="about">
+                <div class="toolbar">
+                    <button class="back-button" type="button" data-back>‹ Wróć</button>
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">O aplikacji</h2>
+                        </div>
+                    </div>
+                </div>
+                <article class="content-card about-content">
+                    <div class="about-brand">
+                        <img src="icon-192.png" alt="Logo EPP na Jasną Górę">
+                        <div>
+                            <strong>EPP na Jasną Górę</strong>
+                            <span>Od pielgrzyma dla pielgrzymów</span>
+                        </div>
+                    </div>
+                    <section class="about-section">
+                        <h3>Pomysł zrodzony w drodze</h3>
+                        <p>Inicjatywa stworzenia tej aplikacji narodziła się z rozmów z pielgrzymami: o tym, czego potrzebują podczas drogi, co warto uprościć i jak łatwiej docierać do najważniejszych treści. To aplikacja od pielgrzyma dla pielgrzymów.</p>
+                    </section>
+                    <section class="about-section">
+                        <h3>Zaprojektowana dla pielgrzymów</h3>
+                        <p>Projekt powstaje z myślą o rzeczywistych warunkach pielgrzymki: zmęczeniu, słońcu, marszu, słabym zasięgu oraz osobach w różnym wieku. Aplikacja ma pomagać szybko i czytelnie, bez odciągania uwagi od wspólnoty, modlitwy i samej drogi.</p>
+                    </section>
+                    <section class="about-section">
+                        <h3>Cyfrowa książeczka pielgrzyma</h3>
+                        <p>Sprawdzamy, czy aplikacja może w przyszłości zastąpić tradycyjną książeczkę pielgrzyma i stać się codziennym, praktycznym wsparciem na całej trasie.</p>
+                    </section>
+                    <section class="about-section">
+                        <h3>Projekt rozwijany wspólnie</h3>
+                        <p>To nadal wersja testowa. Rozmowy, uwagi i odpowiedzi w ankiecie użyteczności pomagają zdecydować, co zachować, uprościć lub poprawić przed kolejnymi edycjami pielgrzymki.</p>
+                    </section>
+                    <section class="about-section">
+                        <h3>Prawa i autorstwo</h3>
+                        <p>© 2026 PePe.Studio — kod i projekt aplikacji. Materiały organizacyjne pochodzą od Ełckiej Pieszej Pielgrzymki na Jasną Górę. Prawa do wykorzystanych materiałów zewnętrznych, o ile podlegają ochronie, pozostają przy ich autorach lub właściwych podmiotach.</p>
+                    </section>
+                    <section class="about-section">
+                        <h3>Ważna informacja</h3>
+                        <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
+                    </section>
+                    <p class="version">Wersja 1.0.55<br>Projekt i realizacja: PePe.Studio</p>
+                </article>
+            </section>
+
             <section class="view" id="view-detail" data-view="detail">
                 <div class="toolbar">
                     <button class="back-button" type="button" data-back>‹ Wróć</button>
@@ -2567,22 +2731,14 @@
                     <circle cx="6" cy="18" r="3"/>
                     <circle cx="18" cy="16" r="3"/>
                 </svg>
-                <span>Pieśni</span>
+                <span>Śpiewnik</span>
             </button>
             <button class="nav-item" type="button" data-open="prayers" aria-label="Modlitewnik">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                     <path d="M12 2v20M5 7h14"/>
                     <path d="M7 22h10"/>
                 </svg>
-                <span>Modlitwa</span>
-            </button>
-            <button class="nav-item" type="button" data-open="liturgy" aria-label="Liturgia Słowa">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/>
-                    <path d="M8 7h8M8 11h7"/>
-                </svg>
-                <span>Liturgia</span>
+                <span>Modlitewnik</span>
             </button>
             <button class="nav-item" type="button" data-open="route" aria-label="Trasa">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -2590,13 +2746,6 @@
                     <path d="M9 3v15M15 6v15"/>
                 </svg>
                 <span>Trasa</span>
-            </button>
-            <button class="nav-item" type="button" data-open="more" aria-label="Opcje">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2.05 2.05 0 0 1-2.9 2.9l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .32 1.7 1.7 0 0 0-.82 1.46V21a2.05 2.05 0 0 1-4.1 0v-.08A1.7 1.7 0 0 0 8 19.4a1.7 1.7 0 0 0-1.88.34l-.04.04a2.05 2.05 0 0 1-2.9-2.9l.04-.04A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.32-1 1.7 1.7 0 0 0-1.46-.82H1.7a2.05 2.05 0 0 1 0-4.1h.08A1.7 1.7 0 0 0 3.6 8a1.7 1.7 0 0 0-.34-1.88l-.04-.04a2.05 2.05 0 0 1 2.9-2.9l.04.04A1.7 1.7 0 0 0 8 3.6a1.7 1.7 0 0 0 1-.32 1.7 1.7 0 0 0 .82-1.46V1.7a2.05 2.05 0 0 1 4.1 0v.08A1.7 1.7 0 0 0 15 3.6a1.7 1.7 0 0 0 1.88-.34l.04-.04a2.05 2.05 0 0 1 2.9 2.9l-.04.04A1.7 1.7 0 0 0 19.4 8c.12.36.3.7.56 1 .34.4.84.62 1.36.62h.08a2.05 2.05 0 0 1 0 4.1h-.08A1.7 1.7 0 0 0 19.4 15Z"/>
-                </svg>
-                <span>Opcje</span>
             </button>
             <button class="nav-item" id="nav-kadra" type="button" data-open="kadra" aria-label="Kadra" hidden>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -2722,7 +2871,7 @@
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.50";
+        let appActiveVersion = "Wersja 1.0.55";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -5019,9 +5168,10 @@ Ref.: Oto są baranki...`
 
         function updateKadraPanel() {
             const isKadra = getKadraRole() === "kadra";
+            document.getElementById("home-kadra-card").hidden = !isKadra;
             document.getElementById("nav-kadra").hidden = !isKadra;
             document.getElementById("view-kadra").hidden = !isKadra;
-            document.documentElement.style.setProperty("--nav-count", isKadra ? "7" : "6");
+            document.documentElement.style.setProperty("--nav-count", isKadra ? "5" : "4");
             if (!isKadra && document.getElementById("view-kadra").classList.contains("active")) {
                 openView("more");
             }
@@ -5949,7 +6099,7 @@ Ref.: Oto są baranki...`
                     appActiveVersion = `Wersja ${activeCacheKey.replace("epp-pwa-cache-v", "")}`;
                 }
                 document.querySelectorAll(".version").forEach(element => {
-                    element.innerHTML = `${appActiveVersion}<br>© 2026 PePe.Studio`;
+                    element.innerHTML = `${appActiveVersion}<br>Projekt i realizacja: PePe.Studio`;
                 });
             }).catch(() => {});
         }
