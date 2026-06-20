@@ -2571,7 +2571,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.55<br>Projekt i realizacja: PePe.Studio</p>
+                <p class="version">Wersja 1.0.56<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -2671,7 +2671,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.55<br>Projekt i realizacja: PePe.Studio</p>
+                    <p class="version">Wersja 1.0.56<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -2871,7 +2871,7 @@
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.55";
+        let appActiveVersion = "Wersja 1.0.56";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -6099,7 +6099,7 @@ Ref.: Oto są baranki...`
                     appActiveVersion = `Wersja ${activeCacheKey.replace("epp-pwa-cache-v", "")}`;
                 }
                 document.querySelectorAll(".version").forEach(element => {
-                    element.innerHTML = `${appActiveVersion}<br>Projekt i realizacja: PePe.Studio`;
+                    element.innerHTML = `${appActiveVersion}<br>© 2026 PePe.Studio`;
                 });
             }).catch(() => {});
         }
