@@ -68,6 +68,10 @@ required_files = [
     "icon-192.png",
     "icon-512.png",
     "logo.png",
+    "splash-screen.png",
+    "data/songs.js",
+    "data/prayers.js",
+    "data/liturgy.js",
 ]
 
 for day in range(1, 16):
@@ -86,8 +90,8 @@ except Exception as error:
 index_html = read_text("index.html")
 sw_js = read_text("sw.js")
 
-if "user-scalable=no" in index_html or "maximum-scale=1" in index_html:
-    fail("Viewport blocks user zoom")
+if "user-scalable=no" not in index_html or "maximum-scale=1" not in index_html:
+    fail("Viewport should keep app-scale zoom locked for native-like PWA navigation")
 
 if "preventDoubleTapZoom" in index_html:
     fail("Legacy zoom-blocking function is still present")
@@ -98,6 +102,15 @@ for stale_pattern in ["img/dzien", "img/augustow", ".jpg"]:
 
 if "cdn.tailwindcss.com" in sw_js or "fonts.googleapis.com" in sw_js:
     fail("Service worker still precaches external assets that are not required by the app")
+
+if "data/liturgy.js" not in sw_js:
+    fail("Service worker should precache the liturgy data file")
+
+if "splash-screen.png" not in sw_js:
+    fail("Service worker should precache the app splash screen")
+
+if "ROUTE_IMAGE_ASSETS" not in sw_js or "...ROUTE_IMAGE_ASSETS" not in sw_js:
+    fail("Service worker should precache route images for offline map access")
 
 index_version_match = re.search(r'let appActiveVersion = "Wersja ([^"]+)"', index_html)
 sw_version_match = re.search(r"CACHE_NAME = 'epp-pwa-cache-v([^']+)'", sw_js)
@@ -113,8 +126,20 @@ if index_version_match and sw_version_match and index_version_match.group(1) != 
 if "handleModalKeydown" not in index_html or "openModal(" not in index_html:
     fail("Modal focus/keyboard handling is missing")
 
+if "const rootViewNames = new Set" not in index_html or "isRootView(viewName)" not in index_html:
+    fail("Root-view navigation history guard is missing")
+
 if "data-full-src" not in index_html or "openImagePreview" not in index_html:
     fail("Route image preview wiring is missing")
+
+if "#image-modal .modal-card" not in index_html:
+    fail("Route image preview should use a full-screen modal layout")
+
+if "imageCaption.textContent = src" in index_html:
+    fail("Image preview still exposes the raw image filename")
+
+if "- obraz trasy" in index_html:
+    fail("Route image titles should use route names instead of generic day labels")
 
 if "setTimeout(requestRouteLocationAccess, 700)" in index_html:
     fail("Location permission is still requested automatically on app startup")
