@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.60';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.61';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
@@ -7,6 +7,25 @@ const ROUTE_IMAGE_ASSETS = Array.from({ length: 15 }, (_, index) => {
     const day = String(index + 1).padStart(2, '0');
     return scopePath + `trasa/dzien-${day}.png`;
 });
+
+const APPLE_STARTUP_ASSETS = [
+    'splash/iphone-5-se.png',
+    'splash/iphone-6-7-8-se.png',
+    'splash/iphone-plus.png',
+    'splash/iphone-x-xs-11pro.png',
+    'splash/iphone-xr-11.png',
+    'splash/iphone-xsmax-11promax.png',
+    'splash/iphone-12-13-mini.png',
+    'splash/iphone-12-13-14.png',
+    'splash/iphone-12-13-14-promax.png',
+    'splash/iphone-14pro-15-15pro.png',
+    'splash/iphone-14promax-15plus-15promax.png',
+    'splash/ipad-9-7.png',
+    'splash/ipad-10-2.png',
+    'splash/ipad-10-5-11.png',
+    'splash/ipad-11-modern.png',
+    'splash/ipad-12-9.png'
+].map(asset => scopePath + asset);
 
 const CORE_ASSETS_TO_CACHE = [
     scopePath,
@@ -19,6 +38,7 @@ const CORE_ASSETS_TO_CACHE = [
     scopePath + 'data/songs.js',
     scopePath + 'data/prayers.js',
     scopePath + 'data/liturgy.js',
+    ...APPLE_STARTUP_ASSETS,
     ...ROUTE_IMAGE_ASSETS
 ];
 
