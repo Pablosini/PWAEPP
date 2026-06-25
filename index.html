@@ -675,8 +675,9 @@
     <script src="data/prayers.js"></script>
     <script src="data/liturgy.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.64";
+        let appActiveVersion = "Wersja 1.0.65";
         let deferredPrompt = null;
+        let installModalSource = "manual";
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
         let openRouteDayId = null;
@@ -2818,7 +2819,8 @@ Ref.: Oto są baranki...`
             safeStorage.setItem("epp-concept-beta-visited", "true");
             safeStorage.setItem(introNoticeStorageKey, "true");
             closeModal(introModal, { restoreFocus: false });
-            window.setTimeout(showSurveyPromptIfNeeded, 150);
+            window.setTimeout(showStartupInstallNudgeIfNeeded, 150);
+            window.setTimeout(showSurveyPromptIfNeeded, 700);
         }
 
         function openKadraLogin() {
@@ -3495,6 +3497,29 @@ Ref.: Oto są baranki...`
             return !isRunningStandalone() && safeStorage.getItem("epp-concept-app-installed") !== "true";
         }
 
+        const installNudgeStorageKey = "epp-concept-install-nudge-v1";
+        const installNudgeRepeatMs = 1000 * 60 * 60 * 24;
+
+        function shouldShowStartupInstallNudge() {
+            if (!shouldShowInstallRow()) return false;
+            const lastSeen = Number(safeStorage.getItem(installNudgeStorageKey) || 0);
+            return !lastSeen || Date.now() - lastSeen > installNudgeRepeatMs;
+        }
+
+        function markStartupInstallNudgeSeen() {
+            safeStorage.setItem(installNudgeStorageKey, String(Date.now()));
+        }
+
+        function showStartupInstallNudgeIfNeeded() {
+            if (!shouldShowStartupInstallNudge()) return;
+            if (activeModal || (introModal && !introModal.hidden)) return;
+
+            window.setTimeout(() => {
+                if (!shouldShowStartupInstallNudge() || activeModal || isRunningStandalone()) return;
+                openInstallModal({ source: "startup" });
+            }, 350);
+        }
+
         function wait(ms) {
             return new Promise(resolve => window.setTimeout(resolve, ms));
         }
@@ -3619,6 +3644,7 @@ Ref.: Oto są baranki...`
         function showSurveyPromptIfNeeded(options = {}) {
             if (!surveyModal || !shouldShowSurveyPrompt()) return;
             if (!options.ignoreIntro && introModal && !introModal.hidden) return;
+            if (!options.ignoreActiveModal && activeModal) return;
             if (forceSurveyPromptPreview && introModal && !introModal.hidden) {
                 closeModal(introModal, { restoreFocus: false });
             }
@@ -3715,11 +3741,25 @@ Ref.: Oto są baranki...`
 	            `).join("");
 	        }
 
-        function openInstallModal() {
+        function openInstallModal(options = {}) {
             if (!shouldShowInstallRow()) return;
+            installModalSource = options.source || "manual";
             const content = document.getElementById("install-modal-content");
+            const installTitle = document.getElementById("install-title");
+            const installClose = document.getElementById("install-close");
+            const installCancel = document.getElementById("install-cancel");
             const installContext = getInstallContext();
             installNative.hidden = true;
+            installNative.textContent = installModalSource === "startup" ? "Zainstaluj teraz" : "Dodaj automatycznie";
+            if (installTitle) {
+                installTitle.textContent = installModalSource === "startup"
+                    ? "Dodaj aplikację do telefonu"
+                    : "Dodaj aplikację";
+            }
+            if (installClose) installClose.hidden = installModalSource === "startup";
+            if (installCancel) {
+                installCancel.textContent = installModalSource === "startup" ? "Zrobię to później" : "Później";
+            }
 
             if (isRunningStandalone()) {
                 content.innerHTML = `
@@ -3796,10 +3836,26 @@ Ref.: Oto są baranki...`
                 `;
             }
 
-            openModal(installModal, installNative.hidden ? "#install-close" : "#install-native");
+            if (installModalSource === "startup") {
+                content.insertAdjacentHTML("afterbegin", `
+                    <div class="install-benefits">
+                        <strong>Pełne działanie aplikacji uzyskasz po dodaniu jej do ekranu głównego.</strong>
+                        <span>Otwiera się pełnoekranowo, działa offline i zachowuje się bardziej jak normalna aplikacja w telefonie.</span>
+                    </div>
+                `);
+            }
+
+            const focusTarget = installNative.hidden
+                ? (installModalSource === "startup" ? "#install-cancel" : "#install-close")
+                : "#install-native";
+            openModal(installModal, focusTarget);
         }
 
         function closeInstallModal() {
+            if (installModalSource === "startup") {
+                markStartupInstallNudgeSeen();
+            }
+            installModalSource = "manual";
             safeStorage.setItem("epp-concept-banner-dismissed", "true");
             closeModal(installModal);
             updateActionStatuses();
@@ -3888,6 +3944,7 @@ Ref.: Oto są baranki...`
                 .then((registration) => {
                     serviceWorkerReady = true;
                     updateActionStatuses();
+                    showStartupInstallNudgeIfNeeded();
                     triggerDynamicVersionDisplay();
                     registration.update().catch(() => {});
                 })
@@ -3977,12 +4034,14 @@ Ref.: Oto są baranki...`
             event.preventDefault();
             deferredPrompt = event;
             updateActionStatuses();
+            showStartupInstallNudgeIfNeeded();
         });
 
         window.addEventListener("appinstalled", () => {
             deferredPrompt = null;
             safeStorage.setItem("epp-concept-banner-dismissed", "true");
             safeStorage.setItem("epp-concept-app-installed", "true");
+            markStartupInstallNudgeSeen();
             showToast("Skrót pomyślnie dodany do ekranu głównego.");
             updateActionStatuses();
         });
@@ -4004,6 +4063,7 @@ Ref.: Oto są baranki...`
             registerPwaServiceWorker();
             triggerDynamicVersionDisplay();
             showIntroIfNeeded();
+            showStartupInstallNudgeIfNeeded();
             showSurveyPromptIfNeeded({ ignoreIntro: forceSurveyPromptPreview });
         }
 
