@@ -9,8 +9,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f4dfbd",
-  "theme_color": "#f4dfbd",
+  "background_color": "#eac9a1",
+  "theme_color": "#eac9a1",
   "prefer_related_applications": false,
   "categories": ["lifestyle", "travel"],
   "icons": [
