@@ -62,9 +62,11 @@ def extract_js_array(source, const_name):
 
 required_files = [
     "index.html",
+    "styles.css",
     "manifest.json",
     "sw.js",
     "404.html",
+    "apple-touch-icon.png",
     "icon-192.png",
     "icon-512.png",
     "logo.png",
@@ -77,6 +79,26 @@ required_files = [
 for day in range(1, 16):
     required_files.append(f"trasa/dzien-{day:02d}.png")
 
+for startup_image in [
+    "splash/iphone-5-se.png",
+    "splash/iphone-6-7-8-se.png",
+    "splash/iphone-plus.png",
+    "splash/iphone-x-xs-11pro.png",
+    "splash/iphone-xr-11.png",
+    "splash/iphone-xsmax-11promax.png",
+    "splash/iphone-12-13-mini.png",
+    "splash/iphone-12-13-14.png",
+    "splash/iphone-12-13-14-promax.png",
+    "splash/iphone-14pro-15-15pro.png",
+    "splash/iphone-14promax-15plus-15promax.png",
+    "splash/ipad-9-7.png",
+    "splash/ipad-10-2.png",
+    "splash/ipad-10-5-11.png",
+    "splash/ipad-11-modern.png",
+    "splash/ipad-12-9.png",
+]:
+    required_files.append(startup_image)
+
 for relative_path in required_files:
     if not (ROOT / relative_path).exists():
         fail(f"Missing required file: {relative_path}")
@@ -88,6 +110,7 @@ except Exception as error:
     fail(f"manifest.json is not valid JSON: {error}")
 
 index_html = read_text("index.html")
+styles_css = read_text("styles.css")
 sw_js = read_text("sw.js")
 
 if "user-scalable=no" not in index_html or "maximum-scale=1" not in index_html:
@@ -103,11 +126,38 @@ for stale_pattern in ["img/dzien", "img/augustow", ".jpg"]:
 if "cdn.tailwindcss.com" in sw_js or "fonts.googleapis.com" in sw_js:
     fail("Service worker still precaches external assets that are not required by the app")
 
+if 'href="styles.css"' not in index_html:
+    fail("index.html should load the extracted styles.css file")
+
+if "styles.css" not in sw_js:
+    fail("Service worker should precache styles.css for offline rendering")
+
+if ".app-splash" not in styles_css:
+    fail("styles.css should contain the full app styles, including splash styling")
+
 if "data/liturgy.js" not in sw_js:
     fail("Service worker should precache the liturgy data file")
 
 if "splash-screen.png" not in sw_js:
     fail("Service worker should precache the app splash screen")
+
+if "apple-touch-icon.png" not in sw_js:
+    fail("Service worker should precache the Apple touch icon")
+
+if "APPLE_STARTUP_ASSETS" not in sw_js or "...APPLE_STARTUP_ASSETS" not in sw_js:
+    fail("Service worker should precache iOS startup images")
+
+if "apple-touch-startup-image" not in index_html:
+    fail("iOS startup images should be linked in index.html")
+
+for required_splash_snippet in [
+    "appSplashMinimumMs = 3000",
+    "appSplashFadeMs = 560",
+    "is-hiding",
+    "startApplication()",
+]:
+    if required_splash_snippet not in index_html:
+        fail(f"App splash timing/fade wiring is missing: {required_splash_snippet}")
 
 if "ROUTE_IMAGE_ASSETS" not in sw_js or "...ROUTE_IMAGE_ASSETS" not in sw_js:
     fail("Service worker should precache route images for offline map access")
@@ -132,7 +182,7 @@ if "const rootViewNames = new Set" not in index_html or "isRootView(viewName)" n
 if "data-full-src" not in index_html or "openImagePreview" not in index_html:
     fail("Route image preview wiring is missing")
 
-if "#image-modal .modal-card" not in index_html:
+if "#image-modal .modal-card" not in styles_css:
     fail("Route image preview should use a full-screen modal layout")
 
 if "imageCaption.textContent = src" in index_html:
