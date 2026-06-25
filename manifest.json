@@ -1,6 +1,6 @@
 {
-  "name": "logo.png",
-  "short_name": "logo.png",
+  "name": "EPP na Jasną Górę",
+  "short_name": "EPP na Jasną Górę",
   "description": "Oficjalna aplikacja Ełckiej Pielgrzymki Pieszej 2026.",
   "lang": "pl-PL",
   "dir": "ltr",
@@ -16,9 +16,9 @@
   "categories": ["lifestyle", "travel"],
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "icon-192.png",
       "type": "image/png",
-      "sizes": "512x512",
+      "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
