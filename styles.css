@@ -1743,6 +1743,31 @@
             margin-top: 14px;
         }
 
+        .install-benefits {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--primary) 12%, var(--surface-soft));
+            border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--line));
+        }
+
+        .install-benefits strong {
+            display: block;
+            color: var(--text);
+            font-size: 0.96rem;
+            line-height: 1.35;
+            font-weight: 950;
+        }
+
+        .install-benefits span {
+            display: block;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.45;
+            font-weight: 700;
+        }
+
         .contact-group {
             display: grid;
             gap: 10px;
