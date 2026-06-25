@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" id="theme-color" content="#fbf7ef">
+    <meta name="theme-color" id="theme-color" content="#f4dfbd">
     <meta name="color-scheme" id="color-scheme" content="light dark">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,6 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="default">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
+    <link rel="preload" href="splash-screen.png" as="image" fetchpriority="high">
     <title>EPP na Jasną Górę</title>
     <style>
         :root {
@@ -147,10 +148,15 @@
         .app-splash {
             position: fixed;
             inset: 0;
-            z-index: 100;
+            z-index: 9999;
             display: grid;
             place-items: center;
-            background: #fbf7ef;
+            width: 100vw;
+            height: 100vh;
+            height: 100svh;
+            overflow: hidden;
+            background: #f4dfbd;
+            touch-action: none;
         }
 
         .app-splash.is-hidden {
@@ -158,28 +164,12 @@
         }
 
         .app-splash img {
-            width: min(54vw, 168px);
-            max-width: 168px;
-            height: auto;
+            width: 100%;
+            height: 100%;
+            max-width: none;
             display: block;
-            animation: splash-logo 950ms ease-in-out infinite alternate;
-        }
-
-        @keyframes splash-logo {
-            from {
-                transform: translateY(3px) scale(0.985);
-                opacity: 0.86;
-            }
-            to {
-                transform: translateY(-3px) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .app-splash img {
-                animation: none;
-            }
+            object-fit: cover;
+            object-position: center;
         }
 
         .topbar {
@@ -1295,7 +1285,48 @@
 
         .liturgy-card {
             display: grid;
+            gap: 0;
+            overflow: hidden;
+        }
+
+        .liturgy-card summary {
+            min-height: 76px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 30px;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            touch-action: manipulation;
+            list-style: none;
+        }
+
+        .liturgy-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .liturgy-card summary::after {
+            content: "+";
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: color-mix(in srgb, var(--primary) 12%, transparent);
+            color: var(--primary-strong);
+            font-size: 1.28rem;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .liturgy-card[open] summary::after {
+            content: "−";
+        }
+
+        .liturgy-card-body {
+            display: grid;
             gap: 14px;
+            padding-top: 4px;
+            border-top: 1px solid var(--line);
         }
 
         .liturgy-card-top {
@@ -1319,6 +1350,13 @@
             font-size: 1.05rem;
             line-height: 1.25;
             font-weight: 950;
+        }
+
+        .liturgy-summary-note {
+            color: var(--muted);
+            font-size: 0.76rem;
+            line-height: 1.35;
+            font-weight: 760;
         }
 
         .liturgy-readings {
@@ -1354,23 +1392,44 @@
             overflow-wrap: anywhere;
         }
 
-        .liturgy-source {
-            min-height: 42px;
-            padding: 0 14px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            justify-self: start;
-            background: color-mix(in srgb, var(--primary) 12%, transparent);
-            border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--line));
-            color: var(--primary-strong);
-            text-decoration: none;
-            font-size: 0.76rem;
-            line-height: 1.2;
-            font-weight: 950;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
+        .liturgy-row small {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.45;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .liturgy-row p {
+            margin: 8px 0 0;
+            color: var(--text);
+            font-size: 0.94rem;
+            line-height: 1.55;
+            white-space: pre-line;
+        }
+
+        .liturgy-empty-text {
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .liturgy-row.is-commentary {
+            border-color: color-mix(in srgb, var(--primary) 32%, var(--line));
+            background: color-mix(in srgb, var(--primary) 9%, var(--surface-soft));
+        }
+
+        .liturgy-source-note {
+            display: block;
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 0.68rem;
+            line-height: 1.35;
+            font-weight: 650;
+            letter-spacing: 0;
+            text-transform: none;
         }
 
         .regulation-content {
@@ -1493,6 +1552,71 @@
         .detail-text.structured-detail-text {
             display: block;
             white-space: normal;
+        }
+
+        .detail-text.liturgy-detail-text {
+            display: grid;
+            gap: 18px;
+            white-space: normal;
+        }
+
+        .liturgy-detail-section {
+            padding: 14px;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
+        }
+
+        .liturgy-detail-section.is-commentary {
+            border-color: color-mix(in srgb, var(--primary) 32%, var(--line));
+            background: color-mix(in srgb, var(--primary) 9%, var(--surface-soft));
+        }
+
+        .liturgy-detail-label {
+            display: block;
+            color: var(--primary);
+            font-size: 0.68rem;
+            line-height: 1.25;
+            font-weight: 950;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .liturgy-detail-ref {
+            display: block;
+            margin-top: 5px;
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.3;
+            font-weight: 950;
+        }
+
+        .liturgy-detail-title {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            font-weight: 760;
+        }
+
+        .liturgy-detail-body {
+            margin: 12px 0 0;
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.64;
+            font-weight: 650;
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+        }
+
+        .liturgy-detail-source {
+            display: block;
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 0.72rem;
+            line-height: 1.35;
+            font-weight: 650;
         }
 
         .detail-section {
@@ -2305,7 +2429,7 @@
 </head>
 <body>
     <div class="app-splash" id="app-splash" aria-hidden="true">
-        <img src="icon-512.png" alt="">
+        <img src="splash-screen.png" alt="">
     </div>
 
     <div class="app">
@@ -2516,7 +2640,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="liturgy-list" id="liturgy-list"></div>
+                <div class="list" id="liturgy-list"></div>
             </section>
 
             <section class="view" id="view-route" data-view="route">
@@ -2870,8 +2994,9 @@
 
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
+    <script src="data/liturgy.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.56";
+        let appActiveVersion = "Wersja 1.0.60";
         let deferredPrompt = null;
         let serviceWorkerReady = false;
         let serviceWorkerRefreshPending = false;
@@ -3096,146 +3221,7 @@ Ref.: Oto są baranki...`
 
         const prayers = prayerSourceData.map(normalizeContentSourceItem);
 
-        const liturgyDays = [
-            {
-                day: 1,
-                date: "28.07.2026",
-                title: "Wtorek XVII tygodnia zwykłego",
-                reading1: "Jr 14,17-22",
-                psalm: "Ps 79,8.9.11.13",
-                gospel: "Mt 13,36-43",
-                source: "https://bible.usccb.org/bible/readings/072826.cfm"
-            },
-            {
-                day: 2,
-                date: "29.07.2026",
-                title: "Wspomnienie świętych Marty, Marii i Łazarza",
-                reading1: "Jr 15,10.16-21",
-                psalm: "Ps 59,2-3.4.10-11.17.18",
-                gospel: "J 11,19-27 albo Łk 10,38-42",
-                source: "https://bible.usccb.org/bible/readings/072926.cfm"
-            },
-            {
-                day: 3,
-                date: "30.07.2026",
-                title: "Czwartek XVII tygodnia zwykłego",
-                reading1: "Jr 18,1-6",
-                psalm: "Ps 146,1b-2.3-4.5-6ab",
-                gospel: "Mt 13,47-53",
-                source: "https://bible.usccb.org/bible/readings/073026.cfm"
-            },
-            {
-                day: 4,
-                date: "31.07.2026",
-                title: "Wspomnienie św. Ignacego z Loyoli, prezbitera",
-                reading1: "Jr 26,1-9",
-                psalm: "Ps 69,5.8-10.14",
-                gospel: "Mt 13,54-58",
-                source: "https://bible.usccb.org/bible/readings/073126.cfm"
-            },
-            {
-                day: 5,
-                date: "01.08.2026",
-                title: "Wspomnienie św. Alfonsa Marii Liguoriego, biskupa i doktora Kościoła",
-                reading1: "Jr 26,11-16.24",
-                psalm: "Ps 69,15-16.30-31.33-34",
-                gospel: "Mt 14,1-12",
-                source: "https://bible.usccb.org/bible/readings/080126"
-            },
-            {
-                day: 6,
-                date: "02.08.2026",
-                title: "XVIII niedziela zwykła",
-                reading1: "Iz 55,1-3",
-                psalm: "Ps 145,8-9.15-16.17-18",
-                reading2: "Rz 8,35.37-39",
-                gospel: "Mt 14,13-21",
-                source: "https://bible.usccb.org/bible/readings/080226.cfm"
-            },
-            {
-                day: 7,
-                date: "03.08.2026",
-                title: "Poniedziałek XVIII tygodnia zwykłego",
-                reading1: "Jr 28,1-17",
-                psalm: "Ps 119,29.43.79.80.95.102",
-                gospel: "Mt 14,22-36",
-                source: "https://bible.usccb.org/bible/readings/080326.cfm"
-            },
-            {
-                day: 8,
-                date: "04.08.2026",
-                title: "Wspomnienie św. Jana Marii Vianneya, prezbitera",
-                reading1: "Jr 30,1-2.12-15.18-22",
-                psalm: "Ps 102,16-18.19-21.29.22-23",
-                gospel: "Mt 14,22-36 albo Mt 15,1-2.10-14",
-                source: "https://bible.usccb.org/bible/readings/080426.cfm"
-            },
-            {
-                day: 9,
-                date: "05.08.2026",
-                title: "Środa XVIII tygodnia zwykłego",
-                reading1: "Jr 31,1-7",
-                psalm: "Jr 31,10.11-12ab.13",
-                gospel: "Mt 15,21-28",
-                source: "https://bible.usccb.org/bible/readings/080526.cfm"
-            },
-            {
-                day: 10,
-                date: "06.08.2026",
-                title: "Święto Przemienienia Pańskiego",
-                reading1: "Dn 7,9-10.13-14",
-                psalm: "Ps 97,1-2.5-6.9",
-                reading2: "2 P 1,16-19",
-                gospel: "Mt 17,1-9",
-                source: "https://bible.usccb.org/bible/readings/080626.cfm"
-            },
-            {
-                day: 11,
-                date: "07.08.2026",
-                title: "Piątek XVIII tygodnia zwykłego",
-                reading1: "Na 2,1.3; 3,1-3.6-7",
-                psalm: "Pwt 32,35cd-36ab.39abcd.41",
-                gospel: "Mt 16,24-28",
-                source: "https://bible.usccb.org/bible/readings/080726.cfm"
-            },
-            {
-                day: 12,
-                date: "08.08.2026",
-                title: "Wspomnienie św. Dominika, prezbitera",
-                reading1: "Ha 1,12-2,4",
-                psalm: "Ps 9,8-9.10-11.12-13",
-                gospel: "Mt 17,14-20",
-                source: "https://bible.usccb.org/bible/readings/memorial-saint-dominic-priest"
-            },
-            {
-                day: 13,
-                date: "09.08.2026",
-                title: "XIX niedziela zwykła",
-                reading1: "1 Krl 19,9a.11-13a",
-                psalm: "Ps 85,9.10.11-12.13-14",
-                reading2: "Rz 9,1-5",
-                gospel: "Mt 14,22-33",
-                source: "https://bible.usccb.org/bible/readings/080926.cfm"
-            },
-            {
-                day: 14,
-                date: "10.08.2026",
-                title: "Święto św. Wawrzyńca, diakona i męczennika",
-                reading1: "2 Kor 9,6-10",
-                psalm: "Ps 112,1-2.5-6.7-8.9",
-                gospel: "J 12,24-26",
-                source: "https://bible.usccb.org/bible/readings/081026.cfm"
-            },
-            {
-                day: 15,
-                date: "11.08.2026",
-                title: "Wspomnienie św. Klary, dziewicy",
-                reading1: "Ez 2,8-3,4",
-                psalm: "Ps 119,14.24.72.103.111.131",
-                gospel: "Mt 18,1-5.10.12-14",
-                source: "https://bible.usccb.org/bible/readings/081126.cfm"
-            }
-        ];
+        const liturgyDays = Array.isArray(window.EPP_LITURGY) ? window.EPP_LITURGY : [];
 
         const bibleQuotes = [
             "Pan jest pasterzem moim, nie brak mi niczego. Pozwala mi leżeć na zielonych pastwiskach. (Ps 23, 1-2)",
@@ -5224,18 +5210,59 @@ Ref.: Oto są baranki...`
                 .replace(/'/g, "&#039;");
         }
 
-        function renderLiturgyRows(day) {
+        function getLiturgyReadings(day) {
+            if (Array.isArray(day.readings)) {
+                return day.readings.map(reading => ({
+                    label: reading.type || reading.label || "Czytanie",
+                    ref: reading.ref || reading.value || "",
+                    title: reading.title || "",
+                    text: reading.text || ""
+                }));
+            }
+
             return [
-                { label: "Czytanie I", value: day.reading1 },
-                { label: "Psalm", value: day.psalm },
-                day.reading2 ? { label: "Czytanie II", value: day.reading2 } : null,
-                { label: "Ewangelia", value: day.gospel }
-            ].filter(Boolean).map(row => `
-                <div class="liturgy-row">
-                    <span>${escapeHtml(row.label)}</span>
-                    <strong>${escapeHtml(row.value)}</strong>
-                </div>
-            `).join("");
+                { label: "Czytanie I", ref: day.reading1, title: "", text: "" },
+                { label: "Psalm", ref: day.psalm, title: "", text: "" },
+                day.reading2 ? { label: "Czytanie II", ref: day.reading2, title: "", text: "" } : null,
+                { label: "Ewangelia", ref: day.gospel, title: "", text: "" }
+            ].filter(Boolean);
+        }
+
+        function renderLiturgyDetailSection(section, options = {}) {
+            const body = normalizeDetailText(section.text || "");
+            return `
+                <section class="liturgy-detail-section ${options.commentary ? "is-commentary" : ""}">
+                    <span class="liturgy-detail-label">${escapeHtml(section.label)}</span>
+                    ${section.ref ? `<strong class="liturgy-detail-ref">${escapeHtml(section.ref)}</strong>` : ""}
+                    ${section.title ? `<span class="liturgy-detail-title">${escapeHtml(section.title)}</span>` : ""}
+                    <p class="liturgy-detail-body">${escapeHtml(body || "Treść zostanie uzupełniona.")}</p>
+                    ${options.commentary ? `<small class="liturgy-detail-source">Źródło: www.paulus.org.pl</small>` : ""}
+                </section>
+            `;
+        }
+
+        function renderLiturgyDetail(index) {
+            const day = liturgyDays[index];
+            if (!day) return;
+
+            const detailText = document.getElementById("detail-text");
+            document.getElementById("detail-title").textContent = `${day.date} · Liturgia Słowa`;
+            detailText.classList.remove("song-detail-text", "structured-detail-text");
+            detailText.classList.add("liturgy-detail-text");
+
+            const commentary = day.commentary || {};
+            const sections = [
+                ...getLiturgyReadings(day).map(section => renderLiturgyDetailSection(section)),
+                renderLiturgyDetailSection({
+                    label: "Komentarz",
+                    ref: "",
+                    title: typeof commentary === "string" ? commentary : commentary.title || "",
+                    text: typeof commentary === "object" ? commentary.text || "" : ""
+                }, { commentary: true })
+            ];
+
+            detailText.innerHTML = sections.join("");
+            openView("detail");
         }
 
         function renderLiturgy() {
@@ -5243,16 +5270,14 @@ Ref.: Oto są baranki...`
             if (!target) return;
 
             target.innerHTML = liturgyDays.map(day => `
-                <article class="content-card liturgy-card">
-                    <div class="liturgy-card-top">
-                        <span class="liturgy-date">Dzień ${day.day} · ${escapeHtml(day.date)}</span>
-                        <h3 class="liturgy-title">${escapeHtml(day.title)}</h3>
-                    </div>
-                    <div class="liturgy-readings">
-                        ${renderLiturgyRows(day)}
-                    </div>
-                    <a class="liturgy-source" href="${escapeHtml(day.source)}" target="_blank" rel="noopener noreferrer">Źródło czytań</a>
-                </article>
+                <button class="list-row" type="button" data-liturgy-index="${day.day - 1}">
+                    <span class="row-number">${day.day}</span>
+                    <span>
+                        <span class="row-title">${escapeHtml(day.date)}</span>
+                        <span class="row-subtitle">${escapeHtml(day.title)}</span>
+                    </span>
+                    <span class="chevron">›</span>
+                </button>
             `).join("");
         }
 
@@ -5693,6 +5718,7 @@ Ref.: Oto są baranki...`
             document.getElementById("detail-title").textContent = item.title;
             const detailText = document.getElementById("detail-text");
             const hasSections = Array.isArray(item.sections) && item.sections.length > 0;
+            detailText.classList.remove("liturgy-detail-text");
             detailText.classList.toggle("structured-detail-text", hasSections);
             detailText.classList.toggle("song-detail-text", type === "songs" && !hasSections);
             if (hasSections) {
@@ -6209,6 +6235,12 @@ Ref.: Oto są baranki...`
             const button = event.target.closest("[data-content-type]");
             if (!button) return;
             renderContentDetail(button.dataset.contentType, Number(button.dataset.contentIndex));
+        });
+
+        document.getElementById("liturgy-list").addEventListener("click", event => {
+            const button = event.target.closest("[data-liturgy-index]");
+            if (!button) return;
+            renderLiturgyDetail(Number(button.dataset.liturgyIndex));
         });
 
         themeToggle.addEventListener("click", () => setTheme(!html.classList.contains("dark")));
