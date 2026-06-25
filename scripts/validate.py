@@ -159,6 +159,17 @@ for required_splash_snippet in [
     if required_splash_snippet not in index_html:
         fail(f"App splash timing/fade wiring is missing: {required_splash_snippet}")
 
+for required_install_nudge_snippet in [
+    "installNudgeStorageKey",
+    "showStartupInstallNudgeIfNeeded",
+    "openInstallModal({ source: \"startup\" })",
+]:
+    if required_install_nudge_snippet not in index_html:
+        fail(f"Startup install nudge is missing: {required_install_nudge_snippet}")
+
+if ".install-benefits" not in styles_css:
+    fail("Startup install nudge styles are missing")
+
 if "ROUTE_IMAGE_ASSETS" not in sw_js or "...ROUTE_IMAGE_ASSETS" not in sw_js:
     fail("Service worker should precache route images for offline map access")
 
