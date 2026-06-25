@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.61';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.64';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
@@ -30,9 +30,11 @@ const APPLE_STARTUP_ASSETS = [
 const CORE_ASSETS_TO_CACHE = [
     scopePath,
     scopePath + 'index.html',
+    scopePath + 'styles.css',
     scopePath + '404.html',
     scopePath + 'manifest.json',
     scopePath + 'splash-screen.png',
+    scopePath + 'apple-touch-icon.png',
     scopePath + 'icon-192.png',
     scopePath + 'icon-512.png',
     scopePath + 'data/songs.js',
