@@ -1,6 +1,6 @@
 {
   "name": "EPP na Jasną Górę",
-  "short_name": "EPP",
+  "short_name": "EPP na Jasną Górę",
   "description": "Oficjalna aplikacja Ełckiej Pielgrzymki Pieszej 2026.",
   "lang": "pl-PL",
   "dir": "ltr",
@@ -9,7 +9,7 @@
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone"],
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#eac9a1",
   "theme_color": "#eac9a1",
   "prefer_related_applications": false,
