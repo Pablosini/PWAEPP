@@ -16,17 +16,18 @@
             --safe-left: env(safe-area-inset-left, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
             --nav-count: 4;
-            --nav-item-height: 54px;
-            --nav-padding-top: 8px;
-            --nav-padding-bottom: max(10px, calc(var(--safe-bottom) + 8px));
-            --nav-padding-left: max(12px, calc(var(--safe-left) + 12px));
-            --nav-padding-right: max(12px, calc(var(--safe-right) + 12px));
+            --nav-item-height: clamp(48px, 6.5dvh, 56px);
+            --nav-padding-top: clamp(6px, 1dvh, 10px);
+            --nav-padding-bottom: max(10px, calc(var(--safe-bottom) + clamp(8px, 1.2dvh, 12px)));
+            --nav-padding-left: max(12px, calc(var(--safe-left) + clamp(10px, 3vw, 16px)));
+            --nav-padding-right: max(12px, calc(var(--safe-right) + clamp(10px, 3vw, 16px)));
             --nav-total-height: calc(var(--nav-item-height) + var(--nav-padding-top) + var(--nav-padding-bottom));
-            --page-inline: 18px;
+            --page-inline: clamp(14px, 4vw, 22px);
             --page-left: max(var(--page-inline), calc(var(--safe-left) + var(--page-inline)));
             --page-right: max(var(--page-inline), calc(var(--safe-right) + var(--page-inline)));
             --app-height: 100vh;
-            --app-max-width: 520px;
+            --app-min-height: 100vh;
+            --app-max-width: min(100vw, 560px);
             color-scheme: light;
         }
 
@@ -55,10 +56,13 @@
         body {
             width: 100%;
             height: var(--app-height);
+            min-height: 100vh;
+            min-height: var(--app-min-height);
             min-width: 0;
             max-width: 100%;
             margin: 0;
             overflow: hidden;
+            overflow-x: clip;
             background: var(--bg);
             color: var(--text);
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -75,6 +79,15 @@
         @supports (height: 100dvh) {
             :root {
                 --app-height: 100dvh;
+                --app-min-height: 100dvh;
+            }
+        }
+
+        @supports not (height: 100dvh) {
+            @supports (height: 100svh) {
+                :root {
+                    --app-min-height: 100svh;
+                }
             }
         }
 
@@ -117,9 +130,10 @@
         }
 
         .app {
-            width: 100%;
+            width: min(100%, var(--app-max-width));
             height: var(--app-height);
-            max-width: var(--app-max-width);
+            min-height: 100vh;
+            min-height: var(--app-min-height);
             min-width: 0;
             margin: 0 auto;
             display: flex;
@@ -138,6 +152,8 @@
             width: 100vw;
             height: 100vh;
             height: 100svh;
+            height: 100dvh;
+            min-height: 100svh;
             overflow: hidden;
             background: #eac9a1;
             opacity: 1;
@@ -172,7 +188,7 @@
         .topbar {
             flex: 0 0 auto;
             min-width: 0;
-            padding: max(16px, calc(var(--safe-top) + 10px)) var(--page-right) 12px var(--page-left);
+            padding: max(clamp(12px, 2.2dvh, 18px), calc(var(--safe-top) + clamp(8px, 1.5dvh, 12px))) var(--page-right) clamp(8px, 1.6dvh, 13px) var(--page-left);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -193,8 +209,8 @@
         }
 
         .brand-mark {
-            width: 44px;
-            height: 44px;
+            width: clamp(40px, 10vw, 48px);
+            height: clamp(40px, 10vw, 48px);
             border-radius: 14px;
             overflow: hidden;
             background: var(--surface);
@@ -218,7 +234,7 @@
 
         .brand-text strong {
             display: block;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 4.8vw, 1.24rem);
             line-height: 1;
             letter-spacing: 0;
             color: var(--primary-strong);
@@ -232,7 +248,7 @@
             display: block;
             margin-top: 4px;
             color: var(--muted);
-            font-size: 0.68rem;
+            font-size: clamp(0.56rem, 2.8vw, 0.68rem);
             font-weight: 800;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -242,8 +258,8 @@
         }
 
         .icon-button {
-            width: 46px;
-            height: 46px;
+            width: clamp(40px, 10vw, 46px);
+            height: clamp(40px, 10vw, 46px);
             padding: 0;
             border-radius: 50%;
             display: grid;
@@ -279,7 +295,7 @@
             min-width: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 6px var(--page-right) calc(var(--nav-total-height) + 18px) var(--page-left);
+            padding: clamp(4px, 1dvh, 8px) var(--page-right) calc(var(--nav-total-height) + clamp(14px, 2dvh, 22px)) var(--page-left);
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-x: none;
             overscroll-behavior-y: contain;
@@ -295,6 +311,7 @@
             display: none;
             min-width: 0;
             max-width: 100%;
+            overflow-x: clip;
             animation: fade-in 180ms ease-out;
         }
 
@@ -1912,8 +1929,8 @@
         .nav-item span {
             white-space: nowrap;
             max-width: none;
-            overflow: visible;
-            text-overflow: clip;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .action-card[hidden] {
@@ -2424,10 +2441,24 @@
             }
         }
 
+        @media (min-width: 430px) {
+            :root {
+                --page-inline: clamp(18px, 4.5vw, 26px);
+            }
+
+            .action-card {
+                min-height: 142px;
+            }
+
+            .home-hero {
+                padding: clamp(18px, 4vw, 24px);
+            }
+        }
+
         @media (min-width: 700px) {
             :root {
                 --page-inline: 24px;
-                --app-max-width: 640px;
+                --app-max-width: 760px;
             }
 
             body {
@@ -2445,5 +2476,138 @@
 
             .media-grid {
                 grid-template-columns: repeat(2, minmax(160px, 1fr));
+            }
+
+            .route-gallery {
+                gap: 14px;
+            }
+
+            .modal-card {
+                width: min(100%, 460px);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                --page-inline: 32px;
+                --app-max-width: 960px;
+            }
+
+            .screen {
+                padding-bottom: calc(var(--nav-total-height) + 28px);
+            }
+
+            .today {
+                gap: 22px;
+            }
+
+            .action-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .media-grid:not(.route-media-single) {
+                grid-template-columns: repeat(3, minmax(180px, 1fr));
+            }
+
+            .route-public-times {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .modal-card {
+                width: min(100%, 500px);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            :root {
+                --app-max-width: 1040px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 560px) {
+            :root {
+                --page-inline: clamp(12px, 3vw, 20px);
+                --nav-item-height: clamp(42px, 11dvh, 50px);
+                --nav-padding-top: 5px;
+                --nav-padding-bottom: max(7px, calc(var(--safe-bottom) + 5px));
+            }
+
+            .topbar {
+                padding-top: max(7px, calc(var(--safe-top) + 5px));
+                padding-bottom: 6px;
+            }
+
+            .brand-mark,
+            .icon-button {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+            }
+
+            .brand-text strong {
+                font-size: 0.96rem;
+            }
+
+            .brand-text span {
+                display: none;
+            }
+
+            .screen {
+                padding-top: 4px;
+                padding-bottom: calc(var(--nav-total-height) + 10px);
+            }
+
+            .home-hero {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .home-hero-title {
+                font-size: clamp(1.25rem, 5vw, 2rem);
+            }
+
+            .section {
+                margin-top: 14px;
+            }
+
+            .action-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .action-card {
+                min-height: 92px;
+                padding: 10px 8px;
+                gap: 9px;
+            }
+
+            .card-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .action-card strong {
+                font-size: 0.78rem;
+            }
+
+            .nav-item {
+                gap: 2px;
+                font-size: 0.54rem;
+            }
+
+            .nav-item svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .modal-shell {
+                place-items: center;
+                padding-top: max(8px, calc(var(--safe-top) + 6px));
+                padding-bottom: max(8px, calc(var(--safe-bottom) + 6px));
+            }
+
+            .modal-card {
+                max-height: calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - 16px);
+                padding: 16px;
             }
         }
