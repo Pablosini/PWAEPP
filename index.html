@@ -9,7 +9,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="EPP na Jasną Górę">
-    <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" id="ios-status-style" content="black-translucent">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
@@ -390,7 +390,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.56<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.68<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -490,7 +490,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.56<br>© 2026 PePe.Studio</p>
+                    <p class="version">Wersja 1.0.68<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -687,11 +687,26 @@
         <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
     </div>
 
+    <aside class="orientation-guard" aria-live="polite" aria-label="Zmień orientację ekranu">
+        <div class="orientation-guard-card">
+            <div class="orientation-guard-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="7" y="3" width="10" height="18" rx="2"/>
+                    <path d="M11 18h2"/>
+                    <path d="M4 8 2 6l2-2"/>
+                    <path d="M20 16l2 2-2 2"/>
+                </svg>
+            </div>
+            <h2>Obróć telefon pionowo</h2>
+            <p>Aplikacja została przygotowana do wygodnego używania w pionie podczas drogi.</p>
+        </div>
+    </aside>
+
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
     <script src="data/liturgy.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.66";
+        let appActiveVersion = "Wersja 1.0.68";
         let deferredPrompt = null;
         let installModalSource = "manual";
         let serviceWorkerReady = false;
@@ -701,6 +716,7 @@
         let userRoutePosition = null;
         let routeLocationStatus = "unknown";
         let routeLocationWatchId = null;
+        let pendingRootNavigation = null;
         const viewHistory = [];
         const rootViewNames = new Set(["home", "songs", "prayers", "liturgy", "route", "more", "kadra"]);
 
@@ -2406,35 +2422,88 @@ Ref.: Oto są baranki...`
             return viewName === "home" ? baseUrl : `${baseUrl}#${viewName}`;
         }
 
-        function pushAppHistory(viewName) {
+        function getCurrentRootViewName() {
+            if (isRootView(currentViewName)) return currentViewName;
+            return window.history?.state?.appRootView || viewHistory[viewHistory.length - 1] || "home";
+        }
+
+        function getCurrentHistoryDepth() {
+            const depth = Number(window.history?.state?.appStackDepth || 0);
+            return Number.isFinite(depth) ? Math.max(0, depth) : 0;
+        }
+
+        function buildAppHistoryState(viewName, options = {}) {
+            const rootView = options.rootView || (isRootView(viewName) ? viewName : getCurrentRootViewName());
+            const stackDepth = Number.isFinite(Number(options.stackDepth))
+                ? Math.max(0, Number(options.stackDepth))
+                : (isRootView(viewName) ? 0 : getCurrentHistoryDepth() + 1);
+            return {
+                eppApp: true,
+                appView: viewName,
+                appRootView: rootView,
+                appStackDepth: stackDepth,
+                appModal: options.appModal || null
+            };
+        }
+
+        function pushAppHistory(viewName, options = {}) {
             if (!window.history?.pushState) return;
             if (window.location.protocol === "file:") return;
             try {
-                window.history.pushState({ eppApp: true, appView: viewName }, "", viewUrl(viewName));
+                window.history.pushState(buildAppHistoryState(viewName, options), "", viewUrl(viewName));
             } catch (error) {
                 console.warn("Historia aplikacji nie jest dostępna w tym trybie podglądu:", error);
             }
         }
 
-        function replaceAppHistory(viewName) {
+        function replaceAppHistory(viewName, options = {}) {
             if (!window.history?.replaceState) return;
             if (window.location.protocol === "file:") return;
             try {
-                window.history.replaceState({ eppApp: true, appView: viewName }, "", viewUrl(viewName));
+                window.history.replaceState(buildAppHistoryState(viewName, options), "", viewUrl(viewName));
             } catch (error) {
                 console.warn("Historia aplikacji nie jest dostępna w tym trybie podglądu:", error);
             }
+        }
+
+        function syncRootViewHistory(viewName) {
+            if (!window.history?.pushState || window.location.protocol === "file:") return false;
+            const state = window.history.state || {};
+            const currentDepth = getCurrentHistoryDepth();
+
+            if (currentDepth > 0) {
+                pendingRootNavigation = viewName;
+                window.history.go(-currentDepth);
+                return true;
+            }
+
+            if (viewName === "home") {
+                if (state.eppApp && state.appRootView && state.appRootView !== "home") {
+                    pendingRootNavigation = "home";
+                    window.history.back();
+                    return true;
+                }
+                replaceAppHistory("home", { rootView: "home", stackDepth: 0 });
+                return false;
+            }
+
+            if (!state.eppApp || state.appRootView === "home" || currentViewName === "home") {
+                pushAppHistory(viewName, { rootView: viewName, stackDepth: 0 });
+            } else {
+                replaceAppHistory(viewName, { rootView: viewName, stackDepth: 0 });
+            }
+            return false;
         }
 
         function pushImagePreviewHistory() {
             if (!window.history?.pushState) return false;
             if (window.location.protocol === "file:") return false;
             try {
-                window.history.pushState({
-                    eppApp: true,
-                    appView: currentViewName,
+                window.history.pushState(buildAppHistoryState(currentViewName, {
+                    rootView: getCurrentRootViewName(),
+                    stackDepth: getCurrentHistoryDepth() + 1,
                     appModal: "image-preview"
-                }, "", viewUrl(currentViewName));
+                }), "", viewUrl(currentViewName));
                 return true;
             } catch (error) {
                 console.warn("Historia podglądu zdjęcia nie jest dostępna:", error);
@@ -2447,17 +2516,47 @@ Ref.: Oto są baranki...`
         }
 
         function handleSystemBack(event) {
+            if (pendingRootNavigation) {
+                const targetView = pendingRootNavigation;
+                const state = event.state || {};
+
+                if (activeModal === imageModal) {
+                    closeImagePreview({ fromHistory: true, restoreFocus: false });
+                } else if (activeModal) {
+                    closeModal(activeModal, { restoreFocus: false });
+                }
+
+                if (targetView === "home" && state.eppApp && state.appRootView && state.appRootView !== "home") {
+                    window.history.back();
+                    return;
+                }
+
+                pendingRootNavigation = null;
+                viewHistory.length = 0;
+                if (targetView !== "home") viewHistory.push("home");
+                replaceAppHistory(targetView, {
+                    rootView: targetView,
+                    stackDepth: 0
+                });
+                openView(targetView, { skipHistory: true, skipBrowserHistory: true, force: true });
+                return;
+            }
+
             if (activeModal === imageModal && imagePreviewHistoryActive) {
                 closeImagePreview({ fromHistory: true, restoreFocus: false });
                 return;
             }
 
-            const targetView = event.state?.appView || "home";
-            if (viewHistory[viewHistory.length - 1] === targetView) {
-                viewHistory.pop();
-            } else if (isRootView(targetView)) {
+            const state = event.state || {};
+            if (!state.eppApp) return;
+
+            const targetView = state.appView || "home";
+            if (isRootView(targetView)) {
                 viewHistory.length = 0;
                 if (targetView !== "home") viewHistory.push("home");
+            } else {
+                viewHistory.length = 0;
+                viewHistory.push(state.appRootView || "home");
             }
             openView(targetView, { skipHistory: true, skipBrowserHistory: true, force: true });
         }
@@ -2465,7 +2564,10 @@ Ref.: Oto są baranki...`
         function initializeAppHistory() {
             if (window.location.protocol === "file:") return;
             try {
-                replaceAppHistory(currentViewName);
+                if ("scrollRestoration" in window.history) {
+                    window.history.scrollRestoration = "manual";
+                }
+                replaceAppHistory("home", { rootView: "home", stackDepth: 0 });
                 window.addEventListener("popstate", handleSystemBack);
             } catch (error) {
                 console.warn("Nawigacja historii aplikacji została pominięta:", error);
@@ -2492,7 +2594,7 @@ Ref.: Oto są baranki...`
         function updateThemeChrome(isDark) {
             themeMeta.setAttribute("content", isAppSplashVisible() ? splashThemeColor : (isDark ? "#101211" : "#fbf7ef"));
             colorSchemeMeta.setAttribute("content", isDark ? "dark light" : "light dark");
-            iosStatusMeta.setAttribute("content", isDark ? "black-translucent" : "default");
+            iosStatusMeta.setAttribute("content", "black-translucent");
         }
 
         function setTheme(isDark) {
@@ -2676,19 +2778,25 @@ Ref.: Oto są baranki...`
                 return;
             }
             if (viewName === currentViewName && !options.force) return;
+
+            if (!options.skipBrowserHistory && currentViewName !== viewName) {
+                if (isRootView(viewName)) {
+                    const navigationDeferred = syncRootViewHistory(viewName);
+                    if (navigationDeferred) return;
+                } else {
+                    pushAppHistory(viewName, {
+                        rootView: getCurrentRootViewName(),
+                        stackDepth: getCurrentHistoryDepth() + 1
+                    });
+                }
+            }
+
             if (!options.skipHistory && currentViewName && currentViewName !== viewName) {
                 if (isRootView(viewName)) {
                     viewHistory.length = 0;
                     if (viewName !== "home") viewHistory.push("home");
                 } else {
                     viewHistory.push(currentViewName);
-                }
-            }
-            if (!options.skipBrowserHistory && currentViewName !== viewName) {
-                if (isRootView(viewName)) {
-                    replaceAppHistory(viewName);
-                } else {
-                    pushAppHistory(viewName);
                 }
             }
             if (viewName === "more") updateActionStatuses();
@@ -2711,13 +2819,22 @@ Ref.: Oto są baranki...`
         }
 
         function goBack() {
-            if (viewHistory.length && !isRootView(currentViewName) && window.history?.state?.eppApp) {
+            if (activeModal) {
+                closeActiveModal();
+                return;
+            }
+
+            const state = window.history?.state || {};
+            if (state.eppApp && (getCurrentHistoryDepth() > 0 || state.appRootView !== "home")) {
                 window.history.back();
                 return;
             }
             const previous = viewHistory.pop() || "home";
             openView(previous, { skipHistory: true, skipBrowserHistory: true, force: true });
-            replaceAppHistory(previous);
+            replaceAppHistory(previous, {
+                rootView: isRootView(previous) ? previous : "home",
+                stackDepth: isRootView(previous) ? 0 : 1
+            });
         }
 
         function showToast(message) {
