@@ -113,8 +113,25 @@ index_html = read_text("index.html")
 styles_css = read_text("styles.css")
 sw_js = read_text("sw.js")
 
-if "user-scalable=no" not in index_html or "maximum-scale=1" not in index_html:
-    fail("Viewport should keep app-scale zoom locked for native-like PWA navigation")
+required_viewport = 'content="width=device-width, initial-scale=1, viewport-fit=cover"'
+if required_viewport not in index_html:
+    fail("Viewport should use width=device-width, initial-scale=1, viewport-fit=cover")
+
+if "user-scalable=no" in index_html or "maximum-scale=1" in index_html:
+    fail("Viewport should not rely on legacy zoom-locking values")
+
+for required_responsive_snippet in [
+    "env(safe-area-inset-top",
+    "env(safe-area-inset-bottom",
+    "env(safe-area-inset-left",
+    "env(safe-area-inset-right",
+    "--app-min-height: 100dvh",
+    "min-height: var(--app-min-height)",
+    "@media (orientation: landscape)",
+    "@media (min-width: 1024px)",
+]:
+    if required_responsive_snippet not in styles_css and required_responsive_snippet not in index_html:
+        fail(f"Responsive/safe-area wiring is missing: {required_responsive_snippet}")
 
 if "preventDoubleTapZoom" in index_html:
     fail("Legacy zoom-blocking function is still present")
@@ -236,6 +253,8 @@ for day in route_schedule:
 
 if manifest.get("display") != "standalone":
     fail("Manifest display should be standalone")
+if manifest.get("orientation") != "any":
+    fail("Manifest orientation should allow portrait and landscape")
 if manifest.get("start_url") != "./":
     fail("Manifest start_url should be ./")
 if manifest.get("scope") != "./":
