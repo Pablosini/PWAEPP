@@ -126,6 +126,7 @@ for required_responsive_snippet in [
     "env(safe-area-inset-left",
     "env(safe-area-inset-right",
     "--app-min-height: 100dvh",
+    "--app-large-height: 100lvh",
     "min-height: var(--app-min-height)",
     "@media (orientation: landscape)",
     "@media (min-width: 1024px)",
@@ -207,6 +208,18 @@ if "handleModalKeydown" not in index_html or "openModal(" not in index_html:
 if "const rootViewNames = new Set" not in index_html or "isRootView(viewName)" not in index_html:
     fail("Root-view navigation history guard is missing")
 
+for required_navigation_snippet in [
+    "syncRootViewHistory(viewName)",
+    "appStackDepth",
+    "pendingRootNavigation",
+    "window.history.scrollRestoration = \"manual\"",
+]:
+    if required_navigation_snippet not in index_html:
+        fail(f"Native-style navigation wiring is missing: {required_navigation_snippet}")
+
+if "orientation-guard" not in index_html or ".orientation-guard" not in styles_css:
+    fail("Portrait-only orientation guard is missing")
+
 if "data-full-src" not in index_html or "openImagePreview" not in index_html:
     fail("Route image preview wiring is missing")
 
@@ -253,8 +266,8 @@ for day in route_schedule:
 
 if manifest.get("display") != "standalone":
     fail("Manifest display should be standalone")
-if manifest.get("orientation") != "any":
-    fail("Manifest orientation should allow portrait and landscape")
+if manifest.get("orientation") != "portrait":
+    fail("Manifest orientation should be portrait")
 if manifest.get("start_url") != "./":
     fail("Manifest start_url should be ./")
 if manifest.get("scope") != "./":
