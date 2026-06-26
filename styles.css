@@ -18,16 +18,17 @@
             --nav-count: 4;
             --nav-item-height: clamp(48px, 6.5dvh, 56px);
             --nav-padding-top: clamp(6px, 1dvh, 10px);
-            --nav-padding-bottom: max(10px, calc(var(--safe-bottom) + clamp(8px, 1.2dvh, 12px)));
+            --nav-menu-height: max(64px, calc(var(--nav-item-height) + var(--nav-padding-top)));
+            --nav-padding-bottom: var(--safe-bottom);
             --nav-padding-left: max(12px, calc(var(--safe-left) + clamp(10px, 3vw, 16px)));
             --nav-padding-right: max(12px, calc(var(--safe-right) + clamp(10px, 3vw, 16px)));
-            --nav-total-height: calc(var(--nav-item-height) + var(--nav-padding-top) + var(--nav-padding-bottom));
+            --nav-total-height: calc(var(--nav-menu-height) + var(--nav-padding-bottom));
             --page-inline: clamp(14px, 4vw, 22px);
             --page-left: max(var(--page-inline), calc(var(--safe-left) + var(--page-inline)));
             --page-right: max(var(--page-inline), calc(var(--safe-right) + var(--page-inline)));
-            --app-height: 100vh;
-            --app-min-height: 100vh;
-            --app-large-height: 100vh;
+            --app-height: 100svh;
+            --app-min-height: 100svh;
+            --app-large-height: 100lvh;
             --app-max-width: min(100vw, 560px);
             color-scheme: light;
         }
@@ -53,40 +54,31 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html,
+        html {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
         body {
             width: 100%;
-            height: var(--app-height);
-            min-height: 100vh;
+            min-height: 100svh;
             min-height: var(--app-min-height);
             min-width: 0;
             max-width: 100%;
             margin: 0;
-            overflow: hidden;
-            overflow-x: clip;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
             background: var(--bg);
             color: var(--text);
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             overscroll-behavior: none;
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
-        }
-
-        body {
-            position: fixed;
-            inset: 0;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--safe-top);
-            background: var(--bg);
-            pointer-events: none;
-            z-index: 3;
         }
 
         @supports (height: 100dvh) {
@@ -151,7 +143,7 @@
         .app {
             width: min(100%, var(--app-max-width));
             height: var(--app-height);
-            min-height: 100vh;
+            min-height: 100svh;
             min-height: var(--app-min-height);
             min-width: 0;
             margin: 0 auto;
@@ -207,7 +199,7 @@
         .topbar {
             flex: 0 0 auto;
             min-width: 0;
-            padding: max(clamp(12px, 2.2dvh, 18px), calc(var(--safe-top) + clamp(8px, 1.5dvh, 12px))) var(--page-right) clamp(8px, 1.6dvh, 13px) var(--page-left);
+            padding: max(clamp(12px, 2.2dvh, 18px), var(--safe-top)) var(--page-right) clamp(8px, 1.6dvh, 13px) var(--page-left);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -314,7 +306,7 @@
             min-width: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: clamp(4px, 1dvh, 8px) var(--page-right) calc(var(--nav-total-height) + clamp(14px, 2dvh, 22px)) var(--page-left);
+            padding: clamp(4px, 1dvh, 8px) var(--page-right) var(--nav-total-height) var(--page-left);
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-x: none;
             overscroll-behavior-y: contain;
@@ -330,7 +322,7 @@
             display: none;
             min-width: 0;
             max-width: 100%;
-            overflow-x: clip;
+            overflow-x: hidden;
             animation: fade-in 180ms ease-out;
         }
 
@@ -1909,10 +1901,12 @@
 
         .bottom-nav {
             position: fixed;
-            left: 50%;
+            left: 0;
+            right: 0;
             bottom: 0;
             width: min(100%, var(--app-max-width));
-            transform: translateX(-50%);
+            min-height: var(--nav-total-height);
+            margin-inline: auto;
             padding: var(--nav-padding-top) var(--nav-padding-right) var(--nav-padding-bottom) var(--nav-padding-left);
             background: var(--nav);
             backdrop-filter: blur(18px);
@@ -2514,7 +2508,7 @@
             }
 
             .topbar {
-                padding-top: max(10px, calc(var(--safe-top) + 8px));
+                padding-top: max(10px, var(--safe-top));
                 padding-bottom: 8px;
             }
 
@@ -2584,7 +2578,7 @@
             }
 
             .screen {
-                padding-bottom: calc(var(--nav-total-height) + 28px);
+                padding-bottom: var(--nav-total-height);
             }
 
             .today {
@@ -2619,11 +2613,12 @@
                 --page-inline: clamp(12px, 3vw, 20px);
                 --nav-item-height: clamp(42px, 11dvh, 50px);
                 --nav-padding-top: 5px;
-                --nav-padding-bottom: max(7px, calc(var(--safe-bottom) + 5px));
+                --nav-menu-height: max(56px, calc(var(--nav-item-height) + var(--nav-padding-top)));
+                --nav-padding-bottom: var(--safe-bottom);
             }
 
             .topbar {
-                padding-top: max(7px, calc(var(--safe-top) + 5px));
+                padding-top: max(7px, var(--safe-top));
                 padding-bottom: 6px;
             }
 
@@ -2644,7 +2639,7 @@
 
             .screen {
                 padding-top: 4px;
-                padding-bottom: calc(var(--nav-total-height) + 10px);
+                padding-bottom: var(--nav-total-height);
             }
 
             .home-hero {
