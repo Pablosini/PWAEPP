@@ -27,6 +27,7 @@
             --page-right: max(var(--page-inline), calc(var(--safe-right) + var(--page-inline)));
             --app-height: 100vh;
             --app-min-height: 100vh;
+            --app-large-height: 100vh;
             --app-max-width: min(100vw, 560px);
             color-scheme: light;
         }
@@ -76,10 +77,28 @@
             inset: 0;
         }
 
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--safe-top);
+            background: var(--bg);
+            pointer-events: none;
+            z-index: 3;
+        }
+
         @supports (height: 100dvh) {
             :root {
                 --app-height: 100dvh;
                 --app-min-height: 100dvh;
+            }
+        }
+
+        @supports (height: 100lvh) {
+            :root {
+                --app-large-height: 100lvh;
             }
         }
 
@@ -2289,6 +2308,77 @@
 
         .toast[hidden] {
             display: none;
+        }
+
+        .orientation-guard {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            place-items: center;
+            min-height: var(--app-min-height);
+            padding:
+                max(22px, calc(var(--safe-top) + 18px))
+                max(22px, calc(var(--safe-right) + 18px))
+                max(22px, calc(var(--safe-bottom) + 18px))
+                max(22px, calc(var(--safe-left) + 18px));
+            background: var(--bg);
+            color: var(--text);
+            text-align: center;
+        }
+
+        .orientation-guard-card {
+            width: min(100%, 420px);
+            padding: clamp(22px, 6vw, 32px);
+            border-radius: 8px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+
+        .orientation-guard-icon {
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--surface-soft);
+            color: var(--primary-strong);
+        }
+
+        .orientation-guard-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke-width: 2.1;
+        }
+
+        .orientation-guard h2 {
+            margin: 0;
+            font-size: clamp(1.35rem, 5vw, 1.9rem);
+            line-height: 1.08;
+            font-weight: 950;
+            letter-spacing: 0;
+        }
+
+        .orientation-guard p {
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+            line-height: 1.5;
+            font-weight: 720;
+        }
+
+        @media (orientation: landscape) and (any-pointer: coarse) {
+            .orientation-guard {
+                display: grid;
+            }
+        }
+
+        @media (orientation: landscape) and (max-width: 960px) and (max-height: 640px) {
+            .orientation-guard {
+                display: grid;
+            }
         }
 
         @media (max-width: 360px) {
