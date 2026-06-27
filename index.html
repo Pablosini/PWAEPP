@@ -151,6 +151,19 @@
                                 <strong>Liturgia Słowa</strong>
                             </span>
                         </button>
+                        <button class="action-card" type="button" data-open="reflections">
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/>
+                                    <path d="M9 7h6M9 11h4"/>
+                                    <path d="m8 15 1.4 1.4L13 13"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Droga Słowa</strong>
+                            </span>
+                        </button>
                         <button class="action-card" type="button" data-open="prayers">
                             <span class="card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -249,6 +262,23 @@
                     </div>
                 </div>
                 <div class="list" id="liturgy-list"></div>
+            </section>
+
+            <section class="view" id="view-reflections" data-view="reflections">
+                <div class="toolbar">
+                    <button class="back-button" type="button" data-back>‹ Wróć</button>
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">Droga Słowa</h2>
+                        </div>
+                    </div>
+                </div>
+                <article class="content-card reflection-intro">
+                    <p>Codzienne rozważania przygotowane przez Ojca Duchownego EPP na każdy dzień pielgrzymki.</p>
+                    <p>Każde okienko odblokowuje się w odpowiednim dniu drogi.</p>
+                    <p>Otwórz dzisiejszy dzień, zatrzymaj się na chwilę i zabierz Słowo ze sobą w drogę.</p>
+                </article>
+                <div class="reflection-grid" id="reflections-grid" aria-live="polite"></div>
             </section>
 
             <section class="view" id="view-route" data-view="route">
@@ -618,6 +648,7 @@
     <script src="data/songs.js"></script>
     <script src="data/prayers.js"></script>
     <script src="data/liturgy.js"></script>
+    <script src="data/reflections.js"></script>
     <script>
         let appActiveVersion = "Wersja 1.0.68";
         let deferredPrompt = null;
@@ -631,7 +662,7 @@
         let routeLocationWatchId = null;
         let pendingRootNavigation = null;
         const viewHistory = [];
-        const rootViewNames = new Set(["home", "songs", "prayers", "liturgy", "route", "more", "kadra"]);
+        const rootViewNames = new Set(["home", "songs", "prayers", "liturgy", "reflections", "route", "more", "kadra"]);
 
         const safeStorage = {
             fallbackStore: {},
@@ -847,6 +878,22 @@ Ref.: Oto są baranki...`
         const prayers = prayerSourceData.map(normalizeContentSourceItem);
 
         const liturgyDays = Array.isArray(window.EPP_LITURGY) ? window.EPP_LITURGY : [];
+        const reflectionsConfig = window.EPP_REFLECTIONS_CONFIG && typeof window.EPP_REFLECTIONS_CONFIG === "object"
+            ? window.EPP_REFLECTIONS_CONFIG
+            : {};
+        const reflectionsSourceData = Array.isArray(window.EPP_REFLECTIONS)
+            ? window.EPP_REFLECTIONS
+            : [];
+        const reflectionsByDay = new Map(reflectionsSourceData.map(item => [Number(item.day), item]));
+        const reflections = Array.from({ length: 15 }, (_, index) => {
+            const day = index + 1;
+            const item = reflectionsByDay.get(day) || {};
+            return {
+                day,
+                title: item.title || `Dzień ${day}`,
+                text: item.text || ""
+            };
+        });
 
         const bibleQuotes = [
             "Pan jest pasterzem moim, nie brak mi niczego. Pozwala mi leżeć na zielonych pastwiskach. (Ps 23, 1-2)",
@@ -2722,6 +2769,7 @@ Ref.: Oto są baranki...`
                 renderRoute();
                 window.setTimeout(requestRouteLocationAccess, 0);
             }
+            if (viewName === "reflections") renderReflections();
             if (viewName === "kadra") renderKadraView();
             if (contentListState[viewName]) renderStoredContentList(viewName);
             document.querySelectorAll(".view").forEach(view => {
@@ -2994,7 +3042,7 @@ Ref.: Oto są baranki...`
 
             const detailText = document.getElementById("detail-text");
             document.getElementById("detail-title").textContent = `${day.date} · Liturgia Słowa`;
-            detailText.classList.remove("song-detail-text", "structured-detail-text");
+            detailText.classList.remove("song-detail-text", "structured-detail-text", "reflection-detail-text");
             detailText.classList.add("liturgy-detail-text");
 
             const commentary = day.commentary || {};
@@ -3026,6 +3074,101 @@ Ref.: Oto są baranki...`
                     <span class="chevron">›</span>
                 </button>
             `).join("");
+        }
+
+        function parseLocalDate(value) {
+            const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (!match) return null;
+            const year = Number(match[1]);
+            const month = Number(match[2]) - 1;
+            const day = Number(match[3]);
+            const date = new Date(year, month, day, 0, 0, 0, 0);
+            if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) return null;
+            return date;
+        }
+
+        function getStartOfLocalDay(date = new Date()) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+        }
+
+        function getReflectionsStartDate() {
+            const configuredDate = parseLocalDate(reflectionsConfig.startDate);
+            if (configuredDate) return configuredDate;
+            console.warn("Nieprawidłowa data startu Drogi Słowa. Uzupełnij startDate w data/reflections.js.");
+            return getStartOfLocalDay();
+        }
+
+        function getReflectionDate(day) {
+            const date = new Date(getReflectionsStartDate());
+            date.setDate(date.getDate() + Math.max(0, Number(day) - 1));
+            return date;
+        }
+
+        function formatReflectionDate(date) {
+            return date.toLocaleDateString("pl-PL", {
+                day: "2-digit",
+                month: "2-digit"
+            });
+        }
+
+        function getReflectionDayState(day, now = new Date()) {
+            const unlockDate = getReflectionDate(day);
+            const today = getStartOfLocalDay(now);
+            return {
+                unlockDate,
+                isUnlocked: today.getTime() >= unlockDate.getTime(),
+                isToday: isSameCalendarDate(today, unlockDate)
+            };
+        }
+
+        function renderReflections() {
+            const target = document.getElementById("reflections-grid");
+            if (!target) return;
+
+            target.innerHTML = reflections.map(item => {
+                const state = getReflectionDayState(item.day);
+                const status = state.isToday
+                    ? "Dzisiaj"
+                    : state.isUnlocked
+                        ? "Dostępne"
+                        : "Zablokowane";
+                const classes = [
+                    "reflection-day-card",
+                    state.isUnlocked ? "is-unlocked" : "is-locked",
+                    state.isToday ? "is-today" : ""
+                ].filter(Boolean).join(" ");
+                const lockIcon = state.isUnlocked ? "" : `
+                    <span class="reflection-lock" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="5" y="10" width="14" height="10" rx="2"/>
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                        </svg>
+                    </span>
+                `;
+
+                return `
+                    <button class="${classes}" type="button" data-reflection-day="${item.day}" aria-disabled="${state.isUnlocked ? "false" : "true"}">
+                        <span class="reflection-day-top">
+                            <span class="reflection-day-number">${formatReflectionDate(state.unlockDate)}</span>
+                            ${lockIcon}
+                        </span>
+                        <strong>${escapeHtml(item.title)}</strong>
+                        <span class="reflection-day-status">${escapeHtml(status)}</span>
+                    </button>
+                `;
+            }).join("");
+        }
+
+        function renderReflectionDetail(day) {
+            const item = reflections.find(reflection => reflection.day === Number(day));
+            if (!item) return;
+
+            document.getElementById("detail-title").textContent = `Droga Słowa · ${item.title}`;
+            const detailText = document.getElementById("detail-text");
+            detailText.classList.remove("song-detail-text", "structured-detail-text", "liturgy-detail-text");
+            detailText.classList.add("reflection-detail-text");
+            detailText.textContent = normalizeDetailText(item.text) || "Treść rozważania zostanie uzupełniona.";
+            openView("detail");
         }
 
         function getRouteSummary(stops) {
@@ -3465,7 +3608,7 @@ Ref.: Oto są baranki...`
             document.getElementById("detail-title").textContent = item.title;
             const detailText = document.getElementById("detail-text");
             const hasSections = Array.isArray(item.sections) && item.sections.length > 0;
-            detailText.classList.remove("liturgy-detail-text");
+            detailText.classList.remove("liturgy-detail-text", "reflection-detail-text");
             detailText.classList.toggle("structured-detail-text", hasSections);
             detailText.classList.toggle("song-detail-text", type === "songs" && !hasSections);
             if (hasSections) {
@@ -4058,6 +4201,20 @@ Ref.: Oto są baranki...`
             renderLiturgyDetail(Number(button.dataset.liturgyIndex));
         });
 
+        document.getElementById("reflections-grid").addEventListener("click", event => {
+            const button = event.target.closest("[data-reflection-day]");
+            if (!button) return;
+
+            const day = Number(button.dataset.reflectionDay);
+            const state = getReflectionDayState(day);
+            if (!state.isUnlocked) {
+                showToast(`Ten dzień odblokuje się ${formatReflectionDate(state.unlockDate)}.`);
+                return;
+            }
+
+            renderReflectionDetail(day);
+        });
+
         themeToggle.addEventListener("click", () => setTheme(!html.classList.contains("dark")));
         document.getElementById("brand-trigger").addEventListener("click", handleBrandTap);
         document.getElementById("intro-next").addEventListener("click", completeIntro);
@@ -4109,6 +4266,7 @@ Ref.: Oto są baranki...`
             renderStoredContentList("songs");
             renderStoredContentList("prayers");
             renderLiturgy();
+            renderReflections();
             renderRoute();
             updateKadraPanel();
             updateActionStatuses();
