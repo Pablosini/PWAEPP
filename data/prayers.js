@@ -142,11 +142,36 @@ window.EPP_PRAYERS = [
   },
   {
     "title": "Różaniec",
-    "text": "W imię Ojca i Syna i Ducha Świętego. Amen. (znak krzyża).\nWierzę w Boga: Wierzę w Boga, Ojca Wszechmogącego, Stworzyciela nieba i ziemi. I w Jezusa Chrystusa, Syna Jego Jedynego, Pana Naszego, który się począł z Ducha Świętego, narodził się z Maryi Panny. Umęczon pod Ponckim Piłatem ukrzyżowan, umarł i pogrzebion. Zstąpił do piekieł. Trzeciego dnia zmartwychwstał; wstąpił na niebiosa, siedzi po prawicy Boga, Ojca wszechmogącego. Stamtąd przyjdzie sądzić żywych i umarłych. Wierzę w Ducha Świętego, święty Kościół powszechny, świętych obcowanie, grzechów odpuszczenie, ciała zmartwychwstanie, żywot wieczny. Amen.\n1x Ojcze nasz: Ojcze nasz, któryś jest w niebie, święć się imię Twoje; przyjdź królestwo Twoje; bądź wola Twoja jako w niebie, tak i na ziemi. Chleba naszego powszedniego daj nam dzisiaj; i odpuść nam nasze winy, jako i my odpuszczamy naszym winowajcom; i nie wódź nas na pokuszeni, ale nas zbaw ode Złego. Amen.\n3x Zdrowaś Maryjo: Zdrowaś Maryjo, łaski pełna, Pan z Tobą, błogosławionaś Ty między niewiastami i błogosławiony owoc żywota Twojego, Jezus. Święta Maryjo, Matko Boża, módl się za nami grzesznymi teraz i w godzinę śmierci naszej. Amen.\nChwała Ojcu: Chwała Ojcu i Synowi, i Duchowi Świętemu. Jak była na początku, teraz i zawsze, i na wieki wieków. Amen.\nO mój Jezu: O mój Jezu, przebacz nam nasze grzechy, zachowaj nas od ognia piekielnego. Zaprowadź wszystkie dusze do nieba i dopomóż szczególnie tym, którzy najbardziej potrzebują Twojego miłosierdzia.\nWypowiadamy tajemnicę Różańca (oraz ewentualnie korzystamy z krótkiego rozważania tej tajemnicy). A następnie: 1xOjcze Nasz, 10xZdrowaś Maryjo, 1xChwała Ojcu, 1xO mój Jezu. W ten sposób odmawiamy pozostałe tajemnice.\nNa zakończenie: Pod Twoją obronę: Pod Twoją obronę uciekamy się, święta Boża Rodzicielko, naszymi prośbami racz nie gardzić w potrzebach naszych, ale od wszelakich złych przygód racz nas zawsze wybawiać. Panno chwalebna i błogosławiona. O Pani nasza, Orędowniczko nasza, Pośredniczko nasza, Pocieszycielko nasza. Z Synem swoim nas pojednaj, Synowi swojemu nas polecaj, swojemu Synowi nas oddawaj. Amen.\nNa zakończenie: W imię Ojca i Syna i Ducha Świętego. Amen. (znak krzyża).\nTajemnice Różańca Świętego:\n\nTajemnice radosne (poniedziałek, sobota):\n\nZwiastowanie Najświętszej Maryi Pannie\nNawiedzenie świętej Elżbiety\nNarodzenie Pana Jezusa\nOfiarowanie Jezusa w Świątyni\nOdnalezienie Jezusa w Świątyni\n\nTajemnice światła (czwartek):\n\nChrzest Pana Jezusa w Jordanie\nObjawienie się Jezusa w Kanie Galilejskiej\nGłoszenie królestwa Bożego i wzywanie do nawrócenia\nPrzemienienie Pańskie na górze Tabor\nUstanowienie Eucharystii\n\nTajemnice bolesne (wtorek, piątek):\n\nModlitwa Jezusa w Ogrójcu\nBiczowanie Jezusa\nCierniem ukoronowanie Jezusa\nDźwiganie krzyża na Kalwarię\nUkrzyżowanie i śmierć Jezusa\n\nTajemnice chwalebne (środa, niedziela)\n\nZmartwychwstanie Jezusa Chrystusa\nWniebowstąpienie Pana Jezusa\nZesłanie Ducha Świętego\nWniebowzięcie Najświętszej Maryi Panny\nUkoronowanie Maryi na Królową nieba i ziemi"
-  },
-  {
-    "title": "Różaniec - Tajemnice Radosne",
-    "text": "1. Zwiastowanie Najświętszej Maryi Pannie\n2. Nawiedzenie św. Elżbiety\n3. Narodzenie Pana Jezusa w Betlejem\n4. Ofiarowanie Pana Jezusa w Świątyni\n5. Odnalezienie Pana Jezusa w Świątyni\n\nWskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji nad kolejnymi krokami Jezusa i Maryi oraz ofiarowania intencji niesionych w sercu."
+    "sections": [
+      {
+        "title": "Rozpoczęcie",
+        "text": "W imię Ojca i Syna i Ducha Świętego. Amen. (znak krzyża)\n\nWierzę w Boga Ojca Wszechmogącego, Stworzyciela nieba i ziemi. I w Jezusa Chrystusa, Syna Jego Jedynego, Pana naszego, który się począł z Ducha Świętego, narodził się z Maryi Panny. Umęczon pod Ponckim Piłatem ukrzyżowan, umarł i pogrzebion. Zstąpił do piekieł. Trzeciego dnia zmartwychwstał; wstąpił na niebiosa, siedzi po prawicy Boga Ojca wszechmogącego. Stamtąd przyjdzie sądzić żywych i umarłych. Wierzę w Ducha Świętego, święty Kościół powszechny, świętych obcowanie, grzechów odpuszczenie, ciała zmartwychwstanie, żywot wieczny. Amen.\n\n1x Ojcze nasz\nOjcze nasz, któryś jest w niebie, święć się imię Twoje; przyjdź królestwo Twoje; bądź wola Twoja jako w niebie, tak i na ziemi. Chleba naszego powszedniego daj nam dzisiaj; i odpuść nam nasze winy, jako i my odpuszczamy naszym winowajcom; i nie wódź nas na pokuszenie, ale nas zbaw ode złego. Amen.\n\n3x Zdrowaś Maryjo\nZdrowaś Maryjo, łaski pełna, Pan z Tobą, błogosławionaś Ty między niewiastami i błogosławiony owoc żywota Twojego, Jezus. Święta Maryjo, Matko Boża, módl się za nami grzesznymi teraz i w godzinę śmierci naszej. Amen.\n\nChwała Ojcu\nChwała Ojcu i Synowi, i Duchowi Świętemu. Jak była na początku, teraz i zawsze, i na wieki wieków. Amen."
+      },
+      {
+        "title": "Jedna tajemnica",
+        "text": "Wypowiadamy tajemnicę różańca i można dodać krótkie rozważanie.\n\nNastępnie odmawiamy:\n1x Ojcze nasz\n10x Zdrowaś Maryjo\n1x Chwała Ojcu\n1x O mój Jezu\n\nO mój Jezu, przebacz nam nasze grzechy, zachowaj nas od ognia piekielnego. Zaprowadź wszystkie dusze do nieba i dopomóż szczególnie tym, którzy najbardziej potrzebują Twojego miłosierdzia.\n\nW ten sposób odmawiamy pozostałe tajemnice."
+      },
+      {
+        "title": "Zakończenie",
+        "text": "Pod Twoją obronę uciekamy się, święta Boża Rodzicielko, naszymi prośbami racz nie gardzić w potrzebach naszych, ale od wszelakich złych przygód racz nas zawsze wybawiać. Panno chwalebna i błogosławiona.\n\nO Pani nasza, Orędowniczko nasza, Pośredniczko nasza, Pocieszycielko nasza. Z Synem swoim nas pojednaj, Synowi swojemu nas polecaj, swojemu Synowi nas oddawaj. Amen.\n\nW imię Ojca i Syna i Ducha Świętego. Amen. (znak krzyża)"
+      },
+      {
+        "title": "Tajemnice radosne",
+        "text": "Poniedziałek i sobota\n\n1. Zwiastowanie Najświętszej Maryi Pannie\n2. Nawiedzenie świętej Elżbiety\n3. Narodzenie Pana Jezusa\n4. Ofiarowanie Jezusa w Świątyni\n5. Odnalezienie Jezusa w Świątyni"
+      },
+      {
+        "title": "Tajemnice światła",
+        "text": "Czwartek\n\n1. Chrzest Pana Jezusa w Jordanie\n2. Objawienie się Jezusa w Kanie Galilejskiej\n3. Głoszenie królestwa Bożego i wzywanie do nawrócenia\n4. Przemienienie Pańskie na górze Tabor\n5. Ustanowienie Eucharystii"
+      },
+      {
+        "title": "Tajemnice bolesne",
+        "text": "Wtorek i piątek\n\n1. Modlitwa Jezusa w Ogrójcu\n2. Biczowanie Jezusa\n3. Cierniem ukoronowanie Jezusa\n4. Dźwiganie krzyża na Kalwarię\n5. Ukrzyżowanie i śmierć Jezusa"
+      },
+      {
+        "title": "Tajemnice chwalebne",
+        "text": "Środa i niedziela\n\n1. Zmartwychwstanie Jezusa Chrystusa\n2. Wniebowstąpienie Pana Jezusa\n3. Zesłanie Ducha Świętego\n4. Wniebowzięcie Najświętszej Maryi Panny\n5. Ukoronowanie Maryi na Królową nieba i ziemi"
+      }
+    ]
   },
   {
     "title": "Skład apostolski",
