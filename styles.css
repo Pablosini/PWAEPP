@@ -22,7 +22,10 @@
             --nav-padding-bottom: var(--safe-bottom);
             --nav-padding-left: max(12px, calc(var(--safe-left) + clamp(10px, 3vw, 16px)));
             --nav-padding-right: max(12px, calc(var(--safe-right) + clamp(10px, 3vw, 16px)));
-            --nav-total-height: calc(var(--nav-menu-height) + var(--nav-padding-bottom));
+            --bottom-nav-height: calc(var(--nav-menu-height) + var(--nav-padding-bottom));
+            --screen-bottom-gap: clamp(16px, 2.5dvh, 24px);
+            --screen-bottom-padding: calc(var(--bottom-nav-height) + var(--screen-bottom-gap));
+            --nav-total-height: var(--bottom-nav-height);
             --page-inline: clamp(14px, 4vw, 22px);
             --page-left: max(var(--page-inline), calc(var(--safe-left) + var(--page-inline)));
             --page-right: max(var(--page-inline), calc(var(--safe-right) + var(--page-inline)));
@@ -306,7 +309,7 @@
             min-width: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: clamp(4px, 1dvh, 8px) var(--page-right) var(--nav-total-height) var(--page-left);
+            padding: clamp(4px, 1dvh, 8px) var(--page-right) var(--screen-bottom-padding) var(--page-left);
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-x: none;
             overscroll-behavior-y: contain;
@@ -2687,7 +2690,7 @@
             }
 
             .screen {
-                padding-bottom: var(--nav-total-height);
+                padding-bottom: var(--screen-bottom-padding);
             }
 
             .today {
@@ -2748,7 +2751,7 @@
 
             .screen {
                 padding-top: 4px;
-                padding-bottom: var(--nav-total-height);
+                padding-bottom: var(--screen-bottom-padding);
             }
 
             .home-hero {
