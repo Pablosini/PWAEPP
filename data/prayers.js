@@ -1,280 +1,163 @@
 /*
  * Dane modlitewnika EPP.
- * Aby ręcznie dodać modlitwę, dopisz na końcu listy kolejny blok:
- * { title: "Tytuł", text: `Treść modlitwy` },
+ * Główny plik modlitw używany przez aplikację.
+ * Lista jest ułożona alfabetycznie; teksty mają ujednolicone odstępy między akapitami.
+ * Aby ręcznie dodać modlitwę, dopisz kolejny obiekt: { title: "Tytuł", text: "Treść modlitwy" }.
  */
-const EPP_GODZINKI_STANDARD_OPENING = `Przybądź nam, miłościwa Pani, ku pomocy,
-A wyrwij nas z potężnych nieprzyjaciół mocy.
-
-Chwała Ojcu, Synowi Jego przedwiecznemu,
-I równemu im w Bóstwie Duchowi Świętemu.
-
-Jak była na początku, i zawsze, i ninie,
-Niech Bóg w Trójcy jedyny na wiek wieków słynie.`;
-
-const EPP_GODZINKI_COMMON_PRAYER = `P. Pani, wysłuchaj modlitwy nasze.
-W. A wołanie nasze niech do Ciebie przyjdzie.
-
-Módlmy się:
-
-Święta Maryjo, Królowo niebieska,
-Matko Pana naszego Jezusa Chrystusa i Pani świata, która
-nikogo nie opuszczasz i nikim nie gardzisz,
-wejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia
-swego i uproś nam u Syna swego miłego odpuszczenie
-wszystkich grzechów naszych, abyśmy, którzy teraz święte
-Twoje i Niepokalane Poczęcie nabożnym sercem
-rozpamiętywamy, wiecznego błogosławieństwa zapłatę
-w niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,
-Panno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,
-który z Ojcem i Duchem Świętym żyje i króluje w Trójcy
-Świętej jedyny Bóg na wieki wieków.
-
-W. Amen.`;
-
-const EPP_GODZINKI_JUTRZNIA_BLESSING = `P. Pani, wysłuchaj modlitwy naszej.
-W. A wołanie nasze niech do Ciebie przyjdzie.
-P. Błogosławimy Panu.
-W. Bogu chwała.
-P. A dusze wiernych zmarłych przez miłosierdzie Boże
-niech odpoczywają w pokoju.
-W. Amen.`;
-
-function eppGodzinkiHour(title, hymn, versicle, options = {}) {
-  const opening = options.opening || EPP_GODZINKI_STANDARD_OPENING;
-  const ending = options.includeBlessing
-    ? `${EPP_GODZINKI_COMMON_PRAYER}\n\n${EPP_GODZINKI_JUTRZNIA_BLESSING}`
-    : EPP_GODZINKI_COMMON_PRAYER;
-
-  return {
-    title,
-    text: `${opening}\n\nHymn\n\n${hymn}\n\n${versicle}\n\n${ending}`
-  };
-}
-
 window.EPP_PRAYERS = [
   {
-    title: "Modlitwa Pielgrzyma",
-    text: `Panie Jezu,
-Wyruszyłem na pątniczy szlak z wiarą i nadzieją w sercu.
-Spraw, aby ten trud drogi: upał, deszcz, ból fizyczny i zmęczenie,
-stały się dla mnie czasem oczyszczenia i zbliżenia do Ciebie.
-
-Pomóż mi w drugim człowieku dostrzegać Twoją obecność,
-uczyć się cierpliwości, pokory i dzielenia się chlebem oraz uśmiechem.
-Niech wstawiennictwo Matki Bożej Jasnogórskiej,
-do której zmierzam, chroni mnie przed zniechęceniem i niebezpieczeństwami na drodze.
-
-Przemieniaj moje serce, bym po powrocie z pielgrzymki
-był lepszym świadkiem Twojej Ewangelii w codziennym życiu. Amen.`
+    "title": "Akt zawierzenia NMP",
+    "text": "Matko Boża, Niepokalana Maryjo!\nTobie poświęcam ciało i duszę moją, wszystkie\nmodlitwy i prace, radości i cierpienia, wszystko\nczym jestem i co posiadam. Ochotnym sercem\noddaję się Tobie w niewolę miłości.\nPozostawiam Ci zupełną swobodę posługiwania\nsię mną dla zbawienia ludzi i ku pomocy\nKościołowi świętemu, którego jesteś Matką.\nChcę odtąd wszystko czynić z Tobą, przez Ciebie\ni dla Ciebie. Wiem, że własnymi siłami niczego nie\ndokonam. Ty zaś wszystko możesz, co jest wolą\nTwojego Syna i zawsze zwyciężasz.\nSpraw więc, Wspomożycielko wiernych, by moja\nrodzina, parafia i cała Ojczyzna były rzeczywistym\nKrólestwem Twego Syna i Twoim. Amen."
   },
   {
-    title: "Anioł Pański",
-    text: `Anioł Pański zwiastował Pannie Maryi.
-I poczęła z Ducha Świętego.
-Zdrowaś Maryjo...
-
-Oto Ja służebnica Pańska.
-Niech mi się stanie według słowa twego.
-Zdrowaś Maryjo...
-
-A Słowo ciałem się stało.
-I mieszkało między nami.
-Zdrowaś Maryjo...
-
-Módl się za nami, święta Boża Rodzicielko.
-Abyśmy się stali godnymi obietnic Chrystusowych.
-
-Módlmy się: Łaskę Twoją, prosimy Cię, Panie, wlej w serca nasze, abyśmy, którzy za zwiastowaniem anielskim Wcielenie Chrystusa, Syna Twego, poznali, przez mękę Jego i krzyż do chwały zmartwychwstania zostali doprowadzeni. Przez Chrystusa, Pana naszego. Amen.`
+    "title": "Aniele Boży, Stróżu mój",
+    "text": "Aniele Boży Stróżu mój, Ty zawsze przy mnie stój.\nRano, wieczór, we dnie, w nocy, bądź mi zawsze do pomocy.\nBroń mnie od wszystkiego złego i doprowadź do Żywota wiecznego. Amen."
   },
   {
-    title: "Pod Twoją Obronę",
-    text: `Pod Twoją obronę uciekamy się,
-święta Boża Rodzicielko,
-naszymi prośbami racz nie gardzić w potrzebach naszych,
-ale od wszelakich złych przygód racz nas zawsze wybawiać,
-Panno chwalebna i błogosławiona.
-
-O Pani nasza, Orędowniczko nasza,
-Pośredniczko nasza, Pocieszycielko nasza.
-Z Synem swoim nas pojednaj,
-Synowi supremo nas polecaj,
-swojemu Synowi nas oddawaj.`
+    "title": "Anioł Pański",
+    "text": "Anioł Pański zwiastował Pannie Maryi.\nI poczęła z Ducha Świętego.\nZdrowaś Maryjo...\n\nOto Ja służebnica Pańska.\nNiech mi się stanie według słowa twego.\nZdrowaś Maryjo...\n\nA Słowo ciałem się stało.\nI mieszkało między nami.\nZdrowaś Maryjo...\n\nMódl się za nami, święta Boża Rodzicielko.\nAbyśmy się stali godnymi obietnic Chrystusowych.\n\nMódlmy się: Łaskę Twoją, prosimy Cię, Panie, wlej w serca nasze, abyśmy, którzy za zwiastowaniem anielskim Wcielenie Chrystusa, Syna Twego, poznali, przez mękę Jego i krzyż do chwały zmartwychwstania zostali doprowadzeni. Przez Chrystusa, Pana naszego. Amen."
   },
   {
-    title: "Różaniec - Tajemnice Radosne",
-    text: `1. Zwiastowanie Najświętszej Maryi Pannie
-2. Nawiedzenie św. Elżbiety
-3. Narodzenie Pana Jezusa w Betlejem
-4. Ofiarowanie Pana Jezusa w Świątyni
-5. Odnalezienie Pana Jezusa w Świątyni
-
-Wskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji nad kolejnymi krokami Jezusa i Maryi oraz ofiarowania intencji niesionych w sercu.`
+    "title": "Błogosławieństwo w podróży",
+    "text": "Drogą pokoju niech nas prowadzi Wszechmocny i miłosierny Pan, a Jego Anioł niech nas strzeże byśmy w pokoju i bezpiecznie mogli dojść do celu podróży."
   },
   {
-    title: "Godzinki o Niepokalanym Poczęciu Najświętszej Maryi Panny",
-    includeInSongs: true,
-    sections: [
-      eppGodzinkiHour(
-        "Na Jutrznię",
-        `1. Zawitaj, Pani świata, niebieska Królowa,
-Witaj, Panno nad panny, gwiazdo porankowa!
-
-2. Zawitaj, pełna łaski, prześliczna światłości,
-Pani, na pomoc świata śpiesz się, zbaw nas złości.
-
-3. Ciebie Monarcha wieczny od wieków swojemu
-Za Matkę obrał Słowu Jednorodzonemu.
-
-4. Przez które ziemi okrąg i nieba ogniste,
-I powietrze, i wody stworzył przeźroczyste.
-
-5. Ciebie, Oblubienicę, przyozdobił sobie,
-Bo przestępstwo Adama nie ma prawa w Tobie.`,
-        `P. Wybrał Ją Bóg i wywyższył ponad wszystko.
-W. I wziął Ją na mieszkanie do przybytku Swego.`,
-        {
-          opening: `Zacznijcie, wargi nasze, chwalić Pannę świętą,
-Zacznijcie opowiadać cześć Jej niepojętą.
-
-${EPP_GODZINKI_STANDARD_OPENING}`,
-          includeBlessing: true
-        }
-      ),
-      eppGodzinkiHour(
-        "Na Prymę",
-        `1. Zawitaj, Panno mądra, domie poświęcony,
-Siedmioma kolumnami pięknie ozdobiony.
-
-2. Od wszelakiej zarazy świata ochroniona,
-Pierwej święta w żywocie matki, niż zrodzona.
-
-3. Tyś matką wszech żyjących, Tyś jest świętych drzwiami,
-Nowa gwiazdo z Jakuba. Tyś nad Aniołami.
-
-4. Ogromna czartu jesteś, w szyku obóz silny,
-Bądź chrześcijan ucieczką i port nieomylny.`,
-        `P. Sam Ją stworzył w Duchu Świętym.
-W. I wyniósł Ją nad wszystkie dzieła rąk Swoich.`
-      ),
-      eppGodzinkiHour(
-        "Na Tercję",
-        `1. Witaj, Arko przymierza, tronie Salomona,
-Tęczo, wszechmocną ręką z pięknych farb złożona.
-
-2. Tyś krzak Mojżesza, boskim ogniem gorejąca,
-Tyś różdżka Aronowa, śliczny kwiat rodząca.
-
-3. Bramo rajska zamkniona, runo Gedeona,
-Tyś niezwyciężonego plastr miodu Samsona.
-
-4. Przystało, aby Cię Syn tak zacny od winy
-Pierworodnej zachował i zmazy Ewinej.
-
-5. Który Ciebie za Matkę obierając Sobie,
-Chciał, by przywara grzechu nie powstała w Tobie.`,
-        `P. Ja mieszkam na wysokościach.
-W. I tron Mój w słupie obłoku.`
-      ),
-      eppGodzinkiHour(
-        "Na Sekstę",
-        `1. Witaj, świątynio Boga, w Trójcy jedynego,
-Tyś raj Aniołów, pałac wstydu panieńskiego!
-
-2. Pociecho utrapionych, ogrodzie wdzięczności,
-O palmo cierpliwości, o cedrze czystości!
-
-3. Ziemią jesteś kapłańską i błogosławioną,
-Świętą i pierworodną zmazą niedotknioną.
-
-4. Miasto Pańskie i brama na wschód wystawiona,
-Wszelkąś łaską, jedyna Panno, wypełniona.`,
-        `P. Jak lilia między cierniem.
-W. Tak przyjaciółka moja między córkami Adamowymi.`
-      ),
-      eppGodzinkiHour(
-        "Na Nonę",
-        `1. Witaj, miasto ucieczki, wieżo utwierdzona,
-Dawidowa, basztami i bronią wzmocniona.
-
-2. Tyś przy poczęciu ogniem miłości pałała,
-Przez Cię władza piekielnych mocarzów stajała.
-
-3. O mężna białogłowo, Judyt wojująca,
-Od niewoli okrutnej lud swój ratująca.
-
-4. Rachel ożywiciela Egiptu nosiła,
-Nam Zbawiciela świata Maryja powiła.`,
-        `P. Wszystka piękna jesteś, przyjaciółko moja.
-W. A zmaza pierworodna nigdy w Tobie nie postała.`
-      ),
-      eppGodzinkiHour(
-        "Na Nieszpory",
-        `1. Witaj, światło z Gabaon, coś zwycięstwo dało,
-Z Ciebie Słowo przedwieczne w ciało się przybrało.
-
-2. Aby człowiek z padołu powstał wywyższony,
-Niewiele od Aniołów jest on umniejszony.
-
-3. Słońca tego promieńmi Maryja jaśnieje,
-W poczęciu Swym, jak złota zorza światłem sieje.
-
-4. Między cierniem lilija kruszy łeb smokowi,
-Piękna jak w pełni księżyc, świeci człowiekowi.`,
-        `P. Jam sprawiła na niebie, aby wschodziła światłość nieustająca.
-W. I jako mgła okryłam wszystką ziemię.`
-      ),
-      eppGodzinkiHour(
-        "Na Kompletę",
-        `1. Witaj, Matko szlachetna, w panieńskiej czystości,
-Gwiazdami uwieńczona, Pani łaskawości.
-
-2. Niepokalana, czystsza niżli Aniołowie,
-Po prawej stronie Króla stoisz w złotogłowie.
-
-3. O Rodzicielko łaski, nadziejo grzeszących,
-O jasna gwiazdo morska, o porcie tonących!
-
-4. Bramo rajska, niemocnych zdrowie w Twej obronie,
-Niech Boga oglądamy na górnym Syjonie.`,
-        `P. Jako olej wylany, o Maryjo, Imię Twoje.
-W. Słudzy Twoi zakochali się bardzo w Tobie.`,
-        {
-          opening: `Niech nas Syn Twój, o Pani, do Siebie nawróci,
-A swoje zagniewanie niech od nas odwróci.
-
-${EPP_GODZINKI_STANDARD_OPENING}`
-        }
-      ),
+    "title": "Chwała Ojcu",
+    "text": "Chwała Ojcu i Synowi i Duchowi Świętemu, jak była na początku, teraz i zawsze i na wieki wieków. Amen."
+  },
+  {
+    "title": "Godzinki o Niepokalanym Poczęciu Najświętszej Maryi Panny",
+    "includeInSongs": true,
+    "sections": [
       {
-        title: "Ofiarowanie i zakończenie",
-        text: `Ofiarowanie Godzinek
-
-1. Z pokłonem, Panno święta, ofiarujem Tobie
-Te Godzinki ku większej czci Twej i ozdobie.
-
-2. Prosząc, byś nas zbawienną drogą prowadziła,
-A przy śmierci nam słodką Opiekunką była.
-
-Antyfona
-
-Tać to różdżka, w której ani pierworodnej,
-ani uczynkowej winy skaza nie postała.
-
-P. W poczęciu Swoim, Panno, niepokalanaś była.
-W. Módl się za nami do Ojca, któregoś Syna porodziła.
-
-Módlmy się:
-
-Boże, któryś przez Niepokalane Poczęcie Maryi Panny
-godny Synowi Swemu przybytek zgotował, Ciebie prosimy,
-abyś przez wstawiennictwo Tej, którąś dla przewidzianej
-śmierci Tegoż Syna od wszelkiej zmazy zachował, nam
-niepokalanymi przyjść do Siebie dozwolił. Przez Chrystusa,
-Pana naszego, który z Tobą żyje i króluje na wieki wieków.
-
-W. Amen.`
+        "title": "Na Jutrznię",
+        "text": "Zacznijcie, wargi nasze, chwalić Pannę świętą,\nZacznijcie opowiadać cześć Jej niepojętą.\n\nPrzybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Zawitaj, Pani świata, niebieska Królowa,\nWitaj, Panno nad panny, gwiazdo porankowa!\n\n2. Zawitaj, pełna łaski, prześliczna światłości,\nPani, na pomoc świata śpiesz się, zbaw nas złości.\n\n3. Ciebie Monarcha wieczny od wieków swojemu\nZa Matkę obrał Słowu Jednorodzonemu.\n\n4. Przez które ziemi okrąg i nieba ogniste,\nI powietrze, i wody stworzył przeźroczyste.\n\n5. Ciebie, Oblubienicę, przyozdobił sobie,\nBo przestępstwo Adama nie ma prawa w Tobie.\n\nP. Wybrał Ją Bóg i wywyższył ponad wszystko.\nW. I wziął Ją na mieszkanie do przybytku Swego.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen.\n\nP. Pani, wysłuchaj modlitwy naszej.\nW. A wołanie nasze niech do Ciebie przyjdzie.\nP. Błogosławimy Panu.\nW. Bogu chwała.\nP. A dusze wiernych zmarłych przez miłosierdzie Boże\nniech odpoczywają w pokoju.\nW. Amen."
+      },
+      {
+        "title": "Na Prymę",
+        "text": "Przybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Zawitaj, Panno mądra, domie poświęcony,\nSiedmioma kolumnami pięknie ozdobiony.\n\n2. Od wszelakiej zarazy świata ochroniona,\nPierwej święta w żywocie matki, niż zrodzona.\n\n3. Tyś matką wszech żyjących, Tyś jest świętych drzwiami,\nNowa gwiazdo z Jakuba. Tyś nad Aniołami.\n\n4. Ogromna czartu jesteś, w szyku obóz silny,\nBądź chrześcijan ucieczką i port nieomylny.\n\nP. Sam Ją stworzył w Duchu Świętym.\nW. I wyniósł Ją nad wszystkie dzieła rąk Swoich.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen."
+      },
+      {
+        "title": "Na Tercję",
+        "text": "Przybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Witaj, Arko przymierza, tronie Salomona,\nTęczo, wszechmocną ręką z pięknych farb złożona.\n\n2. Tyś krzak Mojżesza, boskim ogniem gorejąca,\nTyś różdżka Aronowa, śliczny kwiat rodząca.\n\n3. Bramo rajska zamkniona, runo Gedeona,\nTyś niezwyciężonego plastr miodu Samsona.\n\n4. Przystało, aby Cię Syn tak zacny od winy\nPierworodnej zachował i zmazy Ewinej.\n\n5. Który Ciebie za Matkę obierając Sobie,\nChciał, by przywara grzechu nie powstała w Tobie.\n\nP. Ja mieszkam na wysokościach.\nW. I tron Mój w słupie obłoku.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen."
+      },
+      {
+        "title": "Na Sekstę",
+        "text": "Przybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Witaj, świątynio Boga, w Trójcy jedynego,\nTyś raj Aniołów, pałac wstydu panieńskiego!\n\n2. Pociecho utrapionych, ogrodzie wdzięczności,\nO palmo cierpliwości, o cedrze czystości!\n\n3. Ziemią jesteś kapłańską i błogosławioną,\nŚwiętą i pierworodną zmazą niedotknioną.\n\n4. Miasto Pańskie i brama na wschód wystawiona,\nWszelkąś łaską, jedyna Panno, wypełniona.\n\nP. Jak lilia między cierniem.\nW. Tak przyjaciółka moja między córkami Adamowymi.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen."
+      },
+      {
+        "title": "Na Nonę",
+        "text": "Przybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Witaj, miasto ucieczki, wieżo utwierdzona,\nDawidowa, basztami i bronią wzmocniona.\n\n2. Tyś przy poczęciu ogniem miłości pałała,\nPrzez Cię władza piekielnych mocarzów stajała.\n\n3. O mężna białogłowo, Judyt wojująca,\nOd niewoli okrutnej lud swój ratująca.\n\n4. Rachel ożywiciela Egiptu nosiła,\nNam Zbawiciela świata Maryja powiła.\n\nP. Wszystka piękna jesteś, przyjaciółko moja.\nW. A zmaza pierworodna nigdy w Tobie nie postała.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen."
+      },
+      {
+        "title": "Na Nieszpory",
+        "text": "Przybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Witaj, światło z Gabaon, coś zwycięstwo dało,\nZ Ciebie Słowo przedwieczne w ciało się przybrało.\n\n2. Aby człowiek z padołu powstał wywyższony,\nNiewiele od Aniołów jest on umniejszony.\n\n3. Słońca tego promieńmi Maryja jaśnieje,\nW poczęciu Swym, jak złota zorza światłem sieje.\n\n4. Między cierniem lilija kruszy łeb smokowi,\nPiękna jak w pełni księżyc, świeci człowiekowi.\n\nP. Jam sprawiła na niebie, aby wschodziła światłość nieustająca.\nW. I jako mgła okryłam wszystką ziemię.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen."
+      },
+      {
+        "title": "Na Kompletę",
+        "text": "Niech nas Syn Twój, o Pani, do Siebie nawróci,\nA swoje zagniewanie niech od nas odwróci.\n\nPrzybądź nam, miłościwa Pani, ku pomocy,\nA wyrwij nas z potężnych nieprzyjaciół mocy.\n\nChwała Ojcu, Synowi Jego przedwiecznemu,\nI równemu im w Bóstwie Duchowi Świętemu.\n\nJak była na początku, i zawsze, i ninie,\nNiech Bóg w Trójcy jedyny na wiek wieków słynie.\n\nHymn\n\n1. Witaj, Matko szlachetna, w panieńskiej czystości,\nGwiazdami uwieńczona, Pani łaskawości.\n\n2. Niepokalana, czystsza niżli Aniołowie,\nPo prawej stronie Króla stoisz w złotogłowie.\n\n3. O Rodzicielko łaski, nadziejo grzeszących,\nO jasna gwiazdo morska, o porcie tonących!\n\n4. Bramo rajska, niemocnych zdrowie w Twej obronie,\nNiech Boga oglądamy na górnym Syjonie.\n\nP. Jako olej wylany, o Maryjo, Imię Twoje.\nW. Słudzy Twoi zakochali się bardzo w Tobie.\n\nP. Pani, wysłuchaj modlitwy nasze.\nW. A wołanie nasze niech do Ciebie przyjdzie.\n\nMódlmy się:\n\nŚwięta Maryjo, Królowo niebieska,\nMatko Pana naszego Jezusa Chrystusa i Pani świata, która\nnikogo nie opuszczasz i nikim nie gardzisz,\nwejrzyj na nas, Pani nasza, łaskawym okiem miłosierdzia\nswego i uproś nam u Syna swego miłego odpuszczenie\nwszystkich grzechów naszych, abyśmy, którzy teraz święte\nTwoje i Niepokalane Poczęcie nabożnym sercem\nrozpamiętywamy, wiecznego błogosławieństwa zapłatę\nw niebie otrzymać mogli; co niechaj da Ten, któregoś Ty,\nPanno, porodziła, Syn Twój, a Pan nasz Jezus Chrystus,\nktóry z Ojcem i Duchem Świętym żyje i króluje w Trójcy\nŚwiętej jedyny Bóg na wieki wieków.\n\nW. Amen."
+      },
+      {
+        "title": "Ofiarowanie i zakończenie",
+        "text": "Ofiarowanie Godzinek\n\n1. Z pokłonem, Panno święta, ofiarujem Tobie\nTe Godzinki ku większej czci Twej i ozdobie.\n\n2. Prosząc, byś nas zbawienną drogą prowadziła,\nA przy śmierci nam słodką Opiekunką była.\n\nAntyfona\n\nTać to różdżka, w której ani pierworodnej,\nani uczynkowej winy skaza nie postała.\n\nP. W poczęciu Swoim, Panno, niepokalanaś była.\nW. Módl się za nami do Ojca, któregoś Syna porodziła.\n\nMódlmy się:\n\nBoże, któryś przez Niepokalane Poczęcie Maryi Panny\ngodny Synowi Swemu przybytek zgotował, Ciebie prosimy,\nabyś przez wstawiennictwo Tej, którąś dla przewidzianej\nśmierci Tegoż Syna od wszelkiej zmazy zachował, nam\nniepokalanymi przyjść do Siebie dozwolił. Przez Chrystusa,\nPana naszego, który z Tobą żyje i króluje na wieki wieków.\n\nW. Amen."
       }
     ]
+  },
+  {
+    "title": "Koronka do Miłosierdzia Bożego",
+    "text": "Na początku:\nOjcze nasz...\nZdrowaś Maryjo....\nWierzę w Boga....\n\nNa dużych paciorakach 1x:\nOjcze przedwieczny ofiaruję Ci Ciało i Krew, Duszę i Bóstwo najmilszego Syna Twojego, a Pana naszego Jezusa Chrystusa, na przebłaganie za grzechy nasze i całego świata.\n\nNa małych paciorkach 10x:\nDla Jego bolesnej męki, miej miłosirdzie dla nas i całego świata.\n\nNa zakońćzenie 3x:\nŚwięty Boże, Święty Mocny, Święty Nieśmiertlny, zmiłuj się nad nami i nad całym światem.\n\n\"O krwii i wodo któraś wypłyneła z Najświętszgo Serca Jezusowego jako zdrój miłosierdzie dla nas ufamy Tobie.\"\n\nJezu ufam Tobie!"
+  },
+  {
+    "title": "Litania Loretańska do Najświętszej Maryi Panny",
+    "text": "Kyrie eleison, Christe eleison, Kyrie eleison.\nChryste, usłysz nas. Chryste, wysłuchaj nas.\nOjcze z nieba, Boże, - zmiłuj się nad nami.\nSynu, Odkupicielu świata, Boże,\nDuchu Święty, Boże,\nŚwięta Trójco, Jedyny Boże,\n\nŚwięta Maryjo, - módl się za nami.\nŚwięta Boża Rodzicielko,\nŚwięta Panno nad pannami,\nMatko Chrystusowa,\nMatko Kościoła,\nMatko miłosierdzia,\nMatko łaski Bożej,\nMatko nadziei,\nMatko nieskalana,\nMatko najczystsza,\nMatko dziewicza,\nMatko nienaruszona,\nMatko najmilsza,\nMatko przedziwna,\nMatko dobrej rady,\nMatko Stworzyciela,\nMatko Zbawiciela,\nPanno roztropna,\nPanno czcigodna,\nPanno wsławiona,\nPanno można,\nPanno łaskawa,\nPanno wierna,\nZwierciadło sprawiedliwości,\nStolico mądrości,\nPrzyczyno naszej radości,\nPrzybytku Ducha Świętego,\nPrzybytku chwalebny,\nPrzybytku sławny pobożności,\nRóżo duchowna,\nWieżo Dawidowa,\nWieżo z kości słoniowej,\nDomie złoty,\nArko przymierza,\nBramo niebieska,\nGwiazdo zaranna,\nUzdrowienie chorych,\nUcieczko grzesznych,\nPociecho migrantów,\nPocieszycielko strapionych,\nWspomożenie wiernych,\nKrólowo Aniołów,\nKrólowo Patriarchów,\nKrólowo Proroków,\nKrólowo Apostołów,\nKrólowo Męczenników,\nKrólowo Wyznawców,\nKrólowo Dziewic,\nKrólowo Wszystkich Świętych,\nKrólowo bez zmazy pierworodnej poczęta,\nKrólowo Wniebowzięta,\nKrólowo Różańca świętego,\nKrólowo rodzin,\nKrólowo pokoju,\nKrólowo Polski,\n\nBaranku Boży, który gładzisz grzechy świata,\n- przepuść nam, Panie.\nBaranku Boży, który gładzisz grzechy świata,\n- wysłuchaj nas, Panie.\nBaranku Boży, który gładzisz grzechy świata,\n- zmiłuj się nad nami.\nP: Módl się za nami, święta Boża Rodzicielko.\nW: Abyśmy się stali godnymi obietnic Chrystusowych.\n\nMódlmy się: Panie, nasz Boże, daj nam, sługom swoim, cieszyć się trwałym zdrowiem duszy i ciała, i za wstawiennictwem Najświętszej Maryi, zawsze Dziewicy, uwolnij nas od doczesnych utrapień i obdarz wieczną radością. Przez Chrystusa, Pana naszego.\n\nW: Amen.\n\nPod Twoją obronę…"
+  },
+  {
+    "title": "Modlitwa do bł. Pauliny Jaricot",
+    "text": "Błogosławiona Paulino, z tobą wielbimy Boga w\nTrójcy Świętej Jedynego, w którego oblicze\nwpatrujesz się w niebie. On rozpalił twe serce ogniem\nmiłości. Płonęłaś i zapalałaś innych. Szłaś drogą\nmodlitwy i służby. Przez ciebie Bóg wzbudził w\nKościele dwa wielkie dzieła, jedno modlitewne Żywy\nRóżaniec i drugie apostolskie Dzieło Rozkrzewiania\nWiary.\nWypraszaj nam wszystkim gorliwość w dążeniu do\nświętości. Niech w każdym sercu rośnie miłość do\nBoga i bliźniego. Niech za twoją przyczyną wszyscy\nochrzczeni przyjmą powołanie, jakie od Boga\notrzymali, i zaangażują wszystkie swoje siły w jego\nrealizację, aby po ukończeniu ziemskiej pielgrzymki\nmogli radować się pełnym uczestnictwem w życiu\nOjca, Syna i Ducha Świętego, Boga, który żyje i\nkróluje na wieki wieków. Amen.\n* * *\nBłogosławiona Paulino Jaricot, ucisz nasze\nrozproszenia i rozpal w nas gorliwość modlitwy. Ucz\nnas kochać Kościół tak jak Ty - sercem prostym,\nwytrwałym i misyjnym. Prowadź nas do Jezusa. Amen"
+  },
+  {
+    "title": "Modlitwa do św. Michała Archanioła",
+    "text": "Święty Michale Archaniele! Wspomagaj nas w walce,\na przeciw niegodziwości i zasadzkom złego ducha bądź naszą obroną.\nOby go Bóg pogromić raczył, pokornie o to prosimy, aTy, Wodzu niebieskich zastępów,\nszatana i inne duchy złe, które na zgubę dusz ludzkich po tym świecie krążą,\nmocą Bożą strąć do piekła. Amen."
+  },
+  {
+    "title": "Modlitwa kierowcy",
+    "text": "Panie, daj mi uważne spojrzenie i sprawność kierowania, tak aby mój sposób prowadzenia pojazdu nie niszczył spokoju bliźniego i nie powodował cierpienia wśród moich braci.\n\nProszę Cię, o Panie, również za tych, którzy są ze mną: chroń ich od wszelkiego zła, od ognia i wypadków. Naucz mnie dobrego używania mojego samochodu dla potrzeb innych; spraw, abym rozumiał, że nie powinienem narażać swego życia - Twojego daru oraz piękna stworzenia z powodu nieumiejętnego korzystania z pojazdu.\n\nNaucz mnie również przechodzić drogami jego życia z radością i uprzejmością, tak abym mógł dojść do wyznaczonego celu - do nieba, nikomu nie czyniąc zła i krzywdy.\n\nTo, o co proszę, niech dla mnie wyprosi droga św. Rita, pod opiekę której się oddaję z wielkim zaufaniem. Amen."
+  },
+  {
+    "title": "Modlitwa o szczęśliwą podróż",
+    "text": "O Boże wielki, który czuwasz nad wszystkim stworzeniem,\nmiej mnie w swej opiece.\nNiech błogosławieństwo Twoje towarzyszy mi w całej drodze.\nOdwracaj ode mnie nieszczęście,\nratuj w niebezpieczeństwach\ni pozwól, abym szczęśliwie powrócił do domu.\nAmen."
+  },
+  {
+    "title": "Modlitwa pielgrzyma",
+    "sections": [
+      {
+        "title": "Modlitwa codzienna",
+        "text": "Boże, Ty jesteś Drogą, Prawdą i Życiem.\nDrogą, którą pragnę podążać,\nPrawdą, której lękam się stracić,\nŻyciem, które w Tobie ma początek i koniec.\nNiech ten dzień mi przyniesie tylko to,\nczym Ty chcesz mnie obdarzyć.\nPrzyjmę radość i szczęście,\nzniosę ból i cierpienie,\njeśli Ty będziesz ze mną.\nWyruszam w Twoje Imię,\nprowadź mnie, Boże!\nAmen."
+      },
+      {
+        "title": "Modlitwa pątnicza",
+        "text": "Panie Jezu,\nWyruszyłem na pątniczy szlak z wiarą i nadzieją w sercu.\nSpraw, aby ten trud drogi: upał, deszcz, ból fizyczny i zmęczenie,\nstały się dla mnie czasem oczyszczenia i zbliżenia do Ciebie.\n\nPomóż mi w drugim człowieku dostrzegać Twoją obecność,\nuczyć się cierpliwości, pokory i dzielenia się chlebem oraz uśmiechem.\nNiech wstawiennictwo Matki Bożej Jasnogórskiej,\ndo której zmierzam, chroni mnie przed zniechęceniem i niebezpieczeństwami na drodze.\n\nPrzemieniaj moje serce, bym po powrocie z pielgrzymki\nbył lepszym świadkiem Twojej Ewangelii w codziennym życiu. Amen."
+      }
+    ]
+  },
+  {
+    "title": "Modlitwa za misje",
+    "text": "Panie Jezu, który niegdyś wezwałeś pierwszych\nuczniów, aby stali się rybakami ludzi, niech\ntakże i dziś rozbrzmiewa Twoje łagodne\nwezwanie \"Pójdź za Mną!\". Udziel chłopcom\ni dziewczętom tej łaski,\nby radośnie odpowiedzieli na Twój głos!\nWspieraj w apostolskim trudzie naszych\nbiskupów, kapłanów i osoby konsekrowane.\nObdarz wytrwałością seminarzystów i\nwszystkich tych, którzy realizują swój ideał\nżyciowy w pełnym oddaniu się Twej służbie.\nRozbudź w naszych wspólnotach zapał misyjny.\nPoślij, o Panie, robotników na swoje żniwo i nie\npozwól, by brak pasterzy, misjonarzy i tych,\nktórzy poświęcają życie sprawie Ewangelii,\ndoprowadził ludzkość do zguby. Amen.\n\nPanie Jezu Chryste, spojrzyj prosimy na swoich\nmisjonarzy, kapłanów i braci, siostry i świeckich,\nktórzy wszystko opuścili, aby dawać świadectwo\nTwemu słowu i Twojej miłości. Bądź obrońcą\nsilnych, ochroną przed potknięciem słabych,\nratunkiem przed upadkiem. Podnoś ich na\nduchu. Słowem i przykładem swoim oświecaj w\nprzeciwnościach i niebezpieczeństwach. Niechaj\nim Panie towarzyszy sztandar Krzyża Twojego.\nW uciskach niech ich uczy ducha ofiary, w\nsłabościach daje moc i pociechę, a we wszystkich\ntrudnościach życia apostolskiego światło i\nwytrwanie. Uwieńcz ich prace takimi owocami,\njakich sami gorąco pragną, nie szukając korzyści,\nani dóbr  tej ziemi. Niechaj zbawią dusze\nnieśmiertelne i niewierzących sprowadzą do\nCiebie, który jesteś Drogą, Prawdą i Życiem.\nSpraw, żeby razem ze stale wzrastającą rzeszą\nwiernych wysławiali Ciebie, Panie, i składali Ci\ndzięki, który ich odkupiłeś i chcesz doprowadzić\ndo zbawienia wiecznego. Amen."
+  },
+  {
+    "title": "Modlitwa za misjonarzy",
+    "text": "Panie, obudź w każdym, kto należy do Twego\nKościoła, silny zapał misjonarski, by głosić\nChrystusa tym, którzy Go jeszcze nie poznali i\ntym, którzy przestali wierzyć. Spraw, by było\nwiele powołań i podtrzymuj Twą łaską\nmisjonarzy w dziele ewangelizacji. Pozwól, by\nkażdy z nas poczuł się odpowiedzialny za misje, a\nprzede wszystkim, by zrozumiał, że naszym\npierwszym obowiązkiem w szerzeniu wiary jest\nprawdziwe chrześcijańskie życie.Boże, Ty\nchcesz, by wszyscy ludzie zostali zbawieni\ni doszli do poznania prawdy. Spójrz, jak wielkie\njest żniwo i poślij Twoich robotników, by\nEwangelia dotarła do wszystkich i by Twój lud,\nzjednoczony słowem życia i ukształtowany siłą\nSakramentów, szedł drógą miłości do zbawienia.\nPrzez Chrystusa, Pana naszego. Amen."
+  },
+  {
+    "title": "Modlitwy po posiłku",
+    "text": "Chwalimy Cię, Panie, i dziękujemy za ten posiłek, dar Twojej dobroci. Przez Chrystusa Pana naszego. Amen.\n\nDziękujemy Ci, Boże, za te dary, któreśmy z dobroci Twojej pożywali. Przez Chrystusa Pana naszego. Amen.\n\nZa ten posiłek i wszystkie dary Twej dobroci chwalimy Cię, Panie. Przez Chrystusa Pana naszego. Amen."
+  },
+  {
+    "title": "Modlitwy przed posiłkiem",
+    "text": "Pobłogosław, Panie Boże, nas, ten posiłek, tych, którzy go przygotowali i naucz nas dzielić się chlebem i radością ze wszystkimi. Przez Chrystusa Pana naszego. Amen.\n\nBądź pochwalony, Panie Boże nasz, za te dary, które z Twej dobroci spożywać mamy. Przez Chrystusa Pana naszego. Amen.\n\nBoże, dzięki Ci składamy za to, co pożywać mamy. Ty nas żywić nie przestajesz, bądź pochwalon za to, co nam dajesz. Amen."
+  },
+  {
+    "title": "Nowenna do Matki Bożej Nieustającej Pomocy",
+    "text": "O Matko Nieustającej Pomocy, z największą ufnością przychodzę dzisiaj przed Twój święty obraz, aby błagać o pomoc Twoją. Nie liczę na moje zasługi, ani na moje dobre uczynki, ale tylko na nieskończone zasługi Pana Jezusa i na Twoją niezrównaną miłość macierzyńską. Tyś patrzyła, o Matko, na rany Odkupiciela i na krew Jego wylaną na krzyżu dla naszego zbawienia. Tenże Syn Twój umierając dał nam Ciebie za Matkę. Czyż więc nie będziesz dla nas, jak głosi Twój słodki tytuł: Nieustającą Wspomożycielką? Ciebie więc o Matko Nieustającej Pomocy, przez bolesną mękę i śmierć Twego Boskiego Syna, przez niewypowiedziane cierpienia Twego Serca, o Współodkupicielko, błagam najgoręcej, abyś wyprosiła mi u Syna Twego tą łaskę, której tak bardzo pragnę i tak bardzo potrzebuję…\n\n(Chwila ciszy)\n\nTy wiesz o Matko Przebłogosławiona, jak bardzo Jezus Odkupiciel nasz pragnie udzielać nam wszelkich owocow Odkupienia. Ty wiesz, ze skarby te zostały złozone w Twoje ręce, abyś je nam rozdzielała Wyjednaj mi przeto o Najłaskawsza Matko, u Serca Jezusowego tę łaskę, o którą w tej nowennie pokornie proszę, a ja z radości wychwalać będę Twoje miłosierdzie przez całą wieczność. Amen.\n\nPodziękowania – wezwania dziękczynne\n\nO Maryjo przyjmij dziękczynienia nasze:\n\nDZIĘKUJEMY CI MATKO NIEUSTAJĄCEJ POMOCY\n\nZa nawróconych na drogę prawdy,\nZa uzdrowionych z choroby,\nZa pocieszonych w strapieniu,\nZa ocalonych z rozpaczy,\nZa podtrzymanych w zwątpieniu,\nZa wyzwolonych z mocy grzechu,\nZa wysłuchanych w błaganiu,\nZa litość nam okazaną,\nZa miłość Twą macierzyńską,\nZa dobroć Twą niezrównaną,\nZa opiekę w miejscach pracy,\nZa chleb codzienny,\nZa radość i smutki nasze,\nZa wszystkie łaski nam i innym wyświadczone.\n\nMódlmy się: Królowej świata, najpotężniejszej, nieśmiertelnego Boga Rodzicielce, Dziewicy Niepokalanej z duszą i ciałem do nieba wziętej, niech będzie chwała, cześć i dziękczynienie od wszelkiego stworzenia, a nam odpuszczenie wszystkich grzechów, łaska i miłosierdzie przez wszystkie wieki wieków. Amen.\n\nProśby – wezwania błagalne\n\nO Maryjo usłysz prośby nasze.\n\nPROSIMY CIĘ, MATKO NIEUSTAJĄCEJ POMOCY\n\nZa chorych, abyś ich uzdrowiła,\nZa strapionych, abyś ich pocieszyła,\nZa płaczących, abyś im łzy otarła,\nZa sieroty i opuszczonych, abyś im Matką była,\nZa biednych i potrzebujących, abyś ich wspomagała,\nZa błądzących, abyś ich na drogę prawdy sprowadziła,\nZa kuszonych, abyś ich z sideł szatańskich wybawiła,\nZa upadających, abyś ich w dobrym podtrzymała,\nZa grzeszników, abyś im żal i łaskę spowiedzi wyjednała,\nZa wszystkich zmarłych Twoich czcicieli, abyś ich do radości życia wiecznego doprowadziła,\nZa wszystkich żyjących Twoich czcicieli, abyś ich od nieszczęść strzegła i drogą przykazań Bożych prowadziła,\nZa wszystkich, którzy cierpią dla prawdy, sprawiedliwości i wolności\nO wysłuchanie wszystkich próśb naszych.\n\nMódl się za nami Matko Nieustającej Pomocy,\nAbyśmy się stali godnymi obietnic Chrystusowych.\n\nMódlmy się: Panie Jezu Chryste, Ty dałeś nam swoją Rodzicielkę Maryję, której przesławny obraz czcimy, jako Matkę gotową nieustannie nam pomagać. Spraw abyśmy gorliwie wypraszając Jej macierzyńską pomoc, nieustannie doznawali owoców Twego odkupienia. Który żyjesz i królujesz z Bogiem Ojcem w jedności Ducha świętego, Bóg przez wszystkie wieki wieków. Amen.\n\nPod Twoją obronę uciekamy się, święta Boża Rodzicielko, naszymi prośbami racz nie gardzić w potrzebach naszych, ale od wszelakich złych przygód racz nas zawsze wybawiać, Panno chwalebna i błogosławiona. O Pani nasza, Orędowniczko nasza, Pośredniczko nasza, Pocieszycielko nasza. Z Synem Swoim nas pojednaj, Synowi Swojemu nas polecaj, Swojemu Synowi nas oddawaj."
+  },
+  {
+    "title": "Ojcze nasz",
+    "text": "Ojcze nasz,\nktóryś jest w niebie:\nświęć się imię Twoje,\nprzyjdź Królestwo Twoje,\nbądź wola Twoja jako w niebie,\ntak i na ziemi.\nChleba naszego powszedniego\ndaj nam dzisiaj.\nI odpuść nam nasze winy,\njako i my odpuszczamy naszym winowajcom.\nI nie wódź nas na pokuszenie,\nale nas zbaw od złego.\n\nAmen."
+  },
+  {
+    "title": "Pod Twoją obronę",
+    "text": "Pod Twoją obronę uciekamy się,\nświęta Boża Rodzicielko,\nnaszymi prośbami racz nie gardzić w potrzebach naszych,\nale od wszelakich złych przygód racz nas zawsze wybawiać,\nPanno chwalebna i błogosławiona.\n\nO Pani nasza, Orędowniczko nasza,\nPośredniczko nasza, Pocieszycielko nasza.\nZ Synem swoim nas pojednaj,\nSynowi swojemu nas polecaj,\nswojemu Synowi nas oddawaj."
+  },
+  {
+    "title": "Prośba o bezpieczną drogę",
+    "text": "(do Rafała Archanioła)\n\nŚwięty Rafale Archaniele,\nTy czuwasz przed Majestatem Bożym,\na z polecenia Stwórcy byłeś przewodnikiem Tobiasza\nw czasie jego niebezpiecznej wędrówki;\nprosimy Cię,\nczuwaj i nad naszymi drogami\ni ostrzegaj nas przed każdym\ngrożącym nam niebezpieczeństwem.\nAmen."
+  },
+  {
+    "title": "Przykazanie Miłości",
+    "text": "Będziesz miłował Pana Boga twego z całego serca swego, z całej duszy swojej i ze wszystkich myśli swoich, a bliźniego swego, jak siebie samego."
+  },
+  {
+    "title": "Regina caeli (w okresie wielkanocnym)",
+    "text": "Królowo nieba, wesel się, alleluja, bo Ten, któregoś nosiła, alleluja, zmartwychpowstał, jak powiedział, alleluja, módl się za nami do Boga, alleluja.\n\nK. Raduj się i wesel, Panno Maryjo, alleluja.\nW. Bo zmartwychwstał Pan prawdziwie, alleluja.\n\nK. Módlmy się; Boże, któryś raczył uweselić świat przez zmartwychwstanie Syna Twego, Pana naszego Jezusa Chrystusa, daj, prosimy, abyśmy przez Jego Rodzicielkę, Maryję Pannę, dostąpili radości życia wiecznego. Przez Chrystusa, Pana naszego.\nW. Amen."
+  },
+  {
+    "title": "Różaniec",
+    "text": "W imię Ojca i Syna i Ducha Świętego. Amen. (znak krzyża).\nWierzę w Boga: Wierzę w Boga, Ojca Wszechmogącego, Stworzyciela nieba i ziemi. I w Jezusa Chrystusa, Syna Jego Jedynego, Pana Naszego, który się począł z Ducha Świętego, narodził się z Maryi Panny. Umęczon pod Ponckim Piłatem ukrzyżowan, umarł i pogrzebion. Zstąpił do piekieł. Trzeciego dnia zmartwychwstał; wstąpił na niebiosa, siedzi po prawicy Boga, Ojca wszechmogącego. Stamtąd przyjdzie sądzić żywych i umarłych. Wierzę w Ducha Świętego, święty Kościół powszechny, świętych obcowanie, grzechów odpuszczenie, ciała zmartwychwstanie, żywot wieczny. Amen.\n1x Ojcze nasz: Ojcze nasz, któryś jest w niebie, święć się imię Twoje; przyjdź królestwo Twoje; bądź wola Twoja jako w niebie, tak i na ziemi. Chleba naszego powszedniego daj nam dzisiaj; i odpuść nam nasze winy, jako i my odpuszczamy naszym winowajcom; i nie wódź nas na pokuszeni, ale nas zbaw ode Złego. Amen.\n3x Zdrowaś Maryjo: Zdrowaś Maryjo, łaski pełna, Pan z Tobą, błogosławionaś Ty między niewiastami i błogosławiony owoc żywota Twojego, Jezus. Święta Maryjo, Matko Boża, módl się za nami grzesznymi teraz i w godzinę śmierci naszej. Amen.\nChwała Ojcu: Chwała Ojcu i Synowi, i Duchowi Świętemu. Jak była na początku, teraz i zawsze, i na wieki wieków. Amen.\nO mój Jezu: O mój Jezu, przebacz nam nasze grzechy, zachowaj nas od ognia piekielnego. Zaprowadź wszystkie dusze do nieba i dopomóż szczególnie tym, którzy najbardziej potrzebują Twojego miłosierdzia.\nWypowiadamy tajemnicę Różańca (oraz ewentualnie korzystamy z krótkiego rozważania tej tajemnicy). A następnie: 1xOjcze Nasz, 10xZdrowaś Maryjo, 1xChwała Ojcu, 1xO mój Jezu. W ten sposób odmawiamy pozostałe tajemnice.\nNa zakończenie: Pod Twoją obronę: Pod Twoją obronę uciekamy się, święta Boża Rodzicielko, naszymi prośbami racz nie gardzić w potrzebach naszych, ale od wszelakich złych przygód racz nas zawsze wybawiać. Panno chwalebna i błogosławiona. O Pani nasza, Orędowniczko nasza, Pośredniczko nasza, Pocieszycielko nasza. Z Synem swoim nas pojednaj, Synowi swojemu nas polecaj, swojemu Synowi nas oddawaj. Amen.\nNa zakończenie: W imię Ojca i Syna i Ducha Świętego. Amen. (znak krzyża).\nTajemnice Różańca Świętego:\n\nTajemnice radosne (poniedziałek, sobota):\n\nZwiastowanie Najświętszej Maryi Pannie\nNawiedzenie świętej Elżbiety\nNarodzenie Pana Jezusa\nOfiarowanie Jezusa w Świątyni\nOdnalezienie Jezusa w Świątyni\n\nTajemnice światła (czwartek):\n\nChrzest Pana Jezusa w Jordanie\nObjawienie się Jezusa w Kanie Galilejskiej\nGłoszenie królestwa Bożego i wzywanie do nawrócenia\nPrzemienienie Pańskie na górze Tabor\nUstanowienie Eucharystii\n\nTajemnice bolesne (wtorek, piątek):\n\nModlitwa Jezusa w Ogrójcu\nBiczowanie Jezusa\nCierniem ukoronowanie Jezusa\nDźwiganie krzyża na Kalwarię\nUkrzyżowanie i śmierć Jezusa\n\nTajemnice chwalebne (środa, niedziela)\n\nZmartwychwstanie Jezusa Chrystusa\nWniebowstąpienie Pana Jezusa\nZesłanie Ducha Świętego\nWniebowzięcie Najświętszej Maryi Panny\nUkoronowanie Maryi na Królową nieba i ziemi"
+  },
+  {
+    "title": "Różaniec - Tajemnice Radosne",
+    "text": "1. Zwiastowanie Najświętszej Maryi Pannie\n2. Nawiedzenie św. Elżbiety\n3. Narodzenie Pana Jezusa w Betlejem\n4. Ofiarowanie Pana Jezusa w Świątyni\n5. Odnalezienie Pana Jezusa w Świątyni\n\nWskazówka pielgrzymkowa: Każda dziesiątka to doskonała okazja do refleksji nad kolejnymi krokami Jezusa i Maryi oraz ofiarowania intencji niesionych w sercu."
+  },
+  {
+    "title": "Skład apostolski",
+    "text": "Wierzę w Boga Ojca wszechmogącego, Stworzyciela nieba i ziemi, i w Jezusa Chrystusa, Syna Jego Jedynego, Pana naszego, który się począł z Ducha Świętego, narodził się z Maryi Panny, umęczon pod Ponckim Piłatem, ukrzyżowan, umarł i pogrzebion, zstąpił do piekieł, trzeciego dnia zmartwychwstał, wstąpił na niebiosa, siedzi po prawicy Boga Ojca wszechmogącego, stamtąd przyjdzie sądzić żywych i umarłych.\nWierzę w Ducha Świętego, święty Kościół powszechny, świętych obcowanie, grzechów odpuszczenie, ciała zmartwychwstanie, żywot wieczny. Amen."
+  },
+  {
+    "title": "Zdrowaś Maryjo",
+    "text": "Zdrowaś Maryjo,\nłaski pełna, Pan z Tobą,\nbłogosławionaś Ty między niewiastami\ni błogosławiony owoc żywota Twojego, Jezus.\nŚwięta Maryjo, Matko Boża,\nmódl się za nami grzesznymi\nteraz i w godzinę śmierci naszej.\nAmen."
+  },
+  {
+    "title": "Znak Krzyża św.",
+    "text": "W imię Ojca i Syna i Ducha Świętego. Amen."
   }
 ];
