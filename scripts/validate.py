@@ -74,6 +74,7 @@ required_files = [
     "data/songs.js",
     "data/prayers.js",
     "data/liturgy.js",
+    "data/reflections.js",
 ]
 
 for day in range(1, 16):
