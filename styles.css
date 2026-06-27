@@ -1457,6 +1457,111 @@
             text-transform: none;
         }
 
+        .reflection-intro {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: var(--text);
+            font-size: 0.98rem;
+            line-height: 1.5;
+            font-weight: 680;
+        }
+
+        .reflection-intro p {
+            margin: 0;
+        }
+
+        .reflection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .reflection-day-card {
+            min-width: 0;
+            min-height: 112px;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            display: grid;
+            align-content: space-between;
+            gap: 10px;
+            text-align: left;
+            touch-action: manipulation;
+        }
+
+        .reflection-day-card:active {
+            transform: scale(0.985);
+        }
+
+        .reflection-day-card.is-today {
+            border-color: color-mix(in srgb, var(--primary) 58%, var(--line));
+            background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+        }
+
+        .reflection-day-card.is-locked {
+            color: var(--muted);
+            background: color-mix(in srgb, var(--surface-soft) 72%, var(--surface));
+        }
+
+        .reflection-day-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .reflection-day-number,
+        .reflection-day-status {
+            color: var(--muted);
+            font-size: 0.66rem;
+            line-height: 1.2;
+            font-weight: 950;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .reflection-day-card.is-today .reflection-day-number,
+        .reflection-day-card.is-today .reflection-day-status {
+            color: var(--primary-strong);
+        }
+
+        .reflection-day-card strong {
+            color: var(--text);
+            font-size: clamp(0.98rem, 3.5vw, 1.18rem);
+            line-height: 1.15;
+            font-weight: 950;
+            letter-spacing: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .reflection-lock {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--surface-soft);
+            color: var(--muted);
+            flex: 0 0 auto;
+        }
+
+        .reflection-lock svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.2;
+        }
+
+        .reflection-detail-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            font-weight: 680;
+        }
+
         .regulation-content {
             color: var(--text);
             font-size: 0.96rem;
@@ -2383,6 +2488,10 @@
 
             .action-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .reflection-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .home-hero,
