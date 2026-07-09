@@ -1733,6 +1733,12 @@
             font-weight: 760;
         }
 
+        .liturgy-detail-title.is-psalm-refrain {
+            margin-top: 12px;
+            color: var(--text);
+            font-weight: 850;
+        }
+
         .liturgy-detail-body {
             margin: 12px 0 0;
             color: var(--text);
@@ -1741,6 +1747,54 @@
             font-weight: 650;
             white-space: pre-line;
             overflow-wrap: anywhere;
+        }
+
+        .liturgy-prose-body {
+            display: grid;
+            gap: 10px;
+            white-space: normal;
+        }
+
+        .liturgy-prose-body p {
+            margin: 0;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .liturgy-proclamation-intro {
+            font-weight: 820;
+            text-align: left !important;
+        }
+
+        .liturgy-proclamation-closing {
+            margin-top: 6px !important;
+            font-weight: 820;
+            text-align: left !important;
+        }
+
+        .liturgy-psalm-body {
+            display: grid;
+            gap: 16px;
+            white-space: normal;
+            text-align: left;
+        }
+
+        .liturgy-psalm-stanza {
+            display: grid;
+            gap: 3px;
+        }
+
+        .liturgy-psalm-stanza span {
+            display: block;
+        }
+
+        .liturgy-psalm-refrain {
+            margin: 0;
+            color: var(--text);
+            font-size: 0.98rem;
+            line-height: 1.5;
+            font-weight: 850;
+            text-align: left;
         }
 
         .liturgy-detail-source {
