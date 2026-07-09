@@ -53,7 +53,7 @@ window.EPP_LITURGY = [
                 "type": "Psalm",
                 "ref": "Ps 34, 2-3. 4-5. 6-7. 8-9. 10-11",
                 "title": "Refren: Po wieczne czasy będę chwalił Pana.",
-                "text": "Albo: Wszyscy zobaczcie, jak nasz Pan jest dobry.\nBędę błogosławił Pana po wieczne czasy, *\nJego chwała będzie zawsze na moich ustach.\nDusza moja chlubi się Panem, *\nniech słyszą to pokorni i niech się weselą.\nRefren: Po wieczne czasy będę chwalił Pana.\nAlbo: Wszyscy zobaczcie, jak nasz Pan jest dobry.\nWysławiajcie razem ze mną Pana, *\nwspólnie wywyższajmy Jego imię.\nSzukałem pomocy u Pana, a On mnie wysłuchał *\ni wyzwolił od wszelkiej trwogi.\nRefren: Po wieczne czasy będę chwalił Pana.\nAlbo: Wszyscy zobaczcie, jak nasz Pan jest dobry.\nSpójrzcie na Niego, a rozpromienicie się radością, *\noblicza wasze nie zapłoną wstydem.\nOto zawołał biedak i Pan go usłyszał, *\ni uwolnił od wszelkiego ucisku.\nRefren: Po wieczne czasy będę chwalił Pana.\nAlbo: Wszyscy zobaczcie, jak nasz Pan jest dobry.\nAnioł Pański otacza szańcem bogobojnych, *\naby ich ocalić.\nSkosztujcie i zobaczcie, jak Pan jest dobry, *\nszczęśliwy człowiek, który znajduje w Nim ucieczkę.\nRefren: Po wieczne czasy będę chwalił Pana.\nAlbo: Wszyscy zobaczcie, jak nasz Pan jest dobry.\nBójcie się Pana, wszyscy Jego święci, *\nci, co się Go boją, nie zaznają biedy.\nBogacze zubożeli i zaznali głodu, *\nszukającym Pana niczego nie zbraknie.\nRefren: Po wieczne czasy będę chwalił Pana.\nAlbo: Wszyscy zobaczcie, jak nasz Pan jest dobry."
+                "text": "Będę błogosławił Pana po wieczne czasy, *\nJego chwała będzie zawsze na moich ustach.\nDusza moja chlubi się Panem, *\nniech słyszą to pokorni i niech się weselą.\nRefren: Po wieczne czasy będę chwalił Pana.\nWysławiajcie razem ze mną Pana, *\nwspólnie wywyższajmy Jego imię.\nSzukałem pomocy u Pana, a On mnie wysłuchał *\ni wyzwolił od wszelkiej trwogi.\nRefren: Po wieczne czasy będę chwalił Pana.\nSpójrzcie na Niego, a rozpromienicie się radością, *\noblicza wasze nie zapłoną wstydem.\nOto zawołał biedak i Pan go usłyszał, *\ni uwolnił od wszelkiego ucisku.\nRefren: Po wieczne czasy będę chwalił Pana.\nAnioł Pański otacza szańcem bogobojnych, *\naby ich ocalić.\nSkosztujcie i zobaczcie, jak Pan jest dobry, *\nszczęśliwy człowiek, który znajduje w Nim ucieczkę.\nRefren: Po wieczne czasy będę chwalił Pana.\nBójcie się Pana, wszyscy Jego święci, *\nci, co się Go boją, nie zaznają biedy.\nBogacze zubożeli i zaznali głodu, *\nszukającym Pana niczego nie zbraknie.\nRefren: Po wieczne czasy będę chwalił Pana."
             },
             {
                 "type": "Aklamacja",
@@ -89,7 +89,7 @@ window.EPP_LITURGY = [
                 "type": "Psalm",
                 "ref": "Ps 146 (145), 1b-2. 3-4. 5-6b",
                 "title": "Refren: Szczęśliwy, kogo wspiera Bóg Jakuba.",
-                "text": "Albo: Alleluja.\nChwal, duszo moja, Pana. *\nBędę chwalił Pana do końca mego życia,\nbędę śpiewał mojemu Bogu, *\ndopóki istnieję.\nRefren: Szczęśliwy, kogo wspiera Bóg Jakuba.\nNie pokładajcie ufności w książętach *\nani w człowieku, który zbawić nie może.\nKiedy duch go opuści, znów w proch się obraca *\ni przepadają wszystkie jego zamiary.\nRefren: Szczęśliwy, kogo wspiera Bóg Jakuba.\nSzczęśliwy ten, kogo wspiera Bóg Jakuba, *\nkto pokłada nadzieję w Panu Bogu.\nOn stworzył niebo i ziemię, i morze *\nze wszystkim, co w nich istnieje.\nRefren: Szczęśliwy, kogo wspiera Bóg Jakuba."
+                "text": "Chwal, duszo moja, Pana. *\nBędę chwalił Pana do końca mego życia,\nbędę śpiewał mojemu Bogu, *\ndopóki istnieję.\nRefren: Szczęśliwy, kogo wspiera Bóg Jakuba.\nNie pokładajcie ufności w książętach *\nani w człowieku, który zbawić nie może.\nKiedy duch go opuści, znów w proch się obraca *\ni przepadają wszystkie jego zamiary.\nRefren: Szczęśliwy, kogo wspiera Bóg Jakuba.\nSzczęśliwy ten, kogo wspiera Bóg Jakuba, *\nkto pokłada nadzieję w Panu Bogu.\nOn stworzył niebo i ziemię, i morze *\nze wszystkim, co w nich istnieje.\nRefren: Szczęśliwy, kogo wspiera Bóg Jakuba."
             },
             {
                 "type": "Aklamacja",
@@ -112,7 +112,7 @@ window.EPP_LITURGY = [
     {
         "day": 4,
         "date": "31.07.2026",
-        "title": "Piątek XVII tygodnia zwykłego, rok II",
+        "title": "Wspomnienie św. Ignacego Loyoli, kapłana",
         "source": "https://www.paulus.org.pl/czytania?data=2026-7-31",
         "readings": [
             {
@@ -148,7 +148,7 @@ window.EPP_LITURGY = [
     {
         "day": 5,
         "date": "01.08.2026",
-        "title": "Sobota XVII tygodnia zwykłego, rok II",
+        "title": "Wspomnienie św. Alfonsa Marii Liguoriego, biskupa i doktora Kościoła",
         "source": "https://www.paulus.org.pl/czytania?data=2026-8-1",
         "readings": [
             {
@@ -262,7 +262,7 @@ window.EPP_LITURGY = [
     {
         "day": 8,
         "date": "04.08.2026",
-        "title": "Wtorek XVIII tygodnia zwykłego, rok II",
+        "title": "Wspomnienie św. Jana Marii Vianneya, kapłana",
         "source": "https://www.paulus.org.pl/czytania?data=2026-8-4",
         "readings": [
             {
@@ -412,7 +412,7 @@ window.EPP_LITURGY = [
     {
         "day": 12,
         "date": "08.08.2026",
-        "title": "Sobota XVIII tygodnia zwykłego, rok II",
+        "title": "Wspomnienie św. Dominika, kapłana",
         "source": "https://www.paulus.org.pl/czytania?data=2026-8-8",
         "readings": [
             {
@@ -532,37 +532,38 @@ window.EPP_LITURGY = [
     {
         "day": 15,
         "date": "11.08.2026",
-        "title": "Wtorek XIX tygodnia zwykłego, rok II",
-        "source": "https://www.paulus.org.pl/czytania?data=2026-8-11",
+        "title": "Msza święta o Matce Boskiej Częstochowskiej",
+        "source": "Liturgia Słowa 2026(1).docx",
         "readings": [
             {
                 "type": "Czytanie I",
-                "ref": "Ez 2, 8 – 3, 4",
-                "title": "Wizja księgi",
-                "text": "Czytanie z Księgi proroka Ezechiela\nTak mówi Pan:\n«Ty, synu człowieczy, słuchaj tego, co ci powiem. Nie opieraj się, jak ten lud zbuntowany. Otwórz usta swoje i zjedz, co ci podam».\nPopatrzyłem, a oto wyciągnięta była w moim kierunku ręka, w której był zwój księgi. Rozwinęła go przede mną; był zapisany z jednej i drugiej strony, a opisane w nim były narzekania, wzdychania i biadania.\nA On rzekł do mnie: «Synu człowieczy, zjedz to, co masz przed sobą. Zjedz ten zwój i idź przemawiać do Izraelitów!» Otworzyłem więc usta, a On dał mi zjeść ów zwój, mówiąc do mnie: «Synu człowieczy, nasyć żołądek i napełnij wnętrzności swoje tym zwojem, który ci podałem». Zjadłem go, a w ustach moich był słodki jak miód. Potem rzekł do mnie: «Synu człowieczy, udaj się do domu Izraela i przemawiaj do nich moimi słowami».\nOto słowo Boże."
+                "ref": "Prz 8, 22-35",
+                "title": "Maryja stolicą mądrości",
+                "text": "Czytanie z Pierwszej Księgi Przysłów.\nPan mnie stworzył, swe arcydzieło, przed swymi czynami, od dawna, od wieków jestem stworzona, od początku, nim ziemia powstała.\nJestem zrodzona, gdy jeszcze bezmiar wód nie istniał ani źródła, co wodą tryskają, i zanim góry stanęły. Poczęta jestem przed pagórkami, nim ziemię i pola uczynił, początek pyłu na ziemi.\nGdy niebo umacniał, z Nim byłam, gdy kreślił sklepienie nad bezmiarem wód, gdy w górze utwierdzał obłoki, gdy źródła wielkiej otchłani umacniał, gdy morzu stawiał granice, by wody z brzegów nie wyszły, gdy kreślił fundamenty pod ziemię. Ja byłam przy Nim mistrzynią, rozkoszą Jego dzień po dniu, cały czas igrając przed Nim, igrając na okręgu ziemi, znajdując radość przy synach ludzkich.\nWięc teraz, synowie, słuchajcie mnie, szczęśliwi, co dróg moich strzegą. Przyjmijcie naukę i stańcie się mądrzy, pouczeń mych nie odrzucajcie. Błogosławiony ten, kto mnie słucha , kto co dzień u drzwi moich czeka, by czuwać u progu mej bramy, bo kto mnie znajdzie, ten znajdzie życie i uzyska łaskę u Pana.\nOto słowo Boże."
             },
             {
                 "type": "Psalm",
-                "ref": "Ps 119 (118), 14 i 24. 72 i 103. 111 i 131",
-                "title": "Refren: Nad miód są słodsze Twoje przykazania.",
-                "text": "Więcej się cieszę z drogi wskazanej przez Twe napomnienia *\nniż z wszelkiego bogactwa.\nBo Twe napomnienia są moją rozkoszą, *\nmoimi doradcami Twoje ustawy.\nRefren: Nad miód są słodsze Twoje przykazania.\nPrawo ust Twoich jest dla mnie lepsze *\nniż tysiące sztuk złota i srebra.\nJak słodka jest Twoja mowa dla mego podniebienia, *\nponad miód słodsza dla ust moich.\nRefren: Nad miód są słodsze Twoje przykazania.\nNapomnienia Twoje są moim dziedzictwem na wieki, *\nbo są radością mojego serca.\nZaczerpnę powietrza otwartymi ustami, *\nbo pragnę Twoich przykazań.\nRefren: Nad miód są słodsze Twoje przykazania."
+                "ref": "Ps 48",
+                "title": "Refren: Tyś wielką chlubą naszego narodu.",
+                "text": "Wielki jest Pan i godzien wielkiej chwały *\nw mieście naszego Boga.\nŚwięta Jego góra, wspaniałe wzniesienie, *\nradością jest całej ziemi.\nRefren: Tyś wielką chlubą naszego narodu.\nCośmy słyszeli, to zobaczyliśmy *\nw mieście Pana Zastępów,\nw mieście naszego Boga; *\nBóg je umacnia na wieki.\nRefren: Tyś wielką chlubą naszego narodu.\nRozważmy, Boże, Twoją łaskawość *\nwe wnętrzu Twojej świątyni.\nJak imię Twe, Boże, tak i chwała Twoja\nsięga po krańce ziemi. *\nPrawica Twoja pełna jest sprawiedliwości.\nRefren: Tyś wielką chlubą naszego narodu.\nObejdźcie dokoła Syjon, *\npoliczcie jego wieże.\nBy powiedzieć przyszłym pokoleniom, *\nże Bóg jest naszym Bogiem na wieki.\nRefren: Tyś wielką chlubą naszego narodu."
             },
             {
                 "type": "Aklamacja",
-                "ref": "Mt 11, 29ab",
-                "title": "Aklamacja: Alleluja, alleluja, alleluja.",
-                "text": "Weźcie na siebie moje jarzmo i uczcie się ode Mnie,\nbo jestem cichy i pokornego serca.\nAklamacja: Alleluja, alleluja, alleluja."
+                "ref": "",
+                "title": "Aklamacja: Alleluja, alleluja, alleluja",
+                "text": "Zdrowaś Maryjo, łaski pełna, Pan z Tobą,\nbłogosławionaś Ty między niewiastami.\nAklamacja: Alleluja, alleluja, alleluja"
             },
             {
                 "type": "Ewangelia",
-                "ref": "Mt 18, 1-5. 10. 12-14",
-                "title": "Godność dzieci. Przypowieść o zabłąkanej owcy",
-                "text": "Słowa Ewangelii według Świętego Mateusza\nUczniowie przystąpili do Jezusa, pytając: «Kto właściwie jest największy w królestwie niebieskim?» On przywołał dziecko, postawił je przed nimi i rzekł:\n«Zaprawdę, powiadam wam: Jeśli się nie odmienicie i nie staniecie jak dzieci, nie wejdziecie do królestwa niebieskiego. Kto się więc uniży jak to dziecko, ten jest największy w królestwie niebieskim. A kto by jedno takie dziecko przyjął w imię moje, Mnie przyjmuje.\nBaczcie, żebyście nie gardzili żadnym z tych małych; albowiem powiadam wam: Aniołowie ich w niebie wpatrują się zawsze w oblicze Ojca mojego, który jest w niebie.\nJak wam się zdaje? Jeśli ktoś posiada sto owiec i zabłąka się jedna z nich, to czy nie zostawi dziewięćdziesięciu dziewięciu na górach i nie pójdzie szukać tej, która się błąka? A jeśli mu się uda ją odnaleźć, zaprawdę, powiadam wam: cieszy się nią bardziej niż dziewięćdziesięciu dziewięciu tymi, które się nie zabłąkały.\nTak też nie jest wolą Ojca waszego, który jest w niebie, żeby zginęło nawet jedno z tych małych».\nOto słowo Pańskie."
+                "ref": "J 2, 1-11",
+                "title": "Wesele w Kanie Galilejskiej",
+                "text": "Słowa Ewangelii według Świętego Jana\nW Kanie Galilejskiej odbywało się wesele i była tam Matka Jezusa. Zaproszono na to wesele także Jezusa i Jego uczniów.\nA kiedy zabrakło wina, Matka Jezusa rzekła do Niego: «Nie maja już wina». Jezus Jej odpowiedział: «Czyż to moja lub Twoja sprawa, Niewiasto? Jeszcze nie nadeszła godzina moja». Wtedy Matka Jego powiedziała do sług: «Zróbcie wszystko, cokolwiek wam powie».\nStało zaś tam sześć stągwi kamiennych przeznaczonych do żydowskich oczyszczeń, z których każda mogła pomieścić dwie lub trzy miary. Rzekł do nich Jezus: «Napełnijcie stągwie wodą». I napełnili je aż po brzegi. Potem do nich powiedział: «Zaczerpnijcie teraz i zanieście starości weselnemu». Ci zaś zanieśli.\nA gdy starosta weselny skosztował wody, która stała się winem, i nie wiedział, skąd ono pochodzi, ale słudzy, którzy czerpali wodę. Wiedzieli, przywołał pana młodego i powiedział do niego: «Każdy człowiek stawia najpierw dobre wino, a gdy się napiją, wówczas gorsze. Ty zachowałeś dobre wino aż do tej pory».\nTaki początek znaków uczynił Jezus w Kanie Galilejskiej. Objawił swoją chwałę i uwierzyli w Niego Jego uczniowie.\nOto słowo Pańskie."
             }
         ],
         "commentary": {
-            "title": "Pokora drogą do Boga",
-            "text": "„Kto jest największy w królestwie niebieskim?”. Uczniowie pytają Jezusa o przyszłe znaczenie w niebie, ale także o to, kto już teraz ma szansę na to, by być bliżej Pana – po prawej czy po lewej stronie. W odpowiedzi Pan Jezus przywołuje przykład dziecka: „Kto się stanie tak mały, jak to dziecko, ten będzie największy w królestwie niebieskim”. Trzeba odwrócić zwyczajowy sposób myślenia, nie biec za tym, co w oczach ludzi wielkie, ale przyjąć pokorę jako drogę do Boga. Aniołowie dzieci, tak samo jak aniołowie pokornych, „widzą ciągle oblicze Ojca”. Pierwszym wzorem takiego uniżenia, które prowadzi do chwały, jest sam Chrystus. List do Filipian (Flp 2, 5-11) zawiera hymn o Jezusie jako wzorze pokory. On uniżył samego siebie przez wcielenie i przez śmierć na krzyżu, „dlatego Bóg Go wywyższył”. Święty Paweł zachęca: „miejcie w sobie takie usposobienie”.\nPanie Jezu, nie jest mi łatwo być pokornym, bo muszę pokonać egoizm. Ale pokora daje wolność, pozbawia przesadnych zmartwień i przede wszystkim stawia mnie w prawdzie. Udziel mi daru pokory i prostoty. Amen.\nRozważania zaczerpnięte z Ewangelia 2024\no. Andrzej Kiejza OFMCap\nEdycja Świętego Pawła"
+            "title": "Komentarz",
+            "text": "Komentarz do tej Liturgii Słowa zostanie uzupełniony.",
+            "source": ""
         }
     }
 ];
