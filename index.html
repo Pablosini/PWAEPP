@@ -3023,15 +3023,96 @@ Ref.: Oto są baranki...`
             ].filter(Boolean);
         }
 
+        function isPsalmSection(section) {
+            return String(section.label || "").trim().toLowerCase() === "psalm";
+        }
+
+        function renderPsalmDetailBody(text = "") {
+            const normalizedText = normalizeDetailText(text);
+            if (!normalizedText) {
+                return `<p class="liturgy-detail-body">Treść zostanie uzupełniona.</p>`;
+            }
+
+            const blocks = [];
+            let stanzaLines = [];
+            const flushStanza = () => {
+                if (!stanzaLines.length) return;
+                blocks.push(`
+                    <div class="liturgy-psalm-stanza">
+                        ${stanzaLines.map(line => `<span>${escapeHtml(line)}</span>`).join("")}
+                    </div>
+                `);
+                stanzaLines = [];
+            };
+
+            normalizedText.split("\n").forEach(rawLine => {
+                const line = rawLine.trim();
+                if (!line) {
+                    flushStanza();
+                    return;
+                }
+
+                if (/^Refren\s*:/i.test(line)) {
+                    flushStanza();
+                    blocks.push(`<p class="liturgy-psalm-refrain">${escapeHtml(line)}</p>`);
+                    return;
+                }
+
+                stanzaLines.push(line);
+            });
+            flushStanza();
+
+            return `<div class="liturgy-detail-body liturgy-psalm-body">${blocks.join("")}</div>`;
+        }
+
+        function isProclamationIntroLine(line = "") {
+            return /^(\+\s*)?(Czytanie z|Słowa Ewangelii|Początek Ewangelii)/i.test(line.trim());
+        }
+
+        function isProclamationClosingLine(line = "") {
+            return /^Oto słowo/i.test(line.trim());
+        }
+
+        function renderLiturgyProseBody(text = "") {
+            const normalizedText = normalizeDetailText(text);
+            if (!normalizedText) {
+                return `<p class="liturgy-detail-body">Treść zostanie uzupełniona.</p>`;
+            }
+
+            const lines = normalizedText.split("\n").map(line => line.trim()).filter(Boolean);
+            const introLine = lines.length && isProclamationIntroLine(lines[0]) ? lines.shift() : "";
+            const closingLine = lines.length && isProclamationClosingLine(lines[lines.length - 1]) ? lines.pop() : "";
+            const paragraphs = lines.map(line => `<p>${escapeHtml(line)}</p>`).join("");
+
+            return `
+                <div class="liturgy-detail-body liturgy-prose-body">
+                    ${introLine ? `<p class="liturgy-proclamation-intro">${escapeHtml(introLine)}</p>` : ""}
+                    ${paragraphs || `<p>Treść zostanie uzupełniona.</p>`}
+                    ${closingLine ? `<p class="liturgy-proclamation-closing">${escapeHtml(closingLine)}</p>` : ""}
+                </div>
+            `;
+        }
+
         function renderLiturgyDetailSection(section, options = {}) {
             const body = normalizeDetailText(section.text || "");
+            const commentarySource = options.commentary && section.source ? section.source : "";
+            const isPsalm = isPsalmSection(section);
+            const titleClass = `liturgy-detail-title${isPsalm ? " is-psalm-refrain" : ""}`;
+            const bodyMarkup = isPsalm
+                ? renderPsalmDetailBody(section.text)
+                : renderLiturgyProseBody(body);
+            const sectionClass = [
+                "liturgy-detail-section",
+                options.commentary ? "is-commentary" : "",
+                isPsalm ? "is-psalm" : ""
+            ].filter(Boolean).join(" ");
             return `
-                <section class="liturgy-detail-section ${options.commentary ? "is-commentary" : ""}">
+                <section class="${sectionClass}">
                     <span class="liturgy-detail-label">${escapeHtml(section.label)}</span>
                     ${section.ref ? `<strong class="liturgy-detail-ref">${escapeHtml(section.ref)}</strong>` : ""}
-                    ${section.title ? `<span class="liturgy-detail-title">${escapeHtml(section.title)}</span>` : ""}
-                    <p class="liturgy-detail-body">${escapeHtml(body || "Treść zostanie uzupełniona.")}</p>
-                    ${options.commentary ? `<small class="liturgy-detail-source">Źródło: www.paulus.org.pl</small>` : ""}
+                    ${section.title ? `<span class="${titleClass}">${escapeHtml(section.title)}</span>` : ""}
+                    ${bodyMarkup}
+                    ${commentarySource ? `<small class="liturgy-detail-source">Źródło: ${escapeHtml(commentarySource)}</small>` : ""}
                 </section>
             `;
         }
@@ -3046,13 +3127,17 @@ Ref.: Oto są baranki...`
             detailText.classList.add("liturgy-detail-text");
 
             const commentary = day.commentary || {};
+            const commentarySource = typeof commentary === "object" && Object.prototype.hasOwnProperty.call(commentary, "source")
+                ? commentary.source
+                : "www.paulus.org.pl";
             const sections = [
                 ...getLiturgyReadings(day).map(section => renderLiturgyDetailSection(section)),
                 renderLiturgyDetailSection({
                     label: "Komentarz",
                     ref: "",
                     title: typeof commentary === "string" ? commentary : commentary.title || "",
-                    text: typeof commentary === "object" ? commentary.text || "" : ""
+                    text: typeof commentary === "object" ? commentary.text || "" : "",
+                    source: commentarySource
                 }, { commentary: true })
             ];
 
