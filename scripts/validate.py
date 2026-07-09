@@ -239,8 +239,8 @@ if "setTimeout(requestRouteLocationAccess, 700)" in index_html:
 if "navigator.permissions.query({ name: \"geolocation\" })" not in index_html:
     fail("Location access should query permission state before requesting geolocation")
 
-if "isAndroidDevice() && permissionState !== \"granted\"" not in index_html:
-    fail("Android location prompt suppression is missing")
+if "isAndroidDevice() && permissionState !== \"granted\"" in index_html:
+    fail("Android location prompt should not be suppressed before requesting geolocation")
 
 try:
     route_schedule = json.loads(extract_js_array(index_html, "mainRouteSchedule"))
