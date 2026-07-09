@@ -116,17 +116,6 @@
 
                 <section class="section">
                     <div class="action-grid">
-                        <button class="action-card" type="button" data-open="route">
-                            <span class="card-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                    <path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/>
-                                    <path d="M9 3v15M15 6v15"/>
-                                </svg>
-                            </span>
-                            <span>
-                                <strong>Trasa</strong>
-                            </span>
-                        </button>
                         <button class="action-card" type="button" data-open="songs">
                             <span class="card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -137,6 +126,28 @@
                             </span>
                             <span>
                                 <strong>Śpiewnik</strong>
+                            </span>
+                        </button>
+                        <button class="action-card" type="button" data-open="prayers">
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M12 2v20M5 7h14"/>
+                                    <path d="M7 22h10"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Modlitewnik</strong>
+                            </span>
+                        </button>
+                        <button class="action-card" type="button" data-open="route">
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/>
+                                    <path d="M9 3v15M15 6v15"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Trasa</strong>
                             </span>
                         </button>
                         <button class="action-card" type="button" data-open="liturgy">
@@ -162,17 +173,6 @@
                             </span>
                             <span>
                                 <strong>Droga Słowa</strong>
-                            </span>
-                        </button>
-                        <button class="action-card" type="button" data-open="prayers">
-                            <span class="card-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                    <path d="M12 2v20M5 7h14"/>
-                                    <path d="M7 22h10"/>
-                                </svg>
-                            </span>
-                            <span>
-                                <strong>Modlitewnik</strong>
                             </span>
                         </button>
                         <button class="action-card" type="button" data-open="regulations">
@@ -469,7 +469,7 @@
                     <div class="section-header">
                         <div>
                             <p class="section-kicker">Na dziś</p>
-                            <h2 class="section-title">Informacje dla prowadzących</h2>
+                            <h2 class="section-title">Informacje dla kadry</h2>
                         </div>
                     </div>
                     <div class="org-list" id="kadra-org-list"></div>
@@ -946,12 +946,7 @@ Ref.: Oto są baranki...`
                     ]
                 }
             ],
-            informacje: [
-                { tytul: "Odprawa kadry", opis: "Codziennie o 21:15 w miejscu noclegu grupy głównej." },
-                { tytul: "Cisza nocna", opis: "Dla pielgrzymów od 22:30, dla kadry operacyjnej od 23:00." },
-                { tytul: "Bagaże", opis: "Samochody bagażowe zamykają załadunek najpóźniej 20 minut przed wymarszem." },
-                { tytul: "Zgłoszenia medyczne", opis: "Poważniejsze przypadki kierować od razu do głównego sanitariatu, nie przez czat grupowy." }
-            ]
+            informacje: []
         };
 
         const routeGroups = [
@@ -3126,20 +3121,24 @@ Ref.: Oto są baranki...`
             detailText.classList.remove("song-detail-text", "structured-detail-text", "reflection-detail-text");
             detailText.classList.add("liturgy-detail-text");
 
-            const commentary = day.commentary || {};
-            const commentarySource = typeof commentary === "object" && Object.prototype.hasOwnProperty.call(commentary, "source")
-                ? commentary.source
-                : "www.paulus.org.pl";
             const sections = [
-                ...getLiturgyReadings(day).map(section => renderLiturgyDetailSection(section)),
-                renderLiturgyDetailSection({
+                ...getLiturgyReadings(day).map(section => renderLiturgyDetailSection(section))
+            ];
+            const commentary = day.commentary || null;
+            const commentaryTitle = typeof commentary === "string" ? "" : commentary?.title || "";
+            const commentaryText = typeof commentary === "string" ? commentary : commentary?.text || "";
+            if (commentaryTitle || normalizeDetailText(commentaryText)) {
+                const commentarySource = typeof commentary === "object" && Object.prototype.hasOwnProperty.call(commentary, "source")
+                    ? commentary.source
+                    : "www.paulus.org.pl";
+                sections.push(renderLiturgyDetailSection({
                     label: "Komentarz",
                     ref: "",
-                    title: typeof commentary === "string" ? commentary : commentary.title || "",
-                    text: typeof commentary === "object" ? commentary.text || "" : "",
+                    title: commentaryTitle,
+                    text: commentaryText,
                     source: commentarySource
-                }, { commentary: true })
-            ];
+                }, { commentary: true }));
+            }
 
             detailText.innerHTML = sections.join("");
             openView("detail");
@@ -3340,10 +3339,6 @@ Ref.: Oto są baranki...`
             return "geolocation" in navigator && (window.isSecureContext || isLocalHost);
         }
 
-        function isAndroidDevice() {
-            return /Android/i.test(navigator.userAgent || "");
-        }
-
         async function getRouteLocationPermissionState() {
             if (!navigator.permissions?.query) return "unknown";
             try {
@@ -3401,9 +3396,8 @@ Ref.: Oto są baranki...`
                 safeStorage.setItem("epp-route-location-status", "denied");
                 return;
             }
-            if (isAndroidDevice() && permissionState !== "granted") {
+            if (permissionState === "prompt") {
                 routeLocationStatus = "prompt";
-                return;
             }
 
             routeLocationStatus = "pending";
