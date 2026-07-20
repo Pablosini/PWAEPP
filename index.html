@@ -333,7 +333,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.68<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.70<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -433,7 +433,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.68<br>© 2026 PePe.Studio</p>
+                    <p class="version">Wersja 1.0.70<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -650,7 +650,7 @@
     <script src="data/liturgy.js"></script>
     <script src="data/reflections.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.68";
+        let appActiveVersion = "Wersja 1.0.70";
         let deferredPrompt = null;
         let installModalSource = "manual";
         let serviceWorkerReady = false;
@@ -3177,9 +3177,18 @@ Ref.: Oto są baranki...`
 
         function getReflectionsStartDate() {
             const configuredDate = parseLocalDate(reflectionsConfig.startDate);
-            if (configuredDate) return configuredDate;
+            if (configuredDate) {
+                const configuredHour = Number(reflectionsConfig.unlockHour);
+                const unlockHour = Number.isInteger(configuredHour)
+                    ? Math.max(0, Math.min(23, configuredHour))
+                    : 6;
+                configuredDate.setHours(unlockHour, 0, 0, 0);
+                return configuredDate;
+            }
             console.warn("Nieprawidłowa data startu Drogi Słowa. Uzupełnij startDate w data/reflections.js.");
-            return getStartOfLocalDay();
+            const fallbackDate = getStartOfLocalDay();
+            fallbackDate.setHours(6, 0, 0, 0);
+            return fallbackDate;
         }
 
         function getReflectionDate(day) {
@@ -3197,11 +3206,10 @@ Ref.: Oto są baranki...`
 
         function getReflectionDayState(day, now = new Date()) {
             const unlockDate = getReflectionDate(day);
-            const today = getStartOfLocalDay(now);
             return {
                 unlockDate,
-                isUnlocked: today.getTime() >= unlockDate.getTime(),
-                isToday: isSameCalendarDate(today, unlockDate)
+                isUnlocked: now.getTime() >= unlockDate.getTime(),
+                isToday: isSameCalendarDate(now, unlockDate)
             };
         }
 
@@ -3211,11 +3219,13 @@ Ref.: Oto są baranki...`
 
             target.innerHTML = reflections.map(item => {
                 const state = getReflectionDayState(item.day);
-                const status = state.isToday
-                    ? "Dzisiaj"
-                    : state.isUnlocked
-                        ? "Dostępne"
-                        : "Zablokowane";
+                const status = state.isToday && !state.isUnlocked
+                    ? "Od 06:00"
+                    : state.isToday
+                        ? "Dzisiaj"
+                        : state.isUnlocked
+                            ? "Dostępne"
+                            : "Zablokowane";
                 const classes = [
                     "reflection-day-card",
                     state.isUnlocked ? "is-unlocked" : "is-locked",
@@ -4287,7 +4297,7 @@ Ref.: Oto są baranki...`
             const day = Number(button.dataset.reflectionDay);
             const state = getReflectionDayState(day);
             if (!state.isUnlocked) {
-                showToast(`Ten dzień odblokuje się ${formatReflectionDate(state.unlockDate)}.`);
+                showToast(`Ten dzień odblokuje się ${formatReflectionDate(state.unlockDate)} o 06:00.`);
                 return;
             }
 
