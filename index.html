@@ -198,6 +198,17 @@
                                 <strong>Ustawienia</strong>
                             </span>
                         </button>
+                        <button class="action-card" id="home-cross-way-card" type="button" data-open="cross-way" hidden>
+                            <span class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                    <path d="M12 2v20M5 7h14"/>
+                                    <path d="M8 22h8"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <strong>Droga Krzyżowa</strong>
+                            </span>
+                        </button>
                         <button class="action-card" id="home-kadra-card" type="button" data-open="kadra" hidden>
                             <span class="card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -333,7 +344,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.70<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.71<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -433,7 +444,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.70<br>© 2026 PePe.Studio</p>
+                    <p class="version">Wersja 1.0.71<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -449,6 +460,30 @@
                 <article class="content-card">
                     <div class="detail-text" id="detail-text"></div>
                 </article>
+            </section>
+
+            <section class="view" id="view-cross-way" data-view="cross-way" hidden>
+                <div class="toolbar">
+                    <button class="back-button" type="button" data-back>‹ Wróć</button>
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">Droga Krzyżowa</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="cross-way-option-list" id="cross-way-list"></div>
+            </section>
+
+            <section class="view" id="view-cross-way-detail" data-view="cross-way-detail" hidden>
+                <div class="toolbar">
+                    <button class="back-button" type="button" data-back>‹ Wróć</button>
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title" id="cross-way-detail-title">Droga Krzyżowa</h2>
+                        </div>
+                    </div>
+                </div>
+                <article class="cross-way-detail" id="cross-way-detail-content"></article>
             </section>
 
             <section class="view" id="view-kadra" data-view="kadra" hidden>
@@ -649,8 +684,9 @@
     <script src="data/prayers.js"></script>
     <script src="data/liturgy.js"></script>
     <script src="data/reflections.js"></script>
+    <script src="data/cross-way.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.70";
+        let appActiveVersion = "Wersja 1.0.71";
         let deferredPrompt = null;
         let installModalSource = "manual";
         let serviceWorkerReady = false;
@@ -663,6 +699,7 @@
         let pendingRootNavigation = null;
         const viewHistory = [];
         const rootViewNames = new Set(["home", "songs", "prayers", "liturgy", "reflections", "route", "more", "kadra"]);
+        const kadraOnlyViewNames = new Set(["kadra", "cross-way", "cross-way-detail"]);
 
         const safeStorage = {
             fallbackStore: {},
@@ -894,6 +931,7 @@ Ref.: Oto są baranki...`
                 text: item.text || ""
             };
         });
+        const crossWays = Array.isArray(window.EPP_CROSS_WAYS) ? window.EPP_CROSS_WAYS : [];
 
         const bibleQuotes = [
             "Pan jest pasterzem moim, nie brak mi niczego. Pozwala mi leżeć na zielonych pastwiskach. (Ps 23, 1-2)",
@@ -942,7 +980,9 @@ Ref.: Oto są baranki...`
                         { nazwa: "Sekretariat", numer: "+48 605 844 684", opis: "siostra Magdalena Niedźwiedzcka" },
                         { nazwa: "Ambulans", numer: "+48 660 532 374", opis: "brat Krzysztof Ostrowski" },
                         { nazwa: "Kuchnia", numer: "+48 695 792 336", opis: "al. Mateusz Sawicki" },
-                        { nazwa: "Punkt Medyczny", numer: "+48 513 234 108", opis: "Brat Paweł Pawłowski" }
+                        { nazwa: "Lekarz", numer: "+48 607 178 174", opis: "brat Stanisław Łukawski" },
+                        { nazwa: "Pielęgniarka", numer: "+48 501 142 158", opis: "siostra Marzena Juszkiewicz" },
+                        { nazwa: "Punkt Medyczny", numer: "+48 513 234 108", opis: "brat Paweł Pawłowski" }
                     ]
                 }
             ],
@@ -2733,7 +2773,7 @@ Ref.: Oto są baranki...`
         }
 
         function openView(viewName, options = {}) {
-            if (viewName === "kadra" && getKadraRole() !== "kadra") {
+            if (kadraOnlyViewNames.has(viewName) && getKadraRole() !== "kadra") {
                 openKadraLogin();
                 return;
             }
@@ -2765,6 +2805,7 @@ Ref.: Oto są baranki...`
                 window.setTimeout(requestRouteLocationAccess, 0);
             }
             if (viewName === "reflections") renderReflections();
+            if (viewName === "cross-way") renderCrossWayOptions();
             if (viewName === "kadra") renderKadraView();
             if (contentListState[viewName]) renderStoredContentList(viewName);
             document.querySelectorAll(".view").forEach(view => {
@@ -2944,13 +2985,17 @@ Ref.: Oto są baranki...`
 
         function updateKadraPanel() {
             const isKadra = getKadraRole() === "kadra";
+            document.getElementById("home-cross-way-card").hidden = !isKadra;
             document.getElementById("home-kadra-card").hidden = !isKadra;
             document.getElementById("nav-kadra").hidden = !isKadra;
+            document.getElementById("view-cross-way").hidden = !isKadra;
+            document.getElementById("view-cross-way-detail").hidden = !isKadra;
             document.getElementById("view-kadra").hidden = !isKadra;
             document.documentElement.style.setProperty("--nav-count", isKadra ? "5" : "4");
-            if (!isKadra && document.getElementById("view-kadra").classList.contains("active")) {
-                openView("more");
+            if (!isKadra && kadraOnlyViewNames.has(currentViewName)) {
+                openView("home", { force: true });
             }
+            renderCrossWayOptions();
             renderKadraView();
             renderRoute();
         }
@@ -3263,6 +3308,89 @@ Ref.: Oto są baranki...`
             detailText.classList.add("reflection-detail-text");
             detailText.textContent = normalizeDetailText(item.text) || "Treść rozważania zostanie uzupełniona.";
             openView("detail");
+        }
+
+        function renderCrossWayText(text) {
+            return escapeHtml(String(text || "")).replace(/\n/g, "<br>");
+        }
+
+        function renderCrossWayOptions() {
+            const target = document.getElementById("cross-way-list");
+            if (!target) return;
+
+            if (!crossWays.length) {
+                target.innerHTML = '<p class="cross-way-empty">Treść Drogi Krzyżowej nie jest jeszcze dostępna.</p>';
+                return;
+            }
+
+            target.innerHTML = crossWays.map(item => `
+                <button class="cross-way-option" type="button" data-cross-way-id="${escapeHtml(item.id)}">
+                    <span class="cross-way-option-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 2v20M5 7h14"/>
+                            <path d="M8 22h8"/>
+                        </svg>
+                    </span>
+                    <span class="cross-way-option-copy">
+                        <strong>${escapeHtml(item.title)}</strong>
+                        ${item.subtitle ? `<span>${escapeHtml(item.subtitle)}</span>` : ""}
+                        <small>14 stacji</small>
+                    </span>
+                    <span class="chevron" aria-hidden="true">›</span>
+                </button>
+            `).join("");
+        }
+
+        function renderCrossWayDetail(crossWayId) {
+            if (getKadraRole() !== "kadra") {
+                openKadraLogin();
+                return;
+            }
+
+            const crossWay = crossWays.find(item => item.id === crossWayId);
+            if (!crossWay) {
+                showToast("Nie udało się otworzyć wybranych rozważań.");
+                return;
+            }
+
+            document.getElementById("cross-way-detail-title").textContent = crossWay.title;
+            const content = document.getElementById("cross-way-detail-content");
+            const intro = Array.isArray(crossWay.intro) ? crossWay.intro : [];
+            const stations = Array.isArray(crossWay.stations) ? crossWay.stations : [];
+            const conclusion = Array.isArray(crossWay.conclusion) ? crossWay.conclusion : [];
+
+            content.innerHTML = `
+                ${crossWay.subtitle ? `<p class="cross-way-subtitle">${escapeHtml(crossWay.subtitle)}</p>` : ""}
+                ${intro.length ? `
+                    <section class="cross-way-opening">
+                        <h3>Wprowadzenie</h3>
+                        ${intro.map(paragraph => `<p>${renderCrossWayText(paragraph)}</p>`).join("")}
+                    </section>
+                ` : ""}
+                <div class="cross-way-stations">
+                    ${stations.map(station => `
+                        <details class="cross-way-station">
+                            <summary>
+                                <span class="cross-way-station-number">${escapeHtml(station.numeral || station.number)}</span>
+                                <span class="cross-way-station-heading">
+                                    <small>Stacja ${escapeHtml(station.numeral || station.number)}</small>
+                                    <strong>${escapeHtml(station.title)}</strong>
+                                </span>
+                            </summary>
+                            <div class="cross-way-station-body">
+                                ${(station.paragraphs || []).map(paragraph => `<p>${renderCrossWayText(paragraph)}</p>`).join("")}
+                            </div>
+                        </details>
+                    `).join("")}
+                </div>
+                ${conclusion.length ? `
+                    <section class="cross-way-closing">
+                        <h3>Zakończenie</h3>
+                        ${conclusion.map(paragraph => `<p>${renderCrossWayText(paragraph)}</p>`).join("")}
+                    </section>
+                ` : ""}
+            `;
+            openView("cross-way-detail");
         }
 
         function getRouteSummary(stops) {
@@ -4302,6 +4430,12 @@ Ref.: Oto są baranki...`
             }
 
             renderReflectionDetail(day);
+        });
+
+        document.getElementById("cross-way-list").addEventListener("click", event => {
+            const button = event.target.closest("[data-cross-way-id]");
+            if (!button) return;
+            renderCrossWayDetail(button.dataset.crossWayId);
         });
 
         themeToggle.addEventListener("click", () => setTheme(!html.classList.contains("dark")));
