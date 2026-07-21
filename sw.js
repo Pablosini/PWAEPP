@@ -1,4 +1,4 @@
-const CACHE_NAME = 'epp-pwa-cache-v1.0.2';
+const CACHE_NAME = 'epp-pwa-cache-v1.0.71';
 
 // Ścieżka bazowa wynika z rejestracji SW, dzięki czemu działa na GitHub Pages i lokalnie.
 const scopePath = new URL(self.registration.scope).pathname;
@@ -41,6 +41,7 @@ const CORE_ASSETS_TO_CACHE = [
     scopePath + 'data/prayers.js',
     scopePath + 'data/liturgy.js',
     scopePath + 'data/reflections.js',
+    scopePath + 'data/cross-way.js',
     ...APPLE_STARTUP_ASSETS,
     ...ROUTE_IMAGE_ASSETS
 ];
