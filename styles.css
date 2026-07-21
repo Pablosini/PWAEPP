@@ -1305,6 +1305,232 @@
             overflow-wrap: anywhere;
         }
 
+        .cross-way-option-list {
+            display: grid;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .cross-way-option {
+            width: 100%;
+            min-width: 0;
+            min-height: 92px;
+            padding: 16px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 48px minmax(0, 1fr) 24px;
+            align-items: center;
+            gap: 14px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            color: var(--text);
+            text-align: left;
+            touch-action: manipulation;
+        }
+
+        .cross-way-option:active {
+            transform: scale(0.985);
+        }
+
+        .cross-way-option-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--surface-soft);
+            color: var(--primary-strong);
+        }
+
+        .cross-way-option-icon svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+            stroke-width: 2.15;
+        }
+
+        .cross-way-option-copy {
+            min-width: 0;
+        }
+
+        .cross-way-option-copy strong,
+        .cross-way-option-copy span,
+        .cross-way-option-copy small {
+            display: block;
+        }
+
+        .cross-way-option-copy strong {
+            font-size: 0.98rem;
+            line-height: 1.3;
+            font-weight: 950;
+            overflow-wrap: anywhere;
+        }
+
+        .cross-way-option-copy span,
+        .cross-way-option-copy small {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.76rem;
+            line-height: 1.35;
+            font-weight: 700;
+        }
+
+        .cross-way-empty {
+            margin: 0;
+            padding: 18px;
+            border-radius: 8px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            color: var(--muted);
+            line-height: 1.5;
+            font-weight: 700;
+        }
+
+        .cross-way-detail {
+            display: grid;
+            gap: 18px;
+            min-width: 0;
+        }
+
+        .cross-way-subtitle {
+            margin: 0;
+            color: var(--primary-strong);
+            font-size: 0.94rem;
+            line-height: 1.45;
+            font-weight: 850;
+            font-style: italic;
+        }
+
+        .cross-way-opening,
+        .cross-way-closing {
+            padding: 2px 2px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .cross-way-closing {
+            padding-top: 2px;
+            padding-bottom: 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 0;
+        }
+
+        .cross-way-opening h3,
+        .cross-way-closing h3 {
+            margin: 0 0 12px;
+            font-size: 1.04rem;
+            line-height: 1.25;
+            font-weight: 950;
+        }
+
+        .cross-way-opening p,
+        .cross-way-closing p,
+        .cross-way-station-body p {
+            margin: 0;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            font-weight: 650;
+            overflow-wrap: anywhere;
+        }
+
+        .cross-way-opening p + p,
+        .cross-way-closing p + p,
+        .cross-way-station-body p + p {
+            margin-top: 14px;
+        }
+
+        .cross-way-stations {
+            display: grid;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .cross-way-station {
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+        }
+
+        .cross-way-station summary {
+            min-height: 76px;
+            padding: 12px 14px;
+            display: grid;
+            grid-template-columns: 38px minmax(0, 1fr) 28px;
+            align-items: center;
+            gap: 12px;
+            color: var(--text);
+            cursor: pointer;
+            list-style: none;
+            touch-action: manipulation;
+        }
+
+        .cross-way-station summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .cross-way-station summary::after {
+            content: "+";
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--surface-soft);
+            color: var(--primary-strong);
+            font-size: 1.2rem;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .cross-way-station[open] summary::after {
+            content: "−";
+        }
+
+        .cross-way-station-number {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--surface-soft);
+            color: var(--primary-strong);
+            font-size: 0.76rem;
+            line-height: 1;
+            font-weight: 950;
+        }
+
+        .cross-way-station-heading {
+            min-width: 0;
+        }
+
+        .cross-way-station-heading small,
+        .cross-way-station-heading strong {
+            display: block;
+        }
+
+        .cross-way-station-heading small {
+            margin-bottom: 4px;
+            color: var(--muted);
+            font-size: 0.66rem;
+            line-height: 1.2;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .cross-way-station-heading strong {
+            font-size: 0.92rem;
+            line-height: 1.3;
+            font-weight: 950;
+            overflow-wrap: anywhere;
+        }
+
+        .cross-way-station-body {
+            padding: 16px;
+            border-top: 1px solid var(--line);
+        }
+
         .liturgy-list {
             display: grid;
             gap: 12px;
