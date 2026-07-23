@@ -344,7 +344,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.85<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.86<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -444,7 +444,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.85<br>© 2026 PePe.Studio</p>
+                    <p class="version">Wersja 1.0.86<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -501,7 +501,7 @@
                     <div class="contact-list" id="kadra-contact-list"></div>
                 </div>
                 <div class="kadra-map-links" aria-label="Mapy postojów">
-                    <a class="option-row kadra-map-link" href="https://www.google.com/maps/d/edit?mid=1TgLOp6GjJPwYzcGvszadcWrc7XtM6RY&amp;usp=sharing" target="_blank" rel="noopener noreferrer">
+                    <a class="option-row kadra-map-link" href="https://www.google.com/maps/d/viewer?mid=1TgLOp6GjJPwYzcGvszadcWrc7XtM6RY&amp;usp=sharing" data-google-maps-link rel="external noopener noreferrer">
                         <div>
                             <strong>Postoje 28.07-06.08</strong>
                         </div>
@@ -512,7 +512,7 @@
                             </svg>
                         </span>
                     </a>
-                    <a class="option-row kadra-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1D8vd_8GwWYLP3F0HCaTjYawhrNQXk7k&amp;usp=sharing" target="_blank" rel="noopener noreferrer">
+                    <a class="option-row kadra-map-link" href="https://www.google.com/maps/d/viewer?mid=1D8vd_8GwWYLP3F0HCaTjYawhrNQXk7k&amp;usp=sharing" data-google-maps-link rel="external noopener noreferrer">
                         <div>
                             <strong>Postoje 07.08-11.08</strong>
                         </div>
@@ -709,7 +709,7 @@
     <script src="data/reflections.js"></script>
     <script src="data/cross-way.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.85";
+        let appActiveVersion = "Wersja 1.0.86";
         let deferredPrompt = null;
         let installModalSource = "manual";
         let serviceWorkerReady = false;
@@ -4030,6 +4030,41 @@ Ref.: Oto są baranki...`
             };
         }
 
+        function openGoogleMapsLink(link) {
+            const webUrl = link.href;
+            const { isIOS, isAndroid } = getInstallContext();
+
+            if (isIOS) {
+                let fallbackTimer;
+                const clearFallback = () => {
+                    window.clearTimeout(fallbackTimer);
+                    document.removeEventListener("visibilitychange", handleVisibilityChange);
+                };
+                const handleVisibilityChange = () => {
+                    if (document.hidden) clearFallback();
+                };
+
+                document.addEventListener("visibilitychange", handleVisibilityChange);
+                window.addEventListener("pagehide", clearFallback, { once: true });
+                fallbackTimer = window.setTimeout(() => {
+                    clearFallback();
+                    window.location.href = webUrl;
+                }, 1200);
+
+                window.location.href = `comgooglemapsurl://${webUrl.replace(/^https?:\/\//, "")}`;
+                return;
+            }
+
+            if (isAndroid) {
+                const mapUrl = new URL(webUrl);
+                const fallbackUrl = encodeURIComponent(webUrl);
+                window.location.href = `intent://${mapUrl.host}${mapUrl.pathname}${mapUrl.search}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${fallbackUrl};end`;
+                return;
+            }
+
+            window.open(webUrl, "_blank", "noopener,noreferrer");
+        }
+
         function parseClockTime(time) {
             const match = String(time || "").match(/^(\d{1,2}):(\d{2})$/);
             if (!match) return null;
@@ -4457,6 +4492,13 @@ Ref.: Oto są baranki...`
 
         document.querySelectorAll("[data-open]").forEach(button => {
             button.addEventListener("click", () => openView(button.dataset.open));
+        });
+
+        document.querySelectorAll("[data-google-maps-link]").forEach(link => {
+            link.addEventListener("click", event => {
+                event.preventDefault();
+                openGoogleMapsLink(link);
+            });
         });
 
         document.querySelectorAll("[data-search]").forEach(input => {
