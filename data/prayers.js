@@ -226,6 +226,84 @@ window.EPP_PRAYERS = [
     "text": "Ojcze nasz,\nktóryś jest w niebie:\nświęć się imię Twoje,\nprzyjdź Królestwo Twoje,\nbądź wola Twoja jako w niebie,\ntak i na ziemi.\nChleba naszego powszedniego\ndaj nam dzisiaj.\nI odpuść nam nasze winy,\njako i my odpuszczamy naszym winowajcom.\nI nie wódź nas na pokuszenie,\nale nas zbaw od złego.\n\nAmen."
   },
   {
+    "title": "Pielgrzymkowa Litania Loretańska ks. K. Grybosia",
+    "text": `Kyrie, elejson, Christe elejson, Kyrie elejson.
+Chryste, usłysz nas, Chryste, wysłuchaj nas.
+
+Ojcze z nieba, Boże, zmiłuj się nad nami.
+Synu, Odkupicielu świata, Boże, zmiłuj się nad nami.
+Duchu Święty, Boże, zmiłuj się nad nami.
+Święta Trójco, Jedyny Boże, zmiłuj się nad nami.
+
+Święta Maryjo, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Święta Boża Rodzicielko, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Święta Panno nad pannami, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko Chrystusowa, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko Kościoła, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko miłosierdzia, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko łaski Bożej, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko nadziei, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko nieskalana, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko najczystsza, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko dziewicza, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko nienaruszona, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko najmilsza, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko przedziwna, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko dobrej rady, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko Stworzyciela, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Matko Zbawiciela, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Panno roztropna, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Panno czcigodna, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Panno wsławiona, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Panno można, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Panno łaskawa, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Panno wierna, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Zwierciadło sprawiedliwości, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Stolico mądrości, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Przyczyno naszej radości, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Przybytku Ducha Świętego, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Przybytku chwalebny, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Przybytku sławny pobożności, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Różo duchowna, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Wieżo Dawidowa, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Wieżo z kości słoniowej, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Domie złoty, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Arko przymierza, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Bramo niebieska, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Gwiazdo zaranna, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Uzdrowienie chorych, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Ucieczko grzesznych, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Pociecho migrantów, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Pocieszycielko strapionych, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Wspomożenie wiernych, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Aniołów, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Patriarchów, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Proroków, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Apostołów, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Męczenników, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Wyznawców, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Dziewic, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo wszystkich Świętych, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo bez zmazy pierworodnej poczęta, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo wniebowzięta, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo różańca świętego, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo rodziny, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo pokoju, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+Królowo Polski, módl się za nami, boś Ty jest jako różany kwiat. Jezus Lilia, Józef i Maryja, Ciebie uwielbia cały świat.
+
+Baranku Boży, który gładzisz grzechy świata, przepuść nam, Panie.
+Baranku Boży, który gładzisz grzechy świata, wysłuchaj nas, Panie.
+Baranku Boży, który gładzisz grzechy świata, zmiłuj się nad nami.
+
+Modlitwa końcowa w ciągu roku i uniwersalna:
+P. Módl się za nami, Święta Boża Rodzicielko.
+W. Abyśmy się stali godnymi obietnic Chrystusowych.
+
+Módlmy się
+Panie, nasz Boże, daj nam, sługom swoim, cieszyć się trwałym zdrowiem duszy i ciała, † i za wstawiennictwem Najświętszej Maryi, zawsze Dziewicy, * uwolnij nas od doczesnych utrapień i obdarz wieczną radością. Przez Chrystusa, Pana naszego.
+W. Amen.`
+  },
+  {
     "title": "Pod Twoją obronę",
     "text": "Pod Twoją obronę uciekamy się,\nświęta Boża Rodzicielko,\nnaszymi prośbami racz nie gardzić w potrzebach naszych,\nale od wszelakich złych przygód racz nas zawsze wybawiać,\nPanno chwalebna i błogosławiona.\n\nO Pani nasza, Orędowniczko nasza,\nPośredniczko nasza, Pocieszycielko nasza.\nZ Synem swoim nas pojednaj,\nSynowi swojemu nas polecaj,\nswojemu Synowi nas oddawaj."
   },
