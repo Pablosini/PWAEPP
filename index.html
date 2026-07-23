@@ -344,7 +344,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.79<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.85<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -444,7 +444,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.79<br>© 2026 PePe.Studio</p>
+                    <p class="version">Wersja 1.0.85<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -500,11 +500,34 @@
                     <p class="section-kicker">Kontakty</p>
                     <div class="contact-list" id="kadra-contact-list"></div>
                 </div>
+                <div class="kadra-map-links" aria-label="Mapy postojów">
+                    <a class="option-row kadra-map-link" href="https://www.google.com/maps/d/edit?mid=1TgLOp6GjJPwYzcGvszadcWrc7XtM6RY&amp;usp=sharing" target="_blank" rel="noopener noreferrer">
+                        <div>
+                            <strong>Postoje 28.07-06.08</strong>
+                        </div>
+                        <span class="small-action" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                                <circle cx="12" cy="10" r="2.5"/>
+                            </svg>
+                        </span>
+                    </a>
+                    <a class="option-row kadra-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1D8vd_8GwWYLP3F0HCaTjYawhrNQXk7k&amp;usp=sharing" target="_blank" rel="noopener noreferrer">
+                        <div>
+                            <strong>Postoje 07.08-11.08</strong>
+                        </div>
+                        <span class="small-action" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                                <circle cx="12" cy="10" r="2.5"/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
                 <section class="section">
                     <div class="section-header">
                         <div>
-                            <p class="section-kicker">Na dziś</p>
-                            <h2 class="section-title">Informacje dla kadry</h2>
+                            <h2 class="section-title">Informacje od kierowników</h2>
                         </div>
                     </div>
                     <div class="org-list" id="kadra-org-list"></div>
@@ -686,7 +709,7 @@
     <script src="data/reflections.js"></script>
     <script src="data/cross-way.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.79";
+        let appActiveVersion = "Wersja 1.0.85";
         let deferredPrompt = null;
         let installModalSource = "manual";
         let serviceWorkerReady = false;
@@ -985,6 +1008,40 @@ Ref.: Oto są baranki...`
                         { nazwa: "Punkt Medyczny", numer: "+48 513 234 108", opis: "brat Paweł Pawłowski" }
                     ]
                 }
+            ],
+            harmonogramMszy: [
+                { data: "28.07", osoba: "Bp Jerzy" },
+                { data: "29.07", osoba: "ks. Tomasz Zajkowski" },
+                { data: "30.07", osoba: "ks. Łukasz Kalinowski" },
+                { data: "31.07", osoba: "Bp Dariusz" },
+                { data: "01.08", osoba: "ks. Kamil Wielgat" },
+                { data: "02.08", osoba: "ks. Mateusz Michniewicz" },
+                { data: "03.08", osoba: "ks. Tomasz Piotrowski" },
+                { data: "04.08", osoba: "Bp Romuald" },
+                { data: "05.08", osoba: "ks. Jakub Kozikowski" },
+                { data: "06.08", osoba: "ks. Janusz Lisowski" },
+                { data: "07.08", osoba: "ks. Bartosz Chrulski" },
+                { data: "08.08", osoba: "ks. Przemysław Jermak" },
+                { data: "09.08", osoba: "ks. Tomasz Zajkowski" },
+                { data: "10.08", osoba: "Bp Dariusz" },
+                { data: "11.08", osoba: "Bp Dariusz" }
+            ],
+            harmonogramKonferencji: [
+                { dzien: 1, osoba: "ks. Mateusz Michniewicz", temat: "Po co idę? Pielgrzymka jako droga nawrócenia i spotkania z Chrystusem" },
+                { dzien: 2, osoba: "ks. Tomasz Zajkowski", temat: "Modlitwa, która przemienia serce" },
+                { dzien: 3, osoba: "ks. Janusz Lisowski", temat: "Słowo Boże - kompas pielgrzyma" },
+                { dzien: 4, osoba: "ks. Tomasz Piotrowski", temat: "Sakrament pojednania - odwaga powrotu do Boga" },
+                { dzien: 5, osoba: "ks. Bartosz Chrulski", temat: "Eucharystia - źródło siły na drogę i na życie" },
+                { dzien: 6, osoba: "ks. Łukasz Kalinowski", temat: "Niedziela - dzień spotkania z żywym Chrystusem" },
+                { dzien: 7, osoba: "ks. Arkadiusz Dardziński", temat: "Kościół misyjny - świadectwo z doświadczenia misji i odpowiedzialność każdego ochrzczonego za ewangelizację" },
+                { dzien: 8, osoba: "ks. Kamil Wielgat", temat: "Powołanie do świętości - Bóg ma plan dla każdego człowieka" },
+                { dzien: 9, osoba: "ks. Jakub Kozikowski", temat: "Relacje, które prowadzą do Boga - rodzina, przyjaźń i wspólnota" },
+                { dzien: 10, osoba: "ks. Mateusz Michniewicz", temat: "Przemienienie serca - jak nie zmarnować łaski pielgrzymki?" },
+                { dzien: 11, osoba: "ks. Tomasz Zajkowski", temat: "Krzyż, który prowadzi do zmartwychwstania" },
+                { dzien: 12, osoba: "ks. Janusz Lisowski", temat: "Wiara w codzienności - jak nie zgubić Boga po pielgrzymce" },
+                { dzien: 13, osoba: "ks. Tomasz Piotrowski", temat: "Maryja - najlepsza Przewodniczka do Jezusa" },
+                { dzien: 14, osoba: "ks. Bartosz Chrulski", temat: "Jasna Góra - dlaczego od wieków przychodzimy do Matki?" },
+                { dzien: 15, osoba: "ks. Mateusz Michniewicz", temat: "Pielgrzymka się nie kończy - jak wrócić do domu i pozostać uczniem Chrystusa" }
             ],
             informacje: []
         };
@@ -3874,7 +3931,9 @@ Ref.: Oto są baranki...`
 		                            <span class="route-toggle-title">${escapeHtml(item.title)}</span>
 		                            ${item.summary ? `<span class="route-toggle-summary">${escapeHtml(item.summary)}</span>` : ""}
 		                        </span>
-	                        <span class="route-toggle-icon" aria-hidden="true">⌄</span>
+	                        <svg class="route-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+	                            <path d="m6 9 6 6 6-6"/>
+	                        </svg>
 	                    </button>
 	                    <div class="route-details" id="route-details-${item.id}"${isOpen ? "" : " hidden"}>
                             ${isOpen ? `
@@ -4139,12 +4198,49 @@ Ref.: Oto są baranki...`
 	                </section>
 	            `).join("");
 
-            orgList.innerHTML = kadradata.informacje.map(item => `
+            const massSchedule = kadradata.harmonogramMszy.map(item => `
+                <div class="mass-schedule-row">
+                    <time datetime="2026-${item.data.slice(3, 5)}-${item.data.slice(0, 2)}">${escapeHtml(item.data)}</time>
+                    <strong>${escapeHtml(item.osoba)}</strong>
+                </div>
+            `).join("");
+            const conferenceSchedule = kadradata.harmonogramKonferencji.map(item => `
+                <div class="conference-schedule-row">
+                    <span class="conference-day">Dzień ${item.dzien}</span>
+                    <div>
+                        <strong>${escapeHtml(item.osoba)}</strong>
+                        <span>${escapeHtml(item.temat)}</span>
+                    </div>
+                </div>
+            `).join("");
+            const managerInformation = kadradata.informacje.map(item => `
                 <div class="org-item">
-                    <strong>${item.tytul}</strong>
-	                    <span>${item.opis}</span>
-	                </div>
-	            `).join("");
+                    <strong>${escapeHtml(item.tytul)}</strong>
+                    <span>${escapeHtml(item.opis)}</span>
+                </div>
+            `).join("");
+
+            orgList.innerHTML = `
+                <details class="mass-schedule staff-schedule">
+                    <summary class="staff-schedule-summary" id="mass-schedule-title">
+                        <span>Porządek przewodniczenia Mszy Świętej oraz kazań</span>
+                        <svg class="staff-schedule-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </summary>
+                    <div class="mass-schedule-list">${massSchedule}</div>
+                </details>
+                <details class="mass-schedule staff-schedule conference-schedule">
+                    <summary class="staff-schedule-summary" id="conference-schedule-title">
+                        <span>Harmonogram konferencji oraz proponowane tematy</span>
+                        <svg class="staff-schedule-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </summary>
+                    <div class="conference-schedule-list">${conferenceSchedule}</div>
+                </details>
+                ${managerInformation}
+            `;
 	        }
 
         function openInstallModal(options = {}) {
