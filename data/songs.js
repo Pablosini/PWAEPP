@@ -10331,4 +10331,559 @@ Abym stał się winem abym gasił twe pragnienie
 2. Nie chce Ci już mówić o moich potrzebach
 Panie Ty wiesz wszystko, objaw mi Swe pragnienia`
   },
+  // Nowości 2026
+  {
+    title: `Cała Ziemio wołaj z radości na cześć Pana`,
+    text: `Ref. Cała ziemio, wołaj z radości na cześć Pana, a D a C e a
+Raduj się, wesel się. C D e h D a
+Cała ziemio, wołaj z radości na cześć Pana,
+Alleluja, alleluja.
+1. Śpiewajcie Panu pieśń nową, a e
+albowiem uczynił cuda, C D
+Zwycięstwo mu zgotowała Jego prawica e C
+i święte ramię Jego. D e
+2. Pan okazał swoje zbawienie,
+Na oczach pogan objawił swą sprawiedliwość,
+Wspomniał na dobroć i na wierność swoją,
+Dla domu Izraela.
+3. Ujrzały wszystkie krańce ziemi zbawienie Boga naszego.
+Wołaj z radości na cześć Pana, cała ziemio,
+Cieszcie się, weselcie i grajcie.
+4. Śpiewajcie Panu przy wtórze cytry,
+Przy wtórze cytry i przy dźwięku harfy,
+Przy trąbach i przy głosie rogu.
+Na oczach Pana, Króla, się radujcie.
+5. Niech szumi morze i wszystko, co w nim żyje,
+Krąg ziemi i jego mieszkańcy,
+Rzeki niech klaszczą w dłonie,
+Góry niech razem wołają z radości.`
+  },
+  {
+    title: `Chrystus Pan Mesjasz Król`,
+    text: `Chrystus Pan h
+Mesjasz Król A
+Na drzewo krzyża poniósł ciężar mój     D G
+Boży Syn Panów Pan
+Posłuszny Ojcu został całkiem sam
+Powiedz tylko słowo h G
+A będzie uzdrowiona dusza ma D fis
+Powiedz tylko słowo
+Panie mój
+Uwielbiam Ciebie Jezu G A
+Uwielbiam Ciebie Jezu h E`
+  },
+  {
+    title: `Chwała - Psalm 46`,
+    text: `Choćby cała ziemia miała zniknąć po zachodzie słońca C e h e D capo I
+góry się zapadły w otchłań najgłębszego morza C e h Asus4 A
+przypływ groźnych myśli przygniótł moje serce
+rano Twoja łaska mnie umocni i nie będę się bać
+Ty jesteś moją ucieczką i mocą     G D C
+tylko w Tobie odnajdę pomoc
+niech góry upadną, a wody się burzą
+Jesteś najlepszą moją obroną
+Zatrzymaj się by móc poznać mnie C G/B
+w moim Imieniu ratunek jest e D/Fis
+spełnienie i nadzieja G D/Fis a G h e
+Zatrzymaj się by móc poznać mnie
+w moim Imieniu zdrowie jest
+odwaga, ukojenie
+I choćby napadł cię największy wróg
+gdy w moim Imieniu stoisz tu
+Ja Jestem, więc się nie bój
+będę przy Tobie choćby cały świat C
+miał się rozpłynąć i zapaść G/B e
+Ja Jestem D/Fis G D/Fis a G C
+Ty jesteś moja ucieczka i mocą
+tylko w Tobie odnajdę pomoc
+niech góry upadną, a wody się burzą
+Jesteś najlepsza moja obrona
+Ty jesteś moja ucieczka i mocą
+tylko w Tobie odnajdę pomoc
+niech góry upadną, a wody się burzą
+Jesteś najlepsza moja obrona
+Ty jesteś moja nadzieją, spełnieniem
+tylko w Tobie znajdę schronienie
+niech góry upadną, a wody się burzą
+Tyś niezawodnym ukojeniem`
+  },
+  {
+    title: `Ciebie szukam`,
+    text: `Ciebie szukam, gdy jest mi ciężko E cis A H/D h G A
+Tobie dziękuję za każde zwycięstwo
+Jesteś moją tarczą i twierdzą
+Moim życiem, nie tylko jego częścią`
+  },
+  {
+    title: `Duchu Święty, powiej wiatrem`,
+    text: `1. Duchu Święty powiej wiatrem E cis fis H
+I z mocą na nas zstąp.
+bądź miłością w naszych sercach,
+światłem ogarnij nas.
+Ref: Daj nowe oczy, ześlij swój ogień
+i jedność z tobą daj.
+Daj nowe oczy ześlij swój ogień i jedność
+z tobą daj.
+2. Z czterech wiatrów przybądź duchu,
+powiej mocą, życia w nas.
+Bądź wolnością w naszych sercach,
+życiem wypełnij nas`
+  },
+  {
+    title: `Głusza`,
+    text: `Laj Laj laj… d/dga
+1. Dziękuję Ci Panie za zieloność lasu     d  a
+Za granat i błękit na tafli jeziora d  a
+Za lot jaskółki mknącej spod okapu g  ad
+I purpurę nieba wieczorową porą g  ad
+Dziękuję Ci Ojcze za burzowe niebo
+Taniec błyskawic i galop obłoków
+Za szum traw na łące i spróchniałe drzewo
+I za święte świętych - czyli święty spokój
+2. Za łany ozdobne koniczyny białej
+Czerwoność maków i malw uroczystych
+I za taniec pyłu wiatrem oszalały
+Za wieczór zamglony i poranek dżdżysty
+Dziękuję Ci Ojcze za gościnne progi
+I za zapach chleba krojonego świtem
+Za słowa przyjaciół i za spokój błogi
+I za życie, które w końcu można nazwać życiem
+3. Dziękuję Ci Ojcze za wędrowne szlaki
+Które jak nici zaplatasz u celu
+Gdzie dźwięki i słowa jak wędrowne ptaki
+Wzlatują pod niebo zrodzone z serc wielu
+Dziękuję za łaskę, za jej tajemnicę
+Za pojęcie tego co zrozumieć trzeba
+I za modlitwy w smutku i w zachwycie
+I za niebo, które niebem jest tak blisko nieba`
+  },
+  {
+    title: `Jego miłość`,
+    text: `1. Jego miłość zakrywa grzech e h
+Ona nie pamięta złego C G D
+Jego krew, największy dar dla każdego e h C a
+Jego imię, potężna moc
+Jezus drogą, prawdą, życiem
+Emmanuel, Bóg pośród nas, Odkupiciel
+Ref. Bóg w łasce swej do nas zniżył się e h
+Pozostawił chwałę nieba     C G D
+Jezus wycierpiał każdy trud
+Żebyś żył i już się nie bał
+2. Jego miłość zakrywa grzech
+Ona nie pamięta złego
+Jego krew, największy dar dla każdego
+Jego imię, potężna moc
+Jezus drogą, prawdą, życiem
+Emmanuel, Bóg pośród nas, Odkupiciel
+Ref. Bóg w łasce swej do nas zniżył się
+Pozostawił chwałę nieba
+Jezus wycierpiał każdy trud
+Żebyś żył i już się nie bał
+Jezus królem królów jest! e h C G D e
+Nasza wolność tylko w nim! /x2
+Tylko Tobie należy się chwała e
+Tylko Tobie należy się cześć h
+Tylko Tobie będziemy się kłaniać C
+Jezu! G D`
+  },
+  {
+    title: `Jezu Cichy i Serca pokornego`,
+    text: `Jezu cichy i serca pokornego, fis D A E
+Uczyń serca nasze według serca Twego! fis D A Cis
+Ty, który pocieszasz serca strapione, cis E H
+Weź nasze – kamienne, a daj nam wcielone!    fis A H`
+  },
+  {
+    title: `Jezus Chrystus jest moim zbawieniem`,
+    text: `Ref. Jezus Chrystus jest moim zbawieniem,     ehe
+Idąc z Nim nie lękam się, CDG
+Bo w moim sercu gości pewność, ahe
+Że mój Pan dziś ze mną jest. CDe
+1. Wychwalam Cię, Panie, mój Boże, GDCe
+Bo byłem daleko od Ciebie, CDGD
+Teraz znów Cię odnalazłem, Gha7e
+W Twoim ręku jest życie me. Dh CDe
+2. Biegnijcie z radością do źródeł, do źródeł Bożego zbawienia,
+Każdego dnia chwalcie Pana, Jego Imię wzywajcie wciąż.
+3. Ogłoście całemu ludowi wielkie dzieła Bożej miłości
+I z radością wspominajcie, jak jest wielki i święty Pan.
+4. Śpiewajcie o Stwórcy wszechrzeczy, niech świat cały pozna Boga,
+Trwaj w radości, o Syjonie, gdyż Zbawiciel przy tobie jest.`
+  },
+  {
+    title: `Kotwica`,
+    text: `1. Nadzieję mam fis
+To kotwica duszy mej A
+Gdy wokół sztorm E
+Ciebie trzymam się D
+A miłość Twa fis
+Pokonała każdy lęk A
+Więc zawsze już E
+Tobie ufać chcę fis
+Ref. Ta nadzieja w obietnicy krzyża jest D A
+Miłość dała wszystko h
+Żeby zbawić mnie     fis E
+Ta nadzieja to kotwica duszy mej D fis
+Mój wielki Król E D
+Niezmienny jest A
+3. Niezmienny On
+Był i jest, i przyjdzie znów
+Wypełni się
+Każde z Jego słów
+Bridge:
+Twe Imię najwyższe fis
+Twe Imię potężne D
+W Tobie ma nadzieja A E
+Twe Słowo niezmienne fis
+Obietnice wypełniasz D
+W Tobie ma nadzieja A E`
+  },
+  {
+    title: `Krok, krok za krokiem krok`,
+    text: `Krok, krok, za krokiem krok, tchu brak, bo długi szlak, E fis
+Lecz tam u kresu dróg czeka nas Matka, czeka nas Bóg. H7 A H7
+Ty mi daj swą dłoń, razem dojdziemy doń,
+Raz, dwa i jeszcze raz, razem wytrwale iść coraz dalej.`
+  },
+  {
+    title: `Lawina Łaski`,
+    text: `1. Cudowny Bóg a C G F
+Odrzucił Król majestat swój
+Przyszedł, by dać mi życia cud
+Mrok stał się dniem od Jego słów
+Ooo-ooo
+Ty stałeś się
+Wstydem i hańbą zamiast mnie
+Mimo mych błędów, dumy mej
+Ciągle w ramionach trzymasz mnie
+Ooo-ooo
+Ref. A ja zginam przed Tobą kolana swe F CG  F
+łaska lawiną ogarnia mnie CG  F
+Największa miłość to Ty, Ty, Ty C G a G F
+Płoniesz w sercu mym a
+2. Zbawiłeś mnie a C G F
+I tchnąłeś życie w serce me
+Słowem oświetlasz każdy dzień
+Miłością zadziwiasz ciągle mnie
+Ooo-ooo
+Bridge
+Życie moje oddaję Ci a(C) GC
+Oddaję Ci całą Chwałę F CG
+Serce moje oddaję Ci
+Wszystkim co mam Jezu kocham Cię`
+  },
+  {
+    title: `Lepszy jeden dzień`,
+    text: `Jak piękne jest mieszkanie Twe, o Wszechmogący E A H
+Bo Dusza ma za Tobą tęskni wciąż  E H
+To serce me szczęśliwe jest w Twej obecności
+Więc śpiewam Ci  w cieniu skrzydeł Twych
+Ref.: Lepszy jeden dzień w przedsionkach Twych A H
+Lepszy jeden dzień w mieszkaniu Twym
+Lepszy jeden dzień w przedsionkach Twych niż tysiąc innych /x2
+Bridge
+Me serce woła wciąż do Ciebie Boże mój cis H A H
+Twój Duch jest wodą duszy mej cis H A
+Smakować Ciebie chcę, przyjdź znowu pragnę Cię
+Podchodzę blisko tak podchodzę blisko tak cis H A (H)`
+  },
+  {
+    title: `Modlitwa dominikańska (Pozwól o Panie)`,
+    text: `Pozwól, o Panie, słyszeć Słowo Twe,
+Niechaj karmi moją duszę Święty Duch,
+I mnie rozpali, i mnie rozpali.
+Pozwól, o Panie, pokochać Twój głos
+Razem zamieszkać, wielbić imię Twe,
+Niech nas prowadzi, niech nas prowadzi.
+Rozpal mnie, Panie, pragnieniem Twym
+Abym powierzone mi Słowo niósł
+Ubogim i grzesznym, ubogim i grzesznym
+Najświętszy Boże, uwielbiamy Cię
+Niepojęta Trójco daj w Twym świetle żyć
+Na ziemi i w niebie, na ziemi i w niebie`
+  },
+  {
+    title: `Na wieki święty`,
+    text: `1. Każde pokolenie E
+pada u Twych stóp A E
+żeby oddać Tobie wieczną cześć cis H A
+Wszyscy z Ciebie narodzeni
+i Ci, którzy odrodzą się
+razem Ci oddamy wieczną cześć
+Bridge: Nasz Pan jest najwyższy A H cis A
+Nasz Pan jest potężny
+Nasz Pan ponad wszystkim jest
+Ponad trony, panowania,
+potęgi i władze
+Nasz Pan ponad wszystkim jest
+Ref.: Niebo śpiewa tę pieśń ŚWIĘTY (E) A H
+I stworzenie też ŚWIĘTY H gis cis
+Wywyższony Pan ŚWIĘTY cis fis H
+Na wieki ŚWIĘTY H E
+Niech zawoła Twój lud ŚWIĘTY
+Królowi Królów cześć ŚWIĘTY
+Tyś od zawsze jest ŚWIĘTY
+Na wieki ŚWIĘTY
+2. Jeśli Tobie przebaczono
+Jego życie w sobie masz
+Oddaj Jemu teraz wieczną cześć
+Jeśli jesteś wolny
+Jego Imię znasz
+Oddaj Jemu teraz wieczną cześć
+Oddaj Barankowi wieczną cześć`
+  },
+  {
+    title: `Nieba i ziemi Królowo`,
+    text: `Nieba i ziemi Królowo, Niepokalana,    G C D e
+Matko najmiłościwsza, ucieczko grzeszników, G C D e
+Ty, której Bóg powierzył porządek miłosierdzia, G C D e
+Ja, niegodny grzesznik, rzucam się do Twoich stóp. G C D G
+Rzucam się do Twoich stóp, niegodny grzesznik i błagam,
+Przyjmij mnie za swoją rzecz i zrób ze mną co chcesz.
+Bez zastrzeżeń użyj mnie jak narzędzie w Twoich rękach,
+Aby rosła chwała Twa wśród zabłąkanych serc.`
+  },
+  {
+    title: `Objaw się wśród nas`,
+    text: `Ref. Jahwe, Rafa, Elohim, Shaddai, C D h e
+Jireh, Adonaj Objawiaj się wśród nas
+Twa chwała w miejscu tym unosi się e D
+Niezwykła wiara wzbudzana jest C
+Panie czyń co tylko Ty chcesz D
+Bridge 1
+Kiedy wielbisz - On manifestuje się e D
+Kiedy wołasz - On manifestuje się C
+Kiedy szukasz - On manifestuje się e D
+Bridge 2
+Jahwe Objaw się wśród nas e
+Jire Objaw się wśród nas D
+Rafa Objaw się wśród nas C
+Objaw się wśród nas C D`
+  },
+  {
+    title: `Oto jest Król`,
+    text: `1. Oto jest Król, Wśród nas zasiada A E/G D
+Niech serce twe przyjmie Go dziś D fis E/C e D
+Gdzie chwała jest, On sam zamieszka A E/G D
+Tam będzie miłość i łaska pośród nas D E A    /C D G
+Ref. Każde brzemię w obecności Twej jest lekkie D A/C G
+Każdy sukces jest złożony u Twych stóp         D E/C D
+Jest takie Imię co króluje nad innymi             D E fis/C D e
+Chrystus Pan najwyższym Królem jest x2         D E A/C D G
+2. Honor i cześć niech przyjmie Baranek
+Godzien jest ten co zwycięzcą jest
+Choć w grobie był, zmartwychwstał w mocy
+On żyje dziś, kamień odsunięty jest
+Ref. Uwielbienie nieustannie trwa przed Panem
+Śmierć pokonał i zbawienia trzyma klucz
+Jest takie Imię co króluje nad innymi
+Chrystus Pan najwyższym Królem jest x2
+3. Niedługo już gdy Go ujrzymy
+I każdą łzę z oczu otrze On
+Będziemy w domu, wojna ustanie
+Ujrzymy Zbawcę niebawem twarzą w twarz`
+  },
+  {
+    title: `Pasterz mój`,
+    text: `1. Pan jest pasterzem moim, niczego nie brak mi. A
+On karmi mnie i poi, dodaje sił. fis E D A
+Orzeźwia moją duszę strumieniem żywych wód,
+pełniejszy być nie może kielich mój.
+Ref. Jego dobroć i łaska światłem będą mi do końca moich dni. E D A E
+Nawet w ciemnej dolinie nie przestraszę się, bo idzie obok mnie. E D fis E
+Emmanuel, ze mną Bóg, ze mną Bóg. E D A E
+Emmanuel, pasterz mój. E D
+2. Pasterzem moim Jezus. Lepszego nie ma, wiem. A
+On sam za swoje owce przelał krew. fis E D A
+Ref. Jego dobroć i łaska światłem będą mi do końca moich dni. E D A E
+Nawet w ciemnej dolinie nie przestraszę się, bo idzie obok mnie. E D fis E
+Jego dobroć i łaska światłem będą mi do końca moich dni. EDAE
+Nawet w ciemnej dolinie nie przestraszę się, bo idzie obok mnie. E D fis E
+Emmanuel, ze mną Bóg, ze mną Bóg. E D A E
+Emmanuel, pasterz mój. E D
+Tańczę ze wszystkich sił – Pan jest pasterzem mym. A
+Radość rozpiera mnie - Pan jest pasterzem mym. /x2
+Tańczę ze wszystkich sił – Pan jest pasterzem mym. E D
+Radość rozpiera mnie - Pan jest pasterzem mym. A
+Tańczę ze wszystkich sił – Pan jest pasterzem mym. E D
+Radość rozpiera mnie A`
+  },
+  {
+    title: `Pieśń nad pieśniami`,
+    text: `Ref. Powstań, wietrze, wiej przez ogród mój z południa, z północy, gis Fis
+wśród wonności zbudź mnie ze snu!
+Niech wejdzie Miły mój do swego ogrodu
+i w nim rozgości się.
+On sobie zdrojem wód zapieczętowanym
+uczynił mnie!
+Pocałunkami ust swych miły mnie całuje,
+a miłość jego nad wino!
+Wiedzie na ucztę, gdzie wraz ze mną biesiaduje,
+a godłem Jego nade mną miłość!
+Porwij za sobą mnie, niech biegnę razem z Tobą
+do Twoich trzód.
+Miły mój na to rzekł:
+“Tyś przyjaciółką moją;
+wstań, córko ma, i pójdź!”
+BRIDGE:
+Bo cała piękna jesteś i bez skazy!
+Taką ujrzał Cię Bóg i uczynił,
+gdy Miłego Twego wzbudził z martwych,
+abyś wolna była od winy!
+Ref. 2. Powstań, przyjaciółko ma, i pójdź, gis f Fis f gis Fis
+bo już minęła zima; b gis Fis gis
+niech nasyci mnie owoc Twój. Fis f gis`
+  },
+  {
+    title: `Pieśń przebaczenia`,
+    text: `Nie bój się, Nie lękaj się c Gis B
+Już się więcej nie zawstydzisz c Gis G
+Nie bój się, Nie lękaj się    c Gis B
+Twym Zbawicielem Święty Izraela B c f Gis B F`
+  },
+  {
+    title: `Przywołaj mnie Panie`,
+    text: `1. Przywołaj mnie Panie e D
+Przywołaj mnie Panie C h
+Na pustynię. a H7 e
+I niech mój głód Ciebie e D
+I moja tęsknota C h
+Przywoła Ciebie. a H7 e
+Ref. Mów do mego serca e D
+Mów do mego serca. e D
+Ty znasz jego ukryte doliny, C D C h
+Tam gdzie usychają, e D
+piękne winnice e D
+Ty wiesz, gdzie otworzyć ukryte źródła. C D a h e
+2. Niech we mnie zamilkną
+Pragnienia i myśli
+Abyś mógł mówić Ty.
+Niech słowa miłości
+I przebaczenia
+Ogarną duszę mą`
+  },
+  {
+    title: `Powstań i wyrusz w drogę`,
+    text: `Powstań i wyrusz w drogę E cis H E
+Daj się prowadzić Maryi    A E H
+Jej miłość cię osłoni cis H E gis
+Miłość cię osłoni A E H (E)`
+  },
+  {
+    title: `Pójdę za Tobą`,
+    text: `Dajesz wszystko w swoim czasie G D
+Czego potrzebuje serce me
+Już nie mogę się doczekać
+kiedy znów zaskoczysz mnie
+I choć czasem nie rozumiem
+Drogi, którą Sam prowadzisz mnie
+To za żadne skarby świata
+Nie zamienię Twojej drogi,
+Prowadź mnie!
+Pójdę tam gdzie mnie poślesz  D G A h
+/Pójdę za Tobą, pójdę za Tobą/
+Za Twoim światłem…
+Za Twoim pięknem…
+Po miłosierdzie…
+Mówisz do mnie w Twoim Słowie G D h e fis/D G
+I odmieniasz cały dzień
+Już nie mogę się doczekać
+Kiedy znów zaskoczysz mnie
+Pójdę tam gdzie mnie poślesz D G A h
+/Pójdę za Tobą, pójdę za Tobą/
+Do moich braci…
+Do odrzuconych…
+Po przebaczenie…
+Nie muszę się bać, G D
+Bo Ty zabrałeś cały strach
+Wypełniłeś pokojem moje serce
+Nie pragnę już niczego więcej
+Nie pragnę już…
+Nie pragnę już niczego więcej
+/Pójdę za Tobą, pójdę za Tobą/ D G A h
+Tam gdzie mnie poślesz…
+Naucz mnie kochać…
+Naucz wybierać…
+Przyjmować łaskę…
+Przyjmować prawdę…
+Ucz mówić AMEN
+Amen, Amen, Amen, Amen
+Niechaj się stanie
+Amen, Amen, Amen, Amen`
+  },
+  {
+    title: `Święta jest ta krew`,
+    text: `Święty jest ten Chleb A D E
+Ten co się Ciałem stał A D E
+Kto spożywa go, aż po dni swoich kres A D E fis
+Nie będzie głodu znał D E A
+Święta jest ta Krew
+Ta, którą przelał Pan
+Zmyła mój grzech, dała życie, nie śmierć
+Baranka święta Krew
+Dzięki za ten Chleb
+Ten co się Ciałem stał
+Kto spożywa go, aż po dni swoich kres
+Nie będzie głodu znał
+Dzięki za tę Krew
+Tę, którą przelał Pan
+Zmyła mój grzech, dała życie, nie śmierć
+Baranka święta Krew`
+  },
+  {
+    title: `Twój, cały Twój`,
+    text: `Nie muszę już rozumieć,    D
+Nie muszę dłużej szukać, G
+Nie muszę stawiać pytań, h
+Wiem, odpowiedzią jesteś Ty. G A
+Ty mnie wykupiłeś,
+Ty mnie pochwyciłeś,
+Ty pierwszy mnie wybrałeś,
+Więc do kogo ja mam pójść?
+Ref. Twój, cały Twój, D A
+Chcę być Twój, h
+Twój na zawsze. G A`
+  },
+  {
+    title: `Tylko w Bogu znajdzie`,
+    text: `Ref.: Tylko w Bogu znajdzie spokój dusza moja, G D h e C G a D
+Bo od Niego przyjdzie moje zbawienie. G D h e C G D G
+1. Jedynie w Bogu spokój znajduje ma dusza, G D e
+Od Niego przychodzi moje zbawienie. C a D
+Tylko On jest opoką i zbawieniem moim, G D e
+On moją twierdzą, więc się nie zachwieję. C a D
+2. Jedynie w Bogu szukaj spokoju, duszo moja,
+Bo od Niego pochodzi moja nadzieja.
+Tylko On jest opoką i zbawieniem moim,
+3. W Bogu zbawienie moje i chwała,
+Bóg opoką mocy mojej i moją ucieczką.
+Tylko On jest opoką i zbawieniem moim,
+On moją twierdzą, więc się nie zachwieję.`
+  },
+  {
+    title: `Usłyszeć chcę`,
+    text: `Usłyszeć chcę D e
+pieśń o miłości Twej G
+objaw swe serce mi D e G
+Porwałeś mnie h A
+chcę żyć dla Ciebie D
+Pragnę serce Twe znać e D G
+(za drugim razem: G A D)
+Rzeczy dzieją się D
+Gdy dotykasz mnie e
+Życie zmienia się G
+Gdy jesteś D`
+  },
+  {
+    title: `Uwielbiamy Cię, wychwalamy Cię`,
+    text: `Uwielbiamy Cię, wychwalamy Cię F C A d
+Miłosierny Boże B g C`
+  },
+  {
+    title: `W swe ramiona mnie weź`,
+    text: `W swe ramiona mnie weź h e h
+Mocą krzyża dodaj sił E fis E Fis
+W księgę życia wpisz mnie h e h
+Do swej chwały przyjąć chciej E fis E Fis`
+  },
 ];
