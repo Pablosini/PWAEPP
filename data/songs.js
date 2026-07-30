@@ -1,9 +1,3 @@
-/*
- * Dane śpiewnika EPP.
- * Aby ręcznie dodać pieśń, dopisz na końcu listy kolejny blok:
- * { title: "Tytuł", text: `Tekst pieśni` },
- * Aplikacja sama sortuje tytuły alfabetycznie.
- */
 window.EPP_SONGS = [
   {
     title: `A moc wychodziła z Niego`,
@@ -10885,5 +10879,907 @@ Miłosierny Boże B g C`
 Mocą krzyża dodaj sił E fis E Fis
 W księgę życia wpisz mnie h e h
 Do swej chwały przyjąć chciej E fis E Fis`
+  },
+  {
+    title: `Ave Virgo Maria, Ave Regina Mundi`,
+    text: `Ave Virgo Maria, Ave Regina Mundi
+Mater misericordiae ,Ora pro nobis Deum`
+  },
+  {
+    title: `Bywają chwile, gdy jestem sam`,
+    text: `Bywają chwile, gdy jestem sam,
+Nie mam do kogo użalić się.
+Pragnę odnaleźć drogę do Ciebie,
+Bo wiem, że zawsze Ty kochasz mnie.
+O Królowo, o Królowo Matko ma,
+Bądź tu przy mnie, bądź ze mną znów
+Wszystko w mym życiu jest takie proste,
+Bo Ty mi Matko pomagasz w nim.
+Są jednak chwile, gdy jest mi ciężko,
+I jakże trudno samemu iść.
+Miłość do Ciebie jest jak ta gwiazda,
+Którą zapalasz, gdy smutno mi.
+Wierzę, że zawsze dodasz mi mocy,
+Abym mógł z Tobą na zawsze być.`
+  },
+  {
+    title: `Gwiazdo zaranna`,
+    text: `Gwiazdo zaranna obleczona w słońce
+módl się za nami
+Chwały ikono Dziewico posłuszna Gwiazdo przewodnia Służebnico Pańska
+Matko żyjących Początku Kościoła
+Bogurodzico Córo Twego Syna
+Znaku nadziei Mieszkanie Mądrości`
+  },
+  {
+    title: `Jak mocno serce biło mi`,
+    text: `Jak mocno serce biło mi,
+gdym poraz pierwszy ujrzał obraz twój.
+Spragniony łask, miłości Twej
+wołałem Matko wysłuchaj mnie.
+Wśród tylu dróg poprowadź serce me.
+Prowadź je tam, gdzie radość wieczna jest.
+Jak czasem w życie bywa źle,
+każdy z nas o tym dobrze wie.
+Ja jednak wciąż ufam, że Ty
+Matko będziesz prowadzić mnie.
+Bywają w życiu chwile złe,
+ja także często miewam je.
+Więc modlę się o Bożą dłoń
+i wołam: Matko szczęściem mi bądź`
+  },
+  {
+    title: `Królowo Nieba, Pani Aniołów`,
+    text: `Królowo Nieba, Pani Aniołów
+Różdżko i Bramo witaj
+Ty Jasność zrodziłaś nam
+Ciesz się Panno chwalebna
+Ponad wszystkie piękniejsza
+Witaj o najśliczniejsza
+Proś Chrystusa za nami.`
+  },
+  {
+    title: `Jezus swoją Matkę pozostawił`,
+    text: `Jezus swoją Matkę pozostawił,
+byś w swym życiu miał do kogo iść.
+Ona swa opieką cię otoczy,
+jeśli nie zwlekając pójdziesz dziś.
+Do Jej stóp, do Jej stóp pochyl się
+i pozostaw wszystkie troski Jej.
+Ona sercem swym Matczynym, nieustannie czeka,
+abyś wyznał to, co gnębi cię.
+Nikt tak twego serca nie zrozumie,
+nikt tak kochać nie potrafi też.
+Nikt w miłości wytrwać tak nie umie,
+jak Maryja, zresztą o tym wiesz.
+Wybierz się , wybierz się razem z nami
+Na wspaniały pielgrzymkowy szlak
+Jeśli będziesz szedł wytrwale
+to na Jasnej Górze
+W jej obliczu ujrzysz Boga znak
+Wielu ludzi tutaj przybywało,
+by odszukać biegu życia treść.
+A Maryja zawsze to sprawiała,
+że krzyż Pana łatwiej było nieść`
+  },
+  {
+    title: `Matko moja, Matko, bądź królową`,
+    text: `Matko moja Matko bądź królową.
+Mego serca, mego życia.`
+  },
+  {
+    title: `Mario, czemu odchodzisz`,
+    text: `Mario czemu odchodzisz
+Zostań jeszcze trochę z nami
+Dobrze nam było z Tobą
+Mario zostań jeszcze trochę z nami 1. Słowa Twego Syna: "Oto Matka Twoja"
+W sercu mym do dzisiaj tak głęboko są.
+Lecz Ty już odchodzisz czas tak szybko mija
+Mario zostań jeszcze choć na jedną noc
+Syn Twój Cię zabiera do Swego Królestwa
+Abyś już na ziemi krzywdy nie zaznała
+Tam da Ci koronę, ze szczerego złota
+Byś nam Matką była byś nam królowała`
+  },
+  {
+    title: `Matko życia, Maryjo`,
+    text: `Matko życia, Maryjo
+Matko moich narodzin z niewoli grzechu
+Matko powstania ze snu śmierci ,Która sprawiasz, że budzącemu się człowiekowi Jaśnieje Chrystus.
+Weź moje życie,
+Weź moje życie w swe dłonie i proszę
+Powiedz Ojcu Niebieskiemu
+Że jeszcze jedno małe serce pragnie żyć
+Jak Jego Syn`
+  },
+  {
+    title: `Matko o twarzy jak polska ziemia`,
+    text: `Matko o twarzy jak polska ziemia czarnej,
+Matko o twarzy jak polska ziemia znaczonej bliznami.
+Do serca swego jak Syna nas przygarnij,
+Królowo nasza, tarczo obronna,
+módl się za nami.
+Próżno niejeden wróg wkładał zbroję,
+By dzieci Twoje zniewolić, ojczyznę zabrać im.
+Ty choć bez zbroi i bez oręża
+Zawsze zwyciężasz, by wskazać, że pokój daje Syn.
+Próżno pragnęli z serc Cię wyrzucić,
+Pokój zakłócić, odebrać nadzieję –wiary znak.
+Bo kto Cię, Matko, kochać nie umie,
+Ten nie zrozumie,
+dlaczego przy Tobie trwamy tak.
+Dziś wróg z ukrycia i bez pancerza.
+W serca uderza, nie pozwól,
+by zniszczył Boga w nas.
+Matko, błagamy, w czas niespokojny
+Broń nas od wojny, wierzymy - zwyciężysz jeszcze raz.`
+  },
+  {
+    title: `Maryjo, Matko tych, co umierają razem z Panem`,
+    text: `Maryjo, Matko tych,
+co umierają razem z Panem,
+Maryjo, Matko tych,
+co w drogę ruszyć sił nie mają,
+Matko pod krzyżem schylona,
+Matko, co z swym Synem konasz, Maryjo, Matko moja.
+Naucz mnie, Matko, tak jak Ty
+Przyjmować Krzyża ciężki konar
+I więcej już nie mówić nic,
+Kiedy na Krzyżu Pan mój kona..
+Bądź ze mną kiedy wrócić czas
+Z marnotrawnego synów grona,
+Pozwól mi wówczas spotkać Cię
+Tam, gdzie na Krzyżu Pan mój kona,
+Naucz mnie. Matko, tak jak Ty
+Z pokorą słuchać głosu Pana
+I pojąć, że najlepsze dni,
+to te spędzone na kolanach
+Zabierz mnie, Matko, pod sam Krzyż.
+Do stóp Jezusa, mego Pana
+I klęknij ze mną jeszcze dziś
+Tam, gdzie Chrystusa Krew przelana,`
+  },
+  {
+    title: `Maryjo, prześliczna Pani`,
+    text: `Maryjo, prześliczna Pani
+Matko Słowa i nasza Matko
+Swą pomoc ześlij nam
+Serca nasze niech chwalą Cię.`
+  },
+  {
+    title: `Niech ogarnie mnie, Maryjo, Twoje światło`,
+    text: `Niech ogarnie mnie Maryjo Twoje światło
+Niech oświetli swoim blaskiem życie me
+Zamykam się w Twoim Sercu dziś
+by narodzić się na nowo
+W Twej Miłości o Maryjo pragnę żyć`
+  },
+  {
+    title: `Niepokalane serce Maryi (cierniem zranione)`,
+    text: `Niepokalane serce Maryi
+Cierniem zranione za nasze winy
+Chcemy Cię kochać i zadość czynić
+Niepokalane serce Maryi.`
+  },
+  {
+    title: `O jakże piękna jesteś, Matko`,
+    text: `O jakże piękna jesteś Matko
+Pełna łaski z Tobą Pan
+Gwiazdo zaranna módl się za nami
+Umacniaj gdy wiary brak
+Nie lękam się, swe życie oddać chcę.
+Tobie Bogarodzico
+Jesteś mi w smutku pieśnią radosną
+W każdym cierpieniu pocieszasz mnie
+Ucieczko grzesznych módl się za nami
+Bogu powierzaj dzieci swe.`
+  },
+  {
+    title: `O słodka Matko Boża`,
+    text: `O słodka Matko Boża
+Na Tobie wzoruję me życie,
+Tyś mi świetlana zorza,
+W Tobie tonę w zachwycie...
+O Matko, Dziewico Niepokalana,
+W Tobie odbija się promień Boga
+Ty uczysz mnie jak
+wśród burz kochać Pana,
+Tyś jest mi obroną, tarczą od wroga.`
+  },
+  {
+    title: `Piękna Pani o smutnym obliczu`,
+    text: `Piękna Pani o smutnym obliczu,
+Piękna Pani z koroną na głowie,
+Racz wysłuchać wołania narodu,
+którego imię Polska.
+O Maryjo Bolesną nam zwana,
+O Maryjo pod krzyżem stojąca,
+O Maryjo cierpiąca z narodem,
+którego imię Polska.
+Piękna Pani o twarzy bolesnej,
+Piękna Pani z orłem na piersiach,
+Bądź Matką narodu naszego,
+którego imię Polska.`
+  },
+  {
+    title: `Ty powiedziałeś: to Matka twoja`,
+    text: `Ty powiedziałeś to Matka twoja,
+Nie zrozumiałem, odszedłem sam,
+A gdy samotnie tak wędrowałem,
+Ona wskazała dokąd iść mam.
+Ja chcę być z Tobą, Matko, z Tobą
+wędrować wszędzie,z Tobą, wszędzie,
+bym nigdy w życiu nie był już sam.
+
+Ty mi podałaś pomocne dłonie,
+Zaraz mnie wzięłaś w ramiona swe
+I obiecałaś dać mi swą pomoc,
+Gdy tylko w drodze sił braknie mi.
+
+I skorzystałem z Twojej miłości,
+Z Tobą na zawsze przez życie iść,
+Ochraniaj, Matko, płaszczem nadziei,
+Wszystkie Twe dzieci na ziemi tej.`
+  },
+  {
+    title: `Kim jesteś, Pani Niepokalana`,
+    text: `Kim jesteś Pani Niepokalana
+Myśl moja nie sięga piękności Twej
+Odwieczną łaską Tyś jest wybrana
+Bóg swoją Matką nazywa Cię.
+Dozwól mi chwalić Cię Panno Przenajświętsza
+Dozwól bym życiem swym wciąż chwalił Cię
+Dozwól mi chwalić Cię Panno Przenajświętsza
+Dozwól bym życiem swym wciąż chwalił Cię
+Nasz Ojcze, w niebie bądź uwielbiony (wywyższony)
+Że Syna swego złożyłeś w Niej
+W niej nieskalanej o Synu Boży
+Duch przenajświętszy kształtował Cię
+Dozwól mi chwalić Cię Panno Przenajświętsza
+Dla Ciebie żyć chcę Niepokalana
+Pracować, cierpieć, wyniszczyć się
+Dozwól mi przynieść Tobie świat cały
+Przynieść Ci chwałę wywyższyć Cię`
+  },
+  {
+    title: `Nigdy nie będziesz sam`,
+    text: `Nigdy nie będziesz sam , miłość na wieki trwa
+Już na zawsze pozostaniesz w jej objęciach Nigdy nie będziesz sam, Bóg Swoją Matkę dał,
+Byś nie zginął Jezus oddał Cię w jej ręce Bóg bardzo chciał byś wiedział że
+Miłość silniejsza jest niż śmierć
+Byś ją poznał zaprowadził cię pod krzyż
+Dał ci Matkę
+Synu oto Matka twoja, Niewiasto to Twój syn
+Będziesz zawsze w jej objęciach
+poprzez wszystkie dni.
+Synu oto Matka twoja, woła z krzyża Bóg.
+Przyjmij Ją i weź do siebie,
+Matkę twoich dróg.
+Z Nią znajdziesz życia sens,
+oddaj Maryi serce swe
+Niechaj drogę wyznaczają ci Jej ślady.
+Byś w blasku prawdy żył,
+powierz Jej swoje dni
+Znajdziesz Boga gdy cię Ona poprowadzi Bóg bardzo chciał byś wiedział że…`
+  },
+  {
+    title: `Twe ramiona wołają mnie`,
+    text: `Twe ramiona wołają mnie,
+serce lgnie do Ciebie
+Dajesz mi Tego, który jest moim niebem.
+Z Tobą wchodzę w największy blask,
+tam, gdzie Jego Ciało
+Wydane za mnie i dla mnie tu zostało.
+Z Tobą podchodzę tak blisko,
+w Jego Sercu jesteś ze mną
+i mogę oddać Ci wszystko,
+nawet moją ciemność
+Tobie daje życie swe, weź je w swoje ręce I złóż je tam, gdzie bije Jego serce.
+Jego miłość zabiera lęk,
+w Nim schronienie moje.
+Jego światło rozjaśnia mrok,
+On jest pokojem.
+Dzięki Tobie znalazłem dom
+w Sercu mego Pana
+To Ty mi dałaś Go, Niepokalana.`
+  },
+  {
+    title: `Ubrana w światło`,
+    text: `Ubrana w światło cała piękna
+Ty nosisz w sobie Boga blask
+Bo nie ma w Tobie zmazy grzechu
+W Tobie jest pełnia łask.
+Ubrana w Miłość Nią brzemienna
+Bóg w Twoim sercu znalazł dom
+Książe Pokoju W Tobie zamieszkał
+To Ty nam dałaś Go
+Tobie Maryjo oddajemy nasze serca
+Niosąc błaganie świata o pokoju dar
+Nasze modlitwy dziś składamy w Twoich rękach
+Matko nasza pokój światu daj
+Ubrana w czystość, najpiękniejsza
+Ty byłaś godna przyjąć Dar
+Stwórca wszystkiego w Tobie zamieszkał
+Ten, który zbawił nas.
+Ubrana w pokój łaski pełna,
+Która zwyciężasz moce zła
+Twoja dobroć tak niepojęta
+Matko, ocal nas.`
+  },
+  {
+    title: `Boże mój, gdzie jesteś`,
+    text: `Boże mój gdzie jesteś
+Ciało me usycha
+Zmysły me umarły
+Pozwól znaleźć się już
+Boże spraw, bym była dla Ciebie
+we wszystkim
+Spraw, spraw żebym znikła!
+Niech króluje we mnie Twa miłość!
+Niech me serce stanie,
+stanie się ołtarzem
+Chcę być miłością w milczeniu,
+Boże mój pozwól objąć sercem ziemię
+Ukryj mnie Panie, na zawsze w Tobie,
+Strzeż mnie mój Boże, dobrze i zawsze
+Przy mnie Panie bądź, przemieniaj mnie.
+Chcę być światłem w ciemności.
+Chcę być miłością w milczeniu,
+mój Boże
+Pozwól mi objąć sercem ziemię`
+  },
+  {
+    title: `Franciszku, jakżeś ty odgadł`,
+    text: `Franciszku jakżeś ty odgadł,
+że Bóg w nieskończoność niepojęty-
+Mieszka cichutko pod korzeniem dębu-
+Dziś już spod prawa wyjęty?
+Albo kto Ci powiedział
+kiedyś ty po górach chodził,
+Ze ty i kwiaty - że was Bóg urodził?
+Zabierz mnie, pójdziemy razem,
+Ja się chwycę Twego sznura,
+Zdejmę buty, żeby lepiej czuć kamienie.
+Zabierz mnie, pójdziemy razem,
+Pochodzimy sobie po górach,
+Hej, lepiej czuć kamienie.
+
+Dziś zaplątałeś się
+w las atomowych rakiet
+Lecz może potrafisz powiedzieć ludziom,
+że z ich sumieniem coś na bakier
+Patrze bo tak ci ładnie w tym worku,
+Tylko zastanawiam się, dlaczego
+Bóg od tylu długich wieków
+nie dał ci butów i worka lepszego?`
+  },
+  {
+    title: `Głębia przyzywa głębię`,
+    text: `Głębia przyzywa głębię
+hukiem wodospadów. /2x
+Kiedyż więc przyjdę i ujrzę oblicze Boże? Ujrzę oblicze Boże?
+Dusza moja pragnie Boga, Boga żywego.`
+  },
+  {
+    title: `Nim oczy otwieram`,
+    text: `Nim oczy otwieram,
+z pokorą na ustach,
+Z prostotą w sercu, na kolanach,
+Swą twarz zagubioną
+do Ciebie zwracam
+I z drżeniem wołam:
+broń serca mego.
+Broń serca mego x 2
+Od nienawiści, broń serca mego.
+Przed nienawiścią
+broń serca mego.
+Przed chłodem i obojętnością
+obroń mnie.
+Przeniknij uczucia, myśli i słowa,
+Niech Tobą się stanę. Tobą się stanę.`
+  },
+  {
+    title: `Karmisz mnie do syta`,
+    text: `Karmisz mnie do syta
+Twą miłością Ojcze.
+Karmisz mnie do syta
+Bym nie ustał w drodze.`
+  },
+  {
+    title: `Miłość cierpliwa jest (miłość dobrotliwa)`,
+    text: `Miłość cierpliwa jest,
+miłość dobrotliwa jest
+wszystko przebaczyć chce
+we wszystko uwierzy tez
+Źle nie myśli nie, nie, nie,
+i nie postępuje źle
+nie unosi się, prawdą jest x2
+Miłość nie chełpi się,
+z każdej prawdy cieszy się
+nie nadyma się, nie zazdrości o nie.
+Wszystko zniesie tak, tak, tak
+nie ustanie, ciągle trwa,
+miłuj cały świat właśnie tak x2`
+  },
+  {
+    title: `Otwórz Bogu serce swoje`,
+    text: `Otwórz Bogu serce swoje,
+otwórz Bogu drzwi,
+Niech On będzie Królem, twoim
+tron Mu postaw dziś.
+1.Dlaczego stoisz, dlaczego milczysz,
+Odkryj swoją twarz,
+Spójrz w oczy Bogu,
+spójrz prawdzie w oczy,
+Czy jeszcze wiarę masz?
+2.Nie mów już więcej:
+"Nie moja sprawa,
+Ja mam swój własny świat"
+Zobacz dokoła tysiące ludzi,
+serce im swoje daj
+3.Bogu daj serce, a ludziom uśmiech
+Dla siebie weź cierpień krzyż
+I przebudowę świata na lepsze,
+Od siebie zacznij dziś.`
+  },
+  {
+    title: `Panie, usłysz, jak płynie łza`,
+    text: `Panie usłysz jak płynie łza
+Zobacz w niej bezsilności żar,
+Gdy widzę jak co dzień ginie ktoś
+A moja dusza krzyczy.
+Boję się o rodzinny dom
+Nienawiści obfity plon
+Zbieramy dziś zamiast być obrazem Boga Stwórcy świata
+Pozwól mi przeżyć w Tobie moje dni
+Mieć odwagę sobą być
+Twoim śladem zawsze iść.
+Siłę daj gdy nadzieja gaśnie w nas
+Zabierz gorycz, nadaj sens
+Ucisz melancholii deszcz.
+Sobą wiecznie zajęty świat
+Drugi człowiek to jutra ślad
+Po którym będzie do celu biegł,
+Jeżeli tylko zechce
+Niczym kropla na morzu zła
+Kołysana wśród jego fal
+Do Ciebie wołam przygarnij mnie
+Usłysz modlitwę Panie`
+  },
+  {
+    title: `Raz, jeden raz zaufałem`,
+    text: `Raz, jeden raz, zaufałem
+w nadziei słodki czar,
+Boga bardzo kochałem,
+przestałem z diabłem w karty grać.
+Bo ponad wszystko nadzieja w Bogu,
+Którą pokładać w Nim chcę,
+Bo ponad wszystko wiara i pokój,
+Krzyż i dobro, i miłość też.
+Raz, tylko raz, uciec chciałem,
+od Boga w ciemny świat,
+Lecz prędko zrozumiałem
+, przestałem z diabłem w karty grać.
+Bo ponad wszystko nadzieja w Bogu…
+Na zawsze tak pokochałem
+Boga i wiary znak,
+Kochać i wierzyć chciałem,
+przestałem z diabłem w karty grać.`
+  },
+  {
+    title: `Spotkałem dziś Jezusa`,
+    text: `Spotkałem dziś Jezusa
+i On powiedział mi (że co?)
+Że jest mym przyjacielem
+Do końca moich dni.
+Dlatego chcę wielbić Cię,
+Dlatego mówię kocham Cię,
+Dlatego szukam Cię co dzień.
+Spotkałem dziś Maryję i obiecała mi
+Prowadzić do Jezusa przez pielgrzymkowe dni`
+  },
+  {
+    title: `Śpiewam Tobie, śpiewam Panie`,
+    text: `Śpiewam Tobie śpiewam Panie śpiewam Imieniu Twemu
+Wielbi ma dusza Pana
+Raduje się duch mój w Bogu
+On wejrzał na mą małość
+Pan dotknął sługę swoją
+Pokolenia sławić mnie będą
+Wielkie rzeczy mi Pan uczynił
+Święte jest Imię Jego
+Chwalmy Najwyższego
+Darzy miłosierdziem ludzi
+Pokolenia żyjących w bojaźni
+Pokazuje moc swojej ręki
+Rozprasza pyszniących się w sercach
+Pan strąca władców z tronu
+Wywyższa pokornych, ubogich
+Głodnych nasyca dobrami
+Bogatych odprawia z niczym
+Ujął się za sługą swoim
+Izraelem , swoim dziedzictwem
+Pamiętając o swym miłosierdziu
+Obietnicy dla Abrahama.`
+  },
+  {
+    title: `Ty dajesz pokój, Panie mój`,
+    text: `Ty dajesz pokój Panie mój
+Ty bierzesz wszystkie niepokoje
+Weź usta, ręce weź ciało me
+Weź duszę, serce moje .`
+  },
+  {
+    title: `Wciąż przede mną na rosie`,
+    text: `Wciąż przede mną na rosie
+Franciszka ślady bose,
+tak niedawno obok
+mego życia przeszedł.
+Tańczył, chociaż nic nie miał
+i klaskała w takt ziemia
+i tak pragnął,
+abym w radość jego wierzył
+Raz się w nocy przyśniła
+Franciszkowi ta Miłość
+miłość przez "M" duże pisana.
+Nie namyślał się długo,
+kto jest Panem, kto sługą,
+dla niej wszystko rzucił od zaraz.
+Niespokojny Franciszek
+znalazł w sobie tę ciszę,
+w której serce modlitwą biło.
+A gdy krzyż w drodze spotkał, to uklęknął bez słowa
+i do krzyża przybił swą miłość.
+A gdy zakon się tworzył,
+Ewangelię przełożył
+braciom w dobre dłonie i serca.
+Pokój wokół rozsiewał,
+a świat cały mu śpiewał,
+szedł do nieba z Bożym szaleństwem`
+  },
+  {
+    title: `W swym sercu na wieki ukryłeś nas`,
+    text: `W Swym sercu na wieki ukryłeś nas,
+Odnaleźć Twą miłość już czas.
+Podnoszę me dłonie oddając Ci cześć,
+Mocy moja uwielbiam Cię.
+Jezu Serce Twoje schronieniem mym,
+Panie w Sercu Twoim mój dom.
+Umiłował mnie Pan
+i mogę w Sercu Jego trwać,
+Umiłował mnie Pan na wieki.
+Jezu Serce Twoje schronieniem mym,
+Panie w Sercu Twoim mój dom.
+Do nas zniżył się Pan, by Serce Swoje oddać nam,
+Do nas zniżył się Pan, alleluja.`
+  },
+  {
+    title: `Nie mam nic (oprócz Twej miłości)`,
+    text: `Nie mam nic
+oprócz Twej miłości Panie Jezu
+Nie mam prawie nic
+Nie mam nic
+oprócz Twej dobroci Panie Jezu,
+Nie mam prawie nic
+Jak liść jesienią musi z drzewa spaść,
+Jak śnieg, co wiosną z ziemi spłynie
+Tak ginę i ja, lecz Ty każesz trwać
+Tobie Panie, chcę Ci serce dać
+Twoja moc wypełniła moją duszę Panie,
+Twoja święta moc
+Twoja dłoń odnalazła moją rękę w tłumie,
+By mnie wieść przez noc`
+  },
+  {
+    title: `Ślady bosych stóp`,
+    text: `Ślady bosych stop na drodze do nieba
+Taki bliski Bóg jak kawałek chleba
+W sercu czysty krzyk pośród brudu grzechu
+Wiara w to że jest, dobro jest w człowieku
+Z niekochaną miłością przez świat
+Po twoich śladach, ubogi bracie nasz Święty Franciszku, prowadź nas
+2. Przed oczyma wciąż w ruinach kościoła Gdy uwierzysz w cud zbudować go zdołasz
+Ślady bosych stóp , znaczą naszą drogę
+Musisz po niej pójść, z pokojem i dobrem`
+  },
+  {
+    title: `To miłość Cię trzyma, nie gwoździe`,
+    text: `To miłość Cię trzyma nie gwoździe
+Bez słowa i bez krzyku
+Baranek pozwolił się związać.
+Oto Ona, oto Ona,
+Nieskończona czułość mojego Boga. Pragnę pić z kielicha.
+przebitego serca
+Wodę i Krew Baranka.
+Bez końca i bez kresu
+Mój Panie chcę Ciebie kochać
+Pragnę śpiewać Tobie`
+  },
+  {
+    title: `Postanawiam iść za moim Panem`,
+    text: `Postanawiam iść za moim Panem
+i nie boję się
+Przecież zanim świat stworzony został
+On już kochał mnie
+Swoją śmiercią moją wolność kupił,
+spłacił cały dług
+Przyjacielem mnie nazywa,
+choć to wielki Bóg!
+On jest perłą,
+wszystko sprzedam, aby kupić ją
+On jest mocnym fundamentem,
+gdy buduję dom
+On jest skałą,
+tylko na niej można pewnie stać
+On jest Siewcą, co wychodzi
+słowa życia siać
+On jest Drogą,
+nie zabłądzę, gdy nią będę szedł
+On jest Prawdą
+i nikt przy Nim nie oszuka mnie
+On jest Światłem,
+a w ciemności człowiek nie chce tkwić
+Z Nim powstanę kiedyś z grobu,
+aby w pełni żyć
+Jego szukam,
+chociaż często nie wiem o tym
+Tylko On zaspokoi moją tęsknotę
+Bo jest miłością, która nigdy się nie kończy!`
+  },
+  {
+    title: `Zabierz, Panie, i przyjmij`,
+    text: `Zabierz, Panie, i przyjmij
+Całą wolność moją,
+pamięć moją i rozum,i wolę moją całą,
+cokolwiek mam i posiadam/x2
+Ty mi to wszystko dałeś
+- Tobie to, Panie, oddaję.
+Twoje jest wszystko/x2
+Rozporządzaj tym w pełni
+według Twojej woli.
+Daj mi jedynie miłość Twą i łaskę/x2
+Albowiem to mi wystarczy
+albowiem to mi wystarczy
+Twoje jest wszystko/x2/// Amen.`
+  },
+  {
+    title: `Za dotknięciem Twym`,
+    text: `Za dotknięciem Twym
+dopełnia się Komunia w nas
+Pojednanie
+Mocą Twą płonie blask dalekich gwiazd
+Stulony pąk przemieniasz w polny kwiat
+Wszechobecne jest
+piękno Twe, miłość Twa.
+Wzywasz mnie, poprzez łzę modlę się
+Za dotknięciem Twym…
+O, jakże przedziwna jest Twa obecność
+Słyszę wciąż wezwanie Twe, Twój głos
+On ponagla mnie by za Tobą pójść
+Stanąć twarzą w twarz, z powołaniem.
+Za dotknięciem Twym dopełnia się Komunia w nas przemienienie serc, zjednoczenia cud, wielki cud.`
+  },
+  {
+    title: `Cały lęk, cały strach`,
+    text: `Cały lęk, cały strach
+Każde drżenie mego serca
+Co we mnie łka, co we mnie tkwi
+Wiesz tylko Ty.`
+  },
+  {
+    title: `Jak cenna jest dla mnie Twoja łaska, Panie`,
+    text: `Jak cenna jest dla mnie Twoja łaska Panie.
+Do Ciebie przychodzą synowie ludzcy.
+Nasycisz ich tłuszczem napoisz potokiem
+I schronią się w cieniu skrzydeł Twoich.
+1.Łaskawość Twoja Panie sięga nieba
+A Twoja wierność samych obłoków
+Twa sprawiedliwość jak najwyższe góry
+Wyroki Twoje jak wielka otchłań.
+2. Albowiem w Tobie jest źródło życia
+I w Twej światłości oglądamy światłość
+Zachowaj łaskę dla tych co Cię znają
+A sprawiedliwość Twą dla prawych sercem.`
+  },
+  {
+    title: `Z całej siły biec`,
+    text: `Z całej siły biec, do końca drodze zaufać
+Prawdzie oddać ster niech na wieki prowadzi już
+Nie oglądać się
+Czerpać zawsze z czystego źródła
+Dawać siebie z całych swych sił
+Na próbę nie żyje się
+Wszystko z siebie dać
+Mieć dla innych swe serce
+Przeżyć każdy dzień
+Dla tej która największa jest
+Nie żałować sił
+Z każdą chwilą wciąż dawać więcej
+W jej objęciach skończyć swój bieg
+Na próbę nie kocha się
+To miłość mi wszystko wyjaśniła
+To miłość mi wszystko rozwiązała
+Dlatego uwielbiam ją
+Dlatego uwielbiam tę miłość
+Gdziekolwiek by przebywała
+W niebie widzieć dom
+Celu z oczu nie stracić
+Oddać życie swe
+Temu, który pokonał śmierć
+Dobro dawać wciąż
+Nie żądając żadnej zapłaty
+Oddać wszystko, by wiecznie żyć
+Na próbę nie umiera się`
+  },
+  {
+    title: `Wody wielkie nie ugaszą jej`,
+    text: `Wody wielkie nie ugaszą jej
+Ona jest tak potężna jak śmierć
+Nie ma większej miłości od tej
+Kiedy ktoś oddaje życie swe
+Poznaliśmy miłość bo
+Oddał za nas życie swe
+Gdy kochamy, możemy jak On
+Ze śmierci do życia przejść
+Nikt nie ma większej miłości od tej,
+Jak życie swe dać
+Ona jest potężniejsza niż śmierć,
+Nie zgładzi jej /nie zgładzi jej nikt
+Ciemność świata nie ogarnie jej
+Nie zgładzi jej potęga zła
+Przed nią zegnie kolana swe śmierć
+Siłę mroku pokona Jej blask .
+Wiecznie żyje potężna jej moc
+Gdy za brata umierać chce brat
+Żadna siła nie złamie tych serc
+Które żyją, by miłość siać`
+  },
+  {
+    title: `Jezusa ukrytego mam w Sakramencie czcić`,
+    text: `Jezusa ukrytego mam w Sakramencie czcić,
+Wszystko oddać dla niego, Jego miłością żyć!
+On się nam daje cały, z nami zamieszkał tu;
+Dla Jego Boskiej chwały życie poświęćmy Mu!
+Wiarą ukorzyć trzeba zmysły i rozum swój,
+Boć tu już nie ma chleba! To Bóg, to Jezus mój!
+Tu Mu ciągłe Hosanna śpiewa Anielski chór.
+A ta cześć nieustanna, to dla nas biednych wzór.
+Dzielić z nami wygnanie Jego rozkosze są:
+Niechże z Nim przebywanie będzie radością mą
+On wie, co udręczenie, On zna co smutku łzy;
+Powiem Mu swe cierpienie, że serce z bólów drży.
+O niebo mojej duszy, Najsłodszy Jezu mój,
+Dla mnie wśród ziemskiej suszy
+Tyś szczęścia pełen zdrój!
+Tyś w wieczerniku Siebie
+raz tylko uczniom dał.
+W ołtarzu-ś się, jak w niebie,
+powszednim chlebem stał.
+Chciałbym tu być Aniołem,
+co śpiewa ciągle cześć,
+I z rozpromienionym czołem
+Tobie swe serce nieść.
+Pozwól jasnym płomieniem
+błyszczeć tej lampce mej,
+Dopóki zimnem tchnieniem śmierć nie zagasi jej.
+Niech Ci aż do dnia zgonu
+miłości pienie brzmi;
+Tu u stóp Twego tronu
+wierność przysięgam Ci.
+O cześć Twą ciągle dbały
+chcę pójść koniecznie tam,
+Gdzie wśród niebieskiej chwały
+Tyś szczęściem wszystkich sam.[1]`
+  },
+  {
+    title: `O Hostio święta`,
+    text: `O Hostio święta zamieszkaj w mej duszy,
+najczystsza Miłości serca mojego,
+jasność Twoja niech ciemności rozproszy .
+Ty nie odmówisz łaski dla serca pokornego`
+  },
+  {
+    title: `O mój Jezu w Hostii skryty`,
+    text: `O mój Jezu w Hostii skryty,
+na kolanach wielbię Cię.
+W postać chleba Tyś spowity,
+Bóstwo Twoje kryje się.
+Ty, co rządzisz całym światem,
+me zbawienie w ręku masz;
+tu, przed Twoim majestatem,
+aniołowie kryją twarz.
+
+2. O światłości przysłoniona,
+rzuć mi Twój promienny blask.
+O dobroci nieskończona,
+otwórz dla nas skarby łask.
+Chlebie życia przeobfity,
+nasyć duszy mojej głód.
+Boski ogniu tu zakryty,
+rozgrzej serca mego chłód.
+
+3. Jezu, Tyś jest Zbawicielem,
+ustrzeż mnie od zgubnych dróg.
+Bądź mi siłą i weselem,
+boś w tej Hostii żywy Bóg.
+Dla miłości Matki Twojej
+racz wysłuchać prośbę mą:
+bądź miłością duszy mojej,
+nie gardź moją cichą łzą.`
+  },
+  {
+    title: `Panie, pragnienia ludzkich serc`,
+    text: `Panie, pragnienia ludzkich serc,
+Ty zaspokoisz sam.
+Przyjdź, Chlebie Żywy, Zbawco nasz,
+Pszeniczny Darze, przyjdź.
+Jak pasterz woła owce swe,
+I znają jego głos,
+Tak wzywasz nas, rodzinę swą,
+Za Tobą chcemy iść.
+Panie, pragnienia ludzkich serc…
+Z radością więc śpiewamy Ci
+Ten dziękczynienia hymn.
+Godnymi czynisz dzisiaj nas
+Niebieski dzielić Chleb.
+Panie, pragnienia ludzkich serc…
+Ty, Panie, dajesz siebie nam,
+By naszym życiem być.
+Jak braciom służyć, naucz,
+Jak miłością, prawdą żyć.`
+  },
+  {
+    title: `Panie, nie jestem godzien`,
+    text: `Panie, nie jestem godzien,
+abyś przyszedł do mnie,
+ale powiedz tylko słowo
+i uzdrów duszę moją.
+1. W tym chlebie żyje ukryty Duch,
+który nie może być spożyty,
+w tym winie płonie ogień,
+który nie może być wypity.
+2. Duch w Twoim chlebie, Ogień w Twym winie,
+są wielkimi cudami jakie przyjmują nasze usta.
+Pan zstąpił na ziemię, czyniąc nas nowym stworzeniem,
+niech na wzór Aniołów Ogień i Duch nas wypełnią.
+4. Me serce Panie jest pełne z nadmiaru Twych dobrodziejstw.
+Zatrzymaj przeto łask swych strumień.
+Zachowaj je w swoim skarbcu,
+By mi ich kiedyś znowu udzielić`
+  },
+  {
+    title: `Niech Ciało Twe, Chryste, mnie strzeże`,
+    text: `Niech Ciało Twe, Chryste, mnie strzeże,
+niech Krew Twoja mi będzie
+wiecznym przymierzem.
+1. Złożę w Jego przybytku radosne ofiary,
+zaśpiewam i zagram psalm Panu.
+Podniosę kielich zbawienia
+i wezwę imienia Pana.
+2. Kto składa ofiarę dziękczynną,
+ten cześć Panu oddaje.
+Złóżmy Panu ofiarę pochwalną,
+a okaże nam swoje zbawienie.
+3. Nakarmił nas chlebem obficie,
+nasycił miodem z opoki.
+Wysławiaj Pana, Jerozolimo,
+On wyborną pszenicą ciebie obdarza.
+4. Tyś jest o Chryste arcykapłanem naszym
+na wzór Melchizedeka ofiarowałeś chleb i wino,
+na wieki zasiadasz po prawicy Boga,`
+  },
+  {
+    title: `Miłosierdzie Pana chcę śpiewać na wieki`,
+    text: `Miłosierdzie Pana chcę śpiewać na wieki
+Wyśpiewywać je będę przed wszystkim ludem
+Bo ono jest największym przymiotem Boga
+Jest nieustannym cudem
+Wytryskujesz z Troistości Bożej
+Lecz z jednego miłosnego łona
+Ze źródła miłosierdzia twego płynie wszelkie szczęście .I życie
+Przez otwarte serce ukrzyżowanego Syna
+Źródła miłosierdzia Boga otwarte są na nas
+Nie dla aniołów cherubinów serafinów
+Lecz dla człowieka grzesznego`
   },
 ];
