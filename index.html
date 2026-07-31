@@ -344,7 +344,7 @@
                         <span class="chevron">›</span>
                     </button>
                 </div>
-                <p class="version">Wersja 1.0.89<br>© 2026 PePe.Studio</p>
+                <p class="version">Wersja 1.0.90<br>© 2026 PePe.Studio</p>
             </section>
 
             <section class="view" id="view-regulations" data-view="regulations">
@@ -444,7 +444,7 @@
                         <h3>Ważna informacja</h3>
                         <p>Aplikacja wspiera organizację pielgrzymki, ale nie zastępuje bieżących komunikatów kierownictwa i kadry. W czasie drogi zawsze należy stosować się do przekazywanych poleceń.</p>
                     </section>
-                    <p class="version">Wersja 1.0.89<br>© 2026 PePe.Studio</p>
+                    <p class="version">Wersja 1.0.90<br>© 2026 PePe.Studio</p>
                 </article>
             </section>
 
@@ -709,7 +709,7 @@
     <script src="data/reflections.js"></script>
     <script src="data/cross-way.js"></script>
     <script>
-        let appActiveVersion = "Wersja 1.0.89";
+        let appActiveVersion = "Wersja 1.0.90";
         let deferredPrompt = null;
         let installModalSource = "manual";
         let serviceWorkerReady = false;
@@ -719,6 +719,8 @@
         let userRoutePosition = null;
         let routeLocationStatus = "unknown";
         let routeLocationWatchId = null;
+        const routeLocationStorageKey = "epp-route-last-position";
+        const routeLocationMaximumStoredAge = 6 * 60 * 60 * 1000;
         let pendingRootNavigation = null;
         const viewHistory = [];
         const rootViewNames = new Set(["home", "songs", "prayers", "liturgy", "reflections", "route", "more", "kadra"]);
@@ -1001,7 +1003,7 @@ Ref.: Oto są baranki...`
                         { nazwa: "Pilot", numer: "+48 517 852 004", opis: "al. Tobiasz Samul" },
                         { nazwa: "Kierowca Sekretariatu", numer: "+48 506 396 602", opis: "brat Andrzej Fornalski" },
                         { nazwa: "Sekretariat", numer: "+48 605 844 684", opis: "siostra Magdalena Niedźwiedzcka" },
-                        { nazwa: "Ambulans", numer: "+48 513 234 108", opis: "brat Paweł Pawłowski },
+                        { nazwa: "Ambulans", numer: "+48 513 234 108", opis: "brat Paweł Pawłowski" },
                         { nazwa: "Kuchnia", numer: "+48 695 792 336", opis: "al. Mateusz Sawicki" },
                         { nazwa: "Lekarz", numer: "+48 607 178 174", opis: "brat Stanisław Łukawski" },
                         { nazwa: "Pielęgniarka", numer: "+48 501 142 158", opis: "siostra Marzena Juszkiewicz" },
@@ -2344,39 +2346,96 @@ Ref.: Oto są baranki...`
         };
 
         const routeStopCoordinates = {
-            "elk": { lat: 53.8282, lng: 22.3647, radius: 1800 },
-            "nowa wies elcka": { lat: 53.7818, lng: 22.3856, radius: 1600 },
-            "bajtkowo": { lat: 53.7351, lng: 22.3206, radius: 1600 },
-            "drygaly": { lat: 53.6328, lng: 22.0626, radius: 1700 },
-            "biala piska": { lat: 53.6114, lng: 22.0639, radius: 1900 },
-            "kolno": { lat: 53.4116, lng: 21.9339, radius: 1900 },
-            "zabiele": { lat: 53.3476, lng: 21.9251, radius: 1600 },
-            "ostroleka": { lat: 53.0833, lng: 21.5667, radius: 2400 },
-            "sypniewo": { lat: 53.0058, lng: 21.3072, radius: 1800 },
-            "makow mazowiecki": { lat: 52.8649, lng: 21.1006, radius: 2200 },
-            "pultusk": { lat: 52.7025, lng: 21.0828, radius: 2400 },
-            "winnica": { lat: 52.6435, lng: 20.9419, radius: 1800 },
-            "nasielsk": { lat: 52.5897, lng: 20.8053, radius: 2200 },
-            "pomiechowek": { lat: 52.4716, lng: 20.7297, radius: 1900 },
-            "kazun polski": { lat: 52.3934, lng: 20.6223, radius: 1900 },
-            "gorki kampinoskie": { lat: 52.3042, lng: 20.4631, radius: 1900 },
-            "kampinos": { lat: 52.2686, lng: 20.4634, radius: 2000 },
-            "niepokalanow": { lat: 52.2042, lng: 20.4434, radius: 1900 },
-            "szymanow": { lat: 52.1892, lng: 20.5330, radius: 1700 },
-            "wiskitki": { lat: 52.0880, lng: 20.3879, radius: 1800 },
-            "puszcza marianska": { lat: 51.9806, lng: 20.3508, radius: 1900 },
-            "gluchow": { lat: 51.7792, lng: 20.0717, radius: 2000 },
-            "zelechlinek": { lat: 51.7095, lng: 20.0349, radius: 1700 },
-            "bedkow": { lat: 51.5862, lng: 19.7493, radius: 1900 },
-            "srock": { lat: 51.4764, lng: 19.8581, radius: 1900 },
-            "wozniki": { lat: 51.3945, lng: 19.7357, radius: 1800 },
-            "bogdanow": { lat: 51.2858, lng: 19.5442, radius: 1900 },
-            "lgota wielka": { lat: 51.1497, lng: 19.3275, radius: 1900 },
-            "mykanow": { lat: 50.9236, lng: 19.2007, radius: 2000 },
-            "lubojna": { lat: 50.8745, lng: 19.1299, radius: 1700 },
-            "kiedrzyn": { lat: 50.8419, lng: 19.1293, radius: 1700 },
-            "aleja sienkiewicza": { lat: 50.8129, lng: 19.1140, radius: 1400 },
-            "jasna gora": { lat: 50.8120, lng: 19.0970, radius: 1800 }
+            "elk": { lat: 53.8282, lng: 22.3647, radius: 1200 },
+            "nowa wies elcka": { lat: 53.7706544, lng: 22.3286659, radius: 1000 },
+            "bajtkowo": { lat: 53.7389375, lng: 22.2471875, radius: 1000 },
+            "pogorzel wielka": { lat: 53.7040038, lng: 22.1602748, radius: 1000 },
+            "drygaly": { lat: 53.6864224, lng: 22.1071096, radius: 1000 },
+            "sulimy": { lat: 53.651955, lng: 22.080374, radius: 1000 },
+            "biala piska": { lat: 53.6094779, lng: 22.0612399, radius: 1200 },
+            "kumielsk": { lat: 53.558818, lng: 21.9897212, radius: 1000 },
+            "grodzisko las": { lat: 53.522616, lng: 21.95358, radius: 1100 },
+            "okurowo": { lat: 53.4943125, lng: 21.9664375, radius: 1000 },
+            "gorskie": { lat: 53.4688417, lng: 21.9454738, radius: 1000 },
+            "kolno": { lat: 53.4095136, lng: 21.917723, radius: 1200 },
+            "zabiele": { lat: 53.4061883, lng: 21.9366986, radius: 1000 },
+            "kolimagi": { lat: 53.373057, lng: 21.842018, radius: 1000 },
+            "cieciory": { lat: 53.341312, lng: 21.784319, radius: 1000 },
+            "popiolki las": { lat: 53.305603, lng: 21.739902, radius: 1100 },
+            "gawrychy": { lat: 53.269905, lng: 21.724285, radius: 1100 },
+            "wyk las skrz": { lat: 53.2553045, lng: 21.6825089, radius: 1100 },
+            "dabrowka": { lat: 53.2105851, lng: 21.6512417, radius: 1100 },
+            "leg staroscinski": { lat: 53.1456863, lng: 21.6188685, radius: 1000 },
+            "leg przedmiejski las": { lat: 53.11726, lng: 21.584043, radius: 1100 },
+            "ostroleka": { lat: 53.0864343, lng: 21.5688408, radius: 1200 },
+            "zebry chudek las": { lat: 53.087, lng: 21.483906, radius: 1100 },
+            "nowa wies koscielna": { lat: 53.0858249, lng: 21.4134908, radius: 1000 },
+            "las przed tabl powiatu makow": { lat: 53.047479, lng: 21.351484, radius: 1100 },
+            "sypniewo": { lat: 53.006513, lng: 21.307789, radius: 1100 },
+            "gasewo": { lat: 52.9740083, lng: 21.2184003, radius: 1000 },
+            "jurki przed lasem": { lat: 52.9180556, lng: 21.1629722, radius: 1100 },
+            "ulaski": { lat: 52.890198, lng: 21.131612, radius: 1000 },
+            "makow mazowiecki": { lat: 52.862986, lng: 21.101367, radius: 1200 },
+            "pomaski wielkie": { lat: 52.819349, lng: 21.082951, radius: 1000 },
+            "przemiarowo remiza": { lat: 52.7594316, lng: 21.0673662, radius: 1000 },
+            "pultusk": { lat: 52.7174887, lng: 21.0863613, radius: 1200 },
+            "jezewo": { lat: 52.6863889, lng: 21.0589444, radius: 1000 },
+            "goladkowo": { lat: 52.655304, lng: 20.993474, radius: 1000 },
+            "winnica": { lat: 52.6432376, lng: 20.9406275, radius: 1100 },
+            "poniaty wlk": { lat: 52.602638, lng: 20.885591, radius: 1000 },
+            "nasielsk": { lat: 52.5922169, lng: 20.8025203, radius: 1200 },
+            "budy sienickie": { lat: 52.557741, lng: 20.794227, radius: 1000 },
+            "psucin": { lat: 52.5173839, lng: 20.7814583, radius: 1000 },
+            "pomiechowek": { lat: 52.475573, lng: 20.740175, radius: 1100 },
+            "nowy dwor modlin": { lat: 52.4497279, lng: 20.7075746, radius: 1100 },
+            "kazun polski": { lat: 52.4071539, lng: 20.6809368, radius: 1100 },
+            "sowia wola krzyzowka": { lat: 52.357287, lng: 20.625848, radius: 1000 },
+            "za dabrowa stara kapliczka": { lat: 52.34413, lng: 20.562715, radius: 1000 },
+            "gorki kampinoskie": { lat: 52.3233448, lng: 20.5198345, radius: 1100 },
+            "za puszcza kamp": { lat: 52.2949547, lng: 20.4931435, radius: 1100 },
+            "kampinos": { lat: 52.2680386, lng: 20.4607297, radius: 1100 },
+            "niepokalanow": { lat: 52.2052321, lng: 20.4231952, radius: 1200 },
+            "szymanow": { lat: 52.1629982, lng: 20.3793173, radius: 1100 },
+            "czerwona niwa": { lat: 52.132561, lng: 20.301544, radius: 1000 },
+            "miedniewice": { lat: 52.0801907, lng: 20.3005698, radius: 1100 },
+            "jesionka": { lat: 52.0208212, lng: 20.3445483, radius: 1100 },
+            "puszcza marianska": { lat: 51.9789974, lng: 20.3474716, radius: 1100 },
+            "lisowola las": { lat: 51.946094, lng: 20.322261, radius: 1100 },
+            "suliszew": { lat: 51.928804, lng: 20.283884, radius: 1000 },
+            "las brzozowy": { lat: 51.899644, lng: 20.234691, radius: 1100 },
+            "kwasowiec": { lat: 51.869458, lng: 20.1938408, radius: 1000 },
+            "wilkowice": { lat: 51.823026, lng: 20.1414941, radius: 1000 },
+            "jasien": { lat: 51.802385, lng: 20.119562, radius: 1000 },
+            "gluchow": { lat: 51.7795321, lng: 20.0785644, radius: 1100 },
+            "zelechlinek": { lat: 51.7104582, lng: 20.0333823, radius: 1100 },
+            "rekawiec": { lat: 51.673043, lng: 20.00909, radius: 1000 },
+            "budziszewice": { lat: 51.66012, lng: 19.932144, radius: 1000 },
+            "przed leczkowicami las": { lat: 51.637735, lng: 19.884629, radius: 1100 },
+            "bukow": { lat: 51.6176533, lng: 19.8444765, radius: 1000 },
+            "brzostow": { lat: 51.594682, lng: 19.799783, radius: 1000 },
+            "bedkow": { lat: 51.587733, lng: 19.747394, radius: 1100 },
+            "baby": { lat: 51.538762, lng: 19.715369, radius: 1000 },
+            "srock": { lat: 51.531872, lng: 19.629834, radius: 1000 },
+            "lubanow": { lat: 51.480814, lng: 19.562174, radius: 1000 },
+            "zaborow": { lat: 51.439958, lng: 19.533951, radius: 1000 },
+            "wozniki": { lat: 51.410502, lng: 19.522868, radius: 1100 },
+            "bogdanow": { lat: 51.3485505, lng: 19.5087898, radius: 1000 },
+            "bukowa": { lat: 51.315293, lng: 19.457612, radius: 1000 },
+            "lekawa": { lat: 51.271373, lng: 19.404677, radius: 1000 },
+            "piaski parking przy kopalni": { lat: 51.232193, lng: 19.392619, radius: 1000 },
+            "wolica": { lat: 51.191915, lng: 19.356166, radius: 1000 },
+            "brudzice": { lat: 51.17298, lng: 19.333789, radius: 1000 },
+            "lgota wielka": { lat: 51.1486079, lng: 19.3265709, radius: 1100 },
+            "wola blakowa": { lat: 51.1260871, lng: 19.3045473, radius: 1000 },
+            "wola wiewiecka": { lat: 51.111538, lng: 19.251193, radius: 1000 },
+            "nowa brzeznica": { lat: 51.0815345, lng: 19.181943, radius: 1100 },
+            "wazne mlyny": { lat: 51.038158, lng: 19.148764, radius: 1000 },
+            "broniszew stary": { lat: 50.982782, lng: 19.166033, radius: 1000 },
+            "mykanow": { lat: 50.921425, lng: 19.197473, radius: 1100 },
+            "lubojna": { lat: 50.8929775, lng: 19.1208673, radius: 1000 },
+            "kiedrzyn": { lat: 50.844675, lng: 19.107763, radius: 1000 },
+            "aleja sienkiewicza": { lat: 50.8129, lng: 19.114, radius: 900 },
+            "jasna gora": { lat: 50.8120981, lng: 19.0937402, radius: 1100 }
         };
 
         const html = document.documentElement;
@@ -2634,7 +2693,12 @@ Ref.: Oto są baranki...`
             window.addEventListener("pageshow", scheduleViewportSync);
             window.addEventListener("focus", scheduleViewportSync);
             document.addEventListener("visibilitychange", () => {
-                if (!document.hidden) scheduleViewportSync();
+                if (!document.hidden) {
+                    scheduleViewportSync();
+                    if (["granted", "cached", "waiting"].includes(routeLocationStatus)) {
+                        requestRouteLocationAccess();
+                    }
+                }
             });
         }
 
@@ -2755,11 +2819,50 @@ Ref.: Oto są baranki...`
             };
         }
 
+        function getRouteDayTime(day, time) {
+            const dateMatch = String(day?.date || "").match(/^(\d{2})\.(\d{2})$/);
+            const timeMatch = String(time || "").match(/^(\d{1,2}):(\d{2})$/);
+            if (!dateMatch || !timeMatch) return null;
+
+            const year = Number(day.year);
+            const month = Number(dateMatch[2]) - 1;
+            const date = Number(dateMatch[1]);
+            const hour = Number(timeMatch[1]);
+            const minute = Number(timeMatch[2]);
+            if (!Number.isInteger(year) || month < 0 || month > 11 || date < 1 || date > 31) return null;
+            if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
+            return new Date(year, month, date, hour, minute, 0, 0);
+        }
+
+        function getPilgrimageWalkingWindows(cycle) {
+            const year = cycle.start.getFullYear();
+            return mainRouteSchedule.map(day => {
+                const arrivalStop = [...day.staffStops]
+                    .reverse()
+                    .find(stop => /^\d{1,2}:\d{2}$/.test(stop.wejscie || ""));
+                const start = getRouteDayTime({ ...day, year }, day.publicDeparture);
+                const finish = getRouteDayTime({ ...day, year }, arrivalStop?.wejscie);
+                if (!start || !finish || finish <= start) return null;
+                return { start, finish };
+            }).filter(Boolean);
+        }
+
         function getPilgrimageProgressPercent(now = new Date(), cycle = getPilgrimageCycle(now)) {
             if (cycle.phase !== "live") return null;
-            const totalHours = Math.max(1, Math.ceil((cycle.finish.getTime() - cycle.start.getTime()) / 3600000));
-            const elapsedHours = Math.max(0, Math.floor((now.getTime() - cycle.start.getTime()) / 3600000));
-            return Math.max(0, Math.min(99, Math.floor((elapsedHours / totalHours) * 100)));
+            const walkingWindows = getPilgrimageWalkingWindows(cycle);
+            const totalWalkingTime = walkingWindows.reduce(
+                (total, window) => total + window.finish.getTime() - window.start.getTime(),
+                0
+            );
+            if (!totalWalkingTime) return 0;
+
+            const elapsedWalkingTime = walkingWindows.reduce((total, window) => {
+                if (now <= window.start) return total;
+                const elapsedInWindow = Math.min(now.getTime(), window.finish.getTime()) - window.start.getTime();
+                return total + Math.max(0, elapsedInWindow);
+            }, 0);
+
+            return Math.max(0, Math.min(99, Math.floor((elapsedWalkingTime / totalWalkingTime) * 100)));
         }
 
         function updatePilgrimageProgress(now = new Date()) {
@@ -2828,6 +2931,7 @@ Ref.: Oto są baranki...`
                 openKadraLogin();
                 return;
             }
+            if (viewName === "route") requestRouteLocationAccess();
             if (viewName === currentViewName && !options.force) return;
 
             if (!options.skipBrowserHistory && currentViewName !== viewName) {
@@ -3502,7 +3606,7 @@ Ref.: Oto są baranki...`
                 if (!coordinates) return bestMatch;
 
                 const distance = distanceInMeters(userRoutePosition, coordinates);
-                const accuracyPadding = Math.min(userRoutePosition.accuracy || 0, 1200);
+                const accuracyPadding = Math.min(userRoutePosition.accuracy || 0, 800);
                 const radius = coordinates.radius + accuracyPadding;
                 if (distance > radius) return bestMatch;
                 if (!bestMatch || distance < bestMatch.distance) {
@@ -3538,23 +3642,59 @@ Ref.: Oto są baranki...`
             }
         }
 
+        function restoreStoredRoutePosition(now = Date.now()) {
+            const storedPosition = safeStorage.getItem(routeLocationStorageKey);
+            if (!storedPosition) return;
+
+            try {
+                const parsed = JSON.parse(storedPosition);
+                const timestamp = Number(parsed.timestamp);
+                const lat = Number(parsed.lat);
+                const lng = Number(parsed.lng);
+                const accuracy = Math.max(0, Number(parsed.accuracy) || 0);
+                const age = now - timestamp;
+                if (!Number.isFinite(lat) || !Number.isFinite(lng) || !Number.isFinite(timestamp)) {
+                    throw new Error("Nieprawidłowy zapis lokalizacji.");
+                }
+                if (age < -300000 || age > routeLocationMaximumStoredAge) {
+                    safeStorage.removeItem(routeLocationStorageKey);
+                    return;
+                }
+                userRoutePosition = { lat, lng, accuracy, timestamp, fromCache: true };
+            } catch (error) {
+                safeStorage.removeItem(routeLocationStorageKey);
+            }
+        }
+
+        function storeRoutePosition(position) {
+            safeStorage.setItem(routeLocationStorageKey, JSON.stringify({
+                lat: position.lat,
+                lng: position.lng,
+                accuracy: position.accuracy,
+                timestamp: position.timestamp
+            }));
+        }
+
         function handleRoutePosition(position) {
             routeLocationStatus = "granted";
             safeStorage.setItem("epp-route-location-status", "granted");
             userRoutePosition = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
-                accuracy: position.coords.accuracy || 0
+                accuracy: position.coords.accuracy || 0,
+                timestamp: position.timestamp || Date.now(),
+                fromCache: false
             };
+            storeRoutePosition(userRoutePosition);
             renderRoute();
         }
 
         function handleRoutePositionError(error) {
-            if (error?.code === error.PERMISSION_DENIED) {
+            if (error?.code === 1) {
                 routeLocationStatus = "denied";
                 safeStorage.setItem("epp-route-location-status", "denied");
             } else {
-                routeLocationStatus = "unavailable";
+                routeLocationStatus = userRoutePosition ? "cached" : "waiting";
             }
         }
 
@@ -3564,15 +3704,15 @@ Ref.: Oto są baranki...`
                 routeLocationWatchId = navigator.geolocation.watchPosition(
                     handleRoutePosition,
                     handleRoutePositionError,
-                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 }
+                    { enableHighAccuracy: true, timeout: 60000, maximumAge: 15 * 60 * 1000 }
                 );
             } catch (error) {
-                routeLocationStatus = "unavailable";
+                routeLocationStatus = userRoutePosition ? "cached" : "unavailable";
             }
         }
 
         async function requestRouteLocationAccess() {
-            if (routeLocationStatus === "denied" || routeLocationStatus === "pending") return;
+            if (routeLocationStatus === "pending") return;
             if (!isPilgrimageLive()) return;
             if (!isRouteLocationSupported()) {
                 routeLocationStatus = "unavailable";
@@ -3585,22 +3725,21 @@ Ref.: Oto są baranki...`
                 safeStorage.setItem("epp-route-location-status", "denied");
                 return;
             }
+            if (routeLocationStatus === "denied" && permissionState === "unknown") return;
             if (permissionState === "prompt") {
                 routeLocationStatus = "prompt";
             }
 
             routeLocationStatus = "pending";
+            startRouteLocationWatch();
             try {
                 navigator.geolocation.getCurrentPosition(
-                    position => {
-                        handleRoutePosition(position);
-                        startRouteLocationWatch();
-                    },
+                    handleRoutePosition,
                     handleRoutePositionError,
-                    { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+                    { enableHighAccuracy: true, timeout: 60000, maximumAge: 15 * 60 * 1000 }
                 );
             } catch (error) {
-                routeLocationStatus = "unavailable";
+                routeLocationStatus = userRoutePosition ? "cached" : "unavailable";
             }
         }
 
@@ -4613,6 +4752,7 @@ Ref.: Oto są baranki...`
         function initializeApplication() {
             initializeViewportTracking();
             initializeAppHistory();
+            restoreStoredRoutePosition();
 
             const savedTheme = safeStorage.getItem("epp-concept-theme");
             setTheme(savedTheme === "dark");
@@ -4639,6 +4779,7 @@ Ref.: Oto są baranki...`
                 console.error("Nie udało się w pełni uruchomić aplikacji:", error);
             } finally {
                 await hideAppSplash();
+                if (routeLocationStatus === "granted") requestRouteLocationAccess();
             }
         }
 
